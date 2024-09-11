@@ -1,0 +1,283 @@
+ *,
+
+ ::before,
+ ::after {
+     margin: 0;
+     padding: 0;
+     --tw-translate-x: 0;
+     --tw-translate-y: 0;
+     --tw-rotate: 0;
+     --tw-skew-x: 0;
+     --tw-skew-y: 0;
+     --tw-scale-x: 1;
+     --tw-scale-y: 1;
+ }
+
+ ::backdrop {
+     --tw-translate-x: 0;
+     --tw-translate-y: 0;
+     --tw-rotate: 0;
+     --tw-skew-x: 0;
+     --tw-skew-y: 0;
+     --tw-scale-x: 1;
+     --tw-scale-y: 1;
+
+ }
+
+ .transition-transform {
+     transition-property: transform;
+     transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+     transition-duration: 150ms;
+ }
+
+ .-translate-x-full {
+     --tw-translate-x: -100%;
+     transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
+ }
+
+ @media (min-width: 768px) {
+     .md\:hidden {
+         display: none;
+     }
+
+     .main.active {
+         margin-left: 0px;
+         width: 100%;
+     }
+ }
+
+ /* navbar css */
+
+ .navbar {
+     /* margin-left: 256px; */
+     height: 76px;
+     background: #F8FAFF;
+     position: fixed;
+     left: 0;
+     top: 0;
+ }
+
+ .navbar-wrapper {
+     display: flex;
+     height: 100%;
+ }
+
+ .hamberger {
+     width: 10%;
+     display: flex;
+     justify-content: center;
+     align-items: center;
+ }
+
+ .search-input {
+     height: 100%;
+     width: 40%;
+     display: flex;
+     justify-content: center;
+     align-items: center;
+     padding: 0px 10px;
+
+ }
+
+ .search-input input {
+     width: 100%;
+     padding: 15px;
+     border: none;
+     background: white;
+     border-radius: 10px;
+     -webkit-border-radius: 10px;
+     -moz-border-radius: 10px;
+     -ms-border-radius: 10px;
+     -o-border-radius: 10px;
+ }
+
+ .user-type {
+     width: 20%;
+     padding: 0 20px;
+     display: flex;
+     justify-content: center;
+     align-items: center;
+ }
+
+ .user-type-select {
+     width: 100%;
+     padding: 15px;
+     background: transparent;
+     border-radius: 10px;
+     -webkit-border-radius: 10px;
+     -moz-border-radius: 10px;
+     -ms-border-radius: 10px;
+     -o-border-radius: 10px;
+ }
+
+ .lang {
+     width: 10%;
+     height: 100%;
+     display: flex;
+     justify-content: center;
+     align-items: center;
+     border-left: 1px solid #e0e0e0;
+ }
+
+ .lang select {
+     width: 50%;
+     padding: 5px;
+     border: none;
+     background: transparent;
+ }
+
+ .notification {
+     width: 10%;
+     display: flex;
+     justify-content: center;
+     align-items: center;
+     border-right: 1px solid #e0e0e0;
+     border-left: 1px solid #e0e0e0;
+ }
+
+ .profile {
+     width: 10%;
+     display: flex;
+     justify-content: center;
+     align-items: center;
+ }
+
+ /* media query */
+ @media screen and (max-width:480px) {
+     .sidebar {
+         display: none;
+     }
+
+     .navbar {
+         width: 100%;
+         margin-left: 0;
+     }
+
+     .search-input {
+         width: 30%;
+         padding: 0;
+     }
+
+     .search-input input {
+         padding: 10px;
+     }
+
+     .user-type {
+         width: 15%;
+         padding: 0 5px;
+     }
+
+     .user-type-select {
+         padding: 10px 2px;
+     }
+
+     .lang {
+         width: 15%;
+         padding: 5px;
+     }
+
+     .lang img {
+         display: none;
+     }
+
+     .lang select {
+         width: 100%;
+         padding: 0;
+     }
+
+     .notification {
+         width: 15%;
+         padding: 0 10px;
+     }
+
+     .profile {
+         width: 15%;
+     }
+
+     .profile img {
+         width: 60%;
+     }
+
+     .arrow {
+         display: none;
+     }
+
+
+ }
+
+ @media screen and (max-width:768px) {
+     .sidebar {
+         display: none;
+     }
+
+     .navbar {
+         width: 100%;
+         margin-left: 0;
+     }
+
+     .search-input {
+         width: 30%;
+         padding: 0;
+     }
+
+     .search-input input {
+         padding: 10px;
+     }
+
+     .user-type {
+         width: 15%;
+         padding: 0 5px;
+     }
+
+     .user-type-select {
+         padding: 10px 2px;
+     }
+
+     .lang {
+         width: 15%;
+         padding: 5px;
+     }
+
+     .lang img {
+         display: none;
+     }
+
+     .lang select {
+         width: 100%;
+         padding: 0;
+     }
+
+     .notification {
+         width: 15%;
+         padding: 0 10px;
+     }
+
+     .profile {
+         width: 15%;
+     }
+
+     .profile img {
+         width: 60%;
+     }
+
+     .arrow {
+         display: none;
+     }
+
+
+ }
+
+ .nice-select .option.selected {
+     position: relative;
+     color: green;
+ }
+
+ .nice-select .option.selected:after {
+     content: '\2713';
+     position: absolute;
+     right: 10px;
+ }
+
+ .nice-select .option {
+     padding: 0 15px;
+ }
