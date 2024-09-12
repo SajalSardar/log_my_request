@@ -26,20 +26,19 @@ class TeamService
 
         $teamCategories = [];
 
-        foreach ($request->category_id as $category) {
-            $teamCategories[] = [
-                'category_id' => $category,
-                'team_id'     => $team->getKey(),
-                'created_at'  => now(),
-                'updated_at'  => now(),
-            ];
-        }
-        if ($team) {
+        if ($request->category_id) {
+            foreach ($request->category_id as $category) {
+                $teamCategories[] = [
+                    'category_id' => $category,
+                    'team_id'     => $team->getKey(),
+                    'created_at'  => now(),
+                    'updated_at'  => now(),
+                ];
+            }
             TeamCategory::insert($teamCategories);
-            return $team;
-        } else {
-            return false;
         }
+
+        return $team;
     }
 
     /**
