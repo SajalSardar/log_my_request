@@ -7,14 +7,14 @@
             </div>
 
             <div class="flex md:flex-row-reverse sm:flex-row">
-               <div>
-                <x-actions.href href="{{ route('admin.team.index') }}">
-                    {{ __('Team Create') }}
-                </x-actions.href>
-               </div>
+                <div>
+                    <x-actions.href href="{{ route('admin.team.index') }}">
+                        {{ __('Team Create') }}
+                    </x-actions.href>
+                </div>
             </div>
         </header>
         <hr>
-        <livewire:team.create-team />
+        <livewire:team.create-team :categories="$categories" />
     </div>
 </x-app-layout>

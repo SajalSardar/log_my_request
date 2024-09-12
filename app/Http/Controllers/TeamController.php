@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Category;
 use App\Models\Team;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -25,7 +26,7 @@ class TeamController extends Controller
     public function displayListDatatable()
     {
         Gate::authorize('view',  Team::class);
-        
+
         $team = Cache::remember('name_list', 60 * 60, function () {
             return Team::get();
         });
@@ -37,7 +38,8 @@ class TeamController extends Controller
     public function create()
     {
         Gate::authorize('create', Team::class);
-        return view('team.create');
+        $categories = Category::query()->get();
+        return view('team.create',compact('categories'));
     }
 
     /**
@@ -47,7 +49,6 @@ class TeamController extends Controller
     {
         //
         Gate::authorize('create', Team::class);
-
     }
 
     /**
