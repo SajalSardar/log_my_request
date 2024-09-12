@@ -2,7 +2,7 @@
 
     <div class="relative overflow-x-auto bg-white">
         <div class="flex justify-end pb-3 fixed top-24 right-10">
-            <x-actions.href href="{{ route('admin.user.create') }}">
+            <x-actions.href href="{{ route('admin.team.create') }}">
                 Create Team
             </x-actions.href>
         </div>
