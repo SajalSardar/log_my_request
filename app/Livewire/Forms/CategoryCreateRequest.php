@@ -19,7 +19,7 @@ class CategoryCreateRequest extends Form
      * @var ?string
      */
     #[Validate('nullable', as: 'Parent Category')]
-    public ?string $parent_id;
+    public ?string $parent_id = '';
 
     /**
      * Define public property $image
