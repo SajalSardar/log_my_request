@@ -20,8 +20,8 @@ Route::middleware(['auth', 'locale'])->group(function () {
             Route::controller(CategoryController::class)->group(function () {
                 Route::get('/', 'index')->name('index');
                 Route::get('create', 'create')->name('create');
-                Route::get('edit/{user}', 'edit')->name('edit');
-                Route::delete('delete/{user}', 'destroy')->name('delete');
+                Route::get('edit/{category}', 'edit')->name('edit');
+                Route::delete('delete/{category}', 'destroy')->name('delete');
             });
         });
 
@@ -29,8 +29,8 @@ Route::middleware(['auth', 'locale'])->group(function () {
             Route::controller(TeamController::class)->group(function () {
                 Route::get('/', 'index')->name('index');
                 Route::get('create', 'create')->name('create');
-                Route::get('edit/{user}', 'edit')->name('edit');
-                Route::delete('delete/{user}', 'destroy')->name('delete');
+                Route::get('edit/{team}', 'edit')->name('edit');
+                Route::delete('delete/{team}', 'destroy')->name('delete');
             });
         });
     });

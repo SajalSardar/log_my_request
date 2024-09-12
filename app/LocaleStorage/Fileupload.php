@@ -2,6 +2,7 @@
 
 namespace App\LocaleStorage;
 
+use App\Models\Category;
 use App\Models\Image;
 use Illuminate\Support\Str;
 use Intervention\Image\ImageManager;
@@ -12,7 +13,7 @@ class Fileupload
      * Define public method fileupload() to upload the file server and database
      * @param $request
      */
-    public static function upload($request, $model_id)
+    public static function upload($request, $model_id, $model)
     {
         $filename = Str::slug($request->name) . '-' . uniqid() . '-' . $request->image->getClientOriginalName();
         $image = ImageManager::gd()->read($request->image);
@@ -23,7 +24,7 @@ class Fileupload
         if ($isUpload) {
             $imageDatabase = Image::create(
                 [
-                    'image_type' => Image::class,
+                    'image_type' => $model,
                     'image_id'   => $model_id,
                     'disk'       => 'local',
                     'path'       => 'categories',

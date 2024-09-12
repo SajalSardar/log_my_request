@@ -16,7 +16,8 @@ class CategoryController extends Controller
     public function index()
     {
         Gate::authorize('view',  Category::class);
-        return view("category.index");
+        $collections = Category::query()->with('image')->get();
+        return view("category.index", compact('collections'));
     }
 
     /**
@@ -25,7 +26,7 @@ class CategoryController extends Controller
     public function displayListDatatable()
     {
         Gate::authorize('view',  Category::class);
-        
+
         $category = Cache::remember('name_list', 60 * 60, function () {
             return Category::get();
         });
@@ -38,7 +39,7 @@ class CategoryController extends Controller
     {
         Gate::authorize('create', Category::class);
         $parent_categories = Category::query()->get();
-        return view('category.create',compact('parent_categories'));
+        return view('category.create', compact('parent_categories'));
     }
 
     /**
@@ -48,7 +49,6 @@ class CategoryController extends Controller
     {
         //
         Gate::authorize('create', Category::class);
-
     }
 
     /**

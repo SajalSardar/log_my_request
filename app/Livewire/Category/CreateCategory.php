@@ -7,7 +7,7 @@ use Livewire\WithFileUploads;
 use App\LocaleStorage\Fileupload;
 use App\Services\Category\CategoryService;
 use App\Livewire\Forms\CategoryCreateRequest;
-
+use App\Models\Category;
 
 class CreateCategory extends Component
 {
@@ -32,7 +32,7 @@ class CreateCategory extends Component
     {
         $this->form->validate();
         $isCreate = $service->store($this->form);
-        $isUpload = Fileupload::upload($this->form, $isCreate->getKey());
+        $isUpload = Fileupload::upload($this->form, $isCreate->getKey(), Category::class);
         $response = ($isUpload && $isCreate) ? 'Data has been update successfuly' : 'Something went wrong';
         flash()->success($response);
         $this->form->reset();
