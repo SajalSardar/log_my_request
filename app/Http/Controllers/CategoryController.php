@@ -37,7 +37,8 @@ class CategoryController extends Controller
     public function create()
     {
         Gate::authorize('create', Category::class);
-        return view('category.create');
+        $parent_categories = Category::query()->get();
+        return view('category.create',compact('parent_categories'));
     }
 
     /**
