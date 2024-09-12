@@ -32,7 +32,7 @@ class CreateCategory extends Component
     {
         $this->form->validate();
         $isCreate = $service->store($this->form);
-        $isUpload = Fileupload::upload($this->form, $isCreate->getKey(), Category::class);
+        $isUpload = Fileupload::upload($this->form, $isCreate->getKey(), Category::class,  300,  300);
         $response = ($isUpload && $isCreate) ? 'Data has been update successfuly' : 'Something went wrong';
         flash()->success($response);
         $this->form->reset();
