@@ -25,4 +25,13 @@ class TeamCategory extends Model
             Cache::forget("name_list");
         });
     }
+
+    /**
+     * Define public method category() associate with teamCategory
+     */
+    public function category()
+    {
+        return $this->belongsTo(Category::class,'category_id','id');
+    }
+
 }

@@ -35,7 +35,7 @@ class TeamService
             ];
         }
         if ($team) {
-            $response = TeamCategory::insert($teamCategories);
+            TeamCategory::insert($teamCategories);
             return $team;
         } else {
             return false;

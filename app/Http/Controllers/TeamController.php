@@ -17,7 +17,12 @@ class TeamController extends Controller
     public function index()
     {
         Gate::authorize('view',  Team::class);
-        return view("team.index");
+        $collections = Team::query()
+            ->with('image')
+            ->with('teamCategories', fn($query) => $query->with('category'))
+            ->get();
+        // return $collections;
+        return view("team.index", compact('collections'));
     }
 
     /**
@@ -39,7 +44,7 @@ class TeamController extends Controller
     {
         Gate::authorize('create', Team::class);
         $categories = Category::query()->get();
-        return view('team.create',compact('categories'));
+        return view('team.create', compact('categories'));
     }
 
     /**
