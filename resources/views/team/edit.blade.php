@@ -1,0 +1,1 @@
+<x-app-layout><livewire:team.update-team /></x-app-layout>

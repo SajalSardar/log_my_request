@@ -1,0 +1,1 @@
+<x-app-layout><livewire:team.create-team /></x-app-layout>
