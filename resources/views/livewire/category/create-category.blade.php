@@ -5,7 +5,7 @@
                 <x-forms.label for="form.name" required='yes'>
                     {{ __('Category Name') }}
                 </x-forms.label>
-                <x-forms.text-input type="text" wire:model.live='form.name' placeholder="User name" />
+                <x-forms.text-input type="text" wire:model.live='form.name' placeholder="Category name" />
                 <x-input-error :messages="$errors->get('form.name')" class="mt-2" />
             </div>
 
@@ -14,7 +14,7 @@
                     {{ __('Parent Category') }}
                 </x-forms.label>
                 <x-forms.select-input wire:model.live="form.parent_id">
-                    <option selected disabled>--Select Parent Category--</option>
+                    <option disabled>--Select Parent Category--</option>
                     @foreach ($parent_categories as $each)
                         <option value="{{ $each->id }}">{{ $each->name }}</option>
                     @endforeach
@@ -31,7 +31,7 @@
                     {{ __('Status') }}
                 </x-forms.label>
                 <x-forms.select-input wire:model.live="form.status">
-                    <option selected disabled>--Select Status--</option>
+                    <option disabled>--Select Status--</option>
                     <option value="1">Active</option>
                     <option value="0">Inactive</option>
                 </x-forms.select-input>

@@ -16,7 +16,7 @@
                 <x-forms.select-input wire:model.live="form.parent_id">
                     <option selected disabled>--Select Parent Category--</option>
                     @foreach ($parent_categories as $each)
-                        <option value="{{ $each->id }}">{{ $each->name }}</option>
+                        <option value="{{ $each->id }}" @selected(old('parent_id', $category?->parent_id) == $each->id)>{{ $each->name }}</option>
                     @endforeach
                 </x-forms.select-input>
 
@@ -31,9 +31,9 @@
                     {{ __('Status') }}
                 </x-forms.label>
                 <x-forms.select-input wire:model.live="form.status">
-                    <option selected disabled>--Select Status--</option>
-                    <option value="1">Active</option>
-                    <option value="0">Inactive</option>
+                    <option disabled>--Select Status--</option>
+                    <option value="1" {{ $category->status == '1' ? 'selected' : '' }}>Active</option>
+                    <option value="0" {{ $category->status == '0' ? 'selected' : '' }}>Inactive</option>
                 </x-forms.select-input>
 
                 <x-input-error :messages="$errors->get('form.status')" class="mt-2" />

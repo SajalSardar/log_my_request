@@ -33,6 +33,7 @@ class UpdateCategory extends Component
         $this->form->ignore = $this->category->id;
         $this->form->name   = $this->category?->name;
         $this->form->status = $this->category?->status;
+        $this->form->parent_id = $this->category?->parent_id;
     }
 
     /**

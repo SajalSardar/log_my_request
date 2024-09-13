@@ -43,10 +43,10 @@ class CategoryUpdateRequest extends Form
      */
     public function rules()
     {
-        $arr['form.name'] = ['required', 'max:30', Rule::unique(Category::class, 'name')->ignore($this->ignore)];
+        $arr['form.name']      = ['required', 'max:30', Rule::unique(Category::class, 'name')->ignore($this->ignore)];
         $arr['form.parent_id'] = ['nullable'];
         $arr['form.image']     = ['nullable', 'image', 'mimis:jpg,png,jpeg', 'max:3024'];
-        $arr['form.status']         = ['required', 'int'];
+        $arr['form.status']    = ['required', 'int'];
 
         return $arr;
     }
