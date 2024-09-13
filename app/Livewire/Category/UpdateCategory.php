@@ -3,10 +3,15 @@
 namespace App\Livewire\Category;
 
 use Livewire\Component;
+use App\Models\Category;
+use Livewire\WithFileUploads;
+use App\LocaleStorage\Fileupload;
+use App\Services\Category\CategoryService;
 use App\Livewire\Forms\CategoryUpdateRequest;
 
 class UpdateCategory extends Component
 {
+    use WithFileUploads;
     /**
      * Define public property $parent_categories;
      * @var array|object
@@ -40,9 +45,14 @@ class UpdateCategory extends Component
      * Define public method update()
      * @return void
      */
-    public function update()
+    public function update(CategoryService $service)
     {
         $this->validate(rules: $this->form->rules());
+        $isCreate = $service->update($this->category, $this->form);
+        $isUpload = $isCreate ? Fileupload::update($this->form, $this->category, $isCreate->getKey(), Category::class,  300,  300) : false;
+        $response = ($isUpload || $isCreate) ? 'Data has been update successfuly' : 'Something went wrong';
+        flash()->success($response);
+        $this->form->reset();
     }
 
 

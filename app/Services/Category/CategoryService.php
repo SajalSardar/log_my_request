@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Services\Category;
 
 use App\Models\Category;
@@ -29,14 +30,11 @@ class CategoryService
      * Define public method update to update the resourses
      * @param Model $model
      * @param $request
-     * @return array|object
+     * @return array|object|bool
      */
-    public function update(Model $model, $request): array|object
+    public function update(Model $model, $request): array|object|bool
     {
         $model->update($request->all());
-        $roleName = Role::query()->where('id', $request->role_id)->first();
-        $response = $model->syncRoles($roleName);
-
-        return $response;
+        return $model;
     }
 }

@@ -42,4 +42,41 @@ class Fileupload
             return false;
         }
     }
+
+    /**
+     * Define public method fileupload() to upload the file server and database
+     * @param array|object $request  
+     * @param int $model_id int
+     * @param $oldCategory
+     * @param $model  
+     * @param int $width  
+     * @param int $height
+     * @param $request
+     * @return array|object|bool|string
+     */
+    public static function update(array|object $request, $oldCategory, int $model_id, $model, int $width, int $height)
+    {
+        if ($request->image) {
+            $filename = Str::slug($request->name) . '-' . uniqid() . '-' . $request->image->getClientOriginalName();
+            $image = ImageManager::gd()->read($request->image);
+            $final_image = $image->resize($width, $height);
+            $isUpload = $final_image->save(storage_path('app/public/categories/' . $filename));
+            $url = asset('storage/categories/' . $filename);
+            if ($isUpload) {
+                $imageDatabase = Image::where('image_type', $model)->where('image_id', $oldCategory->id)->update(
+                    [
+                        'image_type' => $model,
+                        'image_id'   => $model_id,
+                        'disk'       => 'local',
+                        'path'       => 'categories',
+                        'url'        => $url,
+                        'size'       => '1kb',
+                    ]
+                );
+                return $imageDatabase;
+            } else {
+                return false;
+            }
+        } 
+    }
 }
