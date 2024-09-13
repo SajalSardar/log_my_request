@@ -22,7 +22,7 @@
                     <tr class="rounded shadow">
                         <td class="p-10 flex">
                             <div class="profile">
-                                <img src="{{ $each?->image?->url }}" alt="user_picture">
+                                <img class="rounded-lg shadow-lg" width="50" height="50" src="{{ $each?->image?->url }}" alt="user_picture">
                             </div>
                             <div class="infos ps-5">
                                 <h5 class="font-medium text-slate-900">{{ $each?->name }}</h5>

@@ -67,7 +67,8 @@ class CategoryController extends Controller
     public function edit(Category $category)
     {
         Gate::authorize('update', $category);
-        return view('category.edit');
+        $parent_categories = Category::query()->get();
+        return view('category.edit',compact('category','parent_categories'));
     }
 
     /**

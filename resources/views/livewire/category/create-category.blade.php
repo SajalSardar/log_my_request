@@ -20,7 +20,7 @@
                     @endforeach
                 </x-forms.select-input>
 
-                <x-input-error :messages="$errors->get('form.status')" class="mt-2" />
+                <x-input-error :messages="$errors->get('form.parent_id')" class="mt-2" />
             </div>
 
         </div>
