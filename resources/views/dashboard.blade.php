@@ -10,13 +10,10 @@
         <p>Super Admin</p>
     @endrole
 
-    @php
-        $loginRole = Session::has('login_role') ? Session::get('login_role') : '';
-    @endphp
-    @if (auth()->user()->hasRole('attendee') && $loginRole === 'attendee')
+    @if (Helper::roleWiseAccess('attendee'))
         <p>attendee</p>
     @endif
-    @if (auth()->user()->hasRole('organizer') && $loginRole === 'organizer')
+    @if (Helper::roleWiseAccess('organizer'))
         <p>organizer</p>
     @endif
 </x-app-layout>

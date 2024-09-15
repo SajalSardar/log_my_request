@@ -9,6 +9,7 @@
             <thead class="w-full bg-slate-100 mb-5">
                 <tr>
                     <th class="text-start ps-10 py-2">Menu Name</th>
+                    <th class="text-start ps-10 py-2">Order</th>
                     <th class="text-start ps-10 py-2">Route</th>
                     <th class="text-start ps-10 py-2">Role</th>
                     <th class="text-start ps-10 py-2">Url</th>
@@ -27,6 +28,7 @@
                                 <h5 class="font-medium text-slate-900">{{ $each?->name }}</h5>
                             </div>
                         </td>
+                        <td class="p-10 font-normal text-gray-400">{{ $each->order }}</td>
                         <td class="p-10 font-normal text-gray-400">{{ $each?->route }}</td>
                         <td class="p-10 font-normal text-gray-400">
                             @foreach (json_decode($each?->roles) as $key => $role)
@@ -37,7 +39,8 @@
                         <td>
                             <div class="flex">
                                 <x-actions.edit route="{{ route('dashboard.menu.edit', ['menu' => $each?->id]) }}" />
-                                <x-actions.delete action="{{ route('dashboard.menu.destroy', ['menu' => $each->id]) }}" />
+                                <x-actions.delete
+                                    action="{{ route('dashboard.menu.destroy', ['menu' => $each->id]) }}" />
                             </div>
                         </td>
                     </tr>

@@ -27,7 +27,7 @@ class {{ class }} extends Controller
     {
         Gate::authorize('view', {{ model }}::class);
         
-        ${{ modelVariable }} = Cache::remember('name_list', 60 * 60, function () {
+        ${{ modelVariable }} = Cache::remember('{{ modelVariable }}_list', 60 * 60, function () {
             return {{ model }}::get();
         });
     }

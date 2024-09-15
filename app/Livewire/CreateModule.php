@@ -6,29 +6,21 @@ use App\Models\Module;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Str;
+use Livewire\Attributes\Validate;
 use Livewire\Component;
 use Spatie\Permission\Models\Permission;
 
-class CreateModule extends Component
-{
+class CreateModule extends Component {
 
-    // #[Validate]
-    public $name        = '';
+    #[Validate('required|min:2', as :'Name')]
+    public $name = '';
     public $folder_name = '';
     public $permission;
     public $view;
     public $livewire_component;
     public $mcrp;
 
-    public function rules()
-    {
-        return [
-            'name' => 'required|min:4',
-        ];
-    }
-
-    public function save()
-    {
+    public function save() {
 
         $this->validate();
 
@@ -136,64 +128,12 @@ class CreateModule extends Component
             }
 
             //view
-            $viewContent = <<<EOD
-                <table class="w-full table-fixed">
-                    <thead class="w-full bg-slate-100 mb-5">
-                        <tr>
-                            <th class="text-start ps-10 py-2">Published Events</th>
-                            <th class="text-start ps-10 py-2">Sold</th>
-                            <th class="text-start ps-10 py-2">Gross</th>
-                            <th class="text-start ps-10 py-2">Status</th>
-                        </tr>
-                    </thead>
-
-                    <tbody class="mt-5">
-                        <tr class="rounded shadow">
-                            <td class="p-10 flex">
-                                <div class="profile">
-                                    <img src="" alt="user_picture">
-                                </div>
-                                <div class="infos ps-5">
-                                    <h5 class="font-medium text-slate-900">Business Innovation conf 24</h5>
-                                    <p class="font-normal text-gray-400">11 Aug, 2024 - Sunday</p>
-                                    <p class="font-normal text-gray-400">11.00-11.30 AM</p>
-                                    <p class="font-normal text-gray-400">334,New York,USA</p>
-                                </div>
-                            </td>
-                            <td class="p-10 font-normal text-gray-400">0/3</td>
-                            <td class="p-10 font-normal text-gray-400">$50</td>
-                            <td class="p-10 font-normal text-gray-400">Upcoming Event</td>
-                        </tr>
-                    </tbody>
-                </table>
-EOD;
-            $viewDirectory      = resource_path('views/livewire/' . $name_lower);
-            $createViewFileName = resource_path('views/livewire/' . $name_lower . '/create-' . $name_lower . '.blade.php');
-            $updateViewFileName = resource_path('views/livewire/' . $name_lower . '/update-' . $name_lower . '.blade.php');
-
-            if (!File::exists($viewDirectory)) {
-                File::makeDirectory($viewDirectory, 0755, true);
-            }
-
-            if (!File::exists($createViewFileName)) {
-                File::put($createViewFileName, $viewContent);
-            }
-
-            if (!File::exists($updateViewFileName)) {
-                File::put($updateViewFileName, $viewContent);
-            }
-
-            flash()->success('Livewire component created!');
-        }
-
-        // blade view
-        if ($this->view && $moduleOldData['view'] == null) {
-            $bladeForm = <<<EOD
+            $createViewContent = <<<EOD
             <div class="border border-slate-300 p-5 rounded">
                 <header class="flex justify-between mb-5">
-                    <h4>Event Create</h4>
+                    <h4>$name Create</h4>
                     <x-buttons.primary>
-                        Create Event
+                        Create $name
                     </x-buttons.primary>
                 </header>
                 <form action="#">
@@ -226,6 +166,58 @@ EOD;
             </div>
 
 EOD;
+            $viewDirectory      = resource_path('views/livewire/' . $name_lower);
+            $createViewFileName = resource_path('views/livewire/' . $name_lower . '/create-' . $name_lower . '.blade.php');
+            $updateViewFileName = resource_path('views/livewire/' . $name_lower . '/update-' . $name_lower . '.blade.php');
+
+            if (!File::exists($viewDirectory)) {
+                File::makeDirectory($viewDirectory, 0755, true);
+            }
+
+            if (!File::exists($createViewFileName)) {
+                File::put($createViewFileName, $createViewContent);
+            }
+
+            if (!File::exists($updateViewFileName)) {
+                File::put($updateViewFileName, $createViewContent);
+            }
+
+            flash()->success('Livewire component created!');
+        }
+
+        // blade view
+        if ($this->view && $moduleOldData['view'] == null) {
+            $viewContent = <<<EOD
+                <table class="w-full table-fixed">
+                    <thead class="w-full bg-slate-100 mb-5">
+                        <tr>
+                            <th class="text-start ps-10 py-2">Published Events</th>
+                            <th class="text-start ps-10 py-2">Sold</th>
+                            <th class="text-start ps-10 py-2">Gross</th>
+                            <th class="text-start ps-10 py-2">Status</th>
+                        </tr>
+                    </thead>
+
+                    <tbody class="mt-5">
+                        <tr class="rounded shadow">
+                            <td class="p-10 flex">
+                                <div class="profile">
+                                    <img src="" alt="user_picture">
+                                </div>
+                                <div class="infos ps-5">
+                                    <h5 class="font-medium text-slate-900">Business Innovation conf 24</h5>
+                                    <p class="font-normal text-gray-400">11 Aug, 2024 - Sunday</p>
+                                    <p class="font-normal text-gray-400">11.00-11.30 AM</p>
+                                    <p class="font-normal text-gray-400">334,New York,USA</p>
+                                </div>
+                            </td>
+                            <td class="p-10 font-normal text-gray-400">0/3</td>
+                            <td class="p-10 font-normal text-gray-400">$50</td>
+                            <td class="p-10 font-normal text-gray-400">Upcoming Event</td>
+                        </tr>
+                    </tbody>
+                </table>
+EOD;
             $bladeViewDirectory = resource_path('views/' . $name_lower);
             $createViewBlade    = resource_path('views/' . $name_lower . '/create.blade.php');
             $viewCreate         = "<x-app-layout><livewire:$name_lower.create-$name_lower /></x-app-layout>";
@@ -244,10 +236,10 @@ EOD;
                 File::put($updateViewBlade, $viewUpdate);
             }
             if (!File::exists($indexViewBlade)) {
-                File::put($indexViewBlade, "<x-app-layout>$bladeForm</x-app-layout>");
+                File::put($indexViewBlade, "<x-app-layout>$viewContent</x-app-layout>");
             }
             if (!File::exists($showViewBlade)) {
-                File::put($showViewBlade, "<x-app-layout>$bladeForm</x-app-layout>");
+                File::put($showViewBlade, "<x-app-layout>$viewContent</x-app-layout>");
             }
             flash()->success('view blade file created!');
         }
@@ -271,8 +263,7 @@ EOD;
         return redirect()->to('/dashboard/module/create');
     }
 
-    public function render()
-    {
+    public function render() {
         return view('livewire.create-module');
     }
 }

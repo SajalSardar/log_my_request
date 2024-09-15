@@ -12,7 +12,7 @@
                     <th class="text-start ps-10 py-2">User Name</th>
                     <th class="text-start ps-10 py-2">Email</th>
                     <th class="text-start ps-10 py-2">Email Verified</th>
-                    <th class="text-start ps-10 py-2">Role</th>
+                    <th class="text-start ps-10 py-2">Roles</th>
                     <th class="text-start ps-10 py-2">Action</th>
                 </tr>
             </thead>
@@ -30,7 +30,11 @@
                         </td>
                         <td class="p-10 font-normal text-gray-400">{{ $each?->email }}</td>
                         <td class="p-10 font-normal text-gray-400">{{ Helper::ISOdate($each?->email_verified_at) }}</td>
-                        <td class="p-10 font-normal text-gray-400">{{ $each?->roles->first()->name }}</td>
+                        <td class="p-10 font-normal text-gray-400">
+                            @foreach (Helper::getLoggedInUserRoles() as $role)
+                                <span>{{ $role->name }}</span> <br>
+                            @endforeach
+                        </td>
                         <td>
                             <div class="flex">
                                 <x-actions.edit route="{{ route('admin.user.edit', ['user' => $each?->id]) }}" />

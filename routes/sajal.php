@@ -8,7 +8,7 @@ use App\Http\Controllers\ModuleController;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Route;
 
-Route::middleware('auth')->prefix('dashboard/')->name('dashboard.')->group(function () {
+Route::middleware('auth')->prefix('dashboard')->name('dashboard.')->group(function () {
     Route::resource('module', ModuleController::class);
     Route::resource('menu', MenuController::class);
 
