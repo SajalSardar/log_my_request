@@ -41,8 +41,8 @@ class Helper {
      */
     public static function badge(?string $string): string {
         $escapedString = htmlspecialchars($string, ENT_QUOTES, 'UTF-8');
-        return '<span class="inline-flex items-center bg-green-100 text-white text-xs font-normal px-2.5 py-0.5 rounded-full dark:bg-green-600 dark:text-green-300">
-                <span class="p-1 bg-gray-500 rounded-md">
+        return '<span class="inline-flex items-center bg-green-100 text-gray-800 text-xs font-normal px-2.5 py-0.5 rounded-full dark:bg-green-600 dark:text-green-300">
+                <span class="p-1">
                 ' . $escapedString . '
            </span></span>';
     }

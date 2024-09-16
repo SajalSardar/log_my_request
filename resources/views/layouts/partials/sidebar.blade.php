@@ -8,7 +8,7 @@
         <li class="group py-4 px-5 relative">
             <span
                 class="flex items-center {{ Route::is('dashboard') ? 'before:absolute before:rounded-l-xl before:content-[""] before:w-[4px] before:h-full before:bg-primary-400 before:top-0 before:right-0' : '' }}">
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <path
                         d="M2 18C2 16.4596 2 15.6893 2.34673 15.1235C2.54074 14.8069 2.80693 14.5407 3.12353 14.3467C3.68934 14 4.45956 14 6 14C7.54044 14 8.31066 14 8.87647 14.3467C9.19307 14.5407 9.45926 14.8069 9.65327 15.1235C10 15.6893 10 16.4596 10 18C10 19.5404 10 20.3107 9.65327 20.8765C9.45926 21.1931 9.19307 21.4593 8.87647 21.6533C8.31066 22 7.54044 22 6 22C4.45956 22 3.68934 22 3.12353 21.6533C2.80693 21.4593 2.54074 21.1931 2.34673 20.8765C2 20.3107 2 19.5404 2 18Z"
                         stroke="#6D4DFF" stroke-width="1.5" />
@@ -33,26 +33,33 @@
         @foreach (Helper::getAllMenus() as $menu)
 
             @if (Helper::roleWiseMenuPermission($menu->id))
-                <li class="group py-4 px-5 relative">
-                    <span
-                        class="flex items-center before:absolute before:rounded-l-xl before:content-[''] before:w-[4px] before:h-full before:bg-primary-400 before:top-0 before:right-0">
-                        {!! $menu->icon !!}
+                @php
+                    $subMenuRouts = $menu->submneus->pluck('route')->toArray();
+                @endphp
+                <li class="group py-3 pl-5 relative {{ Route::is($subMenuRouts) ? 'selected' : '' }} ">
+                    <a href="{{ $menu->route == '#' ? '#' : route($menu->route) }}" style="display: inline"
+                        class="flex font-semibold items-center text-gray-900 rounded-md group-[.active]:bg-gray-800 group-[.active]:text-white {{ count($menu->submneus) > 0 ? 'sidebar-dropdown-toggle' : '' }} ">
 
-                        <a href="{{ $menu->route == '#' ? '#' : route($menu->route) }}" style="display: inline"
-                            class="flex font-semibold items-center text-gray-900 rounded-md group-[.active]:bg-gray-800 group-[.active]:text-white sidebar-dropdown-toggle">
-                            <i class='bx bx-user mr-3 text-lg'></i>
-                            <span class="text-base font-inter font-semibold">{{ $menu->name }}</span>
-                            <i class="ri-arrow-right-s-line ml-auto group-[.selected]:rotate-90"></i>
-                        </a>
-                    </span>
+                        <span
+                            class="flex items-center {{ Route::is($menu->route) ? 'before:absolute before:rounded-l-xl before:content-[""] before:w-[4px] before:h-full before:bg-primary-400 before:top-0 before:right-0' : '' }}">
+                            {!! $menu->icon !!}
+                            <span class="text-base font-inter font-semibold ml-3">{{ $menu->name }}</span>
+                        </span>
+                    </a>
                     @if (count($menu->submneus) > 0)
-                        <ul class="pl-6 mt-4 hidden group-[.selected]:block">
+                        <ul class="pl-1 mt-4 hidden group-[.selected]:block">
                             @foreach ($menu->submneus as $submenu)
                                 @if (Helper::roleWiseMenuPermission($submenu->id))
-                                    <li class="mb-4 flex">
+                                    <li class=" py-2 px-2 flex relative">
                                         <a href="{{ route($submenu->route) }}"
                                             class="pl-3 text-gray-900 text-base font-inter font-medium flex items-center hover:text-[#f84525]">
-                                            {{ $submenu->name }}
+
+                                            <span
+                                                class="flex items-center {{ Route::is($submenu->route) ? 'before:absolute before:rounded-l-xl before:content-[""] before:w-[4px] before:h-full before:bg-primary-400 before:top-0 before:right-0' : '' }}">
+                                                {!! $submenu->icon !!}
+                                                <span
+                                                    class="text-base font-inter font-semibold ml-3">{{ $submenu->name }}</span>
+                                            </span>
                                         </a>
                                     </li>
                                 @endif

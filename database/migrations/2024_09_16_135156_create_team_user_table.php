@@ -9,13 +9,10 @@ return new class extends Migration {
      * Run the migrations.
      */
     public function up(): void {
-        Schema::create('categories', function (Blueprint $table) {
+        Schema::create('team_user', function (Blueprint $table) {
             $table->id();
-            $table->integer('category_id')->nullable();
-            $table->string('name')->unique();
-            $table->string('slug')->unique();
-            $table->string('image')->nullable();
-            $table->boolean('status')->default(true);
+            $table->bigInteger('user_id');
+            $table->bigInteger('team_id');
             $table->softDeletes();
             $table->timestamps();
         });
@@ -25,6 +22,6 @@ return new class extends Migration {
      * Reverse the migrations.
      */
     public function down(): void {
-        Schema::dropIfExists('categories');
+        Schema::dropIfExists('team_user');
     }
 };

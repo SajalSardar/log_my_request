@@ -4,19 +4,16 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-return new class extends Migration
-{
+return new class extends Migration {
     /**
      * Run the migrations.
      */
-    public function up(): void
-    {
-        Schema::create('teams', function (Blueprint $table) {
+    public function up(): void {
+        Schema::create('requester_types', function (Blueprint $table) {
             $table->id();
             $table->string('name')->unique();
             $table->string('slug')->unique();
-            $table->string('image')->nullable();
-            $table->boolean('status')->default(true);
+            $table->string('status')->default('active');
             $table->softDeletes();
             $table->timestamps();
         });
@@ -25,8 +22,7 @@ return new class extends Migration
     /**
      * Reverse the migrations.
      */
-    public function down(): void
-    {
-        Schema::dropIfExists('teams');
+    public function down(): void {
+        Schema::dropIfExists('requester_types');
     }
 };

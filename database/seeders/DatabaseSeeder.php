@@ -33,36 +33,28 @@ class DatabaseSeeder extends Seeder {
         ]);
 
         $attendeeuser = User::factory()->create([
-            'name'              => 'Attendee',
-            'email'             => "attendee@gmail.com",
+            'name'              => 'Agent',
+            'email'             => "agent@gmail.com",
             'email_verified_at' => now(),
             'password'          => Hash::make('password@987'),
             'remember_token'    => Str::random(10),
         ]);
 
         $organizeruser = User::factory()->create([
-            'name'              => 'Organizer',
-            'email'             => "organizer@gmail.com",
-            'email_verified_at' => now(),
-            'password'          => Hash::make('password@987'),
-            'remember_token'    => Str::random(10),
-        ]);
-        $organizerAttendeeUser = User::factory()->create([
-            'name'              => 'organizer Attendee',
-            'email'             => "organizerattendee@gmail.com",
+            'name'              => 'Requester',
+            'email'             => "requester@gmail.com",
             'email_verified_at' => now(),
             'password'          => Hash::make('password@987'),
             'remember_token'    => Str::random(10),
         ]);
 
         $role      = Role::create(['name' => 'super-admin']);
-        $attendee  = Role::create(['name' => 'attendee']);
-        $organizer = Role::create(['name' => 'organizer']);
+        $attendee  = Role::create(['name' => 'agent']);
+        $organizer = Role::create(['name' => 'requester']);
 
         $user->assignRole($role);
         $attendeeuser->assignRole($attendee);
         $organizeruser->assignRole($organizer);
-        $organizerAttendeeUser->assignRole(['organizer', 'attendee']);
 
         // default menu create
         $menus = [

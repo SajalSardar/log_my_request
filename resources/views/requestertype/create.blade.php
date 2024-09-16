@@ -1,0 +1,1 @@
+<x-app-layout><livewire:requestertype.create-requestertype /></x-app-layout>
