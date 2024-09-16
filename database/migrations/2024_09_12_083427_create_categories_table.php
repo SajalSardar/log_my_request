@@ -11,10 +11,9 @@ return new class extends Migration {
     public function up(): void {
         Schema::create('categories', function (Blueprint $table) {
             $table->id();
-            $table->integer('category_id')->nullable();
+            $table->integer('team_id')->nullable();
             $table->string('name')->unique();
             $table->string('slug')->unique();
-            $table->string('image')->nullable();
             $table->boolean('status')->default(true);
             $table->softDeletes();
             $table->timestamps();
