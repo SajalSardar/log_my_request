@@ -28,7 +28,6 @@ class UpdateMenu extends Component {
     public $route = '';
     public $url = null;
     public $icon = '';
-    #[Validate]
     public $role;
     #[Validate]
     public $status = '';
@@ -39,7 +38,6 @@ class UpdateMenu extends Component {
         return [
             'name'   => 'required|min:3|unique:menus,name,' . $this->menu->id,
             'route'  => 'required',
-            'role'   => 'required',
             'status' => 'required',
             'order'  => 'nullable|integer',
         ];

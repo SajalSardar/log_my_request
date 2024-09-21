@@ -2749,16 +2749,16 @@
         },
         {
             "name": "php-flasher/flasher",
-            "version": "v2.0.1",
+            "version": "v2.0.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/php-flasher/flasher.git",
-                "reference": "db6cf7746bc6d55f36df144c00de81d881b2ca02"
+                "reference": "6a7f90451281c2858af970dc32301193964f4ee8"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/php-flasher/flasher/zipball/db6cf7746bc6d55f36df144c00de81d881b2ca02",
-                "reference": "db6cf7746bc6d55f36df144c00de81d881b2ca02",
+                "url": "https://api.github.com/repos/php-flasher/flasher/zipball/6a7f90451281c2858af970dc32301193964f4ee8",
+                "reference": "6a7f90451281c2858af970dc32301193964f4ee8",
                 "shasum": ""
             },
             "require": {
@@ -2829,20 +2829,20 @@
                     "type": "patreon"
                 }
             ],
-            "time": "2024-05-23T09:29:54+00:00"
+            "time": "2024-09-19T06:40:10+00:00"
         },
         {
             "name": "php-flasher/flasher-laravel",
-            "version": "v2.0.1",
+            "version": "v2.0.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/php-flasher/flasher-laravel.git",
-                "reference": "2bf507c93d071be1850b6fd482ca990c73f0c1fb"
+                "reference": "275606011a0377a1fa15c6c3f3447a17336db3ea"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/php-flasher/flasher-laravel/zipball/2bf507c93d071be1850b6fd482ca990c73f0c1fb",
-                "reference": "2bf507c93d071be1850b6fd482ca990c73f0c1fb",
+                "url": "https://api.github.com/repos/php-flasher/flasher-laravel/zipball/275606011a0377a1fa15c6c3f3447a17336db3ea",
+                "reference": "275606011a0377a1fa15c6c3f3447a17336db3ea",
                 "shasum": ""
             },
             "require": {
@@ -2919,20 +2919,20 @@
                     "type": "patreon"
                 }
             ],
-            "time": "2024-05-23T09:51:41+00:00"
+            "time": "2024-09-19T06:32:04+00:00"
         },
         {
             "name": "php-flasher/flasher-sweetalert",
-            "version": "v2.0.1",
+            "version": "v2.0.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/php-flasher/flasher-sweetalert.git",
-                "reference": "b54713a460234803ef5f8a60228a2b5c50bba6b4"
+                "reference": "652d9e706051c87e2a028a6ad898f194a2df2c0b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/php-flasher/flasher-sweetalert/zipball/b54713a460234803ef5f8a60228a2b5c50bba6b4",
-                "reference": "b54713a460234803ef5f8a60228a2b5c50bba6b4",
+                "url": "https://api.github.com/repos/php-flasher/flasher-sweetalert/zipball/652d9e706051c87e2a028a6ad898f194a2df2c0b",
+                "reference": "652d9e706051c87e2a028a6ad898f194a2df2c0b",
                 "shasum": ""
             },
             "require": {
@@ -3002,20 +3002,20 @@
                     "type": "patreon"
                 }
             ],
-            "time": "2024-05-23T09:51:41+00:00"
+            "time": "2024-05-26T23:40:47+00:00"
         },
         {
             "name": "php-flasher/flasher-sweetalert-laravel",
-            "version": "v2.0.1",
+            "version": "v2.0.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/php-flasher/flasher-sweetalert-laravel.git",
-                "reference": "6dbc415cd107a850e64d7a97c343a7006af3a91b"
+                "reference": "a07bb39351a7838613d93493c94e9f7a5936636b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/php-flasher/flasher-sweetalert-laravel/zipball/6dbc415cd107a850e64d7a97c343a7006af3a91b",
-                "reference": "6dbc415cd107a850e64d7a97c343a7006af3a91b",
+                "url": "https://api.github.com/repos/php-flasher/flasher-sweetalert-laravel/zipball/a07bb39351a7838613d93493c94e9f7a5936636b",
+                "reference": "a07bb39351a7838613d93493c94e9f7a5936636b",
                 "shasum": ""
             },
             "require": {
@@ -3089,7 +3089,7 @@
                     "type": "patreon"
                 }
             ],
-            "time": "2024-05-23T09:51:41+00:00"
+            "time": "2024-09-19T06:32:04+00:00"
         },
         {
             "name": "phpoffice/phpspreadsheet",
@@ -6708,16 +6708,16 @@
         },
         {
             "name": "yajra/laravel-datatables-editor",
-            "version": "v11.0.1",
+            "version": "v11.0.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/yajra/laravel-datatables-editor.git",
-                "reference": "6a89f52652753c508be9e213cd2ce01f6579683a"
+                "reference": "f49f2bcfab26d4233d04280aab7787418d9d6334"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/yajra/laravel-datatables-editor/zipball/6a89f52652753c508be9e213cd2ce01f6579683a",
-                "reference": "6a89f52652753c508be9e213cd2ce01f6579683a",
+                "url": "https://api.github.com/repos/yajra/laravel-datatables-editor/zipball/f49f2bcfab26d4233d04280aab7787418d9d6334",
+                "reference": "f49f2bcfab26d4233d04280aab7787418d9d6334",
                 "shasum": ""
             },
             "require": {
@@ -6770,7 +6770,7 @@
             ],
             "support": {
                 "issues": "https://github.com/yajra/laravel-datatables-editor/issues",
-                "source": "https://github.com/yajra/laravel-datatables-editor/tree/v11.0.1"
+                "source": "https://github.com/yajra/laravel-datatables-editor/tree/v11.0.2"
             },
             "funding": [
                 {
@@ -6786,7 +6786,7 @@
                     "type": "patreon"
                 }
             ],
-            "time": "2024-09-12T04:45:09+00:00"
+            "time": "2024-09-20T02:44:39+00:00"
         },
         {
             "name": "yajra/laravel-datatables-export",
@@ -8159,16 +8159,16 @@
         },
         {
             "name": "phpunit/phpunit",
-            "version": "11.3.5",
+            "version": "11.3.6",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/phpunit.git",
-                "reference": "4dc07a589a68f8f2d5132ac0849146d122e08347"
+                "reference": "d62c45a19c665bb872c2a47023a0baf41a98bb2b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/4dc07a589a68f8f2d5132ac0849146d122e08347",
-                "reference": "4dc07a589a68f8f2d5132ac0849146d122e08347",
+                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/d62c45a19c665bb872c2a47023a0baf41a98bb2b",
+                "reference": "d62c45a19c665bb872c2a47023a0baf41a98bb2b",
                 "shasum": ""
             },
             "require": {
@@ -8195,7 +8195,7 @@
                 "sebastian/exporter": "^6.1.3",
                 "sebastian/global-state": "^7.0.2",
                 "sebastian/object-enumerator": "^6.0.1",
-                "sebastian/type": "^5.0.1",
+                "sebastian/type": "^5.1.0",
                 "sebastian/version": "^5.0.1"
             },
             "suggest": {
@@ -8239,7 +8239,7 @@
             "support": {
                 "issues": "https://github.com/sebastianbergmann/phpunit/issues",
                 "security": "https://github.com/sebastianbergmann/phpunit/security/policy",
-                "source": "https://github.com/sebastianbergmann/phpunit/tree/11.3.5"
+                "source": "https://github.com/sebastianbergmann/phpunit/tree/11.3.6"
             },
             "funding": [
                 {
@@ -8255,7 +8255,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2024-09-13T05:22:17+00:00"
+            "time": "2024-09-19T10:54:28+00:00"
         },
         {
             "name": "sebastian/cli-parser",
@@ -9071,28 +9071,28 @@
         },
         {
             "name": "sebastian/type",
-            "version": "5.0.1",
+            "version": "5.1.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/type.git",
-                "reference": "fb6a6566f9589e86661291d13eba708cce5eb4aa"
+                "reference": "461b9c5da241511a2a0e8f240814fb23ce5c0aac"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/type/zipball/fb6a6566f9589e86661291d13eba708cce5eb4aa",
-                "reference": "fb6a6566f9589e86661291d13eba708cce5eb4aa",
+                "url": "https://api.github.com/repos/sebastianbergmann/type/zipball/461b9c5da241511a2a0e8f240814fb23ce5c0aac",
+                "reference": "461b9c5da241511a2a0e8f240814fb23ce5c0aac",
                 "shasum": ""
             },
             "require": {
                 "php": ">=8.2"
             },
             "require-dev": {
-                "phpunit/phpunit": "^11.0"
+                "phpunit/phpunit": "^11.3"
             },
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-main": "5.0-dev"
+                    "dev-main": "5.1-dev"
                 }
             },
             "autoload": {
@@ -9116,7 +9116,7 @@
             "support": {
                 "issues": "https://github.com/sebastianbergmann/type/issues",
                 "security": "https://github.com/sebastianbergmann/type/security/policy",
-                "source": "https://github.com/sebastianbergmann/type/tree/5.0.1"
+                "source": "https://github.com/sebastianbergmann/type/tree/5.1.0"
             },
             "funding": [
                 {
@@ -9124,7 +9124,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2024-07-03T05:11:49+00:00"
+            "time": "2024-09-17T13:12:04+00:00"
         },
         {
             "name": "sebastian/version",

@@ -62,10 +62,10 @@ class Helper {
             return Menu::with(['submneus' => function ($q) {
                 $q->orderBy('order', 'asc');
             }])
-                ->where('parent_id', null)
-                ->where('status', 'active')
-                ->orderBy('order', 'asc')
-                ->get();
+            ->where('parent_id', null)
+            ->where('status', 'active')
+            ->orderBy('order', 'asc')
+            ->get();
         });
         return $menu;
     }

@@ -34,7 +34,7 @@
                         <td>
                             <div class="flex">
                                 <x-actions.edit route="{{ route('admin.category.edit', ['category' => $each?->id]) }}" />
-                                <x-actions.delete action="{{ route('admin.category.delete', ['category' => $each?->id]) }}" />
+                                <x-actions.delete action="{{ route('admin.category.destroy', ['category' => $each?->id]) }}" />
                             </div>
                         </td>
                     </tr>

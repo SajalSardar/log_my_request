@@ -8,7 +8,7 @@
 
             <div class="flex md:flex-row-reverse sm:flex-row">
                 <div>
-                    <x-actions.href href="{{ route('dashboard.menu.index') }}">
+                    <x-actions.href href="{{ route('admin.menu.index') }}">
                         {{ __('Menus') }}
                     </x-actions.href>
                 </div>

@@ -26,16 +26,15 @@ class CreateTeam extends Component
 
     /**
      * Define public method save() to store the resourses
-     * @return void
      */
-    public function save(TeamService $service): void
+    public function save(TeamService $service)
     {
         $this->form->validate();
         $isCreate = $service->store($this->form);
-        $isUpload = Fileupload::upload($this->form, $isCreate->getKey(), Team::class,  300,  300);
-        $response = ($isUpload && $isCreate) ? 'Data has been update successfuly' : 'Something went wrong';
+        $isUpload = $this->form->image ? Fileupload::upload($this->form, $isCreate->getKey(), Team::class,  300,  300): '';
+        $response =  $isCreate ? 'Data has been update successfuly' : 'Something went wrong';
         flash()->success($response);
-        $this->form->reset();
+        return redirect()->to('/dashboard/team');
     }
     
     public function render()

@@ -26,16 +26,15 @@ class CreateCategory extends Component
 
     /**
      * Define public method save() to save the resourses
-     * @return void
      */
-    public function save(CategoryService $service): void
+    public function save(CategoryService $service)
     {
         $this->form->validate();
         $isCreate = $service->store($this->form);
-        $isUpload = Fileupload::upload($this->form, $isCreate->getKey(), Category::class,  300,  300);
-        $response = ($isUpload && $isCreate) ? 'Data has been update successfuly' : 'Something went wrong';
+        $isUpload = $this->form->image ?  Fileupload::upload($this->form, $isCreate->getKey(), Category::class,  300,  300) : '';
+        $response = $isCreate ? 'Data has been update successfuly' : 'Something went wrong';
         flash()->success($response);
-        $this->form->reset();
+        return redirect()->to('/dashboard/category');
     }
 
     public function render()

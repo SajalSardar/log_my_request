@@ -14,7 +14,7 @@
                     {{ __('Parent Category') }}
                 </x-forms.label>
                 <x-forms.select-input wire:model.live="form.parent_id">
-                    <option disabled>--Select Parent Category--</option>
+                    <option disabled selected>--Select Parent Category--</option>
                     @foreach ($parent_categories as $each)
                         <option value="{{ $each->id }}">{{ $each->name }}</option>
                     @endforeach
@@ -31,7 +31,7 @@
                     {{ __('Status') }}
                 </x-forms.label>
                 <x-forms.select-input wire:model.live="form.status">
-                    <option disabled>--Select Status--</option>
+                    <option selected>--Select Status--</option>
                     <option value="1">Active</option>
                     <option value="0">Inactive</option>
                 </x-forms.select-input>
@@ -40,7 +40,7 @@
             </div>
 
             <div class="p-2 w-full">
-                <x-forms.label for="form.image" required='yes'>
+                <x-forms.label for="form.image">
                     {{ __('Image') }}
                 </x-forms.label>
                 <x-forms.text-input type="file" wire:model.live="form.image" />

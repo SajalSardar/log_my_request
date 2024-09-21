@@ -1,7 +1,7 @@
  <x-app-layout>
      <div class="relative overflow-x-auto bg-white">
          <div class="flex justify-end pb-3 fixed top-24 right-10">
-             <x-actions.href href="{{ route('dashboard.role.create') }}">
+             <x-actions.href href="{{ route('admin.role.create') }}">
                  Create Role
              </x-actions.href>
          </div>
@@ -30,8 +30,8 @@
                          </td>
                          <td>
                              <div class="flex">
-                                 <x-actions.edit route="{{ route('dashboard.role.edit', $each->id) }}" />
-                                 {{-- <x-actions.delete action="{{ route('dashboard.role.destroy', ['role' => $each->id]) }}" /> --}}
+                                 <x-actions.edit route="{{ route('admin.role.edit', $each->id) }}" />
+                                 {{-- <x-actions.delete action="{{ route('admin.role.destroy', ['role' => $each->id]) }}" /> --}}
                              </div>
                          </td>
                      </tr>

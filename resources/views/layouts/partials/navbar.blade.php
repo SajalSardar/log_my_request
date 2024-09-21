@@ -33,7 +33,7 @@
         </div>
 
         <div class="user-type">
-            <form action="{{ route('dashboard.role.swotch') }}" method="POST" x-data
+            <form action="{{ route('admin.role.swotch') }}" method="POST" x-data
                 @change="submitSwitchAccount($event)">
                 @csrf
                 <select
