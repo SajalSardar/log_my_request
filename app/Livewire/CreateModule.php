@@ -185,9 +185,11 @@ EOD;
         // blade view
         if ( $this->view && $moduleOldData['view'] == null ) {
             $viewContent = <<<EOD
-            <x-buttons.primary>
+            <div class="flex justify-end pb-3 fixed top-24 right-10">
+                <a type="submit" class="px-8 py-2 bg-primary-400 text-white rounded" href="http://log_my_request.test:82/dashboard/category/create">
                 Create $name
-            </x-buttons.primary>
+                </a>
+            </div>
             <table class="w-full table-fixed">
                     <thead class="w-full bg-slate-100 mb-5">
                         <tr>
