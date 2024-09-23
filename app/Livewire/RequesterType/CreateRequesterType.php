@@ -28,7 +28,7 @@ class CreateRequesterType extends Component {
             "status" => $this->status,
         ] );
 
-        flash()->success( 'source Created!' );
+        flash()->success( 'Type Created!' );
         return redirect()->to( '/dashboard/requestertype' );
     }
 
