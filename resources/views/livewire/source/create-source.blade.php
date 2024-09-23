@@ -1,4 +1,10 @@
+
             <div class="border border-slate-300 p-5 rounded">
+                <div class="flex justify-end pb-3 fixed top-24 right-10">
+                    <a type="submit" class="px-8 py-2 bg-primary-400 text-white rounded" href="{{ route('admin.source.index') }}">
+                Source List
+                </a>
+                </div>
                 <header class="flex justify-between mb-5">
                     <h4>Source Create</h4>
                     

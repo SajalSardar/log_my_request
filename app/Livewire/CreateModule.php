@@ -129,12 +129,12 @@ class CreateModule extends Component {
 
             //view
             $createViewContent = <<<EOD
-            <div class="flex justify-end pb-3 fixed top-24 right-10">
-                <a type="submit" class="px-8 py-2 bg-primary-400 text-white rounded" href="#">
-                $name List
-                </a>
-            </div>
             <div class="border border-slate-300 p-5 rounded">
+                <div class="flex justify-end pb-3 fixed top-24 right-10">
+                    <a type="submit" class="px-8 py-2 bg-primary-400 text-white rounded" href="#">
+                     $name List
+                    </a>
+                </div>
                 <header class="flex justify-between mb-5">
                     <h4>$name Create</h4>
                 </header>
@@ -202,6 +202,7 @@ EOD;
                             <th class="text-start ps-10 py-2">Sold</th>
                             <th class="text-start ps-10 py-2">Gross</th>
                             <th class="text-start ps-10 py-2">Status</th>
+                            <th class="text-start ps-10 py-2">Action</th>
                         </tr>
                     </thead>
 
@@ -221,6 +222,18 @@ EOD;
                             <td class="p-10 font-normal text-gray-400">0/3</td>
                             <td class="p-10 font-normal text-gray-400">$50</td>
                             <td class="p-10 font-normal text-gray-400">Upcoming Event</td>
+                            <td class="p-10 font-normal text-gray-400">
+                                <div class="flex">
+                                    <a href="" class="p-2">
+                                        <img src="http://log_my_request.test:82/assets/icons/edit.png" alt="edit">
+                                    </a>
+                                    <form class="" action="" method="POST">
+                                        <button type="submit" class="p-2">
+                                            <img src="http://log_my_request.test:82/assets/icons/delete.png" alt="__delete">
+                                        </button>
+                                    </form>
+                                </div>
+                            </td>
                         </tr>
                     </tbody>
                 </table>

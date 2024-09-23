@@ -14,11 +14,11 @@ class SourceController extends Controller {
      */
     public function index() {
         Gate::authorize( 'view', Source::class );
-        $source = Cache::remember( 'source_list', 60 * 60, function () {
+        $sources = Cache::remember( 'source_list', 60 * 60, function () {
             return Source::get();
         } );
 
-        return view( "source.index", compact( 'source' ) );
+        return view( "source.index", compact( 'sources' ) );
     }
 
     /**
