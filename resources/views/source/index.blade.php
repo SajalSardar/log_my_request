@@ -1,4 +1,10 @@
-<x-app-layout>                <table class="w-full table-fixed">
+<x-app-layout> 
+    <div class="flex justify-end pb-3 fixed top-24 right-10">
+        <a type="submit" class="px-8 py-2 bg-primary-400 text-white rounded" href="{{ route('admin.source.create') }}">
+Create Source
+</a>
+    </div>
+                   <table class="w-full table-fixed">
                     <thead class="w-full bg-slate-100 mb-5">
                         <tr>
                             <th class="text-start ps-10 py-2">Published Events</th>
