@@ -129,6 +129,11 @@ class CreateModule extends Component {
 
             //view
             $createViewContent = <<<EOD
+            <div class="flex justify-end pb-3 fixed top-24 right-10">
+                <a type="submit" class="px-8 py-2 bg-primary-400 text-white rounded" href="#">
+                $name List
+                </a>
+            </div>
             <div class="border border-slate-300 p-5 rounded">
                 <header class="flex justify-between mb-5">
                     <h4>$name Create</h4>
@@ -186,7 +191,7 @@ EOD;
         if ( $this->view && $moduleOldData['view'] == null ) {
             $viewContent = <<<EOD
             <div class="flex justify-end pb-3 fixed top-24 right-10">
-                <a type="submit" class="px-8 py-2 bg-primary-400 text-white rounded" href="http://log_my_request.test:82/dashboard/category/create">
+                <a type="submit" class="px-8 py-2 bg-primary-400 text-white rounded" href="#">
                 Create $name
                 </a>
             </div>
