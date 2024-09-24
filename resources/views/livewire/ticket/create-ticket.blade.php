@@ -107,7 +107,7 @@
                      <x-forms.nice-select wire:model.live="form.source">
                          <option value="">--Source--</option>
                          @foreach ($sources as $each)
-                             <option value="{{ $each->id }}">{{ $each?->name }}</option>
+                             <option value="{{ $each->id }}">{{ $each?->title }}</option>
                          @endforeach
                      </x-forms.nice-select>
 
@@ -136,7 +136,7 @@
                      </x-forms.label>
                      <x-forms.nice-select wire:model.live="form.assign_team">
                          <option value="">--Assign Team--</option>
-                         @foreach ($sources as $each)
+                         @foreach ($teams as $each)
                              <option value="{{ $each->id }}">{{ $each?->name }}</option>
                          @endforeach
                      </x-forms.nice-select>

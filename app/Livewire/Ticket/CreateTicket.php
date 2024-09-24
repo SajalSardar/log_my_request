@@ -5,6 +5,7 @@ namespace App\Livewire\Ticket;
 use App\Models\Category;
 use App\Models\RequesterType;
 use App\Models\Source;
+use App\Models\Team;
 use Livewire\Component;
 
 class CreateTicket extends Component
@@ -27,6 +28,12 @@ class CreateTicket extends Component
      */
     public $categories;
 
+        /**
+     * Define public property $teams;
+     * @var array|object
+     */
+    public $teams;
+
     /**
      * Define public method mount() to load the resourses
      */
@@ -35,6 +42,7 @@ class CreateTicket extends Component
         $this->requester_type = RequesterType::query()->get();
         $this->sources = Source::query()->get();
         $this->categories = Category::query()->get();
+        $this->teams = Team::query()->get();
     }
     public function render()
     {
