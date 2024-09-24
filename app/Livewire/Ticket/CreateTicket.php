@@ -1,13 +1,43 @@
 <?php
 
-                namespace App\Livewire\Ticket;
+namespace App\Livewire\Ticket;
 
-                use Livewire\Component;
+use App\Models\Category;
+use App\Models\RequesterType;
+use App\Models\Source;
+use Livewire\Component;
 
-                class CreateTicket extends Component
-                {
-                    public function render()
-                    {
-                        return view('livewire.ticket.create-ticket');
-                    }
-                }
+class CreateTicket extends Component
+{
+    /**
+     * Define public property $requester_type;
+     * @var array|object
+     */
+    public $requester_type;
+
+    /**
+     * Define public property $sources;
+     * @var array|object
+     */
+    public $sources;
+
+    /**
+     * Define public property $categories;
+     * @var array|object
+     */
+    public $categories;
+
+    /**
+     * Define public method mount() to load the resourses
+     */
+    public function mount(): void
+    {
+        $this->requester_type = RequesterType::query()->get();
+        $this->sources = Source::query()->get();
+        $this->categories = Category::query()->get();
+    }
+    public function render()
+    {
+        return view('livewire.ticket.create-ticket');
+    }
+}
