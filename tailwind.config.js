@@ -13,7 +13,7 @@ export default {
         extend: {
             colors: {
                 primary: {
-                    400: "#6D4DFF",
+                    400: "#F36D00",
                     500: "rgb(109,77,266,4%)"
                 },
                 navbar: {
