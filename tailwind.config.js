@@ -16,6 +16,15 @@ export default {
                     400: "#F36D00",
                     500: "rgb(109,77,266,4%)"
                 },
+                info: {
+                    400: '#10B982',
+                },
+                teal: {
+                    400: '#00C0AF',
+                },
+                process: {
+                    400: '#3B82F6',
+                },
                 navbar: {
                     bg: '#F8FAFF'
                 }

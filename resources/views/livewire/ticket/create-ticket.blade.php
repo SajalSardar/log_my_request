@@ -173,26 +173,13 @@
              <div class="p-2">
                  <x-buttons.secondary>
                      Cancel
-                     </x-buttons.primary>
-                     <x-buttons.primary>
-                         Create Team
-                     </x-buttons.primary>
+                 </x-buttons.secondary>
+                 <x-buttons.primary>
+                     Create Team
+                 </x-buttons.primary>
              </div>
 
 
-
-
          </div>
-
-         <!-- Un used div !-->
-         <div></div>
-
-
-
      </div>
-
-
-
-
-
  </form>
