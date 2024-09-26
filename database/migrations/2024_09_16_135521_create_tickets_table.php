@@ -13,6 +13,7 @@ return new class extends Migration {
             $table->id();
             $table->integer('user_id');
             $table->integer('requester_type_id')->nullable();
+            $table->integer('team_id')->nullable()->index();
             $table->integer('category_id')->nullable()->index();
             $table->integer('ticket_status_id')->nullable()->index();
             $table->integer('source_id')->nullable()->index();
