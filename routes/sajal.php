@@ -36,9 +36,3 @@ Route::middleware('auth')->prefix('dashboard')->name('admin.')->group(function (
     // change role in header option
     Route::post('switch-accont', [RoleController::class, 'switchAccount'])->name('role.swotch');
 });
-// test route
-
-Route::get('text-route', function () {
-    Artisan::call("livewire:make test");
-    return "Model Test with migration, controller, resource, and policy created.";
-});
