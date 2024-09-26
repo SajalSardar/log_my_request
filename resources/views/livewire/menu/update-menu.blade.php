@@ -46,7 +46,7 @@
 
         <div class="grid md:grid-cols-2 sm:grid-cols-1 sm:gap-1 md:gap-4">
             <div class="p-2 w-full">
-                <x-forms.label for="role" required='yes'>
+                <x-forms.label for="role">
                     {{ __('Role') }}
                 </x-forms.label>
                 <x-forms.nice-select wire:model.blur="role" multiple>

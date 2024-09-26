@@ -1,7 +1,7 @@
 <x-app-layout>
     <div class="relative overflow-x-auto bg-white">
         <div class="flex justify-end pb-3 fixed top-24 right-10">
-            <x-actions.href href="{{ route('dashboard.menu.create') }}">
+            <x-actions.href href="{{ route('admin.menu.create') }}">
                 Create Menu
             </x-actions.href>
         </div>
@@ -38,9 +38,9 @@
                         <td class="p-10 font-normal text-gray-400">{{ $each?->url }}</td>
                         <td>
                             <div class="flex">
-                                <x-actions.edit route="{{ route('dashboard.menu.edit', ['menu' => $each?->id]) }}" />
+                                <x-actions.edit route="{{ route('admin.menu.edit', ['menu' => $each?->id]) }}" />
                                 <x-actions.delete
-                                    action="{{ route('dashboard.menu.destroy', ['menu' => $each->id]) }}" />
+                                    action="{{ route('admin.menu.destroy', ['menu' => $each->id]) }}" />
                             </div>
                         </td>
                     </tr>

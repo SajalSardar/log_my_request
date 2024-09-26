@@ -1,0 +1,1 @@
+<x-app-layout><livewire:ticketstatus.update-ticketstatus /></x-app-layout>

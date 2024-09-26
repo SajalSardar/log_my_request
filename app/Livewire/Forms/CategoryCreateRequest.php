@@ -24,7 +24,7 @@ class CategoryCreateRequest extends Form
     /**
      * Define public property $image
      */
-    #[Validate('required|image|mimes:jpg,png,jpeg|max:3024', as: 'Image')]
+    #[Validate('nullable|image|mimes:jpg,png,jpeg|max:3024', as: 'Image')]
     public $image;
 
     /**

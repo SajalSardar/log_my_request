@@ -3,15 +3,28 @@
 // module
 
 use App\Http\Controllers\Admin\MenuController;
+use App\Http\Controllers\Admin\RequesterTypeController;
 use App\Http\Controllers\Admin\RoleController;
+use App\Http\Controllers\Admin\SourceController;
 use App\Http\Controllers\Admin\TicketController;
+use App\Http\Controllers\Admin\TicketOwnershipController;
+use App\Http\Controllers\Admin\TicketStatusController;
+use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\ModuleController;
+use App\Http\Controllers\TeamController;
+use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Route;
 
-Route::middleware('auth')->prefix('dashboard')->name('dashboard.')->group(function () {
+Route::middleware('auth')->prefix('dashboard')->name('admin.')->group(function () {
     Route::resource('module', ModuleController::class);
     Route::resource('menu', MenuController::class);
     Route::resource('ticket', TicketController::class);
+    Route::resource('category', CategoryController::class);
+    Route::resource('team', TeamController::class);
+    Route::resource('source', SourceController::class);
+    Route::resource('requestertype', RequesterTypeController::class);
+    Route::resource('ticketownership', TicketOwnershipController::class);
+    Route::resource('ticketstatus', TicketStatusController::class);
 
     // role
     Route::get('role-list', [RoleController::class, 'index'])->name('role.index');

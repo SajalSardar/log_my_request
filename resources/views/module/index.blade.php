@@ -1,7 +1,7 @@
 <x-app-layout>
     <div class="relative overflow-x-auto bg-white">
         <div class="flex justify-end pb-3 fixed top-24 right-10">
-            <x-actions.href href="{{ route('dashboard.module.create') }}">
+            <x-actions.href href="{{ route('admin.module.create') }}">
                 Create Module
             </x-actions.href>
         </div>
@@ -38,8 +38,8 @@
                         </td>
                         <td>
                             <div class="flex">
-                                <x-actions.edit route="{{ route('dashboard.module.edit', $item->id) }}" />
-                                <x-actions.delete action="{{ route('dashboard.module.destroy', $item->id) }}" />
+                                <x-actions.edit route="{{ route('admin.module.edit', $item->id) }}" />
+                                <x-actions.delete action="{{ route('admin.module.destroy', $item->id) }}" />
                             </div>
                         </td>
                     </tr>

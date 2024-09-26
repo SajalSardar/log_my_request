@@ -20,7 +20,6 @@ class CreateMenu extends Component {
     public $route = '';
     public $url = null;
     public $icon = '';
-    #[Validate]
     public $role = [];
     #[Validate]
     public $status = 'active';
@@ -31,7 +30,6 @@ class CreateMenu extends Component {
         return [
             'name'   => 'required|min:3|unique:menus,name',
             'route'  => 'required',
-            'role'   => 'required',
             'status' => 'required',
             'order'  => 'nullable|integer',
         ];

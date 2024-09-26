@@ -16,6 +16,6 @@ class TeamCreateRequest extends Form
     #[Validate('nullable')]
     public $category_id;
 
-    #[Validate('required|mimes:jpg,jpeg,png|max:3024')]
+    #[Validate('nullable|mimes:jpg,jpeg,png|max:3024')]
     public $image;
 }

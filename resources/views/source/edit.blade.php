@@ -1,0 +1,1 @@
+<x-app-layout><livewire:source.update-source /></x-app-layout>

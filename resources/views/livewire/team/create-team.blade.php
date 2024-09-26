@@ -11,7 +11,7 @@
             </div>
 
             <div class="p-2 w-full">
-                <x-forms.label for="form.image" required='yes'>
+                <x-forms.label for="form.image" >
                     {{ __('Team Image') }}
                 </x-forms.label>
                 <x-forms.text-input wire:model.live="form.image" accept="jpg,png,jpeg" max='3024' type="file" />

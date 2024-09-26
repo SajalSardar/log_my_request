@@ -40,7 +40,7 @@
             </div>
 
             <div class="p-2 w-full">
-                <x-forms.label for="form.image" required='yes'>
+                <x-forms.label for="form.image">
                     {{ __('Image') }}
                 </x-forms.label>
                 <x-forms.text-input type="file" wire:model.live="form.image" />

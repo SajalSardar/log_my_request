@@ -15,7 +15,7 @@
                     <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
                         {{ __('Dashboard') }}
                     </x-nav-link>
-                    <x-nav-link :href="route('dashboard.module.create')" :active="request()->routeIs('dashboard.module.create')">
+                    <x-nav-link :href="route('admin.module.create')" :active="request()->routeIs('asmin.module.create')">
                         {{ __('Module') }}
                     </x-nav-link>
                     <select onchange="changeLanguage(this.value)" class="form-control">
