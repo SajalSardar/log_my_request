@@ -20,10 +20,10 @@ return new class extends Migration {
             $table->string('student_id')->nullable();
             $table->string('priority')->nullable()->comment('low,medium,high');
             $table->date('due_date')->nullable();
-            $table->string('status')->nullable()->comment('open,progress,pending,resolved,hold,closed,resolution');
+            $table->string('status')->nullable()->comment('open,progress,resolved,hold,closed');
             $table->date('resolved_at')->nullable();
             $table->integer('resolved_by')->nullable();
-            $table->string('resolution_time')->nullable()->comment('calculate the time between ticket creation and resolution');
+            $table->string('resolution_time')->nullable()->comment('time between ticket creation and resolution');
             $table->string('source')->nullable()->comment('website,phone,email,in_person/walk_in,logmyrequest');
             $table->integer('updated_by')->nullable();
             $table->softDeletes();
@@ -38,3 +38,10 @@ return new class extends Migration {
         Schema::dropIfExists('tickets');
     }
 };
+
+
+
+// ticket_notes
+// ticket_activity // system agent apply action change status category etc
+
+// responder //assign new team and agent
