@@ -2,12 +2,13 @@
 
 namespace App\Livewire\Category;
 
+use App\Enums\Bucket;
+use App\Livewire\Forms\CategoryCreateRequest;
+use App\LocaleStorage\Fileupload;
+use App\Models\Category;
+use App\Services\Category\CategoryService;
 use Livewire\Component;
 use Livewire\WithFileUploads;
-use App\LocaleStorage\Fileupload;
-use App\Services\Category\CategoryService;
-use App\Livewire\Forms\CategoryCreateRequest;
-use App\Models\Category;
 
 class CreateCategory extends Component
 {
@@ -31,7 +32,7 @@ class CreateCategory extends Component
     {
         $this->form->validate();
         $isCreate = $service->store($this->form);
-        $isUpload = $this->form->image ?  Fileupload::upload($this->form, $isCreate->getKey(), Category::class,  300,  300) : '';
+        $isUpload = $this->form->image ? Fileupload::upload($this->form, Bucket::CATEGORY, $isCreate->getKey(), Category::class, 300, 300) : '';
         $response = $isCreate ? 'Data has been update successfuly' : 'Something went wrong';
         flash()->success($response);
         return redirect()->to('/dashboard/category');

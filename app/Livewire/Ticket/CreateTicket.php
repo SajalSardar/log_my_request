@@ -2,19 +2,23 @@
 
 namespace App\Livewire\Ticket;
 
+use App\Enums\Bucket;
 use App\Livewire\Forms\TicketCreateRequest;
+use App\LocaleStorage\Fileupload;
 use App\Models\Category;
 use App\Models\RequesterType;
 use App\Models\Source;
 use App\Models\Team;
+use App\Models\Ticket;
 use App\Models\TicketStatus;
+use App\Services\Ticket\TicketService;
 use Livewire\Component;
 use Livewire\Features\SupportFileUploads\WithFileUploads;
 
 class CreateTicket extends Component
 {
     use WithFileUploads;
-    
+
     /**
      * Define public form object TicketCreateRequest $form
      */
@@ -66,9 +70,13 @@ class CreateTicket extends Component
      * Define public method save() to store the resourses
      * @return void
      */
-    public function save(): void
+    public function save(TicketService $service): void
     {
         $this->validate(rules: $this->form->rules(), attributes: $this->form->attributes());
+        $isCreate = $service->store($this->form);
+        $isUpload = $this->form->request_attachment ? Fileupload::uploadFile($this->form, Bucket::TICKET, $isCreate->getKey(), Ticket::class, 300, 300) : '';
+        $response = $isCreate ? 'Data has been update successfuly' : 'Something went wrong';
+        flash()->success($response);
     }
 
     public function render()

@@ -15,7 +15,7 @@
                     <x-forms.label for="form.request_attachment" required="yes">
                         {{ __('Attachment') }}
                     </x-forms.label>
-                    <x-forms.text-input wire:model="form.request_attachment" type="file" accept="pdf,docs,ppt" />
+                    <x-forms.text-input wire:model="form.request_attachment" type="file" accept=".pdf,.docs,.ppt" />
                     <x-input-error :messages="$errors->get('form.request_attachment')" class="mt-2" />
                 </div>
             </div>

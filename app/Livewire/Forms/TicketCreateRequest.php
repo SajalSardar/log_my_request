@@ -91,6 +91,11 @@ class TicketCreateRequest extends Form
     public ?string $ticket_status_id;
 
     /**
+     * Define public property $request_attachment;
+     */
+    public $request_attachment;
+
+    /**
      * Define public method rules() to validation
      * @return array
      */
