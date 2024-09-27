@@ -20,118 +20,76 @@
             </thead>
 
             <tbody class="mt-5">
-                <tr class="rounded shadow">
-                    <td class="p-2" style="width: 70px">
-                        <x-forms.checkbox-input />
-                    </td>
-                    <td class="p-2" style="width: 70px">
-                        <span class="font-inter font-bold">
-                            #006
-                        </span>
-                    </td>
-                    <td class="p-2 font-normal text-gray-400" style="width: 80px">
-                        <span class="text-info-400 font-inter font-bold">
-                            High
-                        </span>
-                    </td>
-                    <td class="p-2 font-normal text-gray-400" style="width: 180px">
-                        <x-buttons.primary class="bg-teal-400">
-                            Open
-                            </x-buttons.button>
-                    </td>
-                    <td class="p-2 font-normal text-gray-400 flex justify-between items-center" style="width: 210px">
-                        <img src="https://i.pravatar.cc/300/5" alt="img" width="50" height="50" style="border-radius: 50%">
-                        <span class="ml-2">
-                            Marvin McKinney
-                        </span>
-                    </td>
-                    <td class="p-2">
-                        <span class="font-normal text-gray-400">Teacher</span>
-                    </td>
-                    <td class="p-2">
-                        <span class="font-normal text-gray-400">Leslie Alexander</span>
-                    </td>
-                    <td class="p-2">
-                        <span class="font-normal text-gray-400">Cody Fisher</span>
-                    </td>
-                    <td class="p-2">
-                        <span class="font-normal text-gray-400">Approximate 13 hours</span>
-                    </td>
-                    <td class="p-2">
-                        <span class="font-normal text-gray-400">17 Oct, 2024</span>
-                    </td>
-                    <td class="p-2">
-                        <span class="font-normal text-gray-400">Website</span>
-                    </td>
-                    <td class="p-2">
-                        <span class="font-normal text-gray-400">17 Oct, 2024</span>
-                    </td>
-                    <td>
-                        <button>
-                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                <path d="M11.9922 12H12.0012" stroke="#666666" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" />
-                                <path d="M11.9844 18H11.9934" stroke="#666666" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" />
-                                <path d="M12 6H12.009" stroke="#666666" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" />
-                            </svg>
-                        </button>
-                    </td>
-                </tr>
-                <tr class="rounded shadow">
-                    <td class="p-2" style="width: 70px">
-                        <x-forms.checkbox-input />
-                    </td>
-                    <td class="p-2" style="width: 70px">
-                        <span class="font-inter font-bold">
-                            #006
-                        </span>
-                    </td>
-                    <td class="p-2 font-normal text-gray-400" style="width: 80px">
-                        <span class="text-info-400 font-inter font-bold">
-                            High
-                        </span>
-                    </td>
-                    <td class="p-2 font-normal text-gray-400" style="width: 180px">
-                        <x-buttons.primary class="bg-process-400">
-                            In process
-                            </x-buttons.button>
-                    </td>
-                    <td class="p-2 font-normal text-gray-400 flex justify-between items-center" style="width: 210px">
-                        <img src="https://i.pravatar.cc/300" alt="img" width="50" height="50" style="border-radius: 50%">
-                        <span class="ml-2">
-                            Marvin McKinney
-                        </span>
-                    </td>
-                    <td class="p-2">
-                        <span class="font-normal text-gray-400">Teacher</span>
-                    </td>
-                    <td class="p-2">
-                        <span class="font-normal text-gray-400">Leslie Alexander</span>
-                    </td>
-                    <td class="p-2">
-                        <span class="font-normal text-gray-400">Cody Fisher</span>
-                    </td>
-                    <td class="p-2">
-                        <span class="font-normal text-gray-400" style="width: 210px">Approximate 13 hours</span>
-                    </td>
-                    <td class="p-2">
-                        <span class="font-normal text-gray-400">17 Oct, 2024</span>
-                    </td>
-                    <td class="p-2">
-                        <span class="font-normal text-gray-400">Website</span>
-                    </td>
-                    <td class="p-2">
-                        <span class="font-normal text-gray-400">17 Oct, 2024</span>
-                    </td>
-                    <td>
-                        <button>
-                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                <path d="M11.9922 12H12.0012" stroke="#666666" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" />
-                                <path d="M11.9844 18H11.9934" stroke="#666666" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" />
-                                <path d="M12 6H12.009" stroke="#666666" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" />
-                            </svg>
-                        </button>
-                    </td>
-                </tr>
+                @forelse ($tickets as $ticket)
+                    <tr class="rounded shadow">
+                        <td class="p-2" style="width: 70px">
+                            <x-forms.checkbox-input />
+                        </td>
+                        <td class="p-2" style="width: 70px">
+                            <span class="font-inter font-bold">
+                                #{{ $ticket?->id }}
+                            </span>
+                        </td>
+                        <td class="p-2 font-normal text-gray-400" style="width: 80px">
+                            <span class="text-{{ $ticket?->priority === 'medium' ? 'teal' : 'info' }}-400 font-inter font-bold">
+                                {{ $ticket?->priority }}
+                            </span>
+                        </td>
+                        <td class="p-2 font-normal text-gray-400" style="width: 180px">
+                            <x-buttons.primary class="bg-teal-400">
+                                {{ $ticket?->ticket_status->name }}
+                                </x-buttons.button>
+                        </td>
+                        <td class="p-2 font-normal text-gray-400 flex justify-between items-center" style="width: 210px">
+                            <img src="https://i.pravatar.cc/300/5" alt="img" width="50" height="50" style="border-radius: 50%">
+                            <span class="ml-2">
+                                {{ $ticket?->requester_name }}
+                            </span>
+                        </td>
+                        <td class="p-2">
+                            <span class="font-normal text-gray-400">
+                                {{ $ticket?->requester_type?->name }}
+                            </span>
+                        </td>
+                        <td class="p-2">
+                            <span class="font-normal text-gray-400">
+                                {{ $ticket?->team->name }}
+                            </span>
+                        </td>
+                        <td class="p-2">
+                            <span class="font-normal text-gray-400">Cody Fisher</span>
+                        </td>
+                        <td class="p-2">
+                            <span class="font-normal text-gray-400">{{ Helper::humanReadableDate($ticket?->created_at) }}</span>
+                        </td>
+                        <td class="p-2">
+                            <span class="font-normal text-gray-400">{{ Helper::ISODate($ticket?->due_date) }}</span>
+                        </td>
+                        <td class="p-2">
+                            <span class="font-normal text-gray-400">{{ $ticket?->source?->title }}</span>
+                        </td>
+                        <td class="p-2">
+                            <span class="font-normal text-gray-400">17 Oct, 2024</span>
+                        </td>
+                        <td>
+                            <button>
+                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M11.9922 12H12.0012" stroke="#666666" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" />
+                                    <path d="M11.9844 18H11.9934" stroke="#666666" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" />
+                                    <path d="M12 6H12.009" stroke="#666666" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" />
+                                </svg>
+                            </button>
+                        </td>
+                    </tr>
+                @empty
+                    <tr>
+                        <td colspan="14" class="text-center">
+                            <span class="text-red">No data found !!</span>
+                        </td>
+                    </tr>
+                @endforelse
+
+
             </tbody>
         </table>
     </div>

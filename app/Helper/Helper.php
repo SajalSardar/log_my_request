@@ -12,7 +12,7 @@ class Helper {
      * @return string
      */
     public static function ISOdate($date) {
-        return $date ? date_format($date, 'd M, Y') : '';
+        return $date ? date('d M Y', strtotime($date)) : '';
     }
 
     /**

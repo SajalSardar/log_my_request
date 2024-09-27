@@ -4,7 +4,6 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Ticket;
-use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Gate;
@@ -16,8 +15,10 @@ class TicketController extends Controller
      */
     public function index()
     {
-        Gate::authorize('view',  Ticket::class);
-        return view("ticket.index");
+        Gate::authorize('view', Ticket::class);
+        $tickets = Ticket::query()->with('team','ticket_status','requester_type','source')->get();
+        // return $tickets;
+        return view("ticket.index",compact('tickets'));
     }
 
     /**
@@ -25,8 +26,8 @@ class TicketController extends Controller
      */
     public function displayListDatatable()
     {
-        Gate::authorize('view',  Ticket::class);
-        
+        Gate::authorize('view', Ticket::class);
+
         $ticket = Cache::remember('ticket_list', 60 * 60, function () {
             return Ticket::get();
         });
@@ -57,7 +58,7 @@ class TicketController extends Controller
     public function show(Ticket $ticket)
     {
         //
-        Gate::authorize('view',  $ticket);
+        Gate::authorize('view', $ticket);
         return view('ticket.show');
     }
 
@@ -75,7 +76,7 @@ class TicketController extends Controller
      */
     public function update(Request $request, Ticket $ticket)
     {
-        Gate::authorize('update',  $ticket);
+        Gate::authorize('update', $ticket);
     }
 
     /**
@@ -83,6 +84,6 @@ class TicketController extends Controller
      */
     public function destroy(Ticket $ticket)
     {
-        Gate::authorize('delete',  $ticket);
+        Gate::authorize('delete', $ticket);
     }
 }
