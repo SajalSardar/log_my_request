@@ -32,7 +32,7 @@ class DatabaseSeeder extends Seeder {
             'remember_token'    => Str::random(10),
         ]);
 
-        $attendeeuser = User::factory()->create([
+        $agentuser = User::factory()->create([
             'name'              => 'Agent',
             'email'             => "agent@gmail.com",
             'email_verified_at' => now(),
@@ -40,7 +40,7 @@ class DatabaseSeeder extends Seeder {
             'remember_token'    => Str::random(10),
         ]);
 
-        $organizeruser = User::factory()->create([
+        $requesteruser = User::factory()->create([
             'name'              => 'Requester',
             'email'             => "requester@gmail.com",
             'email_verified_at' => now(),
@@ -49,12 +49,12 @@ class DatabaseSeeder extends Seeder {
         ]);
 
         $role      = Role::create(['name' => 'super-admin']);
-        $attendee  = Role::create(['name' => 'agent']);
-        $organizer = Role::create(['name' => 'requester']);
+        $agent     = Role::create(['name' => 'agent']);
+        $requester = Role::create(['name' => 'requester']);
 
         $user->assignRole($role);
-        $attendeeuser->assignRole($attendee);
-        $organizeruser->assignRole($organizer);
+        $agentuser->assignRole($agent);
+        $requesteruser->assignRole($requester);
 
         // default menu create
         $menuIcon = '<svg class="inline-block" width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
