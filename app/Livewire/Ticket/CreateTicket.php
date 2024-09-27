@@ -7,6 +7,7 @@ use App\Models\Category;
 use App\Models\RequesterType;
 use App\Models\Source;
 use App\Models\Team;
+use App\Models\TicketStatus;
 use Livewire\Component;
 
 class CreateTicket extends Component
@@ -41,6 +42,12 @@ class CreateTicket extends Component
     public $teams;
 
     /**
+     * Define public property $ticket_status;
+     * @var array|object
+     */
+    public $ticket_status;
+
+    /**
      * Define public method mount() to load the resourses
      */
     public function mount(): void
@@ -49,6 +56,7 @@ class CreateTicket extends Component
         $this->sources = Source::query()->get();
         $this->categories = Category::query()->get();
         $this->teams = Team::query()->get();
+        $this->ticket_status = TicketStatus::query()->get();
     }
 
     /**

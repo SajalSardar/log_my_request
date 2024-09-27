@@ -7,7 +7,7 @@
                     <x-forms.label for="form.request_title" required="yes">
                         {{ __('Request Title') }}
                     </x-forms.label>
-                    <x-forms.text-input wire:model.live="form.request_title" type="text" />
+                    <x-forms.text-input wire:model="form.request_title" type="text" />
                     <x-input-error :messages="$errors->get('form.request_title')" class="mt-2" />
                 </div>
             </div>
@@ -16,7 +16,7 @@
                 <x-forms.label for="form.request_description">
                     {{ __('Request Description') }}
                 </x-forms.label>
-                <textarea cols="30" rows="10"wire:model.live='form.request_description' class="w-full py-3 text-base font-normal font-inter border border-slate-400 rounded" placeholder="Add description here.."></textarea>
+                <textarea cols="30" rows="10"wire:model='form.request_description' class="w-full py-3 text-base font-normal font-inter border border-slate-400 rounded" placeholder="Add description here.."></textarea>
                 <x-input-error :messages="$errors->get('form.request_description')" class="mt-2" />
             </div>
 
@@ -25,14 +25,14 @@
                     <x-forms.label for="form.requester_name" required='yes'>
                         {{ __('Requester Name') }}
                     </x-forms.label>
-                    <x-forms.text-input type="text" wire:model.live='form.requester_name' />
+                    <x-forms.text-input type="text" wire:model='form.requester_name' />
                     <x-input-error :messages="$errors->get('form.requester_name')" class="mt-2" />
                 </div>
                 <div class="p-2 w-full">
                     <x-forms.label for="form.requester_email" required="yes">
                         {{ __('Requester Email') }}
                     </x-forms.label>
-                    <x-forms.text-input wire:model.live="form.requester_email" type="email" />
+                    <x-forms.text-input wire:model="form.requester_email" type="email" />
                     <x-input-error :messages="$errors->get('form.requester_email')" class="mt-2" />
                 </div>
             </div>
@@ -42,7 +42,7 @@
                     <x-forms.label for="form.requester_phone">
                         {{ __('Requester Phone') }}
                     </x-forms.label>
-                    <x-forms.text-input type="number" wire:model.live='form.requester_phone' />
+                    <x-forms.text-input type="number" wire:model='form.requester_phone' />
                     <x-input-error :messages="$errors->get('form.requester_phone')" class="mt-2" />
                 </div>
                 <div class="p-2 w-full">
@@ -66,7 +66,7 @@
                     <x-forms.label for="form.requester_id" required='yes'>
                         {{ __('Requester ID') }}
                     </x-forms.label>
-                    <x-forms.text-input type="text" wire:model.live='form.requester_id' />
+                    <x-forms.text-input type="text" wire:model='form.requester_id' />
                     <x-input-error :messages="$errors->get('form.requester_id')" class="mt-2" />
                 </div>
                 <div class="p-2 w-full">
@@ -87,7 +87,7 @@
                     <x-forms.label for="form.due_date" required='yes'>
                         {{ __('Due Date') }}
                     </x-forms.label>
-                    <x-forms.text-input type="date" wire:model.live='form.due_date' />
+                    <x-forms.text-input type="date" wire:model='form.due_date' />
                     <x-input-error :messages="$errors->get('form.due_date')" class="mt-2" />
                 </div>
 
@@ -110,12 +110,12 @@
                         {{ __('Category') }}
                     </x-forms.label>
 
-                    <x-forms.nice-select wire:model="form.category_id">
+                    <x-forms.select-input wire:model="form.category_id">
                         <option>Category</option>
                         @foreach ($categories as $each)
                             <option value="{{ $each->id }}">{{ $each?->name }}</option>
                         @endforeach
-                    </x-forms.nice-select>
+                    </x-forms.select-input>
 
                     <x-input-error :messages="$errors->get('form.category_id')" class="mt-2" />
                 </div>
@@ -141,7 +141,7 @@
                         {{ __('Assign Agent') }}
                     </x-forms.label>
 
-                    <x-forms.nice-select wire:model.live="form.assigned_agent">
+                    <x-forms.nice-select wire:model="form.assigned_agent">
                         <option value="">--Assign Agent--</option>
                         @foreach ($sources as $each)
                             <option value="{{ $each->id }}">{{ $each?->name }}</option>
@@ -151,24 +151,26 @@
                     <x-input-error :messages="$errors->get('form.assigned_agent')" class="mt-2" />
                 </div>
                 <div class="p-2">
-                    <x-forms.label for="form.status" required="yes">
+                    <x-forms.label for="form.ticket_status_id" required="yes">
                         {{ __('Status') }}
                     </x-forms.label>
 
-                    <x-forms.nice-select wire:model.live="form.status">
-                        <option value="">--Status--</option>
+                    <x-forms.select-input wire:model="form.ticket_status_id">
+                        <option value="">Ticket status</option>
+                        @foreach ($ticket_status as $status)
+                            <option value="{{ $status->id }}">{{ $status->name }}</option>
+                        @endforeach
+                    </x-forms.select-input>
 
-                    </x-forms.nice-select>
-
-                    <x-input-error :messages="$errors->get('form.status')" class="mt-2" />
+                    <x-input-error :messages="$errors->get('form.ticket_status_id')" class="mt-2" />
                 </div>
             </div>
             <div class="p-2">
-                <x-buttons.secondary>
+                <x-buttons.secondary type="button">
                     Cancel
                 </x-buttons.secondary>
                 <x-buttons.primary>
-                    Create Team
+                    Create Ticket
                 </x-buttons.primary>
             </div>
 
