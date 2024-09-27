@@ -9,9 +9,12 @@ use App\Models\Source;
 use App\Models\Team;
 use App\Models\TicketStatus;
 use Livewire\Component;
+use Livewire\Features\SupportFileUploads\WithFileUploads;
 
 class CreateTicket extends Component
 {
+    use WithFileUploads;
+    
     /**
      * Define public form object TicketCreateRequest $form
      */
@@ -65,7 +68,7 @@ class CreateTicket extends Component
      */
     public function save(): void
     {
-        dd($this->form);
+        $this->validate(rules: $this->form->rules(), attributes: $this->form->attributes());
     }
 
     public function render()
