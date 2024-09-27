@@ -1,15 +1,8 @@
 <form wire:submit="save">
     <div class="grid md:grid-cols-2 sm:grid-cols-1 sm:gap-1 md:gap-4">
         <div class="border border-slate-300 p-5 rounded">
-            <div class="grid lg:grid-cols-2 md:grid-cols-2 sm:grid-cols-1 sm:gap-1 md:gap-4">
 
-                <div class="p-2 w-full">
-                    <x-forms.label for="form.request_id" required='yes'>
-                        {{ __('Request ID') }}
-                    </x-forms.label>
-                    <x-forms.text-input type="text" wire:model.live='form.request_id' />
-                    <x-input-error :messages="$errors->get('form.request_id')" class="mt-2" />
-                </div>
+            <div class="grid lg:grid-cols-2 md:grid-cols-2 sm:grid-cols-1 sm:gap-1 md:gap-4">
                 <div class="p-2 w-full">
                     <x-forms.label for="form.request_title" required="yes">
                         {{ __('Request Title') }}
@@ -17,7 +10,6 @@
                     <x-forms.text-input wire:model.live="form.request_title" type="text" />
                     <x-input-error :messages="$errors->get('form.request_title')" class="mt-2" />
                 </div>
-
             </div>
 
             <div class="grid md:grid-cols-1 sm:grid-cols-1 sm:gap-1 md:gap-4 p-2 w-full ">
@@ -41,7 +33,7 @@
                         {{ __('Requester Email') }}
                     </x-forms.label>
                     <x-forms.text-input wire:model.live="form.requester_email" type="email" />
-                    <x-input-error :messages="$errors->get('form.request_title')" class="mt-2" />
+                    <x-input-error :messages="$errors->get('form.requester_email')" class="mt-2" />
                 </div>
             </div>
 
@@ -58,14 +50,14 @@
                         {{ __('Requester Type') }}
                     </x-forms.label>
 
-                    <x-forms.nice-select wire:model.live="form.requester_email">
-                        <option value="">--Requester type--</option>
+                    <x-forms.select-input wire:model="form.requester_type_id">
+                        <option>Requester type</option>
                         @foreach ($requester_type as $each)
                             <option value="{{ $each->id }}">{{ $each?->name }}</option>
                         @endforeach
-                    </x-forms.nice-select>
+                    </x-forms.select-input>
 
-                    <x-input-error :messages="$errors->get('form.request_title')" class="mt-2" />
+                    <x-input-error :messages="$errors->get('form.requester_type_id')" class="mt-2" />
                 </div>
             </div>
 
@@ -82,9 +74,9 @@
                         {{ __('Requester Priority') }}
                     </x-forms.label>
                     <div class="mt-3">
-                        <x-forms.radio-input wire:model.live="form.priority" name="priority" class="ml-2" /> <span class="ml-2">Low</span>
-                        <x-forms.radio-input wire:model.live="form.priority" name="priority" class="ml-2" /> <span class="ml-2">Medium</span>
-                        <x-forms.radio-input wire:model.live="form.priority" name="priority" class="ml-2" /> <span class="ml-2">High</span>
+                        <x-forms.radio-input wire:model="form.priority" name="priority" class="ml-2" value="low" /> <span class="ml-2">Low</span>
+                        <x-forms.radio-input wire:model="form.priority" name="priority" class="ml-2" value="medium" /> <span class="ml-2">Medium</span>
+                        <x-forms.radio-input wire:model="form.priority" name="priority" class="ml-2" value="high" /> <span class="ml-2">High</span>
                     </div>
                     <x-input-error :messages="$errors->get('form.priority')" class="mt-2" />
                 </div>
@@ -100,47 +92,48 @@
                 </div>
 
                 <div class="p-2">
-                    <x-forms.label for="form.source" required="yes">
+                    <x-forms.label for="form.source_id" required="yes">
                         {{ __('Source') }}
                     </x-forms.label>
 
-                    <x-forms.nice-select wire:model.live="form.source">
-                        <option value="">--Source--</option>
+                    <x-forms.select-input wire:model="form.source_id">
+                        <option>Source</option>
                         @foreach ($sources as $each)
                             <option value="{{ $each->id }}">{{ $each?->title }}</option>
                         @endforeach
-                    </x-forms.nice-select>
+                    </x-forms.select-input>
 
-                    <x-input-error :messages="$errors->get('form.source')" class="mt-2" />
+                    <x-input-error :messages="$errors->get('form.source_id')" class="mt-2" />
                 </div>
                 <div class="p-2">
-                    <x-forms.label for="form.category" required="yes">
+                    <x-forms.label for="form.category_id" required="yes">
                         {{ __('Category') }}
                     </x-forms.label>
 
-                    <x-forms.nice-select wire:model.live="form.category">
-                        <option value="">--Category--</option>
+                    <x-forms.nice-select wire:model="form.category_id">
+                        <option>Category</option>
                         @foreach ($categories as $each)
                             <option value="{{ $each->id }}">{{ $each?->name }}</option>
                         @endforeach
                     </x-forms.nice-select>
 
-                    <x-input-error :messages="$errors->get('form.category')" class="mt-2" />
+                    <x-input-error :messages="$errors->get('form.category_id')" class="mt-2" />
                 </div>
             </div>
 
+            {{-- query start from --}}
             <div class="grid md:grid-cols-3 sm:grid-cols-3">
                 <div class="p-2">
-                    <x-forms.label for="form.assign_team" required='yes'>
+                    <x-forms.label for="form.team_id" required='yes'>
                         {{ __('Assign Team') }}
                     </x-forms.label>
-                    <x-forms.nice-select wire:model.live="form.assign_team">
-                        <option value="">--Assign Team--</option>
+                    <x-forms.select-input wire:model="form.team_id">
+                        <option>Assign Team</option>
                         @foreach ($teams as $each)
                             <option value="{{ $each->id }}">{{ $each?->name }}</option>
                         @endforeach
-                    </x-forms.nice-select>
-                    <x-input-error :messages="$errors->get('form.assign_team')" class="mt-2" />
+                    </x-forms.select-input>
+                    <x-input-error :messages="$errors->get('form.team_id')" class="mt-2" />
                 </div>
 
                 <div class="p-2">
