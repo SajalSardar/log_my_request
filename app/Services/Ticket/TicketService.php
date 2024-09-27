@@ -3,8 +3,10 @@
 namespace App\Services\Ticket;
 
 use App\Models\Ticket;
+use App\Models\User;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 
 class TicketService
 {
@@ -15,6 +17,7 @@ class TicketService
      */
     public function store(array | object $request): array | object
     {
+        // dd($request);
         $response = Ticket::create(
             [
                 'user_id' => Auth::user()->id,
@@ -31,6 +34,19 @@ class TicketService
                 'due_date' => $request->due_date,
             ]
         );
+
+        $checkUser = User::query()->where('email', $request->requester_email)->first();
+        if (!empty($checkUser)) {
+            $checkUser->update(['phone' => $request->requester_phone, 'name' => $request->requester_name]);
+        } else {
+            $user = User::create([
+                'name' => $request->requester_name,
+                'email' => $request->requester_email,
+                'phone' => $request->requester_phone,
+                'password' => Hash::make('12345678'),
+            ]);
+        }
+
         return $response;
     }
 
