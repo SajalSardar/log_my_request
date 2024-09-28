@@ -26,14 +26,14 @@
                 <x-forms.label for="form.category_id">
                     {{ __('Team Category') }}
                 </x-forms.label>
-                <div wire:ignore>
-                    <x-forms.select2-select wire:model.blur='form.category_id' multiple>
-                        <option selected disabled>Select Category</option>
-                        @foreach ($categories as $each)
-                            <option value="{{ $each->id }}">{{ $each->name }}</option>
-                        @endforeach
-                    </x-forms.select2-select>
-                </div>
+
+                <x-forms.select2-select wire:model.blur='form.category_id' multiple>
+                    <option selected disabled>Select Category</option>
+                    @foreach ($categories as $each)
+                        <option value="{{ $each->id }}">{{ $each->name }}</option>
+                    @endforeach
+                </x-forms.select2-select>
+
                 <x-input-error :messages="$errors->get('form.category_id')" class="mt-2" />
             </div>
 

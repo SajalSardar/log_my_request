@@ -46,12 +46,12 @@
                 <x-forms.label for="role">
                     {{ __('Role') }}
                 </x-forms.label>
-                <x-forms.nice-select wire:model="role" multiple>
+                <x-forms.select2-select wire:model="role" multiple>
                     <option selected disabled> Select Role</option>
                     @foreach ($roles as $role)
                         <option value="{{ $role->name }}">{{ Str::ucfirst($role->name) }}</option>
                     @endforeach
-                </x-forms.nice-select>
+                </x-forms.select2-select>
                 <x-input-error :messages="$errors->get('role')" class="mt-2" />
             </div>
 
@@ -96,3 +96,14 @@
     </form>
 
 </section>
+@section('style')
+    <link rel="stylesheet" href="{{ asset('assets/css/select2.min.css') }}">
+@endsection
+@section('script')
+    <script src="{{ asset('assets/js/select2.min.js') }}"></script>
+    <script>
+        $(document).ready(function() {
+            $('.select2').select2();
+        });
+    </script>
+@endsection
