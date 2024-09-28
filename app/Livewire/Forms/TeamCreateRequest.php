@@ -2,20 +2,32 @@
 
 namespace App\Livewire\Forms;
 
-use Livewire\Form;
 use Livewire\Attributes\Validate;
+use Livewire\Form;
 
-class TeamCreateRequest extends Form
-{
-    #[Validate('required|max:20')]
+class TeamCreateRequest extends Form {
+    #[Validate]
     public $name;
 
-    #[Validate('required|string:0,1')]
+    #[Validate]
     public $status;
 
-    #[Validate('nullable')]
+    #[Validate]
     public $category_id;
 
-    #[Validate('nullable|mimes:jpg,jpeg,png|max:3024')]
+    #[Validate]
     public $image;
+
+    #[Validate]
+    public $agent_id = [];
+
+    protected function rules() {
+        return [
+            'name'        => 'required|min:3|unique:categories,name',
+            'status'      => 'required|string:0,1',
+            'category_id' => 'nullable',
+            'agent_id'    => 'nullable',
+            'image'       => 'nullable|mimes:jpg,jpeg,png|max:3024',
+        ];
+    }
 }
