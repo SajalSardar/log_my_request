@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Ticket;
+use App\Models\TicketStatus;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Gate;
@@ -16,9 +17,9 @@ class TicketController extends Controller
     public function index()
     {
         Gate::authorize('view', Ticket::class);
-        $tickets = Ticket::query()->with('team','ticket_status','requester_type','source')->get();
+        $tickets = TicketStatus::query()->with('ticket',fn($query) => $query->with('source','ticket_status'))->withCount('ticket')->get();
         // return $tickets;
-        return view("ticket.index",compact('tickets'));
+        return view("ticket.index", compact('tickets'));
     }
 
     /**
