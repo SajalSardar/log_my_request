@@ -2,7 +2,6 @@
     <div class="relative overflow-x-auto">
         <table class="w-full overflow-x-auto">
 
-
             <tbody class="mt-5">
                 @forelse ($tickets as $each)
                     @if ($each->name)
