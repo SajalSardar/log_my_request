@@ -13,6 +13,12 @@ use Illuminate\Support\Facades\Mail;
 class TicketService
 {
     /**
+     * Define public property $user;
+     * @var array|object
+     */
+    public $user = [];
+
+    /**
      * Define public method store to save the resourses
      * @param $form
      * @return array|object
@@ -39,9 +45,11 @@ class TicketService
 
         $checkUser = User::query()->where('email', $request->requester_email)->first();
         if (!empty($checkUser)) {
+            $request->credentials = false;
             $checkUser->update(['phone' => $request->requester_phone, 'name' => $request->requester_name]);
         } else {
-            $user = User::create([
+            $request->credentials = true;
+            $this->user = User::create([
                 'name' => $request->requester_name,
                 'email' => $request->requester_email,
                 'phone' => $request->requester_phone,
@@ -49,7 +57,7 @@ class TicketService
             ]);
         }
 
-        $email_send = Mail::to($request->requester_email)->send(new TicketEmail($response));
+        Mail::to($request->requester_email)->send(new TicketEmail($request));
 
         return $response;
     }

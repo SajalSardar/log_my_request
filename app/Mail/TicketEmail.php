@@ -26,7 +26,7 @@ class TicketEmail extends Mailable
     public function envelope(): Envelope
     {
         return new Envelope(
-            subject: 'Ticket Email From Event Ticket',
+            subject: 'Ticket Infos From Log My Request to ' . $this->ticket->requester_name,
         );
     }
 

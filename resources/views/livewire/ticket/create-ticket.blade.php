@@ -129,7 +129,6 @@
                 </div>
             </div>
 
-            {{-- query start from --}}
             <div class="grid md:grid-cols-3 sm:grid-cols-3">
                 <div class="p-2">
                     <x-forms.label for="form.team_id" required='yes'>
