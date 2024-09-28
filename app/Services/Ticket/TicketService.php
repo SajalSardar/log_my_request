@@ -2,11 +2,13 @@
 
 namespace App\Services\Ticket;
 
+use App\Mail\TicketEmail;
 use App\Models\Ticket;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Mail;
 
 class TicketService
 {
@@ -46,6 +48,8 @@ class TicketService
                 'password' => Hash::make('12345678'),
             ]);
         }
+
+        $email_send = Mail::to($request->requester_email)->send(new TicketEmail($response));
 
         return $response;
     }
