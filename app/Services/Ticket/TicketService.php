@@ -21,6 +21,12 @@ class TicketService
     public $user = [];
 
     /**
+     * Define public property $password;
+     * @var string
+     */
+    public $password;
+
+    /**
      * Define public method store to save the resourses
      * @param $form
      * @return array|object
@@ -67,13 +73,16 @@ class TicketService
             $request->credentials = false;
             $checkUser->update(['phone' => $request->requester_phone, 'name' => $request->requester_name]);
         } else {
+            $this->password = rand(10000000, 99999999);
             $request->credentials = true;
+            $request->password = $this->password;
             $this->user = User::create([
                 'name' => $request->requester_name,
                 'email' => $request->requester_email,
                 'phone' => $request->requester_phone,
-                'password' => Hash::make('12345678'),
+                'password' => Hash::make($this->password),
             ]);
+            $this->user->assignRole('agent');
         }
 
         Mail::to($request->requester_email)->send(new TicketEmail($request));

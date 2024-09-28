@@ -11,6 +11,7 @@
     <!-- Style css  !-->
     <link rel="stylesheet" href="{{ asset('assets/css/style.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/css/nice-select2.css') }}">
+    //cdn.datatables.net/2.1.7/js/dataTables.min.js
     <!-- Scripts -->
     @vite(['resources/css/app.css', 'resources/js/app.js'])
     {{-- <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,100..900&display=swap" rel="stylesheet"> --}}

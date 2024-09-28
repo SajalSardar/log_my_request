@@ -36,7 +36,7 @@
                                     <h4 style="font-weight: 600; margin: 0;">Your credentials:</h4>
                                     <p>Email : {{ $ticket?->requester_email }}</p>
                                     <p>Phone : {{ $ticket?->requester_phone }}</p>
-                                    <p>Password : 12345678</p>
+                                    <p>Password : {{ $ticket?->password }}</p>
                                     <span style="color:red; font-size: 12px;">Please don't share your credentials with others.</span>
                                 </div>
                             </td>

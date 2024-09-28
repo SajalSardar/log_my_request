@@ -18,7 +18,6 @@ class TicketController extends Controller
     {
         Gate::authorize('view', Ticket::class);
         $tickets = TicketStatus::query()->with('ticket',fn($query) => $query->with('source','ticket_status'))->withCount('ticket')->get();
-        // return $tickets;
         return view("ticket.index", compact('tickets'));
     }
 
