@@ -10,8 +10,6 @@
 
     <!-- Style css  !-->
     <link rel="stylesheet" href="{{ asset('assets/css/style.css') }}">
-    <link rel="stylesheet" href="{{ asset('assets/css/nice-select2.css') }}">
-    //cdn.datatables.net/2.1.7/js/dataTables.min.js
     <!-- Scripts -->
     @vite(['resources/css/app.css', 'resources/js/app.js'])
     {{-- <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,100..900&display=swap" rel="stylesheet"> --}}
@@ -41,18 +39,10 @@
 </main>
 
 {{-- <script src="https://unpkg.com/@popperjs/core@2"></script> --}}
+<script src="{{ asset('assets/js/jquery-3.7.1.slim.min.js') }}"></script>
 <script src="{{ asset('assets/js/script.js') }}"></script>
 <script src="{{ asset('assets/js/custom.js') }}"></script>
-<script src="{{ asset('assets/js/nice-select2.js') }}"></script>
-<script>
-    var options = {
-        searchable: true,
-        placeholder: 'select',
-        searchtext: 'zoek',
-        selectedtext: 'item selected'
-    };
-    var instance = NiceSelect.bind(document.getElementById("seachable-select"), options);
-</script>
+
 @livewireScripts
 @yield('script')
 

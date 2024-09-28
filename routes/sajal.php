@@ -12,7 +12,6 @@ use App\Http\Controllers\Admin\TicketStatusController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\ModuleController;
 use App\Http\Controllers\TeamController;
-use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Route;
 
 Route::middleware('auth')->prefix('dashboard')->name('admin.')->group(function () {

@@ -18,7 +18,8 @@
 </head>
 
 <body class="font-sans text-gray-900">
-    <div class="flex lg:h-screen md:h-screen sm:h-screen sm:justify-center lg:justify-center md:justify-center items-center sm:pt-0">
+    <div
+        class="flex lg:h-screen md:h-screen sm:h-screen sm:justify-center lg:justify-center md:justify-center items-center sm:pt-0">
         {{ $slot }}
     </div>
     @livewireScripts
