@@ -12,7 +12,6 @@ use App\Http\Controllers\Admin\TicketStatusController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\ModuleController;
 use App\Http\Controllers\TeamController;
-use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Route;
 
 Route::middleware('auth')->prefix('dashboard')->name('admin.')->group(function () {
@@ -35,10 +34,4 @@ Route::middleware('auth')->prefix('dashboard')->name('admin.')->group(function (
 
     // change role in header option
     Route::post('switch-accont', [RoleController::class, 'switchAccount'])->name('role.swotch');
-});
-// test route
-
-Route::get('text-route', function () {
-    Artisan::call("livewire:make test");
-    return "Model Test with migration, controller, resource, and policy created.";
 });

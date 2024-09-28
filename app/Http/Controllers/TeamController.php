@@ -4,19 +4,18 @@ namespace App\Http\Controllers;
 
 use App\Models\Category;
 use App\Models\Team;
+use App\Models\TeamCategory;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Gate;
 
-class TeamController extends Controller
-{
+class TeamController extends Controller {
     /**
      * Display a listing of the resource.
      */
-    public function index()
-    {
-        Gate::authorize('view',  Team::class);
+    public function index() {
+        Gate::authorize('view', Team::class);
         $collections = Team::query()
             ->with('image')
             ->with('teamCategories', fn($query) => $query->with('category'))
@@ -28,9 +27,8 @@ class TeamController extends Controller
     /**
      * Display a listing of the data table resource.
      */
-    public function displayListDatatable()
-    {
-        Gate::authorize('view',  Team::class);
+    public function displayListDatatable() {
+        Gate::authorize('view', Team::class);
 
         $team = Cache::remember('name_list', 60 * 60, function () {
             return Team::get();
@@ -40,18 +38,18 @@ class TeamController extends Controller
     /**
      * Show the form for creating a new resource.
      */
-    public function create()
-    {
+    public function create() {
         Gate::authorize('create', Team::class);
-        $categories = Category::query()->get();
-        return view('team.create', compact('categories'));
+        $usesCategory = TeamCategory::pluck('category_id');
+        $categories   = Category::query()->whereNotIn('id', $usesCategory)->get();
+        $agentUser    = User::role('agent')->get();
+        return view('team.create', compact('categories', 'agentUser'));
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
-    {
+    public function store(Request $request) {
         //
         Gate::authorize('create', Team::class);
     }
@@ -59,18 +57,16 @@ class TeamController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Team $team)
-    {
+    public function show(Team $team) {
         //
-        Gate::authorize('view',  $team);
+        Gate::authorize('view', $team);
         return view('team.show');
     }
 
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Team $team)
-    {
+    public function edit(Team $team) {
         Gate::authorize('update', $team);
         return view('team.edit');
     }
@@ -78,16 +74,14 @@ class TeamController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Team $team)
-    {
-        Gate::authorize('update',  $team);
+    public function update(Request $request, Team $team) {
+        Gate::authorize('update', $team);
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Team $team)
-    {
-        Gate::authorize('delete',  $team);
+    public function destroy(Team $team) {
+        Gate::authorize('delete', $team);
     }
 }
