@@ -11,6 +11,7 @@ use App\Models\Source;
 use App\Models\Team;
 use App\Models\Ticket;
 use App\Models\TicketStatus;
+use App\Models\User;
 use App\Services\Ticket\TicketService;
 use Livewire\Component;
 use Livewire\Features\SupportFileUploads\WithFileUploads;
@@ -54,6 +55,12 @@ class CreateTicket extends Component
      */
     public $ticket_status;
 
+     /**
+     * Define public property $agents;
+     * @var array|object
+     */
+    public $agents;
+
     /**
      * Define public method mount() to load the resourses
      */
@@ -64,6 +71,7 @@ class CreateTicket extends Component
         $this->categories = Category::query()->get();
         $this->teams = Team::query()->get();
         $this->ticket_status = TicketStatus::query()->get();
+        $this->agents = User::query()->get();
     }
 
     /**

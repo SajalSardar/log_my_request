@@ -148,14 +148,14 @@
                         {{ __('Assign Agent') }}
                     </x-forms.label>
 
-                    <x-forms.nice-select wire:model="form.assigned_agent">
-                        <option value="">--Assign Agent--</option>
-                        @foreach ($sources as $each)
+                    <x-forms.select2-select wire:model="form.agent_id" multiple>
+                        <option value="">Assign Agent</option>
+                        @foreach ($agents as $each)
                             <option value="{{ $each->id }}">{{ $each?->name }}</option>
                         @endforeach
-                    </x-forms.nice-select>
+                    </x-forms.select2-select>
 
-                    <x-input-error :messages="$errors->get('form.assigned_agent')" class="mt-2" />
+                    <x-input-error :messages="$errors->get('form.ageent_id')" class="mt-2" />
                 </div>
                 <div class="p-2">
                     <x-forms.label for="form.ticket_status_id" required="yes">
@@ -185,3 +185,14 @@
         </div>
     </div>
 </form>
+@section('style')
+    <link rel="stylesheet" href="{{ asset('assets/css/select2.min.css') }}">
+@endsection
+@section('script')
+    <script src="{{ asset('assets/js/select2.min.js') }}"></script>
+    <script>
+        $(document).ready(function() {
+            $('.select2').select2();
+        });
+    </script>
+@endsection
