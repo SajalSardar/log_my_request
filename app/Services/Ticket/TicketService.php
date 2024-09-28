@@ -4,6 +4,8 @@ namespace App\Services\Ticket;
 
 use App\Mail\TicketEmail;
 use App\Models\Ticket;
+use App\Models\TicketLog;
+use App\Models\TicketNote;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Auth;
@@ -25,7 +27,6 @@ class TicketService
      */
     public function store(array | object $request): array | object
     {
-        // dd($request);
         $response = Ticket::create(
             [
                 'user_id' => Auth::user()->id,
@@ -42,6 +43,24 @@ class TicketService
                 'due_date' => $request->due_date,
             ]
         );
+
+        $ticket = Ticket::query()->where('id', $response->getKey())->with('ticket_status')->first();
+
+        $ticket_notes = TicketNote::create([
+            'ticket_id' => $response->getKey(),
+            'note_type' => 'internal_note',
+            'note' => $request?->request_description,
+            'new_status' => $ticket?->ticket_status?->name,
+            'created_by' => Auth::user()->id,
+        ]);
+
+        $ticket_logs = TicketLog::create([
+            'ticket_id' => $response->getKey(),
+            'ticket_status' => $ticket?->ticket_status?->name,
+            'comment' => $request?->request_description,
+            'created_by' => Auth::user()->id,
+            'updated_by' => Auth::user()->id,
+        ]);
 
         $checkUser = User::query()->where('email', $request->requester_email)->first();
         if (!empty($checkUser)) {
