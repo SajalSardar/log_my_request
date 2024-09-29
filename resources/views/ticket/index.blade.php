@@ -6,13 +6,20 @@
                 @forelse ($tickets as $each)
                     @if ($each->name)
                         <tr class="main-row" style="cursor: pointer;border-bottom:1px solid #dadada" onclick="toggleSubmenu(this)">
-                            <td colspan="14" class="text-black font-inter font-semibold py-3 flex items-center">
-                                {{ $each?->name . ' Request' }} {{ '(' . $each?->ticket_count . ')' }}
-                                <span class="pl-2 arrow">
-                                    <svg width="5" height="15" viewBox="0 0 5 15" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                        <path d="M0 0L5 5L0 10V0Z" fill="#666666" />
-                                    </svg>
-                                </span>
+                            <td colspan="14" class="text-black font-inter font-semibold py-3">
+                                <div class="flex justify-between">
+                                    <div class="status_count flex items-center">
+                                        <span>{{ $each?->name . ' Request' }} {{ '(' . $each?->ticket_count . ')' }}</span>
+                                        <span class="pl-2 arrow">
+                                            <svg width="5" height="15" viewBox="0 0 5 15" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                <path d="M0 0L5 5L0 10V0Z" fill="#666666" />
+                                            </svg>
+                                        </span>
+                                    </div>
+                                    <div class="status">
+                                        <a href="#" class="border border-slate-300 rounded font-inter font-normal px-2 py-1">View All</a>
+                                    </div>
+                                </div>
                             </td>
                         </tr>
                     @endif
@@ -25,7 +32,6 @@
                                         <th class="text-start p-2" style="width: 70px">Select</th>
                                         <th class="text-start p-2" style="width: 70px">ID</th>
                                         <th class="text-start p-2" style="width: 80px">Priority</th>
-
                                         <th class="text-start p-2" style="width: 210px">Requester Name</th>
                                         <th class="text-start p-2">Requester Type</th>
                                         <th class="text-start p-2">Assigned Team</th>
