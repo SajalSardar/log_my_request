@@ -56,8 +56,8 @@
                                                 </span>
                                             </td>
                                             <td class="p-2 font-normal text-gray-400" style="width: 80px">
-                                                <span class="text-{{ $ticket?->priority === 'medium' ? 'teal' : 'info' }}-400 font-inter font-bold">
-                                                    {{ $ticket?->priority }}
+                                                <span class="text-{{ $each?->priority == 'high' ? 'high' : 'medium' }}-400 font-inter font-bold">
+                                                    {{ $each?->priority }}
                                                 </span>
                                             </td>
 
@@ -92,15 +92,29 @@
                                             <td class="p-2">
                                                 <span class="font-normal text-gray-400">17 Oct, 2024</span>
                                             </td>
-                                            <td>
-                                                <button>
+                                            <td class="relative">
+                                                <button onclick="toggleAction({{ $ticket->id }})">
                                                     <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                                                         <path d="M11.9922 12H12.0012" stroke="#666666" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" />
                                                         <path d="M11.9844 18H11.9934" stroke="#666666" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" />
                                                         <path d="M12 6H12.009" stroke="#666666" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" />
                                                     </svg>
                                                 </button>
+                                                <div id="action-{{ $ticket->id }}" class="absolute top-5 right-10" style="display: none">
+                                                    <ul>
+                                                        <li class="px-3 py-1 text-center" style="background: #FFF4EC;color:#F36D00">
+                                                            <a href="{{ route('admin.ticket.edit', ['ticket' => $ticket?->id]) }}">Edit</a>
+                                                        </li>
+                                                        <li class="px-3 py-1 text-center">
+                                                            <a href="#">View</a>
+                                                        </li>
+                                                        <li class="px-3 py-1 text-center bg-red-600 text-white">
+                                                            <a href="#">Delete</a>
+                                                        </li>
+                                                    </ul>
+                                                </div>
                                             </td>
+
                                         </tr>
                                     @endforeach
                                 </tbody>
@@ -137,6 +151,16 @@
                     toggleIcon.innerHTML = `<svg width="5" height="15" viewBox="0 0 5 15" fill="none" xmlns="http://www.w3.org/2000/svg">
                                                 <path d="M0 0L5 5L0 10V0Z" fill="#666666" />
                                             </svg>`;
+                }
+            }
+        </script>
+        <script>
+            function toggleAction(ticketId) {
+                var actionDiv = document.getElementById('action-' + ticketId);
+                if (actionDiv.style.display === 'none' || actionDiv.style.display === '') {
+                    actionDiv.style.display = 'block';
+                } else {
+                    actionDiv.style.display = 'none';
                 }
             }
         </script>
