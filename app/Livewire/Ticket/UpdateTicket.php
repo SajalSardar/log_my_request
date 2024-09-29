@@ -2,14 +2,21 @@
 
 namespace App\Livewire\Ticket;
 
-use App\Models\Team;
-use App\Models\Source;
-use Livewire\Component;
-use App\Models\TicketStatus;
+use App\Livewire\Forms\TicketUpdateRequest;
 use App\Models\RequesterType;
+use App\Models\Source;
+use App\Models\Team;
+use App\Models\Ticket;
+use App\Models\TicketStatus;
+use Livewire\Component;
 
 class UpdateTicket extends Component
 {
+    /**
+     * Define public form object TicketUpdateRequest $form
+     */
+    public TicketUpdateRequest $form;
+
     /**
      * Define public property $requester_type;
      * @var array|object
@@ -47,9 +54,21 @@ class UpdateTicket extends Component
     public $teamAgent;
 
     /**
+     * Define public property $ticket
+     */
+    public $ticket;
+
+    /**
      * Define public method mount() to load the resourses
      */
     public function mount(): void
+    {
+        // dd($this->ticket);
+        $this->form->request_title = $this->ticket?->title;
+        $this->form->request_description = $this->ticket?->description;
+    }
+
+    public function render()
     {
         $this->requester_type = RequesterType::query()->get();
         $this->sources = Source::query()->get();
@@ -57,10 +76,7 @@ class UpdateTicket extends Component
         $this->categories = [];
         $this->ticket_status = TicketStatus::query()->get();
         $this->teamAgent = [];
-    }
 
-    public function render()
-    {
         return view('livewire.ticket.update-ticket');
     }
 }

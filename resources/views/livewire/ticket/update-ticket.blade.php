@@ -1,5 +1,4 @@
 <form wire:submit="save">
-
     <div class="flex flex-row">
         <div class="md:basis-2/3 sm:basis-full">
             <div class="border border-slate-300 p-5 rounded">
@@ -9,7 +8,7 @@
                         <x-forms.label for="form.request_title" required="yes">
                             {{ __('Request Title') }}
                         </x-forms.label>
-                        <x-forms.text-input wire:model="form.request_title" type="text" />
+                        <x-forms.text-input wire:model="form.request_title" value="{{ $ticket?->title }}" type="text" />
                         <x-input-error :messages="$errors->get('form.request_title')" class="mt-2" />
                     </div>
                 </div>
@@ -18,7 +17,7 @@
                     <x-forms.label for="form.request_description">
                         {{ __('Request Description') }}
                     </x-forms.label>
-                    <textarea cols="30" rows="10"wire:model='form.request_description' class="w-full py-3 text-base font-normal font-inter border border-slate-400 rounded" placeholder="Add description here.."></textarea>
+                    <textarea cols="30" rows="10"wire:model='form.request_description' value={{$ticket->description}} class="w-full py-3 text-base font-normal font-inter border border-slate-400 rounded" placeholder="Add description here..">{!! $ticket?->description !!}</textarea>
                     <x-input-error :messages="$errors->get('form.request_description')" class="mt-2" />
                 </div>
 
