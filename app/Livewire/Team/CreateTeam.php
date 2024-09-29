@@ -25,7 +25,7 @@ class CreateTeam extends Component {
     public $categories;
 
     /**
-     * Define public property $categories
+     * Define public property $agentUser
      * @var array|object
      */
     public $agentUser;

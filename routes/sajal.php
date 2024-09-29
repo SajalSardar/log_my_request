@@ -34,4 +34,13 @@ Route::middleware('auth')->prefix('dashboard')->name('admin.')->group(function (
 
     // change role in header option
     Route::post('switch-accont', [RoleController::class, 'switchAccount'])->name('role.swotch');
+
+    /**
+     * Ticket others routes
+     */
+    Route::controller(TicketController::class)->group(function () {
+        Route::prefix('ticket')->name('ticket.')->group(function () {
+            Route::get('{ticket_status_id}/view-all', 'viewAll')->name('viewAll');
+        });
+    });
 });

@@ -10,7 +10,7 @@ use App\Models\TicketStatus;
 use Illuminate\Validation\Rule;
 use Livewire\Form;
 
-class TicketCreateRequest extends Form
+class TicketUpdateRequest extends Form
 {
     /**
      * Define public property $request_title;

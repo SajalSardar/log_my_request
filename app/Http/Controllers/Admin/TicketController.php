@@ -17,7 +17,7 @@ class TicketController extends Controller
     public function index()
     {
         Gate::authorize('view', Ticket::class);
-        $tickets = TicketStatus::query()->with('ticket',fn($query) => $query->with('source','ticket_status'))->withCount('ticket')->get();
+        $tickets = TicketStatus::query()->with('ticket', fn($query) => $query->with('source', 'ticket_status'))->withCount('ticket')->get();
         return view("ticket.index", compact('tickets'));
     }
 
@@ -68,7 +68,7 @@ class TicketController extends Controller
     public function edit(Ticket $ticket)
     {
         Gate::authorize('update', $ticket);
-        return view('ticket.edit');
+        return view('ticket.edit', compact('ticket'));
     }
 
     /**
@@ -85,5 +85,11 @@ class TicketController extends Controller
     public function destroy(Ticket $ticket)
     {
         Gate::authorize('delete', $ticket);
+    }
+
+    public function viewAll(?string $ticket_status_id)
+    {
+        $tickets = Ticket::query()->with('ticket_status', 'source', 'requester_type')->where('ticket_status_id', $ticket_status_id)->get();
+        return view('ticket.view-all', compact('tickets'));
     }
 }
