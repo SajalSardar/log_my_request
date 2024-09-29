@@ -3,7 +3,6 @@
 namespace App\Services\Team;
 
 use App\Models\Team;
-use App\Models\TeamCategory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
 use Spatie\Permission\Models\Role;
@@ -23,17 +22,7 @@ class TeamService {
 
         $teamCategories = [];
 
-        if ($request->category_id) {
-            foreach ($request->category_id as $category) {
-                $teamCategories[] = [
-                    'category_id' => $category,
-                    'team_id'     => $team->getKey(),
-                    'created_at'  => now(),
-                    'updated_at'  => now(),
-                ];
-            }
-            TeamCategory::insert($teamCategories);
-        }
+        $team->teamCategories()->attach($request->category_id);
         $team->agents()->attach($request->agent_id);
         return $team;
     }
