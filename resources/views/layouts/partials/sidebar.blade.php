@@ -42,7 +42,7 @@
                         array_pop($exMenu);
                         $exnew = join('.', $exMenu);
                         $sbMenu[] = $exnew . '.*';
-                    }
+                    } 
                 @endphp
                 <li class="group py-3 pl-5 relative {{ Route::is($sbMenu) ? 'selected' : '' }} ">
                     <a href="{{ $menu->route == '#' ? '#' : route($menu->route) }}" style="display: inline"
