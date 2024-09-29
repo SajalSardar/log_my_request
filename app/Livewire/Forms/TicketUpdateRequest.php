@@ -114,7 +114,7 @@ class TicketUpdateRequest extends Form
         $arr['form.category_id'] = ['required', Rule::exists(Category::class, 'id')];
         $arr['form.team_id'] = ['required', Rule::exists(Team::class, 'id')];
         $arr['form.ticket_status_id'] = ['required', Rule::exists(TicketStatus::class, 'id')];
-        $arr['form.request_attachment'] = ['required', 'mimes:pdf,docs,ppt', 'max:3024'];
+        $arr['form.request_attachment'] = ['nullable', 'mimes:pdf,docs,ppt', 'max:3024'];
         return $arr;
     }
 

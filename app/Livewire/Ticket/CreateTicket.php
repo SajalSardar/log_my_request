@@ -93,7 +93,7 @@ class CreateTicket extends Component
     {
         $this->validate(rules: $this->form->rules(), attributes: $this->form->attributes());
         $isCreate = $service->store($this->form);
-        $isUpload = $this->form->request_attachment ? Fileupload::uploadFile($this->form, Bucket::TICKET, $isCreate->getKey(), Ticket::class, 300, 300) : '';
+        $isUpload = $this->form->request_attachment ? Fileupload::uploadFile($this->form, Bucket::TICKET, $isCreate->getKey(), Ticket::class) : '';
         $response = $isCreate ? 'Data has been update successfuly' : 'Something went wrong';
         flash()->success($response);
     }

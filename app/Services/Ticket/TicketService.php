@@ -98,7 +98,39 @@ class TicketService
      */
     public function update(Model $model, $request): array | object | bool
     {
-        $model->update($request->all());
-        return $model;
+        $checkUser = User::query()->where('email', $request->requester_email)->first();
+        if (!empty($checkUser)) {
+            $request->credentials = false;
+            $checkUser->update(['phone' => $request->requester_phone, 'name' => $request->requester_name]);
+        } else {
+            $this->password = rand(10000000, 99999999);
+            $request->credentials = true;
+            $request->password = $this->password;
+            $this->user = User::create([
+                'name' => $request->requester_name,
+                'email' => $request->requester_email,
+                'phone' => $request->requester_phone,
+                'password' => Hash::make($this->password),
+            ]);
+            $this->user->assignRole('agent');
+        }
+
+        $response = $model->update(
+            [
+                'user_id' => $checkUser ? $checkUser->id : $this->user->id,
+                'requester_type_id' => $request->requester_type_id,
+                'team_id' => $request->team_id,
+                'category_id' => $request->category_id,
+                'ticket_status_id' => $request->ticket_status_id,
+                'source_id' => $request->source_id,
+                'title' => $request->request_title,
+                'description' => $request->request_description,
+                'requester_id' => $request->requester_id,
+                'priority' => $request->priority,
+                'ticket_type' => 'customer',
+                'due_date' => $request->due_date,
+            ]
+        );
+        return $response;
     }
 }
