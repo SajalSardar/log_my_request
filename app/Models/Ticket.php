@@ -2,11 +2,12 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Database\Eloquent\Relations\MorphOne;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Ticket extends Model
 {
@@ -37,6 +38,15 @@ class Ticket extends Model
     }
 
     /**
+     * Define public method team() associate with Ticket
+     * @return BelongsTo
+     */
+    public function user(): BelongsTo
+    {
+        return $this->belongsTo(User::class, 'user_id', 'id');
+    }
+
+    /**
      * Define public method ticket_status() associate with Ticket
      * @return BelongsTo
      */
@@ -61,5 +71,14 @@ class Ticket extends Model
     public function source(): BelongsTo
     {
         return $this->belongsTo(Source::class, 'source_id', 'id');
+    }
+
+    /**
+     * Define public method image()
+     * @return MorphTo
+     */
+    public function image(): MorphOne
+    {
+        return $this->morphOne(Image::class, 'image', 'image_type', 'image_id');
     }
 }

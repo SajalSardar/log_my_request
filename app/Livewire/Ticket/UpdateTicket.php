@@ -6,12 +6,17 @@ use App\Livewire\Forms\TicketUpdateRequest;
 use App\Models\RequesterType;
 use App\Models\Source;
 use App\Models\Team;
+use App\Models\TeamCategory;
 use App\Models\Ticket;
 use App\Models\TicketStatus;
+use App\Services\Ticket\TicketService;
 use Livewire\Component;
+use Livewire\Features\SupportFileUploads\WithFileUploads;
 
 class UpdateTicket extends Component
 {
+    use WithFileUploads;
+
     /**
      * Define public form object TicketUpdateRequest $form
      */
@@ -63,20 +68,60 @@ class UpdateTicket extends Component
      */
     public function mount(): void
     {
-        // dd($this->ticket);
+        /**
+         * Old value set to the input field
+         */
+        $this->ticket = Ticket::query()->with('user', 'requester_type', 'source', 'image')->where('id', $this->ticket->id)->first();
         $this->form->request_title = $this->ticket?->title;
         $this->form->request_description = $this->ticket?->description;
+        $this->form->requester_name = $this->ticket->user->name;
+        $this->form->requester_email = $this->ticket->user->email;
+        $this->form->requester_phone = $this->ticket->user->phone;
+        $this->form->requester_type_id = $this->ticket->requester_type_id;
+        $this->form->requester_id = $this->ticket->requester_id;
+        $this->form->priority = $this->ticket->priority;
+        $this->form->due_date = $this->ticket->due_date;
+        $this->form->source_id = $this->ticket->source_id;
+        $this->form->team_id = $this->ticket->team_id;
+        $this->form->category_id = $this->ticket->category_id;
+        $this->form->ticket_status_id = $this->ticket->ticket_status_id;
+
+        /**
+         * Select box dynamic value set.
+         */
+        $this->requester_type = RequesterType::query()->get();
+        $this->sources = Source::query()->get();
+        $this->teams = Team::query()->get();
+        $this->categories = TeamCategory::query()->with('category')->where('team_id', $this->ticket?->team_id)->get();
+        $this->ticket_status = TicketStatus::query()->get();
+        $this->teamAgent = Team::query()->with('agents')->where('id', $this->ticket?->team_id)->get();
+    }
+
+    /**
+     * Define public method selectCategoryAgent() to select category and agent with the
+     * change of Team.
+     * @return void
+     */
+    public function selectCategoryAgent(): void
+    {
+        $this->categories = TeamCategory::query()->with('category')->where('team_id', $this->form?->team_id)->get();
+        $this->teamAgent = Team::query()->with('agents')->where('id', $this->form?->team_id)->get();
+    }
+
+    /**
+     * Define public method update() to update the resourses
+     */
+    public function update(TicketService $service): void
+    {
+        $this->validate(rules: $this->form->rules(), attributes: $this->form->attributes());
+        $isCreate = $service->update($this->ticket, $this->form);
+        // $isUpload = $this->form->request_attachment ? Fileupload::uploadFile($this->form, Bucket::TICKET, $isCreate->getKey(), Ticket::class) : '';
+        $response = $isCreate ? 'Data has been update successfuly' : 'Something went wrong';
+        flash()->success($response);
     }
 
     public function render()
     {
-        $this->requester_type = RequesterType::query()->get();
-        $this->sources = Source::query()->get();
-        $this->teams = Team::query()->get();
-        $this->categories = [];
-        $this->ticket_status = TicketStatus::query()->get();
-        $this->teamAgent = [];
-
         return view('livewire.ticket.update-ticket');
     }
 }
