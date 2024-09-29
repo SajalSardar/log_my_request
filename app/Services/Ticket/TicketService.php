@@ -33,9 +33,26 @@ class TicketService
      */
     public function store(array | object $request): array | object
     {
+        $checkUser = User::query()->where('email', $request->requester_email)->first();
+        if (!empty($checkUser)) {
+            $request->credentials = false;
+            $checkUser->update(['phone' => $request->requester_phone, 'name' => $request->requester_name]);
+        } else {
+            $this->password = rand(10000000, 99999999);
+            $request->credentials = true;
+            $request->password = $this->password;
+            $this->user = User::create([
+                'name' => $request->requester_name,
+                'email' => $request->requester_email,
+                'phone' => $request->requester_phone,
+                'password' => Hash::make($this->password),
+            ]);
+            $this->user->assignRole('agent');
+        }
+
         $response = Ticket::create(
             [
-                'user_id' => Auth::user()->id,
+                'user_id' => $checkUser ? $checkUser->id : $this->user->id,
                 'requester_type_id' => $request->requester_type_id,
                 'team_id' => $request->team_id,
                 'category_id' => $request->category_id,
@@ -67,23 +84,6 @@ class TicketService
             'created_by' => Auth::user()->id,
             'updated_by' => Auth::user()->id,
         ]);
-
-        $checkUser = User::query()->where('email', $request->requester_email)->first();
-        if (!empty($checkUser)) {
-            $request->credentials = false;
-            $checkUser->update(['phone' => $request->requester_phone, 'name' => $request->requester_name]);
-        } else {
-            $this->password = rand(10000000, 99999999);
-            $request->credentials = true;
-            $request->password = $this->password;
-            $this->user = User::create([
-                'name' => $request->requester_name,
-                'email' => $request->requester_email,
-                'phone' => $request->requester_phone,
-                'password' => Hash::make($this->password),
-            ]);
-            $this->user->assignRole('agent');
-        }
 
         Mail::to($request->requester_email)->send(new TicketEmail($request));
 

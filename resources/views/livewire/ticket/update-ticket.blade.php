@@ -1,4 +1,4 @@
-<form wire:submit="save">
+<form wire:submit="update">
     <div class="flex flex-row">
         <div class="md:basis-2/3 sm:basis-full">
             <div class="border border-slate-300 p-5 rounded">
@@ -17,7 +17,7 @@
                     <x-forms.label for="form.request_description">
                         {{ __('Request Description') }}
                     </x-forms.label>
-                    <textarea cols="30" rows="10"wire:model='form.request_description' value={{$ticket->description}} class="w-full py-3 text-base font-normal font-inter border border-slate-400 rounded" placeholder="Add description here..">{!! $ticket?->description !!}</textarea>
+                    <textarea cols="30" rows="10"wire:model='form.request_description' value={{ $ticket->description }} class="w-full py-3 text-base font-normal font-inter border border-slate-400 rounded" placeholder="Add description here..">{!! $ticket?->description !!}</textarea>
                     <x-input-error :messages="$errors->get('form.request_description')" class="mt-2" />
                 </div>
 
@@ -33,14 +33,14 @@
                         <x-forms.label for="form.requester_name" required='yes'>
                             {{ __('Requester Name') }}
                         </x-forms.label>
-                        <x-forms.text-input type="text" wire:model='form.requester_name' />
+                        <x-forms.text-input type="text" wire:model='form.requester_name' value="{{ $ticket?->user->name }}" />
                         <x-input-error :messages="$errors->get('form.requester_name')" class="mt-2" />
                     </div>
                     <div class="p-2 w-full">
                         <x-forms.label for="form.requester_email" required="yes">
                             {{ __('Requester Email') }}
                         </x-forms.label>
-                        <x-forms.text-input wire:model="form.requester_email" type="email" />
+                        <x-forms.text-input wire:model="form.requester_email" type="email" value="{{ $ticket?->user->eamil }}" />
                         <x-input-error :messages="$errors->get('form.requester_email')" class="mt-2" />
                     </div>
                 </div>
@@ -50,7 +50,7 @@
                         <x-forms.label for="form.requester_phone">
                             {{ __('Requester Phone') }}
                         </x-forms.label>
-                        <x-forms.text-input type="number" wire:model='form.requester_phone' />
+                        <x-forms.text-input type="number" wire:model='form.requester_phone' value="{{ $ticket?->user->phone }}" />
                         <x-input-error :messages="$errors->get('form.requester_phone')" class="mt-2" />
                     </div>
                     <div class="p-2 w-full">
@@ -61,7 +61,7 @@
                         <x-forms.select-input wire:model="form.requester_type_id">
                             <option>Requester type</option>
                             @foreach ($requester_type as $each)
-                                <option value="{{ $each->id }}">{{ $each?->name }}</option>
+                                <option @selected(old('form.requester_type_id', $ticket?->requester_type_id) == $each?->id) value="{{ $each->id }}">{{ $each?->name }}</option>
                             @endforeach
                         </x-forms.select-input>
 
@@ -71,7 +71,7 @@
 
                 <div class="grid md:grid-cols-2 sm:grid-cols-1 sm:gap-1 md:gap-4">
                     <div class="p-2 w-full">
-                        <x-forms.label for="form.requester_id" required='yes'>
+                        <x-forms.label for="form.requester_id" required='yes' value="{{ $ticket?->requester_id }}">
                             {{ __('Requester ID') }}
                         </x-forms.label>
                         <x-forms.text-input type="text" wire:model='form.requester_id' />
@@ -95,7 +95,7 @@
                         <x-forms.label for="form.due_date" required='yes'>
                             {{ __('Due Date') }}
                         </x-forms.label>
-                        <x-forms.text-input type="date" wire:model='form.due_date' />
+                        <x-forms.text-input type="date" wire:model='form.due_date' value="{{ $ticket?->due_date }}" />
                         <x-input-error :messages="$errors->get('form.due_date')" class="mt-2" />
                     </div>
 
@@ -107,7 +107,7 @@
                         <x-forms.select-input wire:model="form.source_id">
                             <option>Source</option>
                             @foreach ($sources as $each)
-                                <option value="{{ $each->id }}">{{ $each?->title }}</option>
+                                <option @selected(old('form.source_id', $ticket?->source_id) == $each?->id) value="{{ $each->id }}">{{ $each?->title }}</option>
                             @endforeach
                         </x-forms.select-input>
 
@@ -120,12 +120,11 @@
                         <x-forms.select-input wire:model="form.team_id" wire:change="selectCategoryAgent">
                             <option>Assign Team</option>
                             @foreach ($teams as $each)
-                                <option value="{{ $each->id }}">{{ $each?->name }}</option>
+                                <option @selected(old('form.team_id', $ticket?->team_id) == $each?->id) value="{{ $each->id }}">{{ $each?->name }}</option>
                             @endforeach
                         </x-forms.select-input>
                         <x-input-error :messages="$errors->get('form.team_id')" class="mt-2" />
                     </div>
-
                 </div>
 
                 <div class="grid md:grid-cols-3 sm:grid-cols-1">
@@ -137,7 +136,7 @@
                         <x-forms.select-input wire:model="form.category_id">
                             <option>Category</option>
                             @foreach ($categories as $each)
-                                <option value="{{ $each?->category?->id }}">{{ $each?->category?->name }}</option>
+                                <option @selected(old('form.category_id', $ticket?->category_id) == $each?->id) value="{{ $each?->category?->id }}">{{ $each?->category?->name }}</option>
                             @endforeach
                         </x-forms.select-input>
 
@@ -168,7 +167,7 @@
                         <x-forms.select-input wire:model="form.ticket_status_id">
                             <option value="">Ticket status</option>
                             @foreach ($ticket_status as $status)
-                                <option value="{{ $status->id }}">{{ $status->name }}</option>
+                                <option @selected(old('form.ticket_status_id', $ticket?->ticket_status_id) == $each?->id) value="{{ $status->id }}">{{ $status->name }}</option>
                             @endforeach
                         </x-forms.select-input>
 
