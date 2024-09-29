@@ -5,8 +5,15 @@
             <tbody class="mt-5">
                 @forelse ($tickets as $each)
                     @if ($each->name)
-                        <tr class="main-row" onclick="toggleSubmenu(this)">
-                            <td colspan="14" class="text-black font-inter font-semibold">{{ $each?->name . ' Request' }} {{ '(' . $each?->ticket_count . ')' }}</td>
+                        <tr class="main-row" style="cursor: pointer;border-bottom:1px solid #dadada" onclick="toggleSubmenu(this)">
+                            <td colspan="14" class="text-black font-inter font-semibold py-3 flex items-center">
+                                {{ $each?->name . ' Request' }} {{ '(' . $each?->ticket_count . ')' }}
+                                <span class="pl-2 arrow">
+                                    <svg width="5" height="15" viewBox="0 0 5 15" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                        <path d="M0 0L5 5L0 10V0Z" fill="#666666" />
+                                    </svg>
+                                </span>
+                            </td>
                         </tr>
                     @endif
 
@@ -112,18 +119,18 @@
                 const mainRow = row;
                 const submenu = mainRow.nextElementSibling;
                 mainRow.classList.toggle('active');
-                const toggleIcon = mainRow.querySelector('.toggle-icon i');
+                const toggleIcon = mainRow.querySelector('.arrow');
 
                 if (submenu.style.display === 'none' || submenu.style.display === '') {
                     submenu.style.display = 'table-row';
-                    toggleIcon.classList.remove('fa-plus');
-                    toggleIcon.classList.add('fa-minus');
-                    mainRow.style.backgroundColor = 'red';
+                    toggleIcon.innerHTML = `<svg width="15" height="5" viewBox="0 0 15 5" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                            <path d="M0 0L5 5L10 0H0Z" fill="#666666"/>
+                                            </svg>`;
                 } else {
                     submenu.style.display = 'none';
-                    toggleIcon.classList.remove('fa-minus');
-                    toggleIcon.classList.add('fa-plus');
-                    mainRow.style.backgroundColor = '#0883d4';
+                    toggleIcon.innerHTML = `<svg width="5" height="15" viewBox="0 0 5 15" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                <path d="M0 0L5 5L0 10V0Z" fill="#666666" />
+                                            </svg>`;
                 }
             }
         </script>
