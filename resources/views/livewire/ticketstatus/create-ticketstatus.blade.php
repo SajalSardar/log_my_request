@@ -1,13 +1,13 @@
-
 <div class="border border-slate-300 p-5 rounded">
     <div class="flex justify-end pb-3 fixed top-24 right-10">
-        <a type="submit" class="px-8 py-2 bg-primary-400 text-white rounded" href="{{ route('admin.ticketstatus.index') }}">
-    Status List
-    </a>
+        <a type="submit" class="px-8 py-2 bg-primary-400 text-white rounded"
+            href="{{ route('admin.ticketstatus.index') }}">
+            {{ __('Status List') }}
+        </a>
     </div>
     <header class="flex justify-between mb-5">
-        <h4>Status Create</h4>
-        
+        <h4>{{ __('Status Create') }}</h4>
+
     </header>
     <form wire:submit="save">
         <div class="flex justify-between">
@@ -29,7 +29,7 @@
 
         <div class="p-2">
             <x-buttons.primary>
-                Save Status
+                {{ __('Save Status') }}
             </x-buttons.primary>
         </div>
 

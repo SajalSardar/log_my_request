@@ -1,13 +1,45 @@
 <?php
 
-                namespace App\Livewire\TicketStatus;
+namespace App\Livewire\TicketStatus;
 
-                use Livewire\Component;
+use App\Models\TicketStatus;
+use Illuminate\Support\Facades\Gate;
+use Livewire\Attributes\Validate;
+use Livewire\Component;
 
-                class UpdateTicketStatus extends Component
-                {
-                    public function render()
-                    {
-                        return view('livewire.ticketstatus.update-ticketstatus');
-                    }
-                }
+class UpdateTicketStatus extends Component {
+    public $ticketstatus;
+
+    #[Validate]
+    public $name = '';
+    #[Validate]
+    public $status = '';
+
+    protected function rules() {
+        return [
+            'name'   => 'required|unique:ticket_statuses,name,' . $this->ticketstatus->id,
+            'status' => 'required',
+        ];
+    }
+    public function mount(): void {
+        $this->name   = $this->ticketstatus->name;
+        $this->status = $this->ticketstatus->status;
+    }
+
+    public function update() {
+        Gate::authorize('update', TicketStatus::class);
+        $this->validate();
+
+        $this->ticketstatus->update([
+            "name"   => $this->name,
+            "status" => $this->status,
+        ]);
+
+        flash()->success('Status updated!');
+        return redirect()->to('/dashboard/ticketstatus');
+    }
+    public function render() {
+        Gate::authorize('update', TicketStatus::class);
+        return view('livewire.ticketstatus.update-ticketstatus');
+    }
+}

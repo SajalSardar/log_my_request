@@ -5,6 +5,7 @@ namespace App\Livewire\TicketStatus;
 use Livewire\Component;
 use App\Models\TicketStatus;
 use Livewire\Attributes\Validate;
+use Illuminate\Support\Facades\Gate;
 
 class CreateTicketStatus extends Component {
 
@@ -21,18 +22,20 @@ class CreateTicketStatus extends Component {
     }
 
     public function save() {
+        Gate::authorize('create', TicketStatus::class);
         $this->validate();
 
-        TicketStatus::create( [
+        TicketStatus::create([
             "name"   => $this->name,
             "status" => $this->status,
-        ] );
+        ]);
 
-        flash()->success( 'Status Created!' );
-        return redirect()->to( '/dashboard/ticketstatus' );
+        flash()->success('Status Created!');
+        return redirect()->to('/dashboard/ticketstatus');
     }
 
     public function render() {
-        return view( 'livewire.ticketstatus.create-ticketstatus' );
+        Gate::authorize('create', TicketStatus::class);
+        return view('livewire.ticketstatus.create-ticketstatus');
     }
 }

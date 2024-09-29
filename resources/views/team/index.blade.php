@@ -30,15 +30,15 @@
                         </td>
                         <td class="p-10 font-normal text-gray-400">
                             @foreach ($each?->teamCategories as $item)
-                                {!! Helper::badge($item->category->name) !!}
+                                {!! Helper::badge($item->name) !!}
                             @endforeach
                         </td>
                         <td class="p-10 font-normal text-gray-400">{!! Helper::status($each?->status) !!} </td>
                         <td class="p-10 font-normal text-gray-400">{{ Helper::ISOdate($each?->updated_at) }}</td>
                         <td>
                             <div class="flex">
-                                <x-actions.edit route="{{ route('admin.user.edit', ['user' => $each?->id]) }}" />
-                                <x-actions.delete action="{{ route('admin.user.delete', ['user' => $each?->id]) }}" />
+                                <x-actions.edit route="{{ route('admin.team.edit', $each->id) }}" />
+                                <x-actions.delete action="" />
                             </div>
                         </td>
                     </tr>

@@ -18,7 +18,7 @@ class TeamController extends Controller {
         Gate::authorize('view', Team::class);
         $collections = Team::query()
             ->with('image')
-            ->with('teamCategories', fn($query) => $query->with('category'))
+            ->with('teamCategories')
             ->get();
         // return $collections;
         return view("team.index", compact('collections'));
@@ -68,7 +68,11 @@ class TeamController extends Controller {
      */
     public function edit(Team $team) {
         Gate::authorize('update', $team);
-        return view('team.edit');
+
+        $usesCategory = TeamCategory::where('team_id', '!=', $team->id)->pluck('category_id');
+        $categories   = Category::query()->whereNotIn('id', $usesCategory)->get();
+        $agentUser    = User::role('agent')->get();
+        return view('team.edit', compact('team', 'categories', 'agentUser'));
     }
 
     /**

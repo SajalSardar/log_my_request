@@ -2,9 +2,10 @@
 
 namespace App\Livewire\RequesterType;
 
-use Livewire\Component;
 use App\Models\RequesterType;
+use Illuminate\Support\Facades\Gate;
 use Livewire\Attributes\Validate;
+use Livewire\Component;
 
 class CreateRequesterType extends Component {
 
@@ -21,18 +22,20 @@ class CreateRequesterType extends Component {
     }
 
     public function save() {
+        Gate::authorize('create', RequesterType::class);
         $this->validate();
 
-        RequesterType::create( [
+        RequesterType::create([
             "name"   => $this->name,
             "status" => $this->status,
-        ] );
+        ]);
 
-        flash()->success( 'Type Created!' );
-        return redirect()->to( '/dashboard/requestertype' );
+        flash()->success('Type Created!');
+        return redirect()->to('/dashboard/requestertype');
     }
 
     public function render() {
-        return view( 'livewire.requestertype.create-requestertype' );
+        Gate::authorize('create', RequesterType::class);
+        return view('livewire.requestertype.create-requestertype');
     }
 }
