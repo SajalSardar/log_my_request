@@ -1,1 +1,1 @@
-<x-app-layout><livewire:source.update-source /></x-app-layout>
+<x-app-layout><livewire:source.update-source :source="$source" /></x-app-layout>
