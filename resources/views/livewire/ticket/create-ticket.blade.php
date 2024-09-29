@@ -12,14 +12,6 @@
                         <x-forms.text-input wire:model="form.request_title" type="text" />
                         <x-input-error :messages="$errors->get('form.request_title')" class="mt-2" />
                     </div>
-
-                    <div class="p-2 w-full">
-                        <x-forms.label for="form.request_attachment" required="yes">
-                            {{ __('Attachment') }}
-                        </x-forms.label>
-                        <x-forms.text-input wire:model="form.request_attachment" type="file" accept=".pdf,.docs,.ppt" />
-                        <x-input-error :messages="$errors->get('form.request_attachment')" class="mt-2" />
-                    </div>
                 </div>
 
                 <div class="grid md:grid-cols-1 sm:grid-cols-1 sm:gap-1 md:gap-4 p-2 w-full ">
@@ -28,6 +20,13 @@
                     </x-forms.label>
                     <textarea cols="30" rows="10"wire:model='form.request_description' class="w-full py-3 text-base font-normal font-inter border border-slate-400 rounded" placeholder="Add description here.."></textarea>
                     <x-input-error :messages="$errors->get('form.request_description')" class="mt-2" />
+                </div>
+
+                <div class="grid md:grid-cols-1 sm:gridicols-1 sm:gap-1 md:gap-4">
+                    <div class="p-2 w-full">
+                        <x-forms.input-file wire:model="form.request_attachment" accept=".pdf,.docs,.ppt" />
+                        <x-input-error :messages="$errors->get('form.request_attachment')" class="mt-2" />
+                    </div>
                 </div>
 
                 <div class="grid md:grid-cols-2 sm:grid-cols-1 sm:gap-1 md:gap-4">
@@ -116,6 +115,22 @@
                         <x-input-error :messages="$errors->get('form.source_id')" class="mt-2" />
                     </div>
                     <div class="p-2">
+                        <x-forms.label for="form.team_id" required='yes'>
+                            {{ __('Assign Team') }}
+                        </x-forms.label>
+                        <x-forms.select-input wire:model="form.team_id" wire:change="selectCategoryAgent">
+                            <option>Assign Team</option>
+                            @foreach ($teams as $each)
+                                <option value="{{ $each->id }}">{{ $each?->name }}</option>
+                            @endforeach
+                        </x-forms.select-input>
+                        <x-input-error :messages="$errors->get('form.team_id')" class="mt-2" />
+                    </div>
+
+                </div>
+
+                <div class="grid md:grid-cols-3 sm:grid-cols-1">
+                    <div class="p-2">
                         <x-forms.label for="form.category_id" required="yes">
                             {{ __('Category') }}
                         </x-forms.label>
@@ -123,26 +138,11 @@
                         <x-forms.select-input wire:model="form.category_id">
                             <option>Category</option>
                             @foreach ($categories as $each)
-                                <option value="{{ $each->id }}">{{ $each?->name }}</option>
+                                <option value="{{ $each?->category?->id }}">{{ $each?->category?->name }}</option>
                             @endforeach
                         </x-forms.select-input>
 
                         <x-input-error :messages="$errors->get('form.category_id')" class="mt-2" />
-                    </div>
-                </div>
-
-                <div class="grid md:grid-cols-3 sm:grid-cols-1">
-                    <div class="p-2">
-                        <x-forms.label for="form.team_id" required='yes'>
-                            {{ __('Assign Team') }}
-                        </x-forms.label>
-                        <x-forms.select-input wire:model="form.team_id">
-                            <option>Assign Team</option>
-                            @foreach ($teams as $each)
-                                <option value="{{ $each->id }}">{{ $each?->name }}</option>
-                            @endforeach
-                        </x-forms.select-input>
-                        <x-input-error :messages="$errors->get('form.team_id')" class="mt-2" />
                     </div>
 
                     <div class="p-2">
@@ -152,8 +152,10 @@
 
                         <x-forms.select2-select wire:model="form.agent_id" multiple>
                             <option value="">Assign Agent</option>
-                            @foreach ($agents as $each)
-                                <option value="{{ $each->id }}">{{ $each?->name }}</option>
+                            @foreach ($teamAgent as $each)
+                                @foreach ($each->agents as $item)
+                                    <option value="{{ $item }}">{{ $item->name }}</option>
+                                @endforeach
                             @endforeach
                         </x-forms.select2-select>
 
@@ -182,8 +184,6 @@
                         Create Ticket
                     </x-buttons.primary>
                 </div>
-
-
             </div>
         </div>
     </div>
@@ -198,4 +198,21 @@
             $('.select2').select2();
         });
     </script>
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            let attachment = document.querySelector('#attachment');
+            let attachmentName = document.querySelector('#attachmentName');
+    
+            attachment.addEventListener('change', function(event) {
+                event.preventDefault();
+                let files = event.target.files;
+                if (files.length > 0) {
+                    let filename = files[0].name;
+                    attachmentName.innerHTML = filename;
+                }
+            });
+        });
+    </script>
+    
 @endsection

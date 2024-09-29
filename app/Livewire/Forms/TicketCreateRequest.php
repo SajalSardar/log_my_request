@@ -82,7 +82,7 @@ class TicketCreateRequest extends Form
      * Define public property $team_id;
      * @var ?string
      */
-    public ?string $team_id;
+    public ?string $team_id = '';
 
     /**
      * Define public property $ticket_status_id;

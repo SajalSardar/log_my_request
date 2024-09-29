@@ -5,13 +5,12 @@ namespace App\Livewire\Ticket;
 use App\Enums\Bucket;
 use App\Livewire\Forms\TicketCreateRequest;
 use App\LocaleStorage\Fileupload;
-use App\Models\Category;
 use App\Models\RequesterType;
 use App\Models\Source;
 use App\Models\Team;
+use App\Models\TeamCategory;
 use App\Models\Ticket;
 use App\Models\TicketStatus;
-use App\Models\User;
 use App\Services\Ticket\TicketService;
 use Livewire\Component;
 use Livewire\Features\SupportFileUploads\WithFileUploads;
@@ -55,11 +54,11 @@ class CreateTicket extends Component
      */
     public $ticket_status;
 
-     /**
+    /**
      * Define public property $agents;
      * @var array|object
      */
-    public $agents;
+    public $teamAgent;
 
     /**
      * Define public method mount() to load the resourses
@@ -68,10 +67,22 @@ class CreateTicket extends Component
     {
         $this->requester_type = RequesterType::query()->get();
         $this->sources = Source::query()->get();
-        $this->categories = Category::query()->get();
         $this->teams = Team::query()->get();
+        $this->categories = [];
         $this->ticket_status = TicketStatus::query()->get();
-        $this->agents = User::query()->get();
+        $this->teamAgent = [];
+    }
+
+    /**
+     * Define public method selectCategoryAgent() to select category and agent with the
+     * change of Team.
+     * @return void
+     */
+    public function selectCategoryAgent(): void
+    {
+        $this->categories = TeamCategory::query()->with('category')->where('team_id', $this->form?->team_id)->get();
+        $this->teamAgent = Team::query()->with('agents')->where('id', $this->form?->team_id)->get();
+
     }
 
     /**
