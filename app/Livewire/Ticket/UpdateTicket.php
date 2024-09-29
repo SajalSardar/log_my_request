@@ -2,9 +2,7 @@
 
 namespace App\Livewire\Ticket;
 
-use App\Enums\Bucket;
 use App\Livewire\Forms\TicketUpdateRequest;
-use App\LocaleStorage\Fileupload;
 use App\Models\RequesterType;
 use App\Models\Source;
 use App\Models\Team;

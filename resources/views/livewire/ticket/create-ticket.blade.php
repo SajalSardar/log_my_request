@@ -154,7 +154,7 @@
                             <option value="">Assign Agent</option>
                             @foreach ($teamAgent as $each)
                                 @foreach ($each->agents as $item)
-                                    <option value="{{ $item }}">{{ $item->name }}</option>
+                                    <option value="{{ $item->id }}">{{ $item->name }}</option>
                                 @endforeach
                             @endforeach
                         </x-forms.select2-select>
