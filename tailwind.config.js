@@ -16,11 +16,23 @@ export default {
                     400: "#F36D00",
                     500: "rgb(109,77,266,4%)"
                 },
-                info: {
+                high: {
                     400: '#10B982',
                 },
-                teal: {
-                    400: '#00C0AF',
+                medium: {
+                    400: '#3B82F6',
+                },
+                open: {
+                    400: '#00C0AF'
+                },
+                hold: {
+                    400: '#FBBF24'
+                },
+                resolved: {
+                    400: '#10B981'
+                },
+                closed: {
+                    400: '#DC2626'
                 },
                 process: {
                     400: '#3B82F6',

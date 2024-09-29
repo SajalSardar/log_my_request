@@ -17,7 +17,7 @@
                                         </span>
                                     </div>
                                     <div class="status">
-                                        <a href="#" class="border border-slate-300 rounded font-inter font-normal px-2 py-1">View All</a>
+                                        <a target="__blank" href="{{ route('admin.ticket.viewAll', ['ticket_status_id' => $each?->id]) }}" class="border border-slate-300 rounded font-inter font-normal px-2 py-1">View All</a>
                                     </div>
                                 </div>
                             </td>
