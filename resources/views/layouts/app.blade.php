@@ -8,13 +8,14 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>{{ config('app.name', 'Event Metro') }}</title>
 
+    @livewireStyles
     <link rel="stylesheet" href="{{ asset('assets/css/select2.min.css') }}">
     <!-- Style css  !-->
     <link rel="stylesheet" href="{{ asset('assets/css/style.css') }}">
     <!-- Scripts -->
     @vite(['resources/css/app.css', 'resources/js/app.js'])
     {{-- <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,100..900&display=swap" rel="stylesheet"> --}}
-    @livewireStyles
+
     @yield('style')
 </head>
 
@@ -38,7 +39,7 @@
     </div>
 
 </main>
-
+@livewireScripts
 {{-- <script src="https://unpkg.com/@popperjs/core@2"></script> --}}
 <script src="{{ asset('assets/js/jquery-3.7.1.slim.min.js') }}"></script>
 <script src="{{ asset('assets/js/select2.min.js') }}"></script>
@@ -46,7 +47,7 @@
 <script src="{{ asset('assets/js/custom.js') }}"></script>
 
 @yield('script')
-@livewireScripts
+
 
 </body>
 

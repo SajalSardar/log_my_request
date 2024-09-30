@@ -28,12 +28,12 @@
                 </x-forms.label>
 
                 <div wire:ignore>
-                    <x-forms.select2-select wire:model='categories_input' id="categories_input" data-control="select2"
-                        multiple>
+                    <x-forms.select2-select wire:model.defer='categories_input' id="categories_input" multiple>
                         <option disabled value="">Select Category</option>
                         @foreach ($categories as $each)
                             <option value="{{ $each->id }}" @if (in_array($each->id, $categories_input)) selected @endif>
-                                {{ $each->name }}</option>
+                                {{ $each->name }}
+                            </option>
                         @endforeach
                     </x-forms.select2-select>
                 </div>
@@ -60,8 +60,8 @@
                 <x-forms.label for="agent_id">
                     {{ __('Agent') }}
                 </x-forms.label>
-                <div>
-                    <x-forms.select2-select wire:model='agent_id' multiple>
+                <div wire:ignore>
+                    <x-forms.select2-select wire:model='agent_id' id="agent_id" multiple>
                         <option disabled value="">Select agent</option>
                         @foreach ($agentUser as $agent)
                             <option value="{{ $agent->id }}" @if (in_array($agent->id, $agent_id)) selected @endif>
