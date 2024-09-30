@@ -8,6 +8,7 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>{{ config('app.name', 'Event Metro') }}</title>
 
+    <link rel="stylesheet" href="{{ asset('assets/css/select2.min.css') }}">
     <!-- Style css  !-->
     <link rel="stylesheet" href="{{ asset('assets/css/style.css') }}">
     <!-- Scripts -->
@@ -40,11 +41,12 @@
 
 {{-- <script src="https://unpkg.com/@popperjs/core@2"></script> --}}
 <script src="{{ asset('assets/js/jquery-3.7.1.slim.min.js') }}"></script>
+<script src="{{ asset('assets/js/select2.min.js') }}"></script>
 <script src="{{ asset('assets/js/script.js') }}"></script>
 <script src="{{ asset('assets/js/custom.js') }}"></script>
 
-@livewireScripts
 @yield('script')
+@livewireScripts
 
 </body>
 

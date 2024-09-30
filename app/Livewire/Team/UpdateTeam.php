@@ -21,7 +21,7 @@ class UpdateTeam extends Component {
     public $status;
 
     #[Validate]
-    public $category_id;
+    public $categories_input = [];
 
     #[Validate]
     public $image;
@@ -31,29 +31,30 @@ class UpdateTeam extends Component {
 
     protected function rules() {
         return [
-            'name'        => 'required|min:3|unique:categories,name,' . $this->team->id,
-            'status'      => 'required|string:0,1',
-            'category_id' => 'nullable',
-            'agent_id'    => 'nullable',
-            'image'       => 'nullable|mimes:jpg,jpeg,png|max:3024',
+            'name'             => 'required|min:3|unique:categories,name,' . $this->team->id,
+            'status'           => 'required|string:0,1',
+            'categories_input' => 'nullable',
+            'agent_id'         => 'nullable',
+            'image'            => 'nullable|mimes:jpg,jpeg,png|max:3024',
         ];
     }
+
     public function mount(): void {
-        $this->name        = $this->team->name;
-        $this->status      = $this->team->status;
-        $this->category_id = $this->team->category_id;
-        $this->agent_id    = $this->team->agent_id;
+        $this->name             = $this->team->name;
+        $this->status           = $this->team->status;
+        $this->categories_input = $this->team->teamCategories->pluck('id')->toArray();
+        $this->agent_id         = $this->team->agents->pluck('id')->toArray();
     }
     public function update() {
         Gate::authorize('update', Team::class);
-
+        dd($this->categories_input);
         $this->validate();
         $this->team->update([
             'name'   => $this->name,
             'slug'   => Str::slug($this->name),
             'status' => $this->status,
         ]);
-        $this->team->teamCategories()->sync($this->category_id);
+        $this->team->teamCategories()->sync($this->categories_input);
 
         $this->team->agents()->sync($this->agent_id);
 

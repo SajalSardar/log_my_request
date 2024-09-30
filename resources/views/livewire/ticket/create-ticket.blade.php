@@ -18,7 +18,9 @@
                     <x-forms.label for="form.request_description">
                         {{ __('Request Description') }}
                     </x-forms.label>
-                    <textarea cols="30" rows="10"wire:model='form.request_description' class="w-full py-3 text-base font-normal font-inter border border-slate-400 rounded" placeholder="Add description here.."></textarea>
+                    <textarea cols="30" rows="10"wire:model='form.request_description'
+                        class="w-full py-3 text-base font-normal font-inter border border-slate-400 rounded"
+                        placeholder="Add description here.."></textarea>
                     <x-input-error :messages="$errors->get('form.request_description')" class="mt-2" />
                 </div>
 
@@ -41,7 +43,7 @@
                         <x-forms.label for="form.requester_email" required="yes">
                             {{ __('Requester Email') }}
                         </x-forms.label>
-                        <x-forms.text-input wire:model="form.requester_email"  type="email" />
+                        <x-forms.text-input wire:model="form.requester_email" type="email" />
                         <x-input-error :messages="$errors->get('form.requester_email')" class="mt-2" />
                     </div>
                 </div>
@@ -83,9 +85,12 @@
                             {{ __('Requester Priority') }}
                         </x-forms.label>
                         <div class="mt-3">
-                            <x-forms.radio-input wire:model="form.priority" name="priority" class="ml-2" value="low" /> <span class="ml-2">Low</span>
-                            <x-forms.radio-input wire:model="form.priority" name="priority" class="ml-2" value="medium" /> <span class="ml-2">Medium</span>
-                            <x-forms.radio-input wire:model="form.priority" name="priority" class="ml-2" value="high" /> <span class="ml-2">High</span>
+                            <x-forms.radio-input wire:model="form.priority" name="priority" class="ml-2"
+                                value="low" /> <span class="ml-2">Low</span>
+                            <x-forms.radio-input wire:model="form.priority" name="priority" class="ml-2"
+                                value="medium" /> <span class="ml-2">Medium</span>
+                            <x-forms.radio-input wire:model="form.priority" name="priority" class="ml-2"
+                                value="high" /> <span class="ml-2">High</span>
                         </div>
                         <x-input-error :messages="$errors->get('form.priority')" class="mt-2" />
                     </div>
@@ -188,14 +193,3 @@
         </div>
     </div>
 </form>
-@section('style')
-    <link rel="stylesheet" href="{{ asset('assets/css/select2.min.css') }}">
-@endsection
-@section('script')
-    <script src="{{ asset('assets/js/select2.min.js') }}"></script>
-    <script>
-        $(document).ready(function() {
-            $('.select2').select2();
-        });
-    </script>
-@endsection

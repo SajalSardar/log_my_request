@@ -23,18 +23,22 @@
         <div class="grid md:grid-cols-2 sm:grid-cols-1 sm:gap-1 md:gap-4">
 
             <div class="p-2 w-full">
-                <x-forms.label for="category_id">
+                <x-forms.label for="categories_input">
                     {{ __('Team Category') }}
                 </x-forms.label>
 
-                <x-forms.select-input wire:model.blur='category_id' multiple>
-                    <option selected disabled>Select Category</option>
-                    @foreach ($categories as $each)
-                        <option value="{{ $each->id }}">{{ $each->name }}</option>
-                    @endforeach
-                </x-forms.select-input>
+                <div wire:ignore>
+                    <x-forms.select2-select wire:model='categories_input' id="categories_input" data-control="select2"
+                        multiple>
+                        <option disabled value="">Select Category</option>
+                        @foreach ($categories as $each)
+                            <option value="{{ $each->id }}" @if (in_array($each->id, $categories_input)) selected @endif>
+                                {{ $each->name }}</option>
+                        @endforeach
+                    </x-forms.select2-select>
+                </div>
+                <x-input-error :messages="$errors->get('categories_input')" class="mt-2" />
 
-                <x-input-error :messages="$errors->get('category_id')" class="mt-2" />
             </div>
 
             <div class="p-2 w-full">
@@ -42,7 +46,7 @@
                     {{ __('Status') }}
                 </x-forms.label>
                 <x-forms.select-input wire:model.blur='status'>
-                    <option selected>Select Status</option>
+                    <option selected disabled>Select Status</option>
                     <option value="1">Active</option>
                     <option value="0">Inactive</option>
                 </x-forms.select-input>
@@ -57,12 +61,13 @@
                     {{ __('Agent') }}
                 </x-forms.label>
                 <div>
-                    <x-forms.select-input wire:model.blur='agent_id' multiple>
-                        <option selected disabled>Select agent</option>
+                    <x-forms.select2-select wire:model='agent_id' multiple>
+                        <option disabled value="">Select agent</option>
                         @foreach ($agentUser as $agent)
-                            <option value="{{ $agent->id }}">{{ $agent->name }}</option>
+                            <option value="{{ $agent->id }}" @if (in_array($agent->id, $agent_id)) selected @endif>
+                                {{ $agent->name }}</option>
                         @endforeach
-                    </x-forms.select-input>
+                    </x-forms.select2-select>
 
                     <x-input-error :messages="$errors->get('agent_id')" class="mt-2" />
                 </div>
