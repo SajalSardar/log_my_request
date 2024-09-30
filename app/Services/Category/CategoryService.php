@@ -3,9 +3,8 @@
 namespace App\Services\Category;
 
 use App\Models\Category;
-use Illuminate\Support\Str;
-use Spatie\Permission\Models\Role;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Str;
 
 class CategoryService
 {
@@ -14,13 +13,13 @@ class CategoryService
      * @param $form
      * @return array|object
      */
-    public function store(array|object $request): array|object
+    public function store(array | object $request): array | object
     {
         $response = Category::create([
-            'name'              => $request->name,
-            'slug'             => Str::slug($request->name),
-            'parent_id'          => $request->parent_id,
-            'status'        => $request->status,
+            'name' => $request->name,
+            'slug' => Str::slug($request->name),
+            'parent_id' => $request->parent_id,
+            'status' => $request->status,
         ]);
 
         return $response;
@@ -32,7 +31,7 @@ class CategoryService
      * @param $request
      * @return array|object|bool
      */
-    public function update(Model $model, $request): array|object|bool
+    public function update(Model $model, $request): array | object | bool
     {
         $model->update($request->all());
         return $model;

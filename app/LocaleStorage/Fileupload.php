@@ -23,6 +23,7 @@ class Fileupload
     public static function upload(array | object $request, Bucket $bucket, int $model_id, $model, int $width, int $height): array | object | bool | string
     {
         $filename = Str::slug($request->name) . '-' . uniqid() . '-' . $request->image->getClientOriginalName();
+        $size = $request->image->getSize() . 'bytes';
         $image = ImageManager::gd()->read($request->image);
         $final_image = $image->resize($width, $height);
         $isUpload = $final_image->save(storage_path('app/public/' . $bucket->toString() . '/' . $filename));
@@ -33,10 +34,11 @@ class Fileupload
                 [
                     'image_type' => $model,
                     'image_id' => $model_id,
+                    'filename' => $filename,
                     'disk' => 'local',
                     'path' => $bucket->toString(),
                     'url' => $url,
-                    'size' => '1kb',
+                    'size' => $size,
                 ]
             );
             return $imageDatabase;
@@ -55,8 +57,8 @@ class Fileupload
      */
     public static function uploadFile(array | object $request, Bucket $bucket, int $model_id, $model): array | object | bool | string
     {
-        // storage_path('app/public/' . $bucket->toString() . '/' . $filename)
         $filename = uniqid() . '-' . $request->request_attachment->getClientOriginalName();
+        $size = $request->image->getSize() . 'bytes';
         $isUpload = $request->request_attachment->storeAs($bucket->toString(), $filename, 'public');
         $url = asset('storage/' . $bucket->toString() . '/' . $filename);
 
@@ -65,10 +67,11 @@ class Fileupload
                 [
                     'image_type' => $model,
                     'image_id' => $model_id,
+                    'filename' => $filename,
                     'disk' => 'local',
                     'path' => $bucket->toString(),
                     'url' => $url,
-                    'size' => '1kb',
+                    'size' => $size,
                 ]
             );
             return $imageDatabase;
@@ -88,23 +91,31 @@ class Fileupload
      * @param $request
      * @return array|object|bool|string
      */
-    public static function update(array | object $request, $oldCategory, int $model_id, $model, int $width, int $height)
+    public static function update(array | object $request, Bucket $bucket, $oldItem, int $model_id, $model, int $width, int $height)
     {
         if ($request->image) {
+            if (!empty($oldItem?->image?->path) && !empty($oldItem?->image?->filename)) {
+                $fileToDelete = storage_path('app/public/' . $oldItem->image->path . '/' . $oldItem->image->filename);
+                if (file_exists($fileToDelete)) {
+                    unlink($fileToDelete);
+                }
+            }
             $filename = Str::slug($request->name) . '-' . uniqid() . '-' . $request->image->getClientOriginalName();
+            $size = $request->image->getSize() . 'bytes';
             $image = ImageManager::gd()->read($request->image);
             $final_image = $image->resize($width, $height);
-            $isUpload = $final_image->save(storage_path('app/public/categories/' . $filename));
-            $url = asset('storage/categories/' . $filename);
+            $isUpload = $final_image->save(storage_path('app/public/' . $bucket->toString() . '/' . $filename));
+            $url = asset('storage/' . $bucket->toString() . '/' . $filename);
             if ($isUpload) {
-                $imageDatabase = Image::where('image_type', $model)->where('image_id', $oldCategory->id)->update(
+                $imageDatabase = Image::where('image_type', $model)->where('image_id', $oldItem->id)->update(
                     [
                         'image_type' => $model,
                         'image_id' => $model_id,
+                        'filename' => $filename,
                         'disk' => 'local',
-                        'path' => 'categories',
+                        'path' => $bucket->toString(),
                         'url' => $url,
-                        'size' => '1kb',
+                        'size' => $size,
                     ]
                 );
                 return $imageDatabase;
@@ -113,4 +124,5 @@ class Fileupload
             }
         }
     }
+
 }

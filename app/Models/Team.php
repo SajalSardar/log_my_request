@@ -17,11 +17,11 @@ class Team extends Model {
         parent::boot();
 
         static::created(function () {
-            Cache::forget("name_list");
+            Cache::forget("team_list");
         });
 
         static::updated(function () {
-            Cache::forget("name_list");
+            Cache::forget("team_list");
         });
     }
 

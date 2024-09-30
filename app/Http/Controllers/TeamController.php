@@ -30,7 +30,7 @@ class TeamController extends Controller {
     public function displayListDatatable() {
         Gate::authorize('view', Team::class);
 
-        $team = Cache::remember('name_list', 60 * 60, function () {
+        $team = Cache::remember('team_list', 60 * 60, function () {
             return Team::get();
         });
     }
