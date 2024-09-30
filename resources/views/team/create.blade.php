@@ -19,11 +19,10 @@
 
     </div>
 
-    @section('script')
-        <script>
-            document.addEventListener('DOMContentLoaded', function() {
-                reinitializeSelect2();
-            });
-        </script>
-    @endsection
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            initSelect2form('category_id');
+            initSelect2form('agent_id');
+        });
+    </script>
 </x-app-layout>

@@ -36,8 +36,8 @@
                             </option>
                         @endforeach
                     </x-forms.select2-select>
+                    <x-input-error :messages="$errors->get('categories_input')" class="mt-2" />
                 </div>
-                <x-input-error :messages="$errors->get('categories_input')" class="mt-2" />
 
             </div>
 

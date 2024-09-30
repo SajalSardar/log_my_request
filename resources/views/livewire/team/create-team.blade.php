@@ -27,14 +27,16 @@
                     {{ __('Team Category') }}
                 </x-forms.label>
 
-                <x-forms.select2-select wire:model.blur='form.category_id' multiple>
-                    <option selected disabled>Select Category</option>
-                    @foreach ($categories as $each)
-                        <option value="{{ $each->id }}">{{ $each->name }}</option>
-                    @endforeach
-                </x-forms.select2-select>
+                <div wire:ignore>
+                    <x-forms.select2-select wire:model='form.category_id' id="category_id" multiple>
+                        <option value="" disabled>Select Category</option>
+                        @foreach ($categories as $each)
+                            <option value="{{ $each->id }}">{{ $each->name }}</option>
+                        @endforeach
+                    </x-forms.select2-select>
+                    <x-input-error :messages="$errors->get('form.category_id')" class="mt-2" />
+                </div>
 
-                <x-input-error :messages="$errors->get('form.category_id')" class="mt-2" />
             </div>
 
             <div class="p-2 w-full">
@@ -56,9 +58,9 @@
                 <x-forms.label for="form.agent_id">
                     {{ __('Agent') }}
                 </x-forms.label>
-                <div>
-                    <x-forms.select2-select wire:model.blur='form.agent_id' multiple>
-                        <option selected disabled>Select agent</option>
+                <div wire:ignore>
+                    <x-forms.select2-select wire:model='form.agent_id' id="agent_id" multiple>
+                        <option value="" disabled>Select agent</option>
                         @foreach ($agentUser as $agent)
                             <option value="{{ $agent->id }}">{{ $agent->name }}</option>
                         @endforeach

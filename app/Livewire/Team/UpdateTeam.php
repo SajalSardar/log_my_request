@@ -50,7 +50,6 @@ class UpdateTeam extends Component {
     }
     public function update() {
         Gate::authorize('update', Team::class);
-        dd($this->categories_input);
         $this->validate();
         $this->team->update([
             'name'   => $this->name,
