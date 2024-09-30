@@ -50,11 +50,9 @@ class UpdateCategory extends Component
     public function update(CategoryService $service)
     {
         Gate::authorize('update', Category::class);
-
         $this->validate(rules: $this->form->rules());
         $isCreate = $service->update($this->category, $this->form);
         $isUpload = $isCreate ? Fileupload::update($this->form, Bucket::CATEGORY, $this->category, $isCreate->getKey(), Category::class, 300, 300) : false;
-        // dd($isUpload);
         $response = ($isUpload || $isCreate) ? 'Data has been update successfuly' : 'Something went wrong';
         flash()->success($response);
         $this->form->reset();

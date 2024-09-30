@@ -22,7 +22,6 @@
 
                 <x-input-error :messages="$errors->get('form.parent_id')" class="mt-2" />
             </div>
-
         </div>
 
         <div class="grid md:grid-cols-2 sm:grid-cols-1 sm:gap-1 md:gap-4">
@@ -46,7 +45,6 @@
                 <x-forms.text-input type="file" wire:model.live="form.image" />
                 <x-input-error :messages="$errors->get('form.image')" class="mt-2" />
             </div>
-
         </div>
 
         <div class="p-2">
@@ -54,6 +52,5 @@
                 Create Category
             </x-buttons.primary>
         </div>
-
     </form>
 </section>
