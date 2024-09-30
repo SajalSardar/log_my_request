@@ -17,4 +17,9 @@
         <hr>
         <livewire:menu.create-menu :roles="$roles" :parent_menus="$parent_menus" />
     </div>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            initSelect2('role');
+        });
+    </script>
 </x-app-layout>

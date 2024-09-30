@@ -46,13 +46,15 @@
                 <x-forms.label for="role">
                     {{ __('Role') }}
                 </x-forms.label>
-                <x-forms.select2-select wire:model="role" multiple>
-                    <option selected disabled> Select Role</option>
-                    @foreach ($roles as $role)
-                        <option value="{{ $role->name }}">{{ Str::ucfirst($role->name) }}</option>
-                    @endforeach
-                </x-forms.select2-select>
-                <x-input-error :messages="$errors->get('role')" class="mt-2" />
+                <div wire:ignore>
+                    <x-forms.select2-select wire:model.defer="role" id="role" multiple>
+                        <option selected disabled> Select Role</option>
+                        @foreach ($roles as $role)
+                            <option value="{{ $role->name }}">{{ Str::ucfirst($role->name) }}</option>
+                        @endforeach
+                    </x-forms.select2-select>
+                    <x-input-error :messages="$errors->get('role')" class="mt-2" />
+                </div>
             </div>
 
             <div class="p-2 w-full">

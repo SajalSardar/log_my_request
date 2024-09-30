@@ -49,13 +49,15 @@
                 <x-forms.label for="role">
                     {{ __('Role') }}
                 </x-forms.label>
-                <x-forms.nice-select wire:model.blur="role" multiple>
-                    <option disabled> Select Role</option>
-                    @foreach ($roles as $role)
-                        <option {{ in_array($role->name, json_decode($menu->roles, true)) ? 'selected' : '' }}
-                            value="{{ $role->name }}">{{ Str::ucfirst($role->name) }}</option>
-                    @endforeach
-                </x-forms.nice-select>
+                <div wire:ignore>
+                    <x-forms.select2-select wire:model.defer="role" id="role" multiple>
+                        <option disabled> Select Role</option>
+                        @foreach ($roles as $role)
+                            <option {{ in_array($role->name, json_decode($menu->roles, true)) ? 'selected' : '' }}
+                                value="{{ $role->name }}">{{ Str::ucfirst($role->name) }}</option>
+                        @endforeach
+                    </x-forms.select2-select>
+                </div>
                 <x-input-error :messages="$errors->get('role')" class="mt-2" />
             </div>
 

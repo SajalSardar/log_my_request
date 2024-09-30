@@ -52,7 +52,7 @@ class UpdateMenu extends Component {
         $this->route     = $this->menu->route;
         $this->url       = $this->menu->url;
         $this->icon      = $this->menu->icon;
-        $this->role      = $this->menu->role;
+        $this->role      = json_decode($this->menu->roles, true);
         $this->status    = $this->menu->status;
         $this->order     = $this->menu->order;
     }
@@ -61,8 +61,9 @@ class UpdateMenu extends Component {
      * @return void
      */
     public function update() {
+
         $this->validate();
-        if($this->role){
+        if ($this->role) {
             array_push($this->role, 'super-admin');
             $rolesArray = array_unique($this->role);
         }

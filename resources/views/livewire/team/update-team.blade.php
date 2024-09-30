@@ -61,7 +61,7 @@
                     {{ __('Agent') }}
                 </x-forms.label>
                 <div wire:ignore>
-                    <x-forms.select2-select wire:model='agent_id' id="agent_id" multiple>
+                    <x-forms.select2-select wire:model.defer='agent_id' id="agent_id" multiple>
                         <option disabled value="">Select agent</option>
                         @foreach ($agentUser as $agent)
                             <option value="{{ $agent->id }}" @if (in_array($agent->id, $agent_id)) selected @endif>
