@@ -16,6 +16,7 @@ class MenuPolicy {
         if ($user->can('menu view list')) {
             return true;
         }
+        return false;
     }
 
     /**
@@ -43,7 +44,7 @@ class MenuPolicy {
         if ($user->can('menu update')) {
             return true;
         }
-
+        return false;
     }
 
     /**
@@ -53,6 +54,7 @@ class MenuPolicy {
         if ($user->can('menu delete')) {
             return true;
         }
+        return false;
     }
 
     /**
@@ -62,6 +64,7 @@ class MenuPolicy {
         if ($user->can('menu restore')) {
             return true;
         }
+        return false;
     }
 
     /**
@@ -71,5 +74,6 @@ class MenuPolicy {
         if ($user->can('menu force delete')) {
             return true;
         }
+        return false;
     }
 }

@@ -15,7 +15,7 @@ class TeamController extends Controller {
      * Display a listing of the resource.
      */
     public function index() {
-        Gate::authorize('view', Team::class);
+        Gate::authorize('viewAny', Team::class);
         $collections = Team::query()
             ->with('image')
             ->with('teamCategories')
@@ -28,7 +28,7 @@ class TeamController extends Controller {
      * Display a listing of the data table resource.
      */
     public function displayListDatatable() {
-        Gate::authorize('view', Team::class);
+        Gate::authorize('viewAny', Team::class);
 
         $team = Cache::remember('team_list', 60 * 60, function () {
             return Team::get();

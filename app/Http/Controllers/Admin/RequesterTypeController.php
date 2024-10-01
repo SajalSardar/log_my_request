@@ -13,7 +13,7 @@ class RequesterTypeController extends Controller {
      * Display a listing of the resource.
      */
     public function index() {
-        Gate::authorize('view', RequesterType::class);
+        Gate::authorize('viewAny', RequesterType::class);
         $requesterTypes = Cache::remember('requesterType_list', 60 * 60, function () {
             return RequesterType::get();
         });
@@ -24,7 +24,7 @@ class RequesterTypeController extends Controller {
      * Display a listing of the data table resource.
      */
     public function displayListDatatable() {
-        Gate::authorize('view', RequesterType::class);
+        Gate::authorize('viewAny', RequesterType::class);
 
         $requesterType = Cache::remember('requesterType_list', 60 * 60, function () {
             return RequesterType::get();

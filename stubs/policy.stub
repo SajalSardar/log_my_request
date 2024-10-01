@@ -15,7 +15,7 @@ class {{ class }}
      */
     public function viewAny({{ user }} $user): bool
     {
-         if ($user->can('{{ modelVariable }} view list')) {
+        if ($user->can('{{ modelVariable }} view list')) {
             return true;
         }
         return false;

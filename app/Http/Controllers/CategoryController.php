@@ -12,7 +12,7 @@ class CategoryController extends Controller {
      * Display a listing of the resource.
      */
     public function index() {
-        Gate::authorize('view', Category::class);
+        Gate::authorize('viewAny', Category::class);
 
         $collections = Cache::remember('category_list', 60 * 60, function () {
             return Category::query()->with('image')->get();
@@ -24,7 +24,7 @@ class CategoryController extends Controller {
      * Display a listing of the data table resource.
      */
     public function displayListDatatable() {
-        Gate::authorize('view', Category::class);
+        Gate::authorize('viewAny', Category::class);
 
         $category = Cache::remember('category_list', 60 * 60, function () {
             return Category::get();

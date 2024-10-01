@@ -11,7 +11,7 @@ class ModuleController extends Controller {
      * Display a listing of the resource.
      */
     public function index() {
-        Gate::authorize('view', Module::class);
+        Gate::authorize('viewAny', Module::class);
 
         $modules = Module::all();
         return view('module.index', compact('modules'));
