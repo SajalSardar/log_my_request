@@ -41,48 +41,53 @@
             </div>
 
             <div class="grid md:grid-cols-1 sm:grid-cols-1 border border-slate-300 px-10 py-3 rounded mt-5">
-                <div class="flex justify-between items-center flex-wrap">
-                    <div>
-                        <p class="font-ineter font-thin text-sm">Attached File</p>
-                        <x-forms.input-file />
-                    </div>
-                    <div>
-                        <p class="font-ineter font-thin text-sm">Priority</p>
-                        <span class="font-ineter font-semibold text-sm">High</span>
-                    </div>
-                    <div>
-                        <p class="font-ineter font-thin text-sm">Due Date</p>
-                        <span class="font-ineter font-semibold text-sm">17 Aug, 2017</span>
-                    </div>
-                    <div>
-                        <p class="font-ineter font-thin text-sm">Soure</p>
-                        <span class="font-ineter font-semibold text-sm">Website</span>
-                    </div>
+                <div class="relative overflow-x-auto">
+                    <table class="w-full overflow-x-auto">
+                        <tr>
+                            <td>
+                                <p class="font-ineter font-thin text-sm">Attached File</p>
+                                <x-forms.input-file />
+                            </td>
+                            <td>
+                                <p class="font-ineter font-thin text-sm">Priority</p>
+                                <span class="font-ineter font-semibold text-sm">High</span>
+                            </td>
+                            <td>
+                                <p class="font-ineter font-thin text-sm">Due Date</p>
+                                <span class="font-ineter font-semibold text-sm">17 Aug, 2017</span>
+                            </td>
+                            <td>
+                                <p class="font-ineter font-thin text-sm">Soure</p>
+                                <span class="font-ineter font-semibold text-sm">Website</span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <p class="font-ineter font-thin text-sm">Category</p>
+                                <span class="font-ineter font-semibold text-sm">Financial</span>
+                            </td>
+                            <td>
+                                <p class="font-ineter font-thin text-sm">Assign Team</p>
+                                <span class="font-ineter font-semibold text-sm">Finance</span>
+                            </td>
+                            <td>
+                                <p class="font-ineter font-thin text-sm">Requester Type</p>
+                                <span class="font-ineter font-semibold text-sm">Student</span>
+                            </td>
+                            <td>
+                                <p class="font-ineter font-thin text-sm">Assign Agent</p>
+                                <span class="font-ineter font-semibold text-sm">Finance</span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <p class="font-ineter font-thin text-sm">Status</p>
+                                <span class="font-ineter font-semibold text-sm">Open</span>
+                            </td>
+                        </tr>
+                    </table>
                 </div>
-                <div class="flex justify-between items-center flex-wrap mt-3">
-                    <div>
-                        <p class="font-ineter font-thin text-sm">Category</p>
-                        <span class="font-ineter font-semibold text-sm">Financial</span>
-                    </div>
-                    <div>
-                        <p class="font-ineter font-thin text-sm">Assign Team</p>
-                        <span class="font-ineter font-semibold text-sm">Finance</span>
-                    </div>
-                    <div>
-                        <p class="font-ineter font-thin text-sm">Requester Type</p>
-                        <span class="font-ineter font-semibold text-sm">Student</span>
-                    </div>
-                    <div>
-                        <p class="font-ineter font-thin text-sm">Assign Agent</p>
-                        <span class="font-ineter font-semibold text-sm">Finance</span>
-                    </div>
-                </div>
-                <div class="flex justify-between items-center flex-wrap mt-3">
-                    <div>
-                        <p class="font-ineter font-thin text-sm">Status</p>
-                        <span class="font-ineter font-semibold text-sm">Open</span>
-                    </div>
-                </div>
+
             </div>
         </div>
     </div>
