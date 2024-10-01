@@ -2,15 +2,17 @@
 
 namespace App\Livewire\Ticket;
 
-use App\Livewire\Forms\TicketUpdateRequest;
-use App\Models\RequesterType;
-use App\Models\Source;
 use App\Models\Team;
-use App\Models\TeamCategory;
+use App\Enums\Bucket;
+use App\Models\Source;
 use App\Models\Ticket;
-use App\Models\TicketStatus;
-use App\Services\Ticket\TicketService;
 use Livewire\Component;
+use App\Models\TeamCategory;
+use App\Models\TicketStatus;
+use App\Models\RequesterType;
+use App\LocaleStorage\Fileupload;
+use App\Services\Ticket\TicketService;
+use App\Livewire\Forms\TicketUpdateRequest;
 use Livewire\Features\SupportFileUploads\WithFileUploads;
 
 class UpdateTicket extends Component

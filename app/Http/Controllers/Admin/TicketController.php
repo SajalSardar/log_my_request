@@ -57,13 +57,14 @@ class TicketController extends Controller
      */
     public function show(Ticket $ticket)
     {
-        //
         Gate::authorize('view', $ticket);
-        return view('ticket.show');
+        $ticket->with('source')->get();
+        return view('ticket.show',compact('ticket'));
     }
 
     /**
      * Show the form for editing the specified resource.
+     * @param Ticket $ticket
      */
     public function edit(Ticket $ticket)
     {

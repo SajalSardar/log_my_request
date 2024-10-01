@@ -106,7 +106,7 @@
                                                             <a href="{{ route('admin.ticket.edit', ['ticket' => $ticket?->id]) }}">Edit</a>
                                                         </li>
                                                         <li class="px-3 py-1 text-center">
-                                                            <a href="#">View</a>
+                                                            <a href="{{ route('admin.ticket.show', ['ticket' => $ticket?->id]) }}">View</a>
                                                         </li>
                                                         <li class="px-3 py-1 text-center bg-red-600 text-white">
                                                             <a href="#">Delete</a>
