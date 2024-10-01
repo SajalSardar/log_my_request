@@ -38,6 +38,15 @@ class Ticket extends Model
     }
 
     /**
+     * Define public method category() associate with Ticket
+     * @return BelongsTo
+     */
+    public function category(): BelongsTo
+    {
+        return $this->belongsTo(Category::class, 'category_id', 'id');
+    }
+
+    /**
      * Define public method team() associate with Ticket
      * @return BelongsTo
      */
@@ -84,6 +93,6 @@ class Ticket extends Model
 
     public function owner()
     {
-        return $this->belongsToMany(User::class, 'ticket_ownerships','owner_id','ticket_id');
+        return $this->belongsToMany(User::class, 'ticket_ownerships', 'owner_id', 'ticket_id');
     }
 }
