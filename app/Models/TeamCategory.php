@@ -10,17 +10,17 @@ use Illuminate\Support\Facades\Cache;
 class TeamCategory extends Model
 {
     use HasFactory, SoftDeletes;
-    
+
     protected $guarded = ['id'];
 
     protected static function boot()
     {
         parent::boot();
-    
+
         static::created(function () {
             Cache::forget("name_list");
         });
-    
+
         static::updated(function () {
             Cache::forget("name_list");
         });
@@ -31,7 +31,7 @@ class TeamCategory extends Model
      */
     public function category()
     {
-        return $this->belongsTo(Category::class,'category_id','id');
+        return $this->belongsTo(Category::class, 'category_id', 'id');
     }
 
 }

@@ -2,12 +2,12 @@
 
 namespace App\Models;
 
-use Illuminate\Support\Facades\Cache;
-use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\SoftDeletes;
-use Illuminate\Database\Eloquent\Relations\MorphOne;
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\MorphOne;
+use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Facades\Cache;
 
 class Ticket extends Model
 {
@@ -80,5 +80,10 @@ class Ticket extends Model
     public function image(): MorphOne
     {
         return $this->morphOne(Image::class, 'image', 'image_type', 'image_id');
+    }
+
+    public function owner()
+    {
+        return $this->belongsToMany(User::class, 'ticket_ownerships','owner_id','ticket_id');
     }
 }

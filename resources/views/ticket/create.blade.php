@@ -8,5 +8,9 @@
     @endsection
     <livewire:ticket.create-ticket />
 
-
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            initSelect2form('owner_id');
+        });
+    </script>
 </x-app-layout>

@@ -7,6 +7,7 @@ use App\Models\RequesterType;
 use App\Models\Source;
 use App\Models\Team;
 use App\Models\TicketStatus;
+use App\Models\User;
 use Illuminate\Validation\Rule;
 use Livewire\Form;
 
@@ -96,6 +97,11 @@ class TicketCreateRequest extends Form
     public $request_attachment;
 
     /**
+     * Define public property $owner_id;
+     */
+    public $owner_id;
+
+    /**
      * Define public method rules() to validation
      * @return array
      */
@@ -115,6 +121,7 @@ class TicketCreateRequest extends Form
         $arr['form.team_id'] = ['required', Rule::exists(Team::class, 'id')];
         $arr['form.ticket_status_id'] = ['required', Rule::exists(TicketStatus::class, 'id')];
         $arr['form.request_attachment'] = ['required', 'mimes:pdf,docs,ppt', 'max:3024'];
+        $arr['form.owner_id'] = ['nullable', Rule::exists(User::class, 'id')];
         return $arr;
     }
 
@@ -138,6 +145,7 @@ class TicketCreateRequest extends Form
         $arr['form.team_id'] = 'team';
         $arr['form.ticket_status_id'] = 'ticket status';
         $arr['form.request_attachment'] = 'attachment';
+        $arr['form.owner_id'] = 'owner';
         return $arr;
     }
 }

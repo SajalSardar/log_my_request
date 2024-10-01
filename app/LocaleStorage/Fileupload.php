@@ -58,7 +58,7 @@ class Fileupload
     public static function uploadFile(array | object $request, Bucket $bucket, int $model_id, $model): array | object | bool | string
     {
         $filename = uniqid() . '-' . $request->request_attachment->getClientOriginalName();
-        $size = $request->image->getSize() . 'bytes';
+        $size = $request->request_attachment->getSize() . ' bytes';
         $isUpload = $request->request_attachment->storeAs($bucket->toString(), $filename, 'public');
         $url = asset('storage/' . $bucket->toString() . '/' . $filename);
 
