@@ -161,7 +161,7 @@
                             </x-forms.select2-select>
                         </div> --}}
                         <div>
-                            <x-forms.select-input wire:model.defer="form.owner_id" id="owner_id" multiple>
+                            <x-forms.select-input wire:model="form.owner_id" multiple>
                                 <option value="" disabled>Assign Agent</option>
                                 @foreach ($teamAgent as $item)
                                     @foreach ($item->agents as $each)
@@ -195,11 +195,6 @@
                     <x-buttons.primary>
                         Create Ticket
                     </x-buttons.primary>
-                    @foreach ($teamAgent as $item)
-                        @foreach ($item->agents as $each)
-                            <option value="{{ $each?->id }}">{{ $each?->name }}</option>
-                        @endforeach
-                    @endforeach
                 </div>
             </div>
         </div>

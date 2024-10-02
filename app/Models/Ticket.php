@@ -93,6 +93,6 @@ class Ticket extends Model
 
     public function owner()
     {
-        return $this->belongsToMany(User::class, 'ticket_ownerships', 'owner_id', 'ticket_id');
+        return $this->belongsToMany(User::class, 'ticket_ownerships', 'ticket_id', 'owner_id');
     }
 }

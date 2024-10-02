@@ -85,7 +85,7 @@ class TicketService
             'updated_by' => Auth::user()->id,
         ]);
 
-        $response->owner()->attach([2, 18]);
+        $response->owner()->attach($request->owner_id);
 
         Mail::to($request->requester_email)->send(new TicketEmail($request));
 
