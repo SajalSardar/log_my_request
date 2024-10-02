@@ -82,6 +82,7 @@ class CreateTicket extends Component
     {
         $this->categories = TeamCategory::query()->with('category')->where('team_id', $this->form?->team_id)->get();
         $this->teamAgent = Team::query()->with('agents')->where('id', $this->form?->team_id)->get();
+        // dd($this->teamAgent);
     }
 
     /**

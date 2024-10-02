@@ -5,6 +5,9 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Ticket;
 use App\Models\TicketStatus;
+use Illuminate\Console\View\Components\Factory;
+use Illuminate\Contracts\Foundation\Application;
+use Illuminate\Contracts\View\View;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Gate;
@@ -12,13 +15,19 @@ use Illuminate\Support\Facades\Gate;
 class TicketController extends Controller
 {
     /**
+     * Define public property $tickets
+     * @var array|object
+     */
+    public array|object $tickets = [];
+
+    /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(): Application|View|Factory
     {
         Gate::authorize('view', Ticket::class);
-        $tickets = TicketStatus::query()->with('ticket', fn($query) => $query->with('source', 'ticket_status'))->withCount('ticket')->get();
-        return view("ticket.index", compact('tickets'));
+        $this->tickets = TicketStatus::query()->with('ticket', fn($query) => $query->with('source', 'ticket_status'))->withCount('ticket')->get();
+        return view("ticket.index", ['tickets' => $this->tickets ?? collect()]);
     }
 
     /**
@@ -49,7 +58,6 @@ class TicketController extends Controller
     {
         //
         Gate::authorize('create', Ticket::class);
-
     }
 
     /**
