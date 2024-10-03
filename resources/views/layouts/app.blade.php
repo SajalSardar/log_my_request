@@ -13,7 +13,9 @@
     <!-- Style css  !-->
     <link rel="stylesheet" href="{{ asset('assets/css/style.css') }}">
     <!-- Scripts -->
-    @vite(['resources/css/app.css', 'resources/js/app.js'])
+    {{-- @vite(['resources/css/app.css', 'resources/js/app.js']) --}}
+    <link rel="stylesheet" href="{{ asset('public/build/assets/app-BEtkNpWv.css') }}">
+    <script src="{{ asset('public/build/assets/app-DCrXoRMQ.js') }}"></script>
     {{-- <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,100..900&display=swap" rel="stylesheet"> --}}
 
     @yield('style')

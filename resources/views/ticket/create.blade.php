@@ -6,7 +6,7 @@
             });
         </script>
     @endsection
-    <livewire:ticket.create-ticket />
+<livewire:ticket.create-ticket />
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {
