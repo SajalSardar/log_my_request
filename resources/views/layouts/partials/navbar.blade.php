@@ -1,4 +1,4 @@
-<div class="navbar sticky border z-1 border-b-slate-300">
+<div class="navbar sticky border z-50 border-b-slate-300">
     <div class="navbar-wrapper">
         <div class="hamberger">
             <button type="button" class="text-lg text-gray-900 font-semibold sidebar-toggle">
@@ -146,7 +146,7 @@
                         stroke-linejoin="round" />
                 </svg>
             </div>
-            <div class="toggle-menu absolute p-3 shadow-lg w-[200px] rounded bg-white sm:right-12"
+            <div class="toggle-menu absolute z-50 p-3 shadow-lg w-[200px] rounded bg-white sm:right-12"
                 style="top: 75px;display:none">
                 <ul>
                     <li class="py-2">

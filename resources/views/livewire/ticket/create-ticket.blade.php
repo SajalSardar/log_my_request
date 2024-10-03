@@ -18,7 +18,7 @@
                     <x-forms.label for="form.request_description">
                         {{ __('Request Description') }}
                     </x-forms.label>
-                    <textarea cols="30" rows="10"wire:model='form.request_description' class="w-full py-3 text-base font-normal font-inter border border-slate-400 rounded" placeholder="Add description here.."></textarea>
+                    <textarea cols="30" id="editor" rows="10" wire:model='form.request_description' class="w-full py-3 text-base font-normal font-inter border border-slate-400 rounded" placeholder="Add description here.."></textarea>
                     <x-input-error :messages="$errors->get('form.request_description')" class="mt-2" />
                 </div>
 
@@ -200,3 +200,21 @@
         </div>
     </div>
 </form>
+
+@section('style')
+    <style>
+        .ck-editor__editable_inline {
+            min-height: 300px;
+            /* Adjust the height to your preference */
+        }
+    </style>
+@endsection
+@section('script')
+    <script>
+        ClassicEditor
+            .create(document.querySelector('#editor'))
+            .catch(error => {
+                console.error(error);
+            });
+    </script>
+@endsection
