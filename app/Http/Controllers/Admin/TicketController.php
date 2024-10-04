@@ -66,8 +66,6 @@ class TicketController extends Controller
     public function show(Ticket $ticket)
     {
         Gate::authorize('view', $ticket);
-        // $ticket = Ticket::where('id', $ticket->id)->with('category')->first();
-        // return $ticket;
         return view('ticket.show', compact('ticket'));
     }
 
