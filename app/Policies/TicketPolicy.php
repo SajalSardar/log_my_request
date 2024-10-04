@@ -18,6 +18,7 @@ class TicketPolicy
          if ($user->can('ticket view list')) {
             return true;
         }
+        return false;
     }
 
     /**
@@ -28,7 +29,7 @@ class TicketPolicy
         if ($user->can('ticket view list')) {
             return true;
         }
-  
+        return false;
     }
 
     /**
@@ -48,7 +49,7 @@ class TicketPolicy
         if ($user->can('ticket update')) {
             return true;
         }
-
+        return false;
     }
 
     /**
@@ -59,7 +60,7 @@ class TicketPolicy
         if ($user->can('ticket delete')) {
             return true;
         }
-
+        return false;
     }
 
     /**
@@ -70,6 +71,7 @@ class TicketPolicy
         if ($user->can('ticket restore')) {
             return true;
         }
+        return false;
     }
 
     /**
@@ -80,5 +82,6 @@ class TicketPolicy
         if ($user->can('ticket force delete')) {
             return true;
         }
+        return false;
     }
 }

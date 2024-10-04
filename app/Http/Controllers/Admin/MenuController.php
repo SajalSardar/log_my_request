@@ -14,7 +14,7 @@ class MenuController extends Controller {
      * Display a listing of the resource.
      */
     public function index() {
-        Gate::authorize('view', Menu::class);
+        Gate::authorize('viewAny', Menu::class);
         $collections = Menu::query()->get();
         return view('menu.index', compact('collections'));
     }
@@ -23,7 +23,7 @@ class MenuController extends Controller {
      * Display a listing of the data table resource.
      */
     public function displayListDatatable() {
-        Gate::authorize('view', Menu::class);
+        Gate::authorize('viewAny', Menu::class);
 
         $menu = Cache::remember('menu_list', 60 * 60, function () {
             return Menu::get();

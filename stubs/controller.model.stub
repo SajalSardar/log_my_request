@@ -16,7 +16,7 @@ class {{ class }} extends Controller
      */
     public function index()
     {
-        Gate::authorize('view',  {{ model }}::class);
+        Gate::authorize('viewAny',  {{ model }}::class);
         return view("{{ modelVariable }}.index");
     }
 
@@ -25,7 +25,7 @@ class {{ class }} extends Controller
      */
     public function displayListDatatable()
     {
-        Gate::authorize('view',  {{ model }}::class);
+        Gate::authorize('viewAny',  {{ model }}::class);
         
         ${{ modelVariable }} = Cache::remember('{{ modelVariable }}_list', 60 * 60, function () {
             return {{ model }}::get();

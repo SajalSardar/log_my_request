@@ -13,7 +13,7 @@ class TicketStatusController extends Controller {
      * Display a listing of the resource.
      */
     public function index() {
-        Gate::authorize('view', TicketStatus::class);
+        Gate::authorize('viewAny', TicketStatus::class);
         $ticketStatuses = Cache::remember('ticketStatus_list', 60 * 60, function () {
             return TicketStatus::get();
         });
@@ -24,7 +24,7 @@ class TicketStatusController extends Controller {
      * Display a listing of the data table resource.
      */
     public function displayListDatatable() {
-        Gate::authorize('view', TicketStatus::class);
+        Gate::authorize('viewAny', TicketStatus::class);
 
         $ticketStatus = Cache::remember('ticketStatus_list', 60 * 60, function () {
             return TicketStatus::get();

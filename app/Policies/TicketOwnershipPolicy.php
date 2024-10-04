@@ -18,6 +18,7 @@ class TicketOwnershipPolicy
          if ($user->can('ticketOwnership view list')) {
             return true;
         }
+        return false;
     }
 
     /**
@@ -28,7 +29,7 @@ class TicketOwnershipPolicy
         if ($user->can('ticketOwnership view list')) {
             return true;
         }
-  
+        return false;
     }
 
     /**
@@ -48,7 +49,7 @@ class TicketOwnershipPolicy
         if ($user->can('ticketOwnership update')) {
             return true;
         }
-
+        return false;
     }
 
     /**
@@ -59,7 +60,7 @@ class TicketOwnershipPolicy
         if ($user->can('ticketOwnership delete')) {
             return true;
         }
-
+        return false;
     }
 
     /**
@@ -70,6 +71,7 @@ class TicketOwnershipPolicy
         if ($user->can('ticketOwnership restore')) {
             return true;
         }
+        return false;
     }
 
     /**
@@ -80,5 +82,6 @@ class TicketOwnershipPolicy
         if ($user->can('ticketOwnership force delete')) {
             return true;
         }
+        return false;
     }
 }

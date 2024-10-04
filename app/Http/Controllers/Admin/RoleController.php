@@ -11,7 +11,7 @@ use Spatie\Permission\Models\Role;
 class RoleController extends Controller {
 
     public function index() {
-        Gate::authorize('view', Role::class);
+        Gate::authorize('viewAny', Role::class);
 
         $roles = Role::orderBy('id', 'desc')->get();
         return view('role.index', compact('roles'));

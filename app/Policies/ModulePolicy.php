@@ -16,6 +16,7 @@ class ModulePolicy {
         if ($user->can('module view list')) {
             return true;
         }
+        return false;
     }
 
     /**
@@ -43,7 +44,7 @@ class ModulePolicy {
         if ($user->can('module update')) {
             return true;
         }
-
+        return false;
     }
 
     /**
@@ -53,6 +54,7 @@ class ModulePolicy {
         if ($user->can('module delete')) {
             return true;
         }
+        return false;
     }
 
     /**
@@ -62,6 +64,7 @@ class ModulePolicy {
         if ($user->can('module restore')) {
             return true;
         }
+        return false;
     }
 
     /**
@@ -71,5 +74,6 @@ class ModulePolicy {
         if ($user->can('module force delete')) {
             return true;
         }
+        return false;
     }
 }

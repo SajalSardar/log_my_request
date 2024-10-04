@@ -13,7 +13,7 @@ class SourceController extends Controller {
      * Display a listing of the resource.
      */
     public function index() {
-        Gate::authorize('view', Source::class);
+        Gate::authorize('viewAny', Source::class);
         $sources = Cache::remember('source_list', 60 * 60, function () {
             return Source::get();
         });
@@ -25,7 +25,7 @@ class SourceController extends Controller {
      * Display a listing of the data table resource.
      */
     public function displayListDatatable() {
-        Gate::authorize('view', Source::class);
+        Gate::authorize('viewAny', Source::class);
 
         $source = Cache::remember('source_list', 60 * 60, function () {
             return Source::get();

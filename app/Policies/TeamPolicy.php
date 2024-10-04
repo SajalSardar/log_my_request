@@ -18,6 +18,7 @@ class TeamPolicy
          if ($user->can('team view list')) {
             return true;
         }
+        return false;
     }
 
     /**
@@ -28,7 +29,7 @@ class TeamPolicy
         if ($user->can('team view list')) {
             return true;
         }
-  
+        return false;
     }
 
     /**
@@ -48,7 +49,7 @@ class TeamPolicy
         if ($user->can('team update')) {
             return true;
         }
-
+        return false;
     }
 
     /**
@@ -59,7 +60,7 @@ class TeamPolicy
         if ($user->can('team delete')) {
             return true;
         }
-
+        return false;
     }
 
     /**
@@ -70,6 +71,7 @@ class TeamPolicy
         if ($user->can('team restore')) {
             return true;
         }
+        return false;
     }
 
     /**
@@ -80,5 +82,6 @@ class TeamPolicy
         if ($user->can('team force delete')) {
             return true;
         }
+        return false;
     }
 }
