@@ -4,7 +4,7 @@
         <div class="md:basis-2/3 sm:basis-full">
             <div class="border border-slate-300 p-5 rounded">
 
-                <div class="grid lg:grid-cols-2 md:grid-cols-2 sm:grid-cols-1 sm:gap-1 md:gap-4">
+                <div class="grid lg:grid-cols-1 md:grid-cols-1 sm:grid-cols-1 sm:gap-1 md:gap-4">
                     <div class="p-2 w-full">
                         <x-forms.label for="form.request_title" required="yes">
                             {{ __('Request Title') }}
@@ -18,7 +18,7 @@
                     <x-forms.label for="form.request_description">
                         {{ __('Request Description') }}
                     </x-forms.label>
-                    <textarea cols="30" rows="10"wire:model='form.request_description' class="w-full py-3 text-base font-normal font-inter border border-slate-400 rounded" placeholder="Add description here.."></textarea>
+                    <textarea cols="30" id="editor" rows="10" wire:model='form.request_description' class="w-full py-3 text-base font-normal font-inter border border-slate-400 rounded" placeholder="Add description here.."></textarea>
                     <x-input-error :messages="$errors->get('form.request_description')" class="mt-2" />
                 </div>
 
@@ -150,16 +150,25 @@
                             {{ __('Assign Agent') }}
                         </x-forms.label>
 
-                        <div wire:ignore>
+                        {{-- <div wire:ignore>
                             <x-forms.select2-select wire:model.defer="form.owner_id" id="owner_id" multiple>
                                 <option value="" disabled>Assign Agent</option>
-                                {{-- {{ $teamAgent }} --}}
-                                @foreach ($teamAgent as $each)
-                                    @foreach ($each->agents as $item)
-                                        <option value="{{ $item->id }}">{{ $teamAgent }}</option>
+                                @foreach ($teamAgent as $item)
+                                    @foreach ($item->agents as $each)
+                                        <option value="{{ $each?->id }}">{{ $each?->name }}</option>
                                     @endforeach
                                 @endforeach
                             </x-forms.select2-select>
+                        </div> --}}
+                        <div>
+                            <x-forms.select-input wire:model="form.owner_id" multiple>
+                                <option value="" disabled>Assign Agent</option>
+                                @foreach ($teamAgent as $item)
+                                    @foreach ($item->agents as $each)
+                                        <option value="{{ $each?->id }}">{{ $each?->name }}</option>
+                                    @endforeach
+                                @endforeach
+                            </x-forms.select-input>
                         </div>
 
                         <x-input-error :messages="$errors->get('form.owner_id')" class="mt-2" />
@@ -191,3 +200,21 @@
         </div>
     </div>
 </form>
+
+@section('style')
+    <style>
+        .ck-editor__editable_inline {
+            min-height: 300px;
+            /* Adjust the height to your preference */
+        }
+    </style>
+@endsection
+@section('script')
+    <script>
+        ClassicEditor
+            .create(document.querySelector('#editor'))
+            .catch(error => {
+                console.error(error);
+            });
+    </script>
+@endsection

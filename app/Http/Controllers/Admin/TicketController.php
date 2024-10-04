@@ -5,42 +5,46 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Ticket;
 use App\Models\TicketStatus;
-use App\Models\User;
+use Illuminate\Console\View\Components\Factory;
+use Illuminate\Contracts\Foundation\Application;
+use Illuminate\Contracts\View\View;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Gate;
 
 class TicketController extends Controller {
     /**
+     * Define public property $tickets
+     * @var array|object
+     */
+    public array | object $tickets = [];
+
+    /**
      * Display a listing of the resource.
      */
-    public function index() {
-        Gate::authorize('viewAny', Ticket::class);
+    public function index(): Application | View | Factory {
+        Gate::authorize('view', Ticket::class);
+        $this->tickets = TicketStatus::query()->with('ticket', fn($query) => $query->with('source', 'ticket_status'))->withCount('ticket')->get();
+
+        // $user = User::find(Auth::id());
+
         // $tickets = TicketStatus::query()
-        //     ->with('ticket', fn($query) => $query->with('owners', 'source', 'ticket_status'))
+        //     ->join('tickets as t', 'ticket_statuses.id', '=', 't.ticket_status_id')
+        //     ->join('ticket_ownerships as towner', 't.id', '=', 'towner.ticket_id')
+        //     ->with('ticket', function ($query) {
+        //         $query->with(['owners', 'source', 'ticket_status']);
+        //     })
         //     ->withCount('ticket')
-        //     ->get();
-        // return $tickets;
-        $user = User::find(Auth::id());
+        // // ->select('ticket_statuses.*', 't.*', 'towner.*')
+        //     ->select('ticket_statuses.*');
 
-        $tickets = TicketStatus::query()
-            ->join('tickets as t', 'ticket_statuses.id', '=', 't.ticket_status_id')
-            ->join('ticket_ownerships as towner', 't.id', '=', 'towner.ticket_id')
-            ->with('ticket', function ($query) {
-                $query->with(['owners', 'source', 'ticket_status']);
-            })
-            ->withCount('ticket')
-        // ->select('ticket_statuses.*', 't.*', 'towner.*')
-            ->select('ticket_statuses.*');
+        // if ($user->hasRole('super-admin') === false) {
+        //     $tickets->where('towner.owner_id', Auth::id());
+        // }
 
-        if ($user->hasRole('super-admin') === false) {
-            $tickets->where('towner.owner_id', Auth::id());
-        }
+        // return $tickets->get();
 
-        return $tickets->get();
-
-        return view("ticket.index", compact('tickets'));
+        return view("ticket.index", ['tickets' => $this->tickets ?? collect()]);
     }
 
     /**
@@ -68,7 +72,6 @@ class TicketController extends Controller {
     public function store(Request $request) {
         //
         Gate::authorize('create', Ticket::class);
-
     }
 
     /**

@@ -23,7 +23,7 @@ class TicketCreateRequest extends Form
      * Define public property $request_description;
      * @var ?string
      */
-    public ?string $request_description;
+    public ?string $request_description = '';
 
     /**
      * Define public property $requester_name;

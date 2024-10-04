@@ -45,7 +45,7 @@
                                 </thead>
 
                                 <tbody>
-                                    @forelse ($each->ticket as $ticket)
+                                    @foreach ($each?->ticket as $ticket)
                                         <tr>
                                             <td class="p-2" style="width: 70px">
                                                 <x-forms.checkbox-input />
@@ -125,7 +125,7 @@
                 @empty
                     <tr>
                         <td colspan="14" class="text-center">
-                            <span class="text-red">No data found !!</span>
+                            <span class="text-red-500 font-inter font-bold text-lg">No data found !!</span>
                         </td>
                     </tr>
                 @endforelse
