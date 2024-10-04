@@ -12,19 +12,21 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Gate;
 
-class TicketController extends Controller {
+class TicketController extends Controller
+{
     /**
      * Define public property $tickets
      * @var array|object
      */
-    public array | object $tickets = [];
+    public array|object $tickets = [];
 
     /**
      * Display a listing of the resource.
      */
-    public function index(): Application | View | Factory {
+    public function index(): Application | View | Factory
+    {
         Gate::authorize('view', Ticket::class);
-        $this->tickets = TicketStatus::query()->with('ticket', fn($query) => $query->with('source', 'ticket_status'))->withCount('ticket')->get();
+        $this->tickets = TicketStatus::query()->with('ticket', fn($query) => $query->with('source', 'ticket_status', 'owners'))->withCount('ticket')->get();
 
         // $user = User::find(Auth::id());
 
@@ -50,7 +52,8 @@ class TicketController extends Controller {
     /**
      * Display a listing of the data table resource.
      */
-    public function displayListDatatable() {
+    public function displayListDatatable()
+    {
         Gate::authorize('viewAny', Ticket::class);
 
         $ticket = Cache::remember('ticket_list', 60 * 60, function () {
@@ -61,7 +64,8 @@ class TicketController extends Controller {
     /**
      * Show the form for creating a new resource.
      */
-    public function create() {
+    public function create()
+    {
         Gate::authorize('create', Ticket::class);
         return view('ticket.create');
     }
@@ -69,7 +73,8 @@ class TicketController extends Controller {
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request) {
+    public function store(Request $request)
+    {
         //
         Gate::authorize('create', Ticket::class);
     }
@@ -77,7 +82,8 @@ class TicketController extends Controller {
     /**
      * Display the specified resource.
      */
-    public function show(Ticket $ticket) {
+    public function show(Ticket $ticket)
+    {
         Gate::authorize('view', $ticket);
         return view('ticket.show', compact('ticket'));
     }
@@ -86,7 +92,8 @@ class TicketController extends Controller {
      * Show the form for editing the specified resource.
      * @param Ticket $ticket
      */
-    public function edit(Ticket $ticket) {
+    public function edit(Ticket $ticket)
+    {
         Gate::authorize('update', $ticket);
         return view('ticket.edit', compact('ticket'));
     }
@@ -94,18 +101,21 @@ class TicketController extends Controller {
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Ticket $ticket) {
+    public function update(Request $request, Ticket $ticket)
+    {
         Gate::authorize('update', $ticket);
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Ticket $ticket) {
+    public function destroy(Ticket $ticket)
+    {
         Gate::authorize('delete', $ticket);
     }
 
-    public function viewAll(?string $ticket_status_id) {
+    public function viewAll(?string $ticket_status_id)
+    {
         $tickets = Ticket::query()->with('ticket_status', 'source', 'requester_type')->where('ticket_status_id', $ticket_status_id)->get();
         return view('ticket.view-all', compact('tickets'));
     }

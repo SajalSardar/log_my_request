@@ -24,6 +24,26 @@
 
  }
 
+ /* Scrollbar Design Start */
+ ::-webkit-scrollbar {
+     width: 7px;
+ }
+
+ ::-webkit-scrollbar-track {
+     background: #f1f1f1;
+ }
+
+ ::-webkit-scrollbar-thumb {
+     background: #F36D00;
+     border-radius: 8px;
+ }
+
+ ::-webkit-scrollbar-thumb:hover {
+     background: #666;
+ }
+
+ /* Scrollbar Design End */
+
  .transition-transform {
      transition-property: transform;
      transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
