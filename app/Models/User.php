@@ -22,7 +22,7 @@ class User extends Authenticatable {
         'email',
         'password',
         'phone',
-        'designation'
+        'designation',
     ];
 
     /**
@@ -45,5 +45,9 @@ class User extends Authenticatable {
             'email_verified_at' => 'datetime',
             'password'          => 'hashed',
         ];
+    }
+
+    public function tickets() {
+        return $this->belongsToMany(Ticket::class, 'ticket_ownerships', 'owner_id', 'ticket_id');
     }
 }

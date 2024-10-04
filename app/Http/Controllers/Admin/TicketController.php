@@ -5,7 +5,9 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Ticket;
 use App\Models\TicketStatus;
+use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Gate;
 
@@ -15,7 +17,29 @@ class TicketController extends Controller {
      */
     public function index() {
         Gate::authorize('viewAny', Ticket::class);
-        $tickets = TicketStatus::query()->with('ticket', fn($query) => $query->with('source', 'ticket_status'))->withCount('ticket')->get();
+        // $tickets = TicketStatus::query()
+        //     ->with('ticket', fn($query) => $query->with('owners', 'source', 'ticket_status'))
+        //     ->withCount('ticket')
+        //     ->get();
+        // return $tickets;
+        $user = User::find(Auth::id());
+
+        $tickets = TicketStatus::query()
+            ->join('tickets as t', 'ticket_statuses.id', '=', 't.ticket_status_id')
+            ->join('ticket_ownerships as towner', 't.id', '=', 'towner.ticket_id')
+            ->with('ticket', function ($query) {
+                $query->with(['owners', 'source', 'ticket_status']);
+            })
+            ->withCount('ticket')
+        // ->select('ticket_statuses.*', 't.*', 'towner.*')
+            ->select('ticket_statuses.*');
+
+        if ($user->hasRole('super-admin') === false) {
+            $tickets->where('towner.owner_id', Auth::id());
+        }
+
+        return $tickets->get();
+
         return view("ticket.index", compact('tickets'));
     }
 
