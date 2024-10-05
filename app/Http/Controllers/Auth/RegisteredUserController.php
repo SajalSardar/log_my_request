@@ -18,7 +18,7 @@ class RegisteredUserController extends Controller {
      * Display the registration view.
      */
     public function create(): View {
-        $roles = Role::whereNotIn('name', ['super-admin'])->get();
+        $roles = Role::whereIn('name', ['requester'])->get();
         return view('auth.register', compact('roles'));
     }
 
