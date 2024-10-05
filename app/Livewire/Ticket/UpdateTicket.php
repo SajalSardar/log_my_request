@@ -119,7 +119,6 @@ class UpdateTicket extends Component
         $this->validate(rules: $this->form->rules(), attributes: $this->form->attributes());
         $isCreate = $service->update($this->ticket, $this->form);
         $isUpload = $this->form->request_attachment ? Fileupload::updateFile($this->form, Bucket::TICKET, $this->ticket, $this->ticket->getKey(), Ticket::class) : '';
-        // dd($isUpload);
         $response = $isCreate ? 'Data has been update successfuly' : 'Something went wrong';
         flash()->success($response);
         return redirect()->to('dashboard/ticket');

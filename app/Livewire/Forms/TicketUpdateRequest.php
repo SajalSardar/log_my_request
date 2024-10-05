@@ -47,7 +47,7 @@ class TicketUpdateRequest extends Form
      * Define public property $requester_type_id;
      * @var ?int
      */
-    public ?int $requester_type_id;
+    public ?int $requester_type_id = null;
 
     /**
      * Define public property $requester_id;
@@ -71,19 +71,19 @@ class TicketUpdateRequest extends Form
      * Define public property $source_id;
      * @var ?int
      */
-    public ?int $source_id;
+    public ?int $source_id = null;
 
     /**
      * Define public property $category_id;
      * @var ?int
      */
-    public ?int $category_id;
+    public ?int $category_id = null;
 
     /**
      * Define public property $team_id;
      * @var ?int
      */
-    public ?int $team_id;
+    public ?int $team_id = null;
 
     /**
      * Define public property $ticket_status_id;
@@ -99,7 +99,7 @@ class TicketUpdateRequest extends Form
     /**
      * Define public property $owner_id;
      */
-    public $owner_id;
+    public $owner_id = null;
 
     /**
      * Define public method rules() to validation

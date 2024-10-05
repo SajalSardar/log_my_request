@@ -121,13 +121,20 @@
                         <x-forms.label for="form.team_id">
                             {{ __('Assign Team') }}
                         </x-forms.label>
-                        <x-forms.select-input wire:model="form.team_id" wire:change="selectCategoryAgent">
+                        {{-- <x-forms.select-input wire:model="form.team_id" wire:change="selectCategoryAgent">
                             <option disabled selected>Assign Team</option>
                             @foreach ($teams as $each)
                                 <option @selected(old('form.team_id', $ticket?->team_id) == $each?->id) value="{{ $each->id }}">{{ $each?->name }}
                                 </option>
                             @endforeach
+                        </x-forms.select-input> --}}
+                        <x-forms.select-input wire:model="form.team_id" wire:change="selectCategoryAgent">
+                            <option value="" disabled>Select a Team</option>
+                            @foreach ($teams as $each)
+                                <option value="{{ $each->id }}" @selected($form->team_id == $each->id)>{{ $each->name }}</option>
+                            @endforeach
                         </x-forms.select-input>
+
                         <x-input-error :messages="$errors->get('form.team_id')" class="mt-2" />
                     </div>
                 </div>

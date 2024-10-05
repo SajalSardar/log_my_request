@@ -133,7 +133,7 @@ class Fileupload
      * @param $model
      * @return array|object|bool|string
      */
-    public static function updateFile(array | object $request, Bucket $bucket, $oldItem, int $model_id, $model): array | object | bool | string
+    public static function updateFile(array | object $request, Bucket $bucket, $oldItem, $model_id, $model): array | object | bool | string
     {
         if (!empty($oldItem?->image?->path) && !empty($oldItem?->image?->filename)) {
             $fileToDelete = storage_path('app/public/' . $oldItem->image->path . '/' . $oldItem?->image?->filename);
@@ -146,14 +146,10 @@ class Fileupload
         $size = $request->request_attachment->getSize() . ' bytes';
         $isUpload = $request->request_attachment->storeAs($bucket->toString(), $filename, 'public');
         $url = asset('storage/' . $bucket->toString() . '/' . $filename);
-
         if ($isUpload) {
             $imageDatabase = Image::where('image_type', $model)->where('image_id', $oldItem->id)->update(
                 [
-                    'image_type' => $model,
-                    'image_id' => $model_id,
                     'filename' => $filename,
-                    'disk' => 'local',
                     'path' => $bucket->toString(),
                     'url' => $url,
                     'size' => $size,
