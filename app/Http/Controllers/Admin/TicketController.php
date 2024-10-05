@@ -29,19 +29,19 @@ class TicketController extends Controller {
         $user = User::find(Auth::id());
 
         $tickets = TicketStatus::query()
-            ->join('tickets as t', 'ticket_statuses.id', '=', 't.ticket_status_id')
-            ->join('ticket_ownerships as towner', 't.id', '=', 'towner.ticket_id')
             ->with('ticket', function ($query) {
-                $query->with(['owners', 'source', 'ticket_status']);
+                $query->with(['owners', 'source', 'user', 'team', 'requester_type']);
             })
-        // ->select('ticket_statuses.*', 't.*', 'towner.*')
-            ->select('ticket_statuses.*')
-            ->withCount('ticket');
+            ->withCount('ticket')
+            ->orderByRaw("CASE WHEN ticket_statuses.name = 'open' THEN 1 ELSE 2 END") // Order by status
+            ->orderBy('ticket_statuses.name');
 
         if ($user->hasRole('super-admin') === false) {
             $tickets->where('towner.owner_id', Auth::id());
         }
         $this->tickets = $tickets->get();
+
+        // return $this->tickets;
 
         return view("ticket.index", ['tickets' => $this->tickets ?? collect()]);
     }
