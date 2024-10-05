@@ -117,6 +117,24 @@
                         <x-input-error :messages="$errors->get('form.source_id')" class="mt-2" />
                     </div>
                     <div class="p-2">
+                        <x-forms.label for="form.category_id" required="yes">
+                            {{ __('Category') }}
+                        </x-forms.label>
+
+                        <x-forms.select-input wire:model="form.category_id">
+                            <option value="">Select Category</option>
+                            @foreach ($categories as $each)
+                                <option value="{{ $each?->id }}">{{ $each?->name }}</option>
+                            @endforeach
+                        </x-forms.select-input>
+
+                        <x-input-error :messages="$errors->get('form.category_id')" class="mt-2" />
+                    </div>
+
+                </div>
+
+                <div class="grid md:grid-cols-3 sm:grid-cols-1">
+                    <div class="p-2">
                         <x-forms.label for="form.team_id">
                             {{ __('Assign Team') }}
                         </x-forms.label>
@@ -127,24 +145,6 @@
                             @endforeach
                         </x-forms.select-input>
                         <x-input-error :messages="$errors->get('form.team_id')" class="mt-2" />
-                    </div>
-
-                </div>
-
-                <div class="grid md:grid-cols-3 sm:grid-cols-1">
-                    <div class="p-2">
-                        <x-forms.label for="form.category_id">
-                            {{ __('Category') }}
-                        </x-forms.label>
-
-                        <x-forms.select-input wire:model="form.category_id">
-                            <option value="">Select Category</option>
-                            @foreach ($categories as $each)
-                                <option value="{{ $each?->category?->id }}">{{ $each?->category?->name }}</option>
-                            @endforeach
-                        </x-forms.select-input>
-
-                        <x-input-error :messages="$errors->get('form.category_id')" class="mt-2" />
                     </div>
 
                     <div class="p-2">

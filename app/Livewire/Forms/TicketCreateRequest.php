@@ -117,7 +117,7 @@ class TicketCreateRequest extends Form
         $arr['form.priority'] = ['required'];
         $arr['form.due_date'] = ['nullable'];
         $arr['form.source_id'] = ['nullable', Rule::exists(Source::class, 'id')];
-        $arr['form.category_id'] = ['nullable', Rule::exists(Category::class, 'id')];
+        $arr['form.category_id'] = ['required', Rule::exists(Category::class, 'id')];
         $arr['form.team_id'] = ['nullable', Rule::exists(Team::class, 'id')];
         $arr['form.ticket_status_id'] = ['required', Rule::exists(TicketStatus::class, 'id')];
         $arr['form.request_attachment'] = ['nullable', 'mimes:pdf,docs,ppt', 'max:3024'];
