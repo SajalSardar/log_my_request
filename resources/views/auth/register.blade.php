@@ -116,8 +116,9 @@
                         <div class="col-span-6">
                             <x-forms.select-input name="role">
                                 <option disabled selected>Select User Type</option>
-                                <option value="organizer">{{ __('Organizer') }}</option>
-                                <option value="attendee">{{ __('Attendee') }}</option>
+                                @foreach ($roles as $role)
+                                    <option value="{{ $role->name }}">{{ __(Str::ucfirst($role->name)) }}</option>
+                                @endforeach
                             </x-forms.select-input>
                             <x-input-error :messages="$errors->get('role')" class="mt-2" />
                         </div>
