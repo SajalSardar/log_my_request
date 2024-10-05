@@ -147,14 +147,18 @@ class Fileupload
         $isUpload = $request->request_attachment->storeAs($bucket->toString(), $filename, 'public');
         $url = asset('storage/' . $bucket->toString() . '/' . $filename);
         if ($isUpload) {
-            $imageDatabase = Image::where('image_type', $model)->where('image_id', $oldItem->id)->update(
+            $imageDatabase = Image::updateOrCreate(['image_id' => $model_id],
                 [
+                    'image_type' => $model,
+                    'image_id' => $model_id,
                     'filename' => $filename,
+                    'disk' => 'local',
                     'path' => $bucket->toString(),
                     'url' => $url,
                     'size' => $size,
                 ]
             );
+
             return $imageDatabase;
         } else {
             return false;
