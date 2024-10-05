@@ -133,6 +133,29 @@ class TicketService
                 'due_date' => $request->due_date,
             ]
         );
+        $ticket = Ticket::query()->where('id', $model->getKey())->with('ticket_status')->first();
+        $ticket_notes = TicketNote::query()->where('ticket_id', $model->getKey())->first();
+        $ticket_notes->update([
+            'ticket_id' => $model->getKey(),
+            'note_type' => 'internal_note',
+            'note' => $request?->request_description,
+            'new_status' => $ticket?->ticket_status?->name,
+            'created_by' => Auth::user()->id,
+        ]);
+
+        $ticket_logs = TicketLog::query()->where('ticket_id', $model->getKey())->first();
+        $ticket_logs->update([
+            'ticket_id' => $model->getKey(),
+            'ticket_status' => $ticket?->ticket_status?->name,
+            'comment' => $request?->request_description,
+            'created_by' => Auth::user()->id,
+            'updated_by' => Auth::user()->id,
+        ]);
+
+        if (isset($request->owner_id)) {
+            $model->owners()->sync([$request->owner_id]);
+        }
+
         return $response;
     }
 }

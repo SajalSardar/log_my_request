@@ -99,7 +99,7 @@ class TicketCreateRequest extends Form
     /**
      * Define public property $owner_id;
      */
-    public $owner_id = '';
+    public $owner_id;
 
     /**
      * Define public method rules() to validation

@@ -48,39 +48,6 @@ class Fileupload
     }
 
     /**
-     * Define public method uploadFile() to uploadFile the file server and database
-     * @param array|object $request
-     * @param Bucket $bucket
-     * @param int $model_id int
-     * @param $model
-     * @return array|object|bool|string
-     */
-    public static function uploadFile(array | object $request, Bucket $bucket, int $model_id, $model): array | object | bool | string
-    {
-        $filename = uniqid() . '-' . $request->request_attachment->getClientOriginalName();
-        $size = $request->request_attachment->getSize() . ' bytes';
-        $isUpload = $request->request_attachment->storeAs($bucket->toString(), $filename, 'public');
-        $url = asset('storage/' . $bucket->toString() . '/' . $filename);
-
-        if ($isUpload) {
-            $imageDatabase = Image::create(
-                [
-                    'image_type' => $model,
-                    'image_id' => $model_id,
-                    'filename' => $filename,
-                    'disk' => 'local',
-                    'path' => $bucket->toString(),
-                    'url' => $url,
-                    'size' => $size,
-                ]
-            );
-            return $imageDatabase;
-        } else {
-            return false;
-        }
-    }
-
-    /**
      * Define public method fileupload() to upload the file server and database
      * @param array|object $request
      * @param int $model_id int
@@ -122,6 +89,79 @@ class Fileupload
             } else {
                 return false;
             }
+        }
+    }
+
+    /**
+     * Define public method uploadFile() to uploadFile the file server and database
+     * @param array|object $request
+     * @param Bucket $bucket
+     * @param int $model_id int
+     * @param $model
+     * @return array|object|bool|string
+     */
+    public static function uploadFile(array | object $request, Bucket $bucket, int $model_id, $model): array | object | bool | string
+    {
+        $filename = uniqid() . '-' . $request->request_attachment->getClientOriginalName();
+        $size = $request->request_attachment->getSize() . ' bytes';
+        $isUpload = $request->request_attachment->storeAs($bucket->toString(), $filename, 'public');
+        $url = asset('storage/' . $bucket->toString() . '/' . $filename);
+
+        if ($isUpload) {
+            $imageDatabase = Image::where('image_id', $model->id)->update(
+                [
+                    'image_type' => $model,
+                    'image_id' => $model_id,
+                    'filename' => $filename,
+                    'disk' => 'local',
+                    'path' => $bucket->toString(),
+                    'url' => $url,
+                    'size' => $size,
+                ]
+            );
+            return $imageDatabase;
+        } else {
+            return false;
+        }
+    }
+
+    /**
+     * Define public method uploadFile() to uploadFile the file server and database
+     * @param array|object $request
+     * @param Bucket $bucket
+     * @param int $model_id int
+     * @param $model
+     * @return array|object|bool|string
+     */
+    public static function updateFile(array | object $request, Bucket $bucket, $oldItem, int $model_id, $model): array | object | bool | string
+    {
+        if (!empty($oldItem?->request_attachment?->path) || !empty($oldItem?->request_attachment?->filename)) {
+            $fileToDelete = storage_path('app/public/' . $oldItem->request_attachment->path . '/' . $oldItem?->request_attachment?->filename);
+            if (file_exists($fileToDelete)) {
+                unlink($fileToDelete);
+            }
+        }
+
+        $filename = uniqid() . '-' . $request->request_attachment->getClientOriginalName();
+        $size = $request->request_attachment->getSize() . ' bytes';
+        $isUpload = $request->request_attachment->storeAs($bucket->toString(), $filename, 'public');
+        $url = asset('storage/' . $bucket->toString() . '/' . $filename);
+
+        if ($isUpload) {
+            $imageDatabase = Image::create(
+                [
+                    'image_type' => $model,
+                    'image_id' => $model_id,
+                    'filename' => $filename,
+                    'disk' => 'local',
+                    'path' => $bucket->toString(),
+                    'url' => $url,
+                    'size' => $size,
+                ]
+            );
+            return $imageDatabase;
+        } else {
+            return false;
         }
     }
 

@@ -2,14 +2,14 @@
 
 namespace App\Livewire\Forms;
 
-use Livewire\Form;
-use App\Models\Team;
-use App\Models\User;
-use App\Models\Source;
 use App\Models\Category;
-use App\Models\TicketStatus;
 use App\Models\RequesterType;
+use App\Models\Source;
+use App\Models\Team;
+use App\Models\TicketStatus;
+use App\Models\User;
 use Illuminate\Validation\Rule;
+use Livewire\Form;
 
 class TicketUpdateRequest extends Form
 {
@@ -23,7 +23,7 @@ class TicketUpdateRequest extends Form
      * Define public property $request_description;
      * @var ?string
      */
-    public ?string $request_description;
+    public ?string $request_description = '';
 
     /**
      * Define public property $requester_name;
@@ -41,19 +41,19 @@ class TicketUpdateRequest extends Form
      * Define public property $requester_phone;
      * @var ?string
      */
-    public ?string $requester_phone;
+    public ?string $requester_phone = '';
 
     /**
      * Define public property $requester_type_id;
-     * @var ?string
+     * @var ?int
      */
-    public ?string $requester_type_id;
+    public ?int $requester_type_id;
 
     /**
      * Define public property $requester_id;
      * @var ?string
      */
-    public ?string $requester_id;
+    public ?string $requester_id = '';
 
     /**
      * Define public property $priority;
@@ -65,25 +65,25 @@ class TicketUpdateRequest extends Form
      * Define public property $due_date;
      * @var ?string
      */
-    public ?string $due_date;
+    public $due_date;
 
     /**
      * Define public property $source_id;
-     * @var ?string
+     * @var ?int
      */
-    public ?string $source_id;
+    public ?int $source_id;
 
     /**
      * Define public property $category_id;
-     * @var ?string
+     * @var ?int
      */
-    public ?string $category_id;
+    public ?int $category_id;
 
     /**
      * Define public property $team_id;
-     * @var ?string
+     * @var ?int
      */
-    public ?string $team_id = '';
+    public ?int $team_id;
 
     /**
      * Define public property $ticket_status_id;
@@ -97,7 +97,7 @@ class TicketUpdateRequest extends Form
     public $request_attachment;
 
     /**
-     * Define public property $owner_id
+     * Define public property $owner_id;
      */
     public $owner_id;
 
