@@ -61,7 +61,7 @@
                         </x-forms.label>
 
                         <x-forms.select-input wire:model="form.requester_type_id">
-                            <option>Requester type</option>
+                            <option selected value>Requester type</option>
                             @foreach ($requester_type as $each)
                                 <option @selected(old('form.requester_type_id', $ticket?->requester_type_id) == $each?->id) value="{{ $each->id }}">{{ $each?->name }}
                                 </option>
@@ -108,7 +108,7 @@
                         </x-forms.label>
 
                         <x-forms.select-input wire:model="form.source_id">
-                            <option>Source</option>
+                            <option selected value>Source</option>
                             @foreach ($sources as $each)
                                 <option @selected(old('form.source_id', $ticket?->source_id) == $each?->id) value="{{ $each->id }}">{{ $each?->title }}
                                 </option>
@@ -122,7 +122,7 @@
                             {{ __('Assign Team') }}
                         </x-forms.label>
                         <x-forms.select-input wire:model="form.team_id" wire:change="selectCategoryAgent">
-                            <option>Assign Team</option>
+                            <option disabled selected>Assign Team</option>
                             @foreach ($teams as $each)
                                 <option @selected(old('form.team_id', $ticket?->team_id) == $each?->id) value="{{ $each->id }}">{{ $each?->name }}
                                 </option>
@@ -139,7 +139,7 @@
                         </x-forms.label>
 
                         <x-forms.select-input wire:model="form.category_id">
-                            <option>Category</option>
+                            <option disabled selected>Category</option>
                             @foreach ($categories as $each)
                                 <option @selected(old('form.category_id', $ticket?->category_id) == $each?->id) value="{{ $each?->category?->id }}">
                                     {{ $each?->category?->name }}</option>

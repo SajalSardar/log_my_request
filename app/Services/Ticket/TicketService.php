@@ -122,7 +122,7 @@ class TicketService
                 'user_id' => $checkUser ? $checkUser->id : $this->user->id,
                 'requester_type_id' => $request->requester_type_id,
                 'team_id' => $request->team_id,
-                'category_id' => $request->category_id,
+                'category_id' => $request->category_id ?? 0,
                 'ticket_status_id' => $request->ticket_status_id,
                 'source_id' => $request->source_id,
                 'title' => $request->request_title,
@@ -151,9 +151,9 @@ class TicketService
             'created_by' => Auth::user()->id,
             'updated_by' => Auth::user()->id,
         ]);
-
-        if (isset($request->owner_id)) {
-            $model->owners()->sync([$request->owner_id]);
+        // dd($request->owner_id);
+        if (!empty($request->owner_id)) {
+            $model->owners()->sync($request->owner_id);
         }
 
         return $response;

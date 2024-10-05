@@ -108,7 +108,7 @@ class Fileupload
         $url = asset('storage/' . $bucket->toString() . '/' . $filename);
 
         if ($isUpload) {
-            $imageDatabase = Image::where('image_id', $model->id)->update(
+            $imageDatabase = Image::create(
                 [
                     'image_type' => $model,
                     'image_id' => $model_id,
@@ -135,8 +135,8 @@ class Fileupload
      */
     public static function updateFile(array | object $request, Bucket $bucket, $oldItem, int $model_id, $model): array | object | bool | string
     {
-        if (!empty($oldItem?->request_attachment?->path) || !empty($oldItem?->request_attachment?->filename)) {
-            $fileToDelete = storage_path('app/public/' . $oldItem->request_attachment->path . '/' . $oldItem?->request_attachment?->filename);
+        if (!empty($oldItem?->image?->path) && !empty($oldItem?->image?->filename)) {
+            $fileToDelete = storage_path('app/public/' . $oldItem->image->path . '/' . $oldItem?->image?->filename);
             if (file_exists($fileToDelete)) {
                 unlink($fileToDelete);
             }
@@ -148,7 +148,7 @@ class Fileupload
         $url = asset('storage/' . $bucket->toString() . '/' . $filename);
 
         if ($isUpload) {
-            $imageDatabase = Image::create(
+            $imageDatabase = Image::where('image_type', $model)->where('image_id', $oldItem->id)->update(
                 [
                     'image_type' => $model,
                     'image_id' => $model_id,
