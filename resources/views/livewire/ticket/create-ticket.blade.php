@@ -18,8 +18,12 @@
                     <x-forms.label for="form.request_description">
                         {{ __('Request Description') }}
                     </x-forms.label>
-                    <textarea cols="30" id="editor" rows="10" wire:model='form.request_description' class="w-full py-3 text-base font-normal font-inter border border-slate-400 rounded" placeholder="Add description here.."></textarea>
-                    <x-input-error :messages="$errors->get('form.request_description')" class="mt-2" />
+                    <div wire:ignore>
+                        <textarea wire:ignore cols="30" id="editor" rows="10" wire:model.lazy='form.request_description'
+                            class="w-full py-3 text-base font-normal font-inter border border-slate-400 rounded"
+                            placeholder="Add description here.."></textarea>
+                        <x-input-error :messages="$errors->get('form.request_description')" class="mt-2" />
+                    </div>
                 </div>
 
                 <div class="grid md:grid-cols-1 sm:gridicols-1 sm:gap-1 md:gap-4">
@@ -83,9 +87,12 @@
                             {{ __('Requester Priority') }}
                         </x-forms.label>
                         <div class="mt-3">
-                            <x-forms.radio-input wire:model="form.priority" name="priority" class="ml-2" value="low" /> <span class="ml-2">Low</span>
-                            <x-forms.radio-input wire:model="form.priority" name="priority" class="ml-2" value="medium" /> <span class="ml-2">Medium</span>
-                            <x-forms.radio-input wire:model="form.priority" name="priority" class="ml-2" value="high" /> <span class="ml-2">High</span>
+                            <x-forms.radio-input wire:model="form.priority" name="priority" class="ml-2"
+                                value="low" /> <span class="ml-2">Low</span>
+                            <x-forms.radio-input wire:model="form.priority" name="priority" class="ml-2"
+                                value="medium" /> <span class="ml-2">Medium</span>
+                            <x-forms.radio-input wire:model="form.priority" name="priority" class="ml-2"
+                                value="high" /> <span class="ml-2">High</span>
                         </div>
                         <x-input-error :messages="$errors->get('form.priority')" class="mt-2" />
                     </div>
@@ -119,7 +126,7 @@
                             {{ __('Assign Team') }}
                         </x-forms.label>
                         <x-forms.select-input wire:model="form.team_id" wire:change="selectCategoryAgent">
-                            <option>Assign Team</option>
+                            <option value="">Assign Team</option>
                             @foreach ($teams as $each)
                                 <option value="{{ $each->id }}">{{ $each?->name }}</option>
                             @endforeach
@@ -136,7 +143,7 @@
                         </x-forms.label>
 
                         <x-forms.select-input wire:model="form.category_id">
-                            <option>Category</option>
+                            <option value="">Select Category</option>
                             @foreach ($categories as $each)
                                 <option value="{{ $each?->category?->id }}">{{ $each?->category?->name }}</option>
                             @endforeach
@@ -149,20 +156,9 @@
                         <x-forms.label for="form.owner_id" required="yes">
                             {{ __('Assign Agent') }}
                         </x-forms.label>
-
-                        {{-- <div wire:ignore>
-                            <x-forms.select2-select wire:model.defer="form.owner_id" id="owner_id" multiple>
-                                <option value="" disabled>Assign Agent</option>
-                                @foreach ($teamAgent as $item)
-                                    @foreach ($item->agents as $each)
-                                        <option value="{{ $each?->id }}">{{ $each?->name }}</option>
-                                    @endforeach
-                                @endforeach
-                            </x-forms.select2-select>
-                        </div> --}}
                         <div>
-                            <x-forms.select-input wire:model="form.owner_id" multiple>
-                                <option value="" disabled>Assign Agent</option>
+                            <x-forms.select-input wire:model="form.owner_id">
+                                <option value="">Select Assign Agent</option>
                                 @foreach ($teamAgent as $item)
                                     @foreach ($item->agents as $each)
                                         <option value="{{ $each?->id }}">{{ $each?->name }}</option>
@@ -179,7 +175,7 @@
                         </x-forms.label>
 
                         <x-forms.select-input wire:model="form.ticket_status_id">
-                            <option value="">Ticket status</option>
+                            <option value="">Select status</option>
                             @foreach ($ticket_status as $status)
                                 <option value="{{ $status->id }}">{{ $status->name }}</option>
                             @endforeach
@@ -211,8 +207,13 @@
 @endsection
 @section('script')
     <script>
-        ClassicEditor
+        const editor = ClassicEditor
             .create(document.querySelector('#editor'))
+            .then(editor => {
+                editor.model.document.on('change:data', () => {
+                    @this.set('form.request_description', editor.getData());
+                })
+            })
             .catch(error => {
                 console.error(error);
             });

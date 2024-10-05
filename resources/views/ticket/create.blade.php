@@ -3,7 +3,7 @@
     @section('script')
         <script>
             document.addEventListener('DOMContentLoaded', function() {
-                initSelect2form('owner_id');
+
                 let attachment = document.querySelector('#attachment');
                 let attachmentName = document.querySelector('#attachmentName');
 
