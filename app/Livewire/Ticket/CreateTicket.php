@@ -86,7 +86,6 @@ class CreateTicket extends Component {
      * @return void
      */
     public function save(TicketService $service) {
-
         $this->validate(rules: $this->form->rules(), attributes: $this->form->attributes());
         $isCreate = $service->store($this->form);
         $isUpload = $this->form->request_attachment ? Fileupload::uploadFile($this->form, Bucket::TICKET, $isCreate->getKey(), Ticket::class) : '';

@@ -69,7 +69,7 @@ class UpdateTicket extends Component {
         /**
          * Old value set to the input field
          */
-        $this->ticket                    = Ticket::query()->with('user', 'requester_type', 'source', 'image')->where('id', $this->ticket->id)->first();
+        $this->ticket                    = Ticket::query()->with('user', 'requester_type', 'source', 'image','owners')->where('id', $this->ticket->id)->first();
         $this->form->request_title       = $this->ticket?->title;
         $this->form->request_description = $this->ticket?->description;
         $this->form->requester_name      = $this->ticket->user->name;
@@ -83,6 +83,7 @@ class UpdateTicket extends Component {
         $this->form->team_id             = $this->ticket->team_id;
         $this->form->category_id         = $this->ticket->category_id;
         $this->form->ticket_status_id    = $this->ticket->ticket_status_id;
+        $this->form->owner_id            = $this->ticket->owners->pluck('id')->toArray();
 
         /**
          * Select box dynamic value set.
@@ -109,6 +110,7 @@ class UpdateTicket extends Component {
      * Define public method update() to update the resourses
      */
     public function update(TicketService $service) {
+        // dd($this->form);
         $this->validate(rules: $this->form->rules(), attributes: $this->form->attributes());
         $isCreate = $service->update($this->ticket, $this->form);
         // $isUpload = $this->form->request_attachment ? Fileupload::uploadFile($this->form, Bucket::TICKET, $isCreate->getKey(), Ticket::class) : '';

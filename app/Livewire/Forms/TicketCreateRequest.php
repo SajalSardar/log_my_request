@@ -41,19 +41,19 @@ class TicketCreateRequest extends Form
      * Define public property $requester_phone;
      * @var ?string
      */
-    public ?string $requester_phone;
+    public ?string $requester_phone = '';
 
     /**
      * Define public property $requester_type_id;
-     * @var ?string
+     * @var ?int
      */
-    public ?string $requester_type_id;
+    public ?int $requester_type_id;
 
     /**
      * Define public property $requester_id;
      * @var ?string
      */
-    public ?string $requester_id;
+    public ?string $requester_id = '';
 
     /**
      * Define public property $priority;
@@ -65,25 +65,25 @@ class TicketCreateRequest extends Form
      * Define public property $due_date;
      * @var ?string
      */
-    public ?string $due_date;
+    public $due_date;
 
     /**
      * Define public property $source_id;
-     * @var ?string
+     * @var ?int
      */
-    public ?string $source_id;
+    public ?int $source_id;
 
     /**
      * Define public property $category_id;
-     * @var ?string
+     * @var ?int
      */
-    public ?string $category_id;
+    public ?int $category_id;
 
     /**
      * Define public property $team_id;
-     * @var ?string
+     * @var ?int
      */
-    public ?string $team_id = '';
+    public ?int $team_id;
 
     /**
      * Define public property $ticket_status_id;
@@ -99,7 +99,7 @@ class TicketCreateRequest extends Form
     /**
      * Define public property $owner_id;
      */
-    public $owner_id;
+    public $owner_id = '';
 
     /**
      * Define public method rules() to validation
@@ -111,16 +111,16 @@ class TicketCreateRequest extends Form
         $arr['form.request_description'] = ['nullable'];
         $arr['form.requester_name'] = ['required'];
         $arr['form.requester_email'] = ['required', 'email'];
-        $arr['form.requester_phone'] = ['required', 'string', 'max:15'];
-        $arr['form.requester_type_id'] = ['required', Rule::exists(RequesterType::class, 'id')];
-        $arr['form.requester_id'] = ['required'];
+        $arr['form.requester_phone'] = ['nullable', 'string', 'max:15'];
+        $arr['form.requester_type_id'] = ['nullable', Rule::exists(RequesterType::class, 'id')];
+        $arr['form.requester_id'] = ['nullable'];
         $arr['form.priority'] = ['required'];
-        $arr['form.due_date'] = ['required'];
-        $arr['form.source_id'] = ['required', Rule::exists(Source::class, 'id')];
-        $arr['form.category_id'] = ['required', Rule::exists(Category::class, 'id')];
-        $arr['form.team_id'] = ['required', Rule::exists(Team::class, 'id')];
+        $arr['form.due_date'] = ['nullable'];
+        $arr['form.source_id'] = ['nullable', Rule::exists(Source::class, 'id')];
+        $arr['form.category_id'] = ['nullable', Rule::exists(Category::class, 'id')];
+        $arr['form.team_id'] = ['nullable', Rule::exists(Team::class, 'id')];
         $arr['form.ticket_status_id'] = ['required', Rule::exists(TicketStatus::class, 'id')];
-        $arr['form.request_attachment'] = ['required', 'mimes:pdf,docs,ppt', 'max:3024'];
+        $arr['form.request_attachment'] = ['nullable', 'mimes:pdf,docs,ppt', 'max:3024'];
         $arr['form.owner_id'] = ['nullable', Rule::exists(User::class, 'id')];
         return $arr;
     }

@@ -8,8 +8,7 @@
                         <x-forms.label for="form.request_title" required="yes">
                             {{ __('Request Title') }}
                         </x-forms.label>
-                        <x-forms.text-input wire:model="form.request_title" value="{{ $ticket?->title }}"
-                            type="text" />
+                        <x-forms.text-input wire:model="form.request_title" value="{{ $ticket?->title }}" type="text" />
                         <x-input-error :messages="$errors->get('form.request_title')" class="mt-2" />
                     </div>
                 </div>
@@ -18,10 +17,10 @@
                     <x-forms.label for="form.request_description">
                         {{ __('Request Description') }}
                     </x-forms.label>
-                    <textarea cols="30" rows="10"wire:model='form.request_description' value={{ $ticket->description }}
-                        class="w-full py-3 text-base font-normal font-inter border border-slate-400 rounded"
-                        placeholder="Add description here..">{!! $ticket?->description !!}</textarea>
-                    <x-input-error :messages="$errors->get('form.request_description')" class="mt-2" />
+                    <div wire:ignore>
+                        <textarea wire:ignore cols="30" id="editor" rows="10" wire:model.lazy='form.request_description' class="w-full py-3 text-base font-normal font-inter border border-slate-400 rounded" placeholder="Add description here..">{!! $ticket->description !!}</textarea>
+                        <x-input-error :messages="$errors->get('form.request_description')" class="mt-2" />
+                    </div>
                 </div>
 
                 <div class="grid md:grid-cols-1 sm:gridicols-1 sm:gap-1 md:gap-4">
@@ -36,16 +35,14 @@
                         <x-forms.label for="form.requester_name" required='yes'>
                             {{ __('Requester Name') }}
                         </x-forms.label>
-                        <x-forms.text-input type="text" wire:model='form.requester_name'
-                            value="{{ $ticket?->user->name }}" />
+                        <x-forms.text-input type="text" wire:model='form.requester_name' value="{{ $ticket?->user->name }}" />
                         <x-input-error :messages="$errors->get('form.requester_name')" class="mt-2" />
                     </div>
                     <div class="p-2 w-full">
                         <x-forms.label for="form.requester_email" required="yes">
                             {{ __('Requester Email') }}
                         </x-forms.label>
-                        <x-forms.text-input wire:model="form.requester_email" type="email"
-                            value="{{ $ticket?->user->eamil }}" />
+                        <x-forms.text-input wire:model="form.requester_email" type="email" value="{{ $ticket?->user->eamil }}" />
                         <x-input-error :messages="$errors->get('form.requester_email')" class="mt-2" />
                     </div>
                 </div>
@@ -55,12 +52,11 @@
                         <x-forms.label for="form.requester_phone">
                             {{ __('Requester Phone') }}
                         </x-forms.label>
-                        <x-forms.text-input type="number" wire:model='form.requester_phone'
-                            value="{{ $ticket?->user->phone }}" />
+                        <x-forms.text-input type="number" wire:model='form.requester_phone' value="{{ $ticket?->user->phone }}" />
                         <x-input-error :messages="$errors->get('form.requester_phone')" class="mt-2" />
                     </div>
                     <div class="p-2 w-full">
-                        <x-forms.label for="form.requester_type" required="yes">
+                        <x-forms.label for="form.requester_type">
                             {{ __('Requester Type') }}
                         </x-forms.label>
 
@@ -78,7 +74,7 @@
 
                 <div class="grid md:grid-cols-2 sm:grid-cols-1 sm:gap-1 md:gap-4">
                     <div class="p-2 w-full">
-                        <x-forms.label for="form.requester_id" required='yes' value="{{ $ticket?->requester_id }}">
+                        <x-forms.label for="form.requester_id" value="{{ $ticket?->requester_id }}">
                             {{ __('Requester ID') }}
                         </x-forms.label>
                         <x-forms.text-input type="text" wire:model='form.requester_id' />
@@ -89,12 +85,9 @@
                             {{ __('Requester Priority') }}
                         </x-forms.label>
                         <div class="mt-3">
-                            <x-forms.radio-input wire:model="form.priority" name="priority" class="ml-2"
-                                value="low" /> <span class="ml-2">Low</span>
-                            <x-forms.radio-input wire:model="form.priority" name="priority" class="ml-2"
-                                value="medium" /> <span class="ml-2">Medium</span>
-                            <x-forms.radio-input wire:model="form.priority" name="priority" class="ml-2"
-                                value="high" /> <span class="ml-2">High</span>
+                            <x-forms.radio-input wire:model="form.priority" name="priority" class="ml-2" value="low" /> <span class="ml-2">Low</span>
+                            <x-forms.radio-input wire:model="form.priority" name="priority" class="ml-2" value="medium" /> <span class="ml-2">Medium</span>
+                            <x-forms.radio-input wire:model="form.priority" name="priority" class="ml-2" value="high" /> <span class="ml-2">High</span>
                         </div>
                         <x-input-error :messages="$errors->get('form.priority')" class="mt-2" />
                     </div>
@@ -102,16 +95,15 @@
 
                 <div class="grid md:grid-cols-3 sm:grid-cols-1">
                     <div class="p-2">
-                        <x-forms.label for="form.due_date" required='yes'>
+                        <x-forms.label for="form.due_date">
                             {{ __('Due Date') }}
                         </x-forms.label>
-                        <x-forms.text-input type="date" wire:model='form.due_date'
-                            value="{{ $ticket?->due_date }}" />
+                        <x-forms.text-input type="date" wire:model='form.due_date' value="{{ $ticket?->due_date }}" />
                         <x-input-error :messages="$errors->get('form.due_date')" class="mt-2" />
                     </div>
 
                     <div class="p-2">
-                        <x-forms.label for="form.source_id" required="yes">
+                        <x-forms.label for="form.source_id">
                             {{ __('Source') }}
                         </x-forms.label>
 
@@ -126,7 +118,7 @@
                         <x-input-error :messages="$errors->get('form.source_id')" class="mt-2" />
                     </div>
                     <div class="p-2">
-                        <x-forms.label for="form.team_id" required='yes'>
+                        <x-forms.label for="form.team_id">
                             {{ __('Assign Team') }}
                         </x-forms.label>
                         <x-forms.select-input wire:model="form.team_id" wire:change="selectCategoryAgent">
@@ -142,7 +134,7 @@
 
                 <div class="grid md:grid-cols-3 sm:grid-cols-1">
                     <div class="p-2">
-                        <x-forms.label for="form.category_id" required="yes">
+                        <x-forms.label for="form.category_id">
                             {{ __('Category') }}
                         </x-forms.label>
 
@@ -158,20 +150,22 @@
                     </div>
 
                     <div class="p-2">
-                        <x-forms.label for="form.assigned_agent" required="yes">
+                        <x-forms.label for="form.owner_id">
                             {{ __('Assign Agent') }}
                         </x-forms.label>
 
-                        <x-forms.select-input wire:model="form.agent_id">
+                        <x-forms.select-input wire:model="form.owner_id">
                             <option value="">Assign Agent</option>
                             @foreach ($teamAgent as $each)
                                 @foreach ($each->agents as $item)
-                                    <option value="{{ $item }}">{{ $item->name }}</option>
+                                    <option {{ in_array($item->id, $ticket?->owners?->pluck('id')->toArray()) ? 'selected' : '' }} value="{{ $item?->id }}">
+                                        {{ $item?->name }}
+                                    </option>
                                 @endforeach
                             @endforeach
                         </x-forms.select-input>
 
-                        <x-input-error :messages="$errors->get('form.ageent_id')" class="mt-2" />
+                        <x-input-error :messages="$errors->get('form.owner_id')" class="mt-2" />
                     </div>
                     <div class="p-2">
                         <x-forms.label for="form.ticket_status_id" required="yes">
@@ -201,3 +195,25 @@
         </div>
     </div>
 </form>
+@section('style')
+    <style>
+        .ck-editor__editable_inline {
+            min-height: 300px;
+            /* Adjust the height to your preference */
+        }
+    </style>
+@endsection
+@section('script')
+    <script>
+        const editor = ClassicEditor
+            .create(document.querySelector('#editor'))
+            .then(editor => {
+                editor.model.document.on('change:data', () => {
+                    @this.set('form.request_description', editor.getData());
+                })
+            })
+            .catch(error => {
+                console.error(error);
+            });
+    </script>
+@endsection
