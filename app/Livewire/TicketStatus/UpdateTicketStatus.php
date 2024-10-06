@@ -4,6 +4,7 @@ namespace App\Livewire\TicketStatus;
 
 use App\Models\TicketStatus;
 use Illuminate\Support\Facades\Gate;
+use Illuminate\Support\Str;
 use Livewire\Attributes\Validate;
 use Livewire\Component;
 
@@ -32,6 +33,7 @@ class UpdateTicketStatus extends Component {
 
         $this->ticketstatus->update([
             "name"   => $this->name,
+            'slug'   => Str::slug($this->name),
             "status" => $this->status,
         ]);
 

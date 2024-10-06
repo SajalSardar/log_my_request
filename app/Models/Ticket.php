@@ -24,6 +24,12 @@ class Ticket extends Model {
         static::updated(function () {
             Cache::forget("ticket_list");
         });
+        static::updated(function () {
+            Cache::forget("unassign_ticket_list");
+        });
+        static::updated(function () {
+            Cache::forget("status_ticket_list");
+        });
     }
 
     /**
