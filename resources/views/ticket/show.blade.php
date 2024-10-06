@@ -1,93 +1,76 @@
 <x-app-layout>
-    <div class="grid sm:grid-cols-1 md:grid-cols-2 md:gap-1 sm:gap-1">
-        <div class="border border-slate-300 px-5 py-10 rounded">
-            <div class="grid sm:grid-cols-3 md:grid-cols-4 md:gap-1 sm:gap-1">
-                <div class="left sm:col-span-2 md:col-span-2">
-                    <div class="flex">
-                        <div class="pr-3">
-                            <img src="https://i.pravatar.cc/300/10" alt="img" height="50" width="50" style="border-radius: 50%">
-                        </div>
+    <header class="mb-6">
+        <span class="text-base font-bold font-inter">Request ID & Title: {{ $ticket?->requester_id }} , {{ $ticket?->title }}</span>
+    </header>
 
-                        <div class="content">
-                            <h3 class="font-inter font-bold text-sm">{{ $ticket?->user?->name }}</h3>
-                            <ul>
-                                <li>
-                                    <p class="font-inter font-semibold text-sm inline-block">Requester ID: </p>
-                                    <span class="text-sm font-inter font-thin">#{{ $ticket?->requester_id }}</span>
-                                </li>
-                                <li>
-                                    <p class="font-inter font-semibold text-sm inline-block">Phone: </p>
-                                    <span class="text-sm font-inter font-thin">{{ $ticket->user?->phone }}</span>
-                                </li>
-                                <li>
-                                    <p class="font-inter font-semibold text-sm inline-block">Email: </p>
-                                    <span class="text-sm font-inter font-thin">{{ $ticket->user?->email }}</span>
-                                </li>
-                            </ul>
+    <div class="flex flex-wrap" id="tabs-id">
+    <div class="w-full">
+    <ul class="flex mb-0 list-none bg-[#F3F4F6]">
+    <li class="-mb-px last:mr-0 px-5 text-center">
+        <a class="cursor-pointer text-sm font-semibold font-inter py-3 px-5 block bg-primary-400 text-white" onclick="changeAtiveTab(event,'tab-detail')">
+        <i class="fas fa-space-shuttle text-base mr-1"></i>  Details
+        </a>
+    </li>
+    <li class="-mb-px last:mr-0 px-5 text-center">
+        <a class="cursor-pointer text-sm font-semibold font-inter py-3 px-5 block bg-transparent text-black-400" onclick="changeAtiveTab(event,'tab-conversation')">
+        <i class="fas fa-cog text-base mr-1"></i>  Conversations
+        </a>
+    </li>
+    <li class="-mb-px last:mr-0 px-5 text-center">
+        <a class="cursor-pointer text-sm font-semibold font-inter py-3 px-5 block bg-transparent text-black-400" onclick="changeAtiveTab(event,'tab-history')">
+        <i class="fas fa-briefcase text-base mr-1"></i>  History
+        </a>
+    </li>
+    </ul>
 
-                        </div>
-                    </div>
-                </div>
-                <div class="left text-end">
-                    <p class="font-inter font-semibold text-sm inline-block">Priority: </p>
-                    <span class="text-sm font-inter font-thin text-teal-500">{{ $ticket?->priority }}</span>
-                    <p class="md:hidden sm:block font-inter font-thin text-sm inline-block">Due Date:</p>
-                    <span class="md:hidden text-sm font-inter font-semibold">{{ Helper::ISODate($ticket?->due_date) }}</span>
-                </div>
-                <div class="left sm:hidden md:block text-end">
-                    <p class="font-inter font-thin text-sm">Due Date: </p>
-                    <span class="text-sm font-inter font-semibold"> {{ Helper::ISODate($ticket?->due_date) }}</span>
-                </div>
+        <div class="relative flex flex-col min-w-0 break-words bg-white w-full my-6">
+        <div class="px-4 py-5 flex-auto">
+            <div class="tab-content tab-space">
+            <div class="block" id="tab-detail">
+                Hello
             </div>
-
-            <div class="mt-1">
-                <p class="font-inter font-semibold text-sm inline-block">Title: </p>
-                <span class="font-inter font-semibold text-sm">{{ $ticket?->title }}</span>
+            <div class="hidden" id="tab-conversation">
+                Conversations Content is here..
             </div>
-
-            <div class="mt-2">
-                <p class="font-inter font-semibold text-xs inline-block">Description: </p>
-                <span class="font-inter font-normal text-xs">{!! $ticket?->description !!}</span>
+            <div class="hidden" id="tab-history">
+                History Content is here..
             </div>
-
-            <div class="mt-2">
-                <ul>
-                    <li>
-                        <p class="font-inter font-normal text-xs inline-block">Requester Type: </p>
-                        <span class="font-inter font-semibold text-xs">{{ $ticket?->requester_type->name ?? '--' }}</span>
-                    </li>
-                    <li>
-                        <p class="font-inter font-normal text-xs inline-block">Category: </p>
-                        <span class="font-inter font-semibold text-xs">{{ $ticket?->category?->name ?? '--' }}</span>
-                    </li>
-                    <li>
-                        <p class="font-inter font-normal text-xs inline-block">Assigned Agent: </p>
-                        <span class="font-inter font-semibold text-xs">{{ 'Finance' }}</span>
-                    </li>
-                    <li>
-                        <p class="font-inter font-normal text-xs inline-block">Assigned Team: </p>
-                        <span class="font-inter font-semibold text-xs">{{ $ticket?->team?->name ?? '--' }}</span>
-                    </li>
-                    <li>
-                        <p class="font-inter font-normal text-xs inline-block">Source: </p>
-                        <span class="font-inter font-semibold text-xs">{{ $ticket?->source?->name ?? '--' }}</span>
-                    </li>
-                    <li>
-                        <p class="font-inter font-normal text-xs inline-block">Statuc: </p>
-                        <span class="font-inter font-semibold text-xs {{ $ticket?->ticket_status?->name == 'In process' ? 'text-process-400' : ($ticket?->ticket_status?->name == 'open' ? 'text-open-400' : '') }}">
-                            {{ $ticket?->ticket_status?->name ?? '--' }}
-                        </span>
-                    </li>
-                    <li>
-                        <p class="font-inter font-normal text-xs inline-block">Attach File: </p>
-                        <span class="font-inter font-semibold text-xs inline-block">
-                            <x-forms.input-file />
-                        </span>
-                    </li>
-                </ul>
-
             </div>
-
+        </div>
         </div>
     </div>
+    </div>
+    <script type="text/javascript">
+    function changeAtiveTab(event, tabID) {
+        let element = event.target;
+        while (element.nodeName !== "A") {
+        element = element.parentNode;
+        }
+        ulElement = element.parentNode.parentNode;
+        aElements = ulElement.querySelectorAll("li > a");
+        tabContents = document.getElementById("tabs-id").querySelectorAll(".tab-content > div");
+        
+        // Loop through all tabs and reset them to inactive styles
+        for (let i = 0; i < aElements.length; i++) {
+        aElements[i].classList.remove("text-white");
+        aElements[i].classList.remove("bg-primary-400");
+        aElements[i].classList.add("text-black-400");
+        aElements[i].classList.add("bg-transparent");
+        tabContents[i].classList.add("hidden");
+        tabContents[i].classList.remove("block");
+        }
+        
+        // Apply active styles to the clicked tab
+        element.classList.remove("text-black-400");
+        element.classList.remove("bg-transparent");
+        element.classList.add("text-white");
+        element.classList.add("bg-primary-400");
+        
+        // Show the corresponding content
+        document.getElementById(tabID).classList.remove("hidden");
+        document.getElementById(tabID).classList.add("block");
+    }
+    </script>
+
+
 </x-app-layout>
