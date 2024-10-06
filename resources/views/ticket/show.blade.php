@@ -27,7 +27,7 @@
                 <div class="px-4 py-5 flex-auto">
                     <div class="tab-content tab-space">
                         <div class="block" id="tab-detail">
-                            <div class="grid lg:grid-cols-3 md:grid-cols-3 sm:grid-cols-1">
+                            <div class="grid lg:grid-cols-3 md:grid-cols-3 sm:grid-cols-1 sm:gap-1 md:gap-5">
                                 <div class="col-span-2">
                                     <!-- Edit & Favorite Part Start !-->
                                     <div class="flex justify-between">
@@ -320,7 +320,12 @@
 
                                 </div>
                                 <div>
-                                    Others part
+                                    <p class="text-base font-bold font-inter">Request Description</p>
+                                    <table class="w-full">
+                                        <thead>
+                                            
+                                        </thead>
+                                    </table>
                                 </div>
                             </div>
                         </div>
