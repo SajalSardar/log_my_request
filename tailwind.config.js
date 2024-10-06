@@ -37,6 +37,9 @@ export default {
                 process: {
                     400: '#3B82F6',
                 },
+                base: {
+                    400 : '#666666'
+                },
                 navbar: {
                     bg: '#F8FAFF'
                 }
