@@ -89,7 +89,7 @@
                                                         <span class="font-sm font-semibold font-inter">Request Age:
                                                         </span>
                                                         <span
-                                                            class="font-sm font-normal font-inter">{{ helper::humanReadableDate($ticket?->due_date) }}</span>
+                                                            class="font-sm font-normal font-inter">{{ Helper::dayMonthYearHourMininteSecond($ticket->created_at) }}</span>
                                                     </li>
                                                     <li>
                                                         <span class="font-sm font-semibold font-inter">Category:

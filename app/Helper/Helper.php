@@ -96,4 +96,42 @@ class Helper {
         }
         return false;
     }
+
+    public static function dayMonthYearHourMininteSecond($date) {
+        $startDate = Carbon::create($date);
+        $endDate   = Carbon::now();
+        $years     = (int) $startDate->diffInYears($endDate);
+        $months    = (int) $startDate
+            ->copy()
+            ->addYears($years)
+            ->diffInMonths($endDate);
+        $days = (int) $startDate
+            ->copy()
+            ->addYears($years)
+            ->addMonths($months)
+            ->diffInDays($endDate);
+        $hours = (int) $startDate
+            ->copy()
+            ->addYears($years)
+            ->addMonths($months)
+            ->addDays($days)
+            ->diffInHours($endDate);
+        $minutes = (int) $startDate
+            ->copy()
+            ->addYears($years)
+            ->addMonths($months)
+            ->addDays($days)
+            ->addHours($hours)
+            ->diffInMinutes($endDate);
+        $seconds = (int) $startDate
+            ->copy()
+            ->addYears($years)
+            ->addMonths($months)
+            ->addDays($days)
+            ->addHours($hours)
+            ->addMinutes($minutes)
+            ->diffInSeconds($endDate);
+
+        return $years . ' years, ' . $months . ' months,' . $days . ' days, ' . $hours . ' hours, ' . $minutes . ' minutes, and ' . $seconds . ' seconds.';
+    }
 }
