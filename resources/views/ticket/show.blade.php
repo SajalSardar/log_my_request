@@ -29,51 +29,8 @@
                         <div class="block" id="tab-detail">
                             <div class="grid lg:grid-cols-3 md:grid-cols-3 sm:grid-cols-1 sm:gap-1 md:gap-5">
                                 <div class="col-span-2">
-                                    <!-- Edit & Favorite Part Start !-->
-                                    <div class="flex justify-between">
-                                        <p class="text-base font-bold font-inter">Request Description</p>
-                                        <div class="action flex">
-                                            <svg class="me-2" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                                <path d="M16.2141 4.98239L17.6158 3.58063C18.39 2.80646 19.6452 2.80646 20.4194 3.58063C21.1935 4.3548 21.1935 5.60998 20.4194 6.38415L19.0176 7.78591M16.2141 4.98239L10.9802 10.2163C9.93493 11.2616 9.41226 11.7842 9.05637 12.4211C8.70047 13.058 8.3424 14.5619 8 16C9.43809 15.6576 10.942 15.2995 11.5789 14.9436C12.2158 14.5877 12.7384 14.0651 13.7837 13.0198L19.0176 7.78591M16.2141 4.98239L19.0176 7.78591" stroke="#666666" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
-                                                <path d="M21 12C21 16.2426 21 18.364 19.682 19.682C18.364 21 16.2426 21 12 21C7.75736 21 5.63604 21 4.31802 19.682C3 18.364 3 16.2426 3 12C3 7.75736 3 5.63604 4.31802 4.31802C5.63604 3 7.75736 3 12 3" stroke="#666666" stroke-width="1.5" stroke-linecap="round" />
-                                            </svg>
-
-                                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                                <path d="M4 17.9808V9.70753C4 6.07416 4 4.25748 5.17157 3.12874C6.34315 2 8.22876 2 12 2C15.7712 2 17.6569 2 18.8284 3.12874C20 4.25748 20 6.07416 20 9.70753V17.9808C20 20.2867 20 21.4396 19.2272 21.8523C17.7305 22.6514 14.9232 19.9852 13.59 19.1824C12.8168 18.7168 12.4302 18.484 12 18.484C11.5698 18.484 11.1832 18.7168 10.41 19.1824C9.0768 19.9852 6.26947 22.6514 4.77285 21.8523C4 21.4396 4 20.2867 4 17.9808Z" stroke="#666666" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
-                                            </svg>
-                                        </div>
-                                    </div>
-                                    <!-- Edit & Favorite Part End !-->
-
-                                    <!-- Description Part Start !-->
-                                    <div class="mt-3 p-4 border border-slate-200 text-base-400 rounded">
-                                        <p class="text-sm font-inter font-normal text-justify">
-                                            {!! $ticket?->description !!}
-                                        </p>
-                                    </div>
-                                    <!-- Description Part End !-->
-
-                                    <!-- Attachment Part Start !-->
-                                    <div class="flex justify-between items-center mt-3">
-                                        <div class="flex items-center">
-                                            <p class="text-base font-bold font-inter me-2">Attached File</p>
-                                            <x-forms.input-file />
-                                        </div>
-                                        <div class="action flex">
-                                            <svg class="me-2" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                                <path d="M16.2141 4.98239L17.6158 3.58063C18.39 2.80646 19.6452 2.80646 20.4194 3.58063C21.1935 4.3548 21.1935 5.60998 20.4194 6.38415L19.0176 7.78591M16.2141 4.98239L10.9802 10.2163C9.93493 11.2616 9.41226 11.7842 9.05637 12.4211C8.70047 13.058 8.3424 14.5619 8 16C9.43809 15.6576 10.942 15.2995 11.5789 14.9436C12.2158 14.5877 12.7384 14.0651 13.7837 13.0198L19.0176 7.78591M16.2141 4.98239L19.0176 7.78591" stroke="#666666" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
-                                                <path d="M21 12C21 16.2426 21 18.364 19.682 19.682C18.364 21 16.2426 21 12 21C7.75736 21 5.63604 21 4.31802 19.682C3 18.364 3 16.2426 3 12C3 7.75736 3 5.63604 4.31802 4.31802C5.63604 3 7.75736 3 12 3" stroke="#666666" stroke-width="1.5" stroke-linecap="round" />
-                                            </svg>
-
-                                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                                <path d="M4 17.9808V9.70753C4 6.07416 4 4.25748 5.17157 3.12874C6.34315 2 8.22876 2 12 2C15.7712 2 17.6569 2 18.8284 3.12874C20 4.25748 20 6.07416 20 9.70753V17.9808C20 20.2867 20 21.4396 19.2272 21.8523C17.7305 22.6514 14.9232 19.9852 13.59 19.1824C12.8168 18.7168 12.4302 18.484 12 18.484C11.5698 18.484 11.1832 18.7168 10.41 19.1824C9.0768 19.9852 6.26947 22.6514 4.77285 21.8523C4 21.4396 4 20.2867 4 17.9808Z" stroke="#666666" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
-                                            </svg>
-                                        </div>
-                                    </div>
-                                    <!-- Attachment Part End !-->
-
                                     <!-- Infos Part Start !-->
-                                    <div class="mt-3 p-5 border border-slate-200 text-base-400 rounded">
+                                    <div class="my-3 p-5 border border-slate-200 text-base-400 rounded">
                                         <div class="flex flex-wrap">
                                             <div class="basis-full sm:basis-full md:basis-1/3 lg:basis-1/3" style="border-right:2px solid #ddd">
                                                 <ul>
@@ -141,70 +98,102 @@
                                     </div>
                                     <!-- Infos Part End !-->
 
+                                    <!-- Edit & Favorite Part Start !-->
+                                    <div class="flex justify-between">
+                                        <p class="text-base font-bold font-inter">Request Description</p>
+                                        <div class="action flex">
+                                            <svg class="me-2" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                <path d="M16.2141 4.98239L17.6158 3.58063C18.39 2.80646 19.6452 2.80646 20.4194 3.58063C21.1935 4.3548 21.1935 5.60998 20.4194 6.38415L19.0176 7.78591M16.2141 4.98239L10.9802 10.2163C9.93493 11.2616 9.41226 11.7842 9.05637 12.4211C8.70047 13.058 8.3424 14.5619 8 16C9.43809 15.6576 10.942 15.2995 11.5789 14.9436C12.2158 14.5877 12.7384 14.0651 13.7837 13.0198L19.0176 7.78591M16.2141 4.98239L19.0176 7.78591" stroke="#666666" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+                                                <path d="M21 12C21 16.2426 21 18.364 19.682 19.682C18.364 21 16.2426 21 12 21C7.75736 21 5.63604 21 4.31802 19.682C3 18.364 3 16.2426 3 12C3 7.75736 3 5.63604 4.31802 4.31802C5.63604 3 7.75736 3 12 3" stroke="#666666" stroke-width="1.5" stroke-linecap="round" />
+                                            </svg>
+
+                                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                <path d="M4 17.9808V9.70753C4 6.07416 4 4.25748 5.17157 3.12874C6.34315 2 8.22876 2 12 2C15.7712 2 17.6569 2 18.8284 3.12874C20 4.25748 20 6.07416 20 9.70753V17.9808C20 20.2867 20 21.4396 19.2272 21.8523C17.7305 22.6514 14.9232 19.9852 13.59 19.1824C12.8168 18.7168 12.4302 18.484 12 18.484C11.5698 18.484 11.1832 18.7168 10.41 19.1824C9.0768 19.9852 6.26947 22.6514 4.77285 21.8523C4 21.4396 4 20.2867 4 17.9808Z" stroke="#666666" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+                                            </svg>
+                                        </div>
+                                    </div>
+                                    <!-- Edit & Favorite Part End !-->
+
+                                    <!-- Description Part Start !-->
+                                    <div class="mt-3 p-4 border border-slate-200 text-base-400 rounded">
+                                        <p class="text-sm font-inter font-normal text-justify">
+                                            {!! $ticket?->description !!}
+                                        </p>
+                                    </div>
+                                    <!-- Description Part End !-->
+
+                                    <!-- Attachment Part Start !-->
+                                    <div class="flex justify-between items-center mt-3">
+                                        <div class="flex items-center">
+                                            <p class="text-base font-bold font-inter me-2">Attached File</p>
+                                            <x-forms.input-file />
+                                        </div>
+                                        <div class="action flex">
+                                            <svg class="me-2" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                <path d="M16.2141 4.98239L17.6158 3.58063C18.39 2.80646 19.6452 2.80646 20.4194 3.58063C21.1935 4.3548 21.1935 5.60998 20.4194 6.38415L19.0176 7.78591M16.2141 4.98239L10.9802 10.2163C9.93493 11.2616 9.41226 11.7842 9.05637 12.4211C8.70047 13.058 8.3424 14.5619 8 16C9.43809 15.6576 10.942 15.2995 11.5789 14.9436C12.2158 14.5877 12.7384 14.0651 13.7837 13.0198L19.0176 7.78591M16.2141 4.98239L19.0176 7.78591" stroke="#666666" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+                                                <path d="M21 12C21 16.2426 21 18.364 19.682 19.682C18.364 21 16.2426 21 12 21C7.75736 21 5.63604 21 4.31802 19.682C3 18.364 3 16.2426 3 12C3 7.75736 3 5.63604 4.31802 4.31802C5.63604 3 7.75736 3 12 3" stroke="#666666" stroke-width="1.5" stroke-linecap="round" />
+                                            </svg>
+
+                                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                <path d="M4 17.9808V9.70753C4 6.07416 4 4.25748 5.17157 3.12874C6.34315 2 8.22876 2 12 2C15.7712 2 17.6569 2 18.8284 3.12874C20 4.25748 20 6.07416 20 9.70753V17.9808C20 20.2867 20 21.4396 19.2272 21.8523C17.7305 22.6514 14.9232 19.9852 13.59 19.1824C12.8168 18.7168 12.4302 18.484 12 18.484C11.5698 18.484 11.1832 18.7168 10.41 19.1824C9.0768 19.9852 6.26947 22.6514 4.77285 21.8523C4 21.4396 4 20.2867 4 17.9808Z" stroke="#666666" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+                                            </svg>
+                                        </div>
+                                    </div>
+                                    <!-- Attachment Part End !-->
+
+                                    <!-- Notes Part Start !-->
+                                    <div class="flex justify-between">
+                                        <button class="px-3 py-1 text-base-400 bg-[#FFF4EC] rounded-sm text-base font-semibold font-inter">
+                                            Notes
+                                        </button>
+                                    </div>
+                                    <div class="mt-3 p-4 border border-slate-200">
+                                        <div class="flex">
+                                            <div class="flex items-center">
+                                                <img src="{{ asset('assets/images/user.png') }}" alt="profile">
+                                            </div>
+                                            <div class="mt-5 pl-2">
+                                                <p class="text-base font-semibold font-inter">Md. Shah Alam</p>
+                                                <p class="text-base font-normal font-inter ">Added a private note one week ago (Monday,17 Oct, 2024 3:45pm)</p>
+                                                <p class="text-base font-normal font-inter ">-Requested details of financial aid applications</p>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="flex justify-end p-3">
+                                        <button>
+                                            <svg class="me-2" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                <path d="M4.80823 9.44118L6.77353 7.46899C8.18956 6.04799 8.74462 5.28357 9.51139 5.55381C10.4675 5.89077 10.1528 8.01692 10.1528 8.73471C11.6393 8.73471 13.1848 8.60259 14.6502 8.87787C19.4874 9.78664 21 13.7153 21 18C19.6309 17.0302 18.2632 15.997 16.6177 15.5476C14.5636 14.9865 12.2696 15.2542 10.1528 15.2542C10.1528 15.972 10.4675 18.0982 9.51139 18.4351C8.64251 18.7413 8.18956 17.9409 6.77353 16.5199L4.80823 14.5477C3.60275 13.338 3 12.7332 3 11.9945C3 11.2558 3.60275 10.6509 4.80823 9.44118Z" stroke="#666666" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+                                            </svg>
+                                        </button>
+                                        <button>
+                                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                <path d="M3.5 10C3.5 6.70017 3.5 5.05025 4.52513 4.02513C5.55025 3 7.20017 3 10.5 3H13.5C16.7998 3 18.4497 3 19.4749 4.02513C20.5 5.05025 20.5 6.70017 20.5 10V15C20.5 18.2998 20.5 19.9497 19.4749 20.9749C18.4497 22 16.7998 22 13.5 22H10.5C7.20017 22 5.55025 22 4.52513 20.9749C3.5 19.9497 3.5 18.2998 3.5 15V10Z" stroke="#666666" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+                                                <path d="M8 15H12M8 10H16" stroke="#666666" stroke-width="1.5" stroke-linecap="round" />
+                                            </svg>
+                                        </button>
+                                    </div>
+
+                                    <!-- Notes Part End !-->
+
+
+                                </div>
+
+                                <div>
                                     <!-- Edit Part Start !-->
                                     <div class="mt-3">
-                                        <span class="text-base font-bold font-inter mb-2 inline-block">Edit Info</span>
                                         <form wire:submit="update">
                                             <div class="flex flex-row">
                                                 <div class="md:basis-full sm:basis-full">
                                                     <div class="border border-slate-300 p-5 rounded">
 
-                                                        <div class="grid lg:grid-cols-1 md:grid-cols-1 sm:grid-cols-1 sm:gap-1 md:gap-4">
-                                                            <div class="p-2 w-full">
-                                                                <x-forms.label for="request_title" required="yes">
-                                                                    {{ __('Request Title') }}
-                                                                </x-forms.label>
-                                                                <x-forms.text-input wire:model="request_title" value="{{ $ticket?->title }}" type="text" />
-                                                                <x-input-error :messages="$errors->get('request_title')" class="mt-2" />
-                                                            </div>
-                                                        </div>
-
-                                                        <div class="grid md:grid-cols-3 sm:grid-cols-1 sm:gap-1 md:gap-4">
-                                                            <div class="p-2 w-full">
-                                                                <x-forms.label for="requester_name" required='yes'>
-                                                                    {{ __('Requester Name') }}
-                                                                </x-forms.label>
-                                                                <x-forms.text-input type="text" readonly wire:model='requester_name' value="{{ $ticket?->user->name }}" />
-                                                                <x-input-error :messages="$errors->get('requester_name')" class="mt-2" />
-                                                            </div>
-                                                            <div class="p-2 w-full">
-                                                                <x-forms.label for="requester_email" required="yes">
-                                                                    {{ __('Requester Email') }}
-                                                                </x-forms.label>
-                                                                <x-forms.text-input wire:model="requester_email" readonly type="email" value="{{ $ticket?->user->email }}" />
-                                                                <x-input-error :messages="$errors->get('requester_email')" class="mt-2" />
-                                                            </div>
-                                                            <div class="p-2 w-full">
-                                                                <x-forms.label for="requester_phone">
-                                                                    {{ __('Requester Phone') }}
-                                                                </x-forms.label>
-                                                                <x-forms.text-input type="number" readonly wire:model='requester_phone' value="{{ $ticket?->user->phone }}" />
-                                                                <x-input-error :messages="$errors->get('requester_phone')" class="mt-2" />
-                                                            </div>
-                                                        </div>
-
-                                                        <div class="grid md:grid-cols-3 sm:grid-cols-1 sm:gap-1 md:gap-4">
-                                                            <div class="p-2 w-full">
-                                                                <x-forms.label for="requester_type">
-                                                                    {{ __('Requester Type') }}
-                                                                </x-forms.label>
-
-                                                                <x-forms.select-input wire:model="requester_type_id">
-                                                                    <option selected value>Requester type</option>
-                                                                    @foreach ($requester_type as $each)
-                                                                    <option @selected(old('requester_type_id', $ticket?->requester_type_id) == $each?->id) value="{{ $each->id }}">{{ $each?->name }}
-                                                                    </option>
-                                                                    @endforeach
-                                                                </x-forms.select-input>
-
-                                                                <x-input-error :messages="$errors->get('requester_type_id')" class="mt-2" />
-                                                            </div>
+                                                        <div class="grid lg:grid-cols-2 md:grid-cols-2 sm:grid-cols-1 sm:gap-1 md:gap-3">
                                                             <div class="p-2">
-                                                                <x-forms.label for="due_date">
+                                                                <x-forms.label for="form.due_date">
                                                                     {{ __('Due Date') }}
                                                                 </x-forms.label>
-                                                                <x-forms.text-input type="date" wire:model='due_date' value="{{ $ticket?->due_date }}" />
-                                                                <x-input-error :messages="$errors->get('due_date')" class="mt-2" />
+                                                                <x-forms.text-input type="date" wire:model='form.due_date' value="{{ $ticket?->due_date }}" />
+                                                                <x-input-error :messages="$errors->get('form.due_date')" class="mt-2" />
                                                             </div>
                                                             <div class="p-2">
                                                                 <x-forms.label for="source_id">
@@ -223,7 +212,7 @@
                                                             </div>
                                                         </div>
 
-                                                        <div class="grid md:grid-cols-3 sm:grid-cols-1 sm:gap-1 md:gap-4">
+                                                        <div class="grid md:grid-cols-2 sm:grid-cols-2 sm:gap-1 md:gap-3">
                                                             <div class="p-2">
                                                                 <x-forms.label for="category_id" required="yes">
                                                                     {{ __('Category') }}
@@ -255,19 +244,9 @@
 
                                                                 <x-input-error :messages="$errors->get('ticket_status_id')" class="mt-2" />
                                                             </div>
+                                                        </div>
 
-
-                                                            <div class="p-2 w-full">
-                                                                <x-forms.label for="priority" required="yes">
-                                                                    {{ __('Requester Priority') }}
-                                                                </x-forms.label>
-                                                                <div class="mt-3">
-                                                                    <x-forms.radio-input wire:model="priority" name="priority" class="ml-2" value="low" /> <span class="ml-2">Low</span>
-                                                                    <x-forms.radio-input wire:model="priority" name="priority" class="ml-2" value="medium" /> <span class="ml-2">Medium</span>
-                                                                    <x-forms.radio-input wire:model="priority" name="priority" class="ml-2" value="high" /> <span class="ml-2">High</span>
-                                                                </div>
-                                                                <x-input-error :messages="$errors->get('priority')" class="mt-2" />
-                                                            </div>
+                                                        <div class="grid md:grid-cols-2 sm:grid-cols-2 sm:gap-1 md:gap-3">
                                                             <div class="p-2">
                                                                 <x-forms.label for="team_id">
                                                                     {{ __('Assign Team') }}
@@ -282,7 +261,6 @@
 
                                                                 <x-input-error :messages="$errors->get('team_id')" class="mt-2" />
                                                             </div>
-
                                                             <div class="p-2">
                                                                 <x-forms.label for="owner_id">
                                                                     {{ __('Assign Agent') }}
@@ -308,7 +286,7 @@
                                                                 Cancel
                                                             </x-buttons.secondary>
                                                             <x-buttons.primary>
-                                                                Update Ticket
+                                                                Update
                                                             </x-buttons.primary>
                                                         </div>
                                                     </div>
@@ -317,14 +295,67 @@
                                         </form>
                                     </div>
                                     <!-- Edit Part End !-->
-                                </div>
-                                <div>
-                                    <p class="text-base font-bold font-inter">Request Description</p>
-                                    <table class="w-full">
-                                        <thead>
 
-                                        </thead>
-                                    </table>
+                                    <div class="mt-3">
+                                        <p class="text-base font-bold font-inter">Open Requests</p>
+                                        <table class="w-full mt-3">
+                                            <thead class="w-full bg-[#F3F4F6] mb-5 rounded">
+                                                <tr>
+                                                    <th class="text-start p-2 flex items-center">
+                                                        <span>
+                                                            <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                                <path d="M2.5 5H4.16667H17.5" stroke="#666666" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                                                                <path d="M15.8332 5.00008V16.6667C15.8332 17.1088 15.6576 17.5327 15.345 17.8453C15.0325 18.1578 14.6085 18.3334 14.1665 18.3334H5.83317C5.39114 18.3334 4.96722 18.1578 4.65466 17.8453C4.3421 17.5327 4.1665 17.1088 4.1665 16.6667V5.00008M6.6665 5.00008V3.33341C6.6665 2.89139 6.8421 2.46746 7.15466 2.1549C7.46722 1.84234 7.89114 1.66675 8.33317 1.66675H11.6665C12.1085 1.66675 12.5325 1.84234 12.845 2.1549C13.1576 2.46746 13.3332 2.89139 13.3332 3.33341V5.00008" stroke="#666666" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                                                                <path d="M8.3335 9.16675V14.1667" stroke="#666666" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                                                                <path d="M11.6665 9.16675V14.1667" stroke="#666666" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                                                            </svg>
+                                                        </span>
+                                                        <span class="ms-1">Select</span>
+                                                    </th>
+                                                    <th class="text-start p-2">ID</th>
+                                                    <th class="text-start p-2">Title</th>
+                                                </tr>
+                                            </thead>
+
+                                            <tbody>
+                                                <tr style="border:1px solid #DDDDDD">
+                                                    <td class="p-2">
+                                                        <span class="font-inter font-normal text-slate-500 text-sm">
+                                                            <x-forms.checkbox-input />
+                                                        </span>
+                                                    </td>
+                                                    <td class="p-2">
+                                                        <span class="font-inter font-normal text-slate-500 text-sm">
+                                                            #{{ $ticket?->id }}
+                                                        </span>
+                                                    </td>
+                                                    <td class="p-2">
+                                                        <span class="font-inter font-normal text-slate-500 text-sm">
+                                                            {{ Str::limit($ticket?->title,30,'...') }}
+                                                        </span>
+                                                    </td>
+                                                </tr>
+
+                                                <tr style="border:1px solid #DDDDDD">
+                                                    <td class="p-2">
+                                                        <span class="font-inter font-normal text-slate-500 text-sm">
+                                                            <x-forms.checkbox-input />
+                                                        </span>
+                                                    </td>
+                                                    <td class="p-2">
+                                                        <span class="font-inter font-normal text-slate-500 text-sm">
+                                                            #{{ $ticket?->id }}
+                                                        </span>
+                                                    </td>
+                                                    <td class="p-2">
+                                                        <span class="font-inter font-normal text-slate-500 text-sm">
+                                                            {{ Str::limit($ticket?->title,30,'...') }}
+                                                        </span>
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
                                 </div>
                             </div>
                         </div>
