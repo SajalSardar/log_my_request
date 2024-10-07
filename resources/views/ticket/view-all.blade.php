@@ -58,7 +58,7 @@
 
                     <td class="p-2 font-normal text-gray-400">
                         <x-buttons.primary
-                            class="!px-2 font-inter font-bold !bg-open-400">
+                            class="font-inter font-bold !bg-open-400">
                             {{ $each?->ticket_status?->name }}
                         </x-buttons.primary>
                     </td>
@@ -80,7 +80,7 @@
                         </span>
                     </td>
                     <td class="p-2" style="max-width: 140px">
-                        <span class="font-normal text-gray-400">Cody Fisher</span>
+                        <span class="font-normal text-gray-400">{{ $each?->owners }}</span>
                     </td>
                     <td class="p-2" style="max-width: 120px">
                         <span class="font-normal text-gray-400">{{ Helper::ISODate($each?->created_at) }}</span>
