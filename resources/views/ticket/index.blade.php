@@ -97,13 +97,15 @@
 
                                     </td>
 
-                                    <td class="p-2 font-normal text-gray-400 flex items-center"
+                                    <td class="p-2 font-normal text-gray-400"
                                         style="max-width: 210px">
-                                        <img src="https://i.pravatar.cc/300/5" alt="img" width="50"
-                                            height="50" style="border-radius: 50%">
-                                        <span class="ml-2">
-                                            {{ $ticket?->user->name }}
-                                        </span>
+                                        <div class="flex items-center">
+                                            <img src="https://i.pravatar.cc/300/5" alt="img" width="50"
+                                                height="50" style="border-radius: 50%">
+                                            <span class="ml-2">
+                                                {{ $ticket?->user->name }}
+                                            </span>
+                                        </div>
                                     </td>
                                     <td class="p-2" style="max-width: 150px">
                                         <span class="font-normal text-gray-400">
