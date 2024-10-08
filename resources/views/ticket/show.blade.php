@@ -231,7 +231,7 @@
                                                                 <x-forms.label for="form.due_date">
                                                                     {{ __('Due Date') }}
                                                                 </x-forms.label>
-                                                                <x-forms.text-input type="date" wire:model='form.due_date' value="{{ $ticket?->due_date }}" />
+                                                                <x-forms.text-input type="date" name='form.due_date' value="{{ $ticket?->due_date }}" />
                                                                 <x-input-error :messages="$errors->get('form.due_date')" class="mt-2" />
                                                             </div>
                                                             <div class="p-2">
@@ -239,7 +239,7 @@
                                                                     {{ __('Source') }}
                                                                 </x-forms.label>
 
-                                                                <x-forms.select-input wire:model="source_id">
+                                                                <x-forms.select-input name="source_id">
                                                                     <option selected value>Source</option>
                                                                     @foreach ($sources as $each)
                                                                     <option @selected(old('source_id', $ticket?->source_id) == $each?->id) value="{{ $each->id }}">{{ $each?->title }}
@@ -257,7 +257,7 @@
                                                                     {{ __('Category') }}
                                                                 </x-forms.label>
 
-                                                                <x-forms.select-input wire:model="category_id">
+                                                                <x-forms.select-input name="category_id">
                                                                     <option disabled value>Category</option>
                                                                     @foreach ($categories as $each)
                                                                     <option @selected(old('category_id', $ticket?->category_id) == $each?->id) value="{{ $each?->id }}">
@@ -273,7 +273,7 @@
                                                                     {{ __('Status') }}
                                                                 </x-forms.label>
 
-                                                                <x-forms.select-input wire:model="ticket_status_id">
+                                                                <x-forms.select-input name="ticket_status_id">
                                                                     <option value="">Ticket status</option>
                                                                     @foreach ($ticket_status as $status)
                                                                     <option @selected(old('ticket_status_id', $ticket?->ticket_status_id) == $status?->id) value="{{ $status->id }}">{{ $status->name }}
@@ -291,7 +291,7 @@
                                                                     {{ __('Assign Team') }}
                                                                 </x-forms.label>
 
-                                                                <x-forms.select-input wire:model="team_id">
+                                                                <x-forms.select-input name="team_id" id="team">
                                                                     <option value="" disabled>Select a Team</option>
                                                                     @foreach ($teams as $each)
                                                                     <option value="{{ $each->id }}" @selected($each->team_id == $each->id)>{{ $each->name }}</option>
@@ -305,9 +305,9 @@
                                                                     {{ __('Assign Agent') }}
                                                                 </x-forms.label>
 
-                                                                <x-forms.select-input wire:model="owner_id">
+                                                                <x-forms.select-input name="owner_id">
                                                                     <option value="">Assign Agent</option>
-                                                                    @foreach ($teamAgent as $each)
+                                                                    @foreach ($agents as $each)
                                                                     @foreach ($each->agents as $item)
                                                                     <option {{ in_array($item->id, $ticket?->owners?->pluck('id')->toArray()) ? 'selected' : '' }} value="{{ $item?->id }}">
                                                                         {{ $item?->name }}
@@ -419,6 +419,33 @@
     </style>
     @endsection
     @section('script')
+    <script>
+        let team = document.querySelector('#team');
+        team.addEventListener('change', function(e) {
+            let team_id = e.target.value;
+            let ticket_id = '@json($ticket->id)';
+            $.ajax({
+                type: 'GET',
+                url: "{{ route('admin.ticket.show', ['ticket' => '__TICKET_ID__']) }}".replace('__TICKET_ID__', ticket_id),
+                dataType: 'json',
+                data: {
+                    team_id: team_id,
+                    _token: "{{ csrf_token() }}"
+                },
+                success: function(response) {
+                    let ownerSelect = $('select[name="owner_id"]');
+                    ownerSelect.find('option:not(:first)').remove();
+                    response.forEach(element => {
+                        element.agents.forEach(e => {
+                            ownerSelect.append(new Option(e.name, e.id));
+                        })
+                    });
+                }
+            });
+        });
+    </script>
+
+
     <script type="text/javascript">
         function changeAtiveTab(event, tabID) {
             let element = event.target;
