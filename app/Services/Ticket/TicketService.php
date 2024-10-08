@@ -32,6 +32,7 @@ class TicketService {
      * @return array|object
      */
     public function store(array | object $request): array | object {
+
         $checkUser = User::query()->where('email', $request->requester_email)->first();
         if (!empty($checkUser)) {
             $request->credentials = false;
@@ -86,7 +87,9 @@ class TicketService {
             'updated_by'    => Auth::user()->id,
         ]);
 
-        $request->owner_id ?? $response->owners()->attach([$request->owner_id]);
+        if ($request->owner_id) {
+            $response->owners()->attach($request->owner_id);
+        }
 
         Mail::to($request->requester_email)->send(new TicketEmail($request));
 

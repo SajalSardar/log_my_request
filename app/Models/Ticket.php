@@ -12,6 +12,9 @@ use Illuminate\Support\Facades\Cache;
 
 class Ticket extends Model {
     use HasFactory, SoftDeletes;
+    protected $casts = [
+        'due_date' => 'date',
+    ];
 
     protected $guarded = ['id'];
 
@@ -23,7 +26,7 @@ class Ticket extends Model {
         });
 
         static::updated(function () {
-            Cache::forget("ticket_list");
+            Cache::forget("ticket_" . Auth::id() . "_list");
         });
         static::created(function () {
             Cache::forget("unassign_" . Auth::id() . "_ticket_list");

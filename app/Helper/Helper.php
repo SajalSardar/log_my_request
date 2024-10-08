@@ -12,7 +12,7 @@ class Helper {
      * @return string
      */
     public static function ISOdate($date) {
-        return $date ? date('d M, Y', strtotime($date)) : '';
+        return $date ? date('M d, Y', strtotime($date)) : '';
     }
 
     /**
@@ -97,41 +97,63 @@ class Helper {
         return false;
     }
 
-    public static function dayMonthYearHourMininteSecond($date) {
+    public static function dayMonthYearHourMininteSecond($date, $year = false, $month = false, $day = false, $hour = false, $minute = false, $second = false) {
         $startDate = Carbon::create($date);
         $endDate   = Carbon::now();
-        $years     = (int) $startDate->diffInYears($endDate);
-        $months    = (int) $startDate
+
+        $y   = (int) $startDate->diffInYears($endDate);
+        $mon = (int) $startDate
             ->copy()
-            ->addYears($years)
+            ->addYears($y)
             ->diffInMonths($endDate);
-        $days = (int) $startDate
+        $d = (int) $startDate
             ->copy()
-            ->addYears($years)
-            ->addMonths($months)
+            ->addYears($y)
+            ->addMonths($mon)
             ->diffInDays($endDate);
-        $hours = (int) $startDate
+        $h = (int) $startDate
             ->copy()
-            ->addYears($years)
-            ->addMonths($months)
-            ->addDays($days)
+            ->addYears($y)
+            ->addMonths($mon)
+            ->addDays($d)
             ->diffInHours($endDate);
-        $minutes = (int) $startDate
+        $m = (int) $startDate
             ->copy()
-            ->addYears($years)
-            ->addMonths($months)
-            ->addDays($days)
-            ->addHours($hours)
+            ->addYears($y)
+            ->addMonths($mon)
+            ->addDays($d)
+            ->addHours($h)
             ->diffInMinutes($endDate);
-        $seconds = (int) $startDate
+        $s = (int) $startDate
             ->copy()
-            ->addYears($years)
-            ->addMonths($months)
-            ->addDays($days)
-            ->addHours($hours)
-            ->addMinutes($minutes)
+            ->addYears($y)
+            ->addMonths($mon)
+            ->addDays($d)
+            ->addHours($h)
+            ->addMinutes($m)
             ->diffInSeconds($endDate);
 
-        return $years . ' years, ' . $months . ' months,' . $days . ' days, ' . $hours . ' hours, ' . $minutes . ' minutes, and ' . $seconds . ' seconds.';
+        $output = '';
+
+        if ($year) {
+            $output .= $y . ' years, ';
+        }
+        if ($month) {
+            $output .= $mon . ' months, ';
+        }
+        if ($day) {
+            $output .= $d . ' days, ';
+        }
+        if ($hour) {
+            $output .= $h . ' hours, ';
+        }
+        if ($minute) {
+            $output .= $m . ' minutes and ';
+        }
+        if ($second) {
+            $output .= $s . ' seconds.';
+        }
+        $output = rtrim($output, ', ');
+        return $output;
     }
 }

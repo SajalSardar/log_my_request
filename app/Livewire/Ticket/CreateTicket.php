@@ -15,8 +15,7 @@ use App\Services\Ticket\TicketService;
 use Livewire\Component;
 use Livewire\Features\SupportFileUploads\WithFileUploads;
 
-class CreateTicket extends Component
-{
+class CreateTicket extends Component {
     use WithFileUploads;
 
     /**
@@ -63,14 +62,13 @@ class CreateTicket extends Component
     /**
      * Define public method mount() to load the resourses
      */
-    public function mount(): void
-    {
+    public function mount(): void {
         $this->requester_type = RequesterType::query()->get();
-        $this->sources = Source::query()->get();
-        $this->teams = Team::query()->get();
-        $this->categories = Category::query()->get();
-        $this->ticket_status = TicketStatus::query()->get();
-        $this->teamAgent = [];
+        $this->sources        = Source::query()->get();
+        $this->teams          = Team::query()->get();
+        $this->categories     = Category::query()->get();
+        $this->ticket_status  = TicketStatus::query()->get();
+        $this->teamAgent      = [];
     }
 
     /**
@@ -78,8 +76,7 @@ class CreateTicket extends Component
      * change of Team.
      * @return void
      */
-    public function selectCategoryAgent(): void
-    {
+    public function selectCategoryAgent(): void {
         $this->teamAgent = Team::query()->with('agents')->where('id', $this->form?->team_id)->get();
     }
 
@@ -87,8 +84,8 @@ class CreateTicket extends Component
      * Define public method save() to store the resourses
      * @return void
      */
-    public function save(TicketService $service)
-    {
+    public function save(TicketService $service) {
+
         $this->validate(rules: $this->form->rules(), attributes: $this->form->attributes());
         $isCreate = $service->store($this->form);
         $isUpload = $this->form->request_attachment ? Fileupload::uploadFile($this->form, Bucket::TICKET, $isCreate->getKey(), Ticket::class) : '';
@@ -98,8 +95,7 @@ class CreateTicket extends Component
         return redirect()->to('dashboard/ticket');
     }
 
-    public function render()
-    {
+    public function render() {
         return view('livewire.ticket.create-ticket');
     }
 }

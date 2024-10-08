@@ -15,9 +15,9 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Gate;
+use Yajra\DataTables\Facades\DataTables;
 
-class TicketController extends Controller
-{
+class TicketController extends Controller {
     /**
      * Define public property $requester_type;
      * @var array|object
@@ -68,8 +68,7 @@ class TicketController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
-    {
+    public function index() {
         Gate::authorize('viewAny', Ticket::class);
         //$this->tickets = TicketStatus::query()->with('ticket', fn($query) => $query->with('source', 'ticket_status'))->withCount('ticket')->get();
 
@@ -117,8 +116,7 @@ class TicketController extends Controller
     /**
      * Display a listing of the data table resource.
      */
-    public function displayListDatatable()
-    {
+    public function displayListDatatable() {
         Gate::authorize('viewAny', Ticket::class);
 
         $ticket = Cache::remember('ticket_' . Auth::id() . '_list', 60 * 60, function () {
@@ -129,8 +127,7 @@ class TicketController extends Controller
     /**
      * Show the form for creating a new resource.
      */
-    public function create()
-    {
+    public function create() {
         Gate::authorize('create', Ticket::class);
         return view('ticket.create');
     }
@@ -138,8 +135,7 @@ class TicketController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
-    {
+    public function store(Request $request) {
         //
         Gate::authorize('create', Ticket::class);
     }
@@ -147,8 +143,7 @@ class TicketController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Request $request, Ticket $ticket)
-    {
+    public function show(Request $request, Ticket $ticket) {
         if ($request->ajax()) {
             $agents = Team::query()->with('agents')->where('id', $request->team_id)->get();
             return response()->json($agents);
@@ -176,8 +171,7 @@ class TicketController extends Controller
      * Show the form for editing the specified resource.
      * @param Ticket $ticket
      */
-    public function edit(Ticket $ticket)
-    {
+    public function edit(Ticket $ticket) {
         Gate::authorize('update', $ticket);
         return view('ticket.edit', compact('ticket'));
     }
@@ -185,31 +179,39 @@ class TicketController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Ticket $ticket)
-    {
+    public function update(Request $request, Ticket $ticket) {
         Gate::authorize('update', $ticket);
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Ticket $ticket)
-    {
+    public function destroy(Ticket $ticket) {
         Gate::authorize('delete', $ticket);
     }
 
-    public function ticketList()
-    {
+    public function ticketList() {
         Gate::authorize('viewAny', Ticket::class);
-        $user        = User::with('teams:id')->find(Auth::id());
-        $userTeam    = $user->teams->pluck('id');
         $queryStatus = request()->get('ticket_status');
+        return view('ticket.view-all', compact('queryStatus'));
+    }
 
-        $ticketStatus = TicketStatus::where('slug', $queryStatus)->first();
+    public function allListDataTable(Request $request) {
+        Gate::authorize('viewAny', Ticket::class);
+        $user     = User::with('teams:id')->find(Auth::id());
+        $userTeam = $user->teams->pluck('id');
+
+        $ticketStatus = null;
+
+        if ($request->query_status != 'unassign') {
+
+            $ticketStatus = TicketStatus::where('slug', $request->query_status)->first();
+        }
 
         $tickets = Ticket::query();
 
-        if ($queryStatus == 'unassign') {
+        if ($request->query_status == 'unassign') {
+
             $tickets = Cache::remember('unassign_' . Auth::id() . '_ticket_list', 60 * 60, function () use ($tickets, $userTeam) {
                 $tickets->leftJoin('ticket_ownerships as towner', 'tickets.id', '=', 'towner.ticket_id')
                     ->with(['source', 'user', 'team', 'requester_type', 'ticket_status'])
@@ -223,7 +225,9 @@ class TicketController extends Controller
                 $tickets->orderBy('id', 'desc');
                 return $tickets->get();
             });
-        } elseif ($ticketStatus->slug == $queryStatus) {
+
+        } elseif ($ticketStatus->count() > 0 && $ticketStatus->slug == $request->query_status) {
+
             $tickets = Cache::remember('ticket_' . Auth::id() . '_list', 60 * 60, function () use ($tickets, $ticketStatus) {
                 $tickets->where('ticket_status_id', $ticketStatus->id)
                     ->with(['owners', 'source', 'user', 'team', 'requester_type'])
@@ -239,7 +243,33 @@ class TicketController extends Controller
             });
         }
 
-        // return $tickets;
-        return view('ticket.view-all', compact('tickets'));
+        return DataTables::of($tickets)
+
+        // ->addColumn('donor', function ($donates) {
+        //     return $donates->donar_name ? $donates->donar_name : 'Guest';
+
+        // })
+        // ->editColumn('amount', function ($donates) {
+        //     return '$' . number_format($donates->amount, 2);
+        // })
+        // ->editColumn('admin_view', function ($donates) {
+        //     return $donates->admin_view == 0 ? 'unread' : 'read';
+        // })
+        // ->editColumn('created_at', function ($donates) {
+        //     return $donates->created_at->format('M d, Y');
+        // })
+            ->addColumn('action_column', function ($tickets) {
+                $links = '';
+
+                //     $links .= '<a href="' . route('dashboard.campaign.donation.admin.donation.show', $tickets->id) . '"
+                //     class="btn btn-sm btn-primary" title="View">
+                //     View
+                // </a>';
+
+                return $links;
+            })
+            ->addIndexColumn()
+            ->escapeColumns([])
+            ->make(true);
     }
 }
