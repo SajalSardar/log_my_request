@@ -1,7 +1,7 @@
 <x-guest-layout>
     <div class="flex h-full sm:justify-center lg:justify-center md:justify-center items-center">
         <div class="grid sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-2">
-            <div class="flex px-20 py-32 items-center">
+            <div class="flex justify-center sm:px-5 sm:py-12 md:px-10 md:py-24 lg:px-20 lg:py-32 items-center">
                 <form action="{{ route('register') }}" method="POST" class="border border-slate-300 rounded py-10 px-10 w-full">
                     @csrf
                     <h3 class="font-bold text-2xl">SIGN UP</h3>
@@ -159,7 +159,7 @@
                 </form>
             </div>
 
-            <div class="md:block sm:hidden">
+            <div class="sm:hidden md:hidden lg:block">
                 <img src="{{ asset('assets/images/signup.png') }}" alt="">
             </div>
         </div>
