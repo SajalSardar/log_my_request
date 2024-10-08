@@ -150,6 +150,7 @@ class TicketController extends Controller {
         $this->categories     = Category::query()->get();
         $this->ticket_status  = TicketStatus::query()->get();
         $this->teamAgent      = Team::query()->with('agents')->where('id', $this->ticket?->team_id)->get();
+        // dd($ticket->ticket_status->name);
         return view('ticket.show', [
             'ticket'         => $ticket,
             'requester_type' => $this->requester_type,
