@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\MorphOne;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cache;
 
 class Ticket extends Model {
@@ -18,11 +19,23 @@ class Ticket extends Model {
         parent::boot();
 
         static::created(function () {
-            Cache::forget("ticket_list");
+            Cache::forget("ticket_" . Auth::id() . "_list");
         });
 
         static::updated(function () {
             Cache::forget("ticket_list");
+        });
+        static::created(function () {
+            Cache::forget("unassign_" . Auth::id() . "_ticket_list");
+        });
+        static::updated(function () {
+            Cache::forget("unassign_" . Auth::id() . "_ticket_list");
+        });
+        static::created(function () {
+            Cache::forget("status_" . Auth::id() . "_ticket_list");
+        });
+        static::updated(function () {
+            Cache::forget("status_" . Auth::id() . "_ticket_list");
         });
     }
 

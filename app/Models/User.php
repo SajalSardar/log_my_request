@@ -50,4 +50,7 @@ class User extends Authenticatable {
     public function tickets() {
         return $this->belongsToMany(Ticket::class, 'ticket_ownerships', 'owner_id', 'ticket_id');
     }
+    public function teams() {
+        return $this->belongsToMany(Team::class, 'team_user', 'user_id', 'team_id');
+    }
 }

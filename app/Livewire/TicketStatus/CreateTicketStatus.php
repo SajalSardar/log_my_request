@@ -2,10 +2,11 @@
 
 namespace App\Livewire\TicketStatus;
 
-use Livewire\Component;
 use App\Models\TicketStatus;
-use Livewire\Attributes\Validate;
 use Illuminate\Support\Facades\Gate;
+use Illuminate\Support\Str;
+use Livewire\Attributes\Validate;
+use Livewire\Component;
 
 class CreateTicketStatus extends Component {
 
@@ -27,6 +28,7 @@ class CreateTicketStatus extends Component {
 
         TicketStatus::create([
             "name"   => $this->name,
+            "slug"   => Str::slug($this->name),
             "status" => $this->status,
         ]);
 

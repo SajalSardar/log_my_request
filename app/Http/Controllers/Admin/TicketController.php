@@ -7,7 +7,6 @@ use App\Models\Category;
 use App\Models\RequesterType;
 use App\Models\Source;
 use App\Models\Team;
-use App\Models\TeamCategory;
 use App\Models\Ticket;
 use App\Models\TicketStatus;
 use App\Models\User;
@@ -17,8 +16,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Gate;
 
-class TicketController extends Controller
-{
+class TicketController extends Controller {
     /**
      * Define public property $requester_type;
      * @var array|object
@@ -69,39 +67,58 @@ class TicketController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
-    {
-        Gate::authorize('view', Ticket::class);
+    public function index() {
+        Gate::authorize('viewAny', Ticket::class);
         //$this->tickets = TicketStatus::query()->with('ticket', fn($query) => $query->with('source', 'ticket_status'))->withCount('ticket')->get();
 
-        $user = User::find(Auth::id());
+        $user     = User::with('teams:id')->find(Auth::id());
+        $userTeam = $user->teams->pluck('id');
 
-        $tickets = TicketStatus::query()
-            ->with('ticket', function ($query) {
-                $query->with(['owners', 'source', 'user', 'team', 'requester_type']);
-            })
-            ->withCount('ticket')
-            ->orderByRaw("CASE WHEN ticket_statuses.name = 'open' THEN 1 ELSE 2 END") // Order by status
-            ->orderBy('ticket_statuses.name');
+        $unassignRequest = Cache::remember('unassign_' . Auth::id() . '_ticket_list', 60 * 60, function () use ($userTeam) {
+            $unassign = Ticket::query()
+                ->leftJoin('ticket_ownerships as towner', 'tickets.id', '=', 'towner.ticket_id')
+                ->with(['source', 'user', 'team', 'requester_type', 'ticket_status'])
+                ->where('towner.owner_id', null)
+                ->select('tickets.*', 'towner.owner_id');
+            if (!Auth::user()->hasRole('super-admin')) {
+                $unassign->whereIn('team_id', $userTeam)
+                    ->orWhere('tickets.created_by', Auth::id());
+            }
 
-        if ($user->hasRole('super-admin') === false) {
-            $tickets->where('towner.owner_id', Auth::id());
-        }
-        $this->tickets = $tickets->get();
+            return $unassign->orderBy('id', 'desc')->paginate(10);
+        });
+
+        $this->tickets = Cache::remember('status_' . Auth::id() . '_ticket_list', 60 * 60, function () {
+            return TicketStatus::query()
+                ->with('ticket', function ($query) {
+                    if (!Auth::user()->hasRole('super-admin')) {
+                        $query->whereHas('owners', function ($query) {
+                            $query->where('owner_id', Auth::id());
+                        });
+                    }
+                    $query->with(['owners', 'source', 'user', 'team', 'requester_type'])
+                        ->whereHas('owners')
+                        ->whereNotNull('team_id')
+                        ->orderBy('id', 'desc')
+                        ->take(10);
+                })
+                ->orderByRaw("CASE WHEN ticket_statuses.name = 'open' THEN 1 ELSE 2 END")
+                ->orderBy('ticket_statuses.name')
+                ->get();
+        });
 
         // return $this->tickets;
 
-        return view("ticket.index", ['tickets' => $this->tickets ?? collect()]);
+        return view("ticket.index", ['tickets' => $this->tickets ?? collect(), 'unassignTicket' => $unassignRequest]);
     }
 
     /**
      * Display a listing of the data table resource.
      */
-    public function displayListDatatable()
-    {
+    public function displayListDatatable() {
         Gate::authorize('viewAny', Ticket::class);
 
-        $ticket = Cache::remember('ticket_list', 60 * 60, function () {
+        $ticket = Cache::remember('ticket_' . Auth::id() . '_list', 60 * 60, function () {
             return Ticket::get();
         });
     }
@@ -109,8 +126,7 @@ class TicketController extends Controller
     /**
      * Show the form for creating a new resource.
      */
-    public function create()
-    {
+    public function create() {
         Gate::authorize('create', Ticket::class);
         return view('ticket.create');
     }
@@ -118,8 +134,7 @@ class TicketController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
-    {
+    public function store(Request $request) {
         //
         Gate::authorize('create', Ticket::class);
     }
@@ -127,23 +142,22 @@ class TicketController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Ticket $ticket)
-    {
+    public function show(Ticket $ticket) {
         Gate::authorize('view', $ticket);
         $this->requester_type = RequesterType::query()->get();
-        $this->sources = Source::query()->get();
-        $this->teams = Team::query()->get();
-        $this->categories = Category::query()->get();
-        $this->ticket_status = TicketStatus::query()->get();
-        $this->teamAgent = Team::query()->with('agents')->where('id', $this->ticket?->team_id)->get();
+        $this->sources        = Source::query()->get();
+        $this->teams          = Team::query()->get();
+        $this->categories     = Category::query()->get();
+        $this->ticket_status  = TicketStatus::query()->get();
+        $this->teamAgent      = Team::query()->with('agents')->where('id', $this->ticket?->team_id)->get();
         return view('ticket.show', [
-            'ticket' => $ticket,
+            'ticket'         => $ticket,
             'requester_type' => $this->requester_type,
-            'sources' => $this->sources,
-            'teams' => $this->teams,
-            'categories' => $this->categories,
-            'ticket_status' => $this->ticket_status,
-            'teamAgent' => $this->teamAgent,
+            'sources'        => $this->sources,
+            'teams'          => $this->teams,
+            'categories'     => $this->categories,
+            'ticket_status'  => $this->ticket_status,
+            'teamAgent'      => $this->teamAgent,
         ]);
     }
 
@@ -151,8 +165,7 @@ class TicketController extends Controller
      * Show the form for editing the specified resource.
      * @param Ticket $ticket
      */
-    public function edit(Ticket $ticket)
-    {
+    public function edit(Ticket $ticket) {
         Gate::authorize('update', $ticket);
         return view('ticket.edit', compact('ticket'));
     }
@@ -160,22 +173,60 @@ class TicketController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Ticket $ticket)
-    {
+    public function update(Request $request, Ticket $ticket) {
         Gate::authorize('update', $ticket);
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Ticket $ticket)
-    {
+    public function destroy(Ticket $ticket) {
         Gate::authorize('delete', $ticket);
     }
 
-    public function viewAll(?string $ticket_status_id)
-    {
-        $tickets = Ticket::query()->with('ticket_status', 'source', 'requester_type')->where('ticket_status_id', $ticket_status_id)->get();
+    public function ticketList() {
+        Gate::authorize('viewAny', Ticket::class);
+        $user        = User::with('teams:id')->find(Auth::id());
+        $userTeam    = $user->teams->pluck('id');
+        $queryStatus = request()->get('ticket_status');
+
+        $ticketStatus = TicketStatus::where('slug', $queryStatus)->first();
+
+        $tickets = Ticket::query();
+
+        if ($queryStatus == 'unassign') {
+            $tickets = Cache::remember('unassign_' . Auth::id() . '_ticket_list', 60 * 60, function () use ($tickets, $userTeam) {
+                $tickets->leftJoin('ticket_ownerships as towner', 'tickets.id', '=', 'towner.ticket_id')
+                    ->with(['source', 'user', 'team', 'requester_type', 'ticket_status'])
+                    ->where('towner.owner_id', null)
+                    ->select('tickets.*', 'towner.owner_id');
+                if (!Auth::user()->hasRole('super-admin')) {
+                    $tickets->whereIn('team_id', $userTeam)
+                        ->orWhere('tickets.created_by', Auth::id());
+                }
+
+                $tickets->orderBy('id', 'desc');
+                return $tickets->get();
+            });
+
+        } elseif ($ticketStatus->slug == $queryStatus) {
+            $tickets = Cache::remember('ticket_' . Auth::id() . '_list', 60 * 60, function () use ($tickets, $ticketStatus) {
+                $tickets->where('ticket_status_id', $ticketStatus->id)
+                    ->with(['owners', 'source', 'user', 'team', 'requester_type'])
+                    ->whereHas('owners')
+                    ->whereNotNull('team_id')
+                    ->orderBy('id', 'desc');
+                if (!Auth::user()->hasRole('super-admin')) {
+                    $tickets->whereHas('owners', function ($query) {
+                        $query->where('owner_id', Auth::id());
+                    });
+                }
+                return $tickets->get();
+            });
+
+        }
+
+        // return $tickets;
         return view('ticket.view-all', compact('tickets'));
     }
 }
