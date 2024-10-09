@@ -18,6 +18,7 @@ Route::middleware('auth')->prefix('dashboard')->name('admin.')->group(function (
     Route::resource('module', ModuleController::class);
     Route::resource('menu', MenuController::class);
     Route::resource('ticket', TicketController::class);
+    Route::post('ticket-log-update/{ticket}', [TicketController::class, 'logUpdate'])->name('ticket.logUpdate');
     Route::get('status-wise-ticket-list', [TicketController::class, 'ticketList'])->name('ticket.status.wise.list');
     Route::get('status-wise-ticket-list-datatable', [TicketController::class, 'allListDataTable'])->name('ticket.status.wise.list.datatable');
     Route::resource('category', CategoryController::class);
@@ -36,5 +37,4 @@ Route::middleware('auth')->prefix('dashboard')->name('admin.')->group(function (
 
     // change role in header option
     Route::post('switch-accont', [RoleController::class, 'switchAccount'])->name('role.swotch');
-
 });
