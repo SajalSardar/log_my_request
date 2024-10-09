@@ -117,7 +117,7 @@
                             <span class="font-normal text-gray-400">{{ $ticket?->source?->title }}</span>
                         </td>
                         <td class="p-2">
-                            <span class="font-normal text-gray-400">17 Oct, 2024</span>
+                            <span class="font-normal text-gray-400">{{ Helper::ISOdate($ticket->due_date) }}</span>
                         </td>
                         <td class="relative">
                             <button onclick="toggleAction({{ $ticket->id }})"
@@ -150,11 +150,11 @@
                         </td>
                     </tr>
                 @empty
-                <tr>
-                    <td colspan="13" class="text-center">
-                        <span class="text-red-500 font-inter font-bold text-lg">No data found !!</span>
-                    </td>
-                </tr>
+                    <tr>
+                        <td colspan="13" class="text-center">
+                            <span class="text-red-500 font-inter font-bold text-lg">No data found !!</span>
+                        </td>
+                    </tr>
                 @endforelse
             </tbody>
         </table>
@@ -274,7 +274,8 @@
                                     <span class="font-normal text-gray-400">{{ $ticket?->source?->title }}</span>
                                 </td>
                                 <td class="p-2">
-                                    <span class="font-normal text-gray-400">17 Oct, 2024</span>
+                                    <span
+                                        class="font-normal text-gray-400">{{ Helper::ISOdate($ticket->due_date) }}</span>
                                 </td>
                                 <td class="relative">
                                     <button onclick="toggleAction({{ $ticket->id }})"
@@ -324,81 +325,81 @@
     </div>
 
     @section('script')
-    <script>
-        function toggleSubmenu(row) {
-            const mainRow = row;
-            const submenu = mainRow.nextElementSibling;
-            const toggleIcon = mainRow.querySelector('.arrow');
+        <script>
+            function toggleSubmenu(row) {
+                const mainRow = row;
+                const submenu = mainRow.nextElementSibling;
+                const toggleIcon = mainRow.querySelector('.arrow');
 
-            if (submenu.style.display === 'table-row') {
-                submenu.style.display = 'none';
-                toggleIcon.innerHTML = `<svg width="5" height="15" viewBox="0 0 5 15" fill="none" xmlns="http://www.w3.org/2000/svg">
+                if (submenu.style.display === 'table-row') {
+                    submenu.style.display = 'none';
+                    toggleIcon.innerHTML = `<svg width="5" height="15" viewBox="0 0 5 15" fill="none" xmlns="http://www.w3.org/2000/svg">
                                                 <path d="M0 0L5 5L0 10V0Z" fill="#666666" />
                                             </svg>`;
-            } else {
-                submenu.style.display = 'table-row';
-                toggleIcon.innerHTML = `<svg width="15" height="5" viewBox="0 0 15 5" fill="none" xmlns="http://www.w3.org/2000/svg">
+                } else {
+                    submenu.style.display = 'table-row';
+                    toggleIcon.innerHTML = `<svg width="15" height="5" viewBox="0 0 15 5" fill="none" xmlns="http://www.w3.org/2000/svg">
                                             <path d="M0 0L5 5L10 0H0Z" fill="#666666"/>
                                             </svg>`;
+                }
             }
-        }
-    </script>
-    <script>
-        // function toggleAction(ticketId) {
-        //     var actionDiv = document.getElementById('action-' + ticketId);
-        //     var openMenus = document.querySelectorAll('[id="action-"]');
-        //     console.log(openMenus)
-        //     openMenus.forEach(function(menu) {
-        //         if (menu.id !== 'action-' + ticketId) {
-        //             menu.style.display = 'none';
+        </script>
+        <script>
+            // function toggleAction(ticketId) {
+            //     var actionDiv = document.getElementById('action-' + ticketId);
+            //     var openMenus = document.querySelectorAll('[id="action-"]');
+            //     console.log(openMenus)
+            //     openMenus.forEach(function(menu) {
+            //         if (menu.id !== 'action-' + ticketId) {
+            //             menu.style.display = 'none';
 
-        //         }
-        //     });
-
+            //         }
+            //     });
 
 
-        //     // Toggle the current actionDiv
-        //     if (actionDiv.style.display === 'none' || actionDiv.style.display === '') {
-        //         actionDiv.style.display = 'block';
 
-        //         // Add a one-time event listener to the window to close the menu when clicking outside
-        //         window.addEventListener('click', function(event) {
-        //             if (!actionDiv.contains(event.target) && event.target.closest('.toggleButton') === null) {
-        //                 actionDiv.style.display = 'none';
-        //             }
-        //         }, {
-        //             once: true
-        //         });
+            //     // Toggle the current actionDiv
+            //     if (actionDiv.style.display === 'none' || actionDiv.style.display === '') {
+            //         actionDiv.style.display = 'block';
 
-        //     } else {
-        //         actionDiv.style.display = 'none';
-        //     }
-        // }
+            //         // Add a one-time event listener to the window to close the menu when clicking outside
+            //         window.addEventListener('click', function(event) {
+            //             if (!actionDiv.contains(event.target) && event.target.closest('.toggleButton') === null) {
+            //                 actionDiv.style.display = 'none';
+            //             }
+            //         }, {
+            //             once: true
+            //         });
 
-        function toggleAction(ticketId) {
-            var actionDiv = document.getElementById('action-' + ticketId);
-            if (actionDiv.style.display === 'none' || actionDiv.style.display === '') {
-                actionDiv.style.display = 'block';
-            } else {
-                actionDiv.style.display = 'none';
+            //     } else {
+            //         actionDiv.style.display = 'none';
+            //     }
+            // }
+
+            function toggleAction(ticketId) {
+                var actionDiv = document.getElementById('action-' + ticketId);
+                if (actionDiv.style.display === 'none' || actionDiv.style.display === '') {
+                    actionDiv.style.display = 'block';
+                } else {
+                    actionDiv.style.display = 'none';
+                }
             }
-        }
-    </script>
+        </script>
     @endsection
 
     @section('style')
-    <style>
-        .submenu {
-            display: table-row;
-        }
+        <style>
+            .submenu {
+                display: table-row;
+            }
 
-        .main-row.active+.submenu {
-            display: none;
-        }
+            .main-row.active+.submenu {
+                display: none;
+            }
 
-        .main-row.active .toggle-icon {
-            background-color: red;
-        }
-    </style>
+            .main-row.active .toggle-icon {
+                background-color: red;
+            }
+        </style>
     @endsection
 </x-app-layout>

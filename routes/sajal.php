@@ -19,6 +19,7 @@ Route::middleware('auth')->prefix('dashboard')->name('admin.')->group(function (
     Route::resource('menu', MenuController::class);
     Route::resource('ticket', TicketController::class);
     Route::get('status-wise-ticket-list', [TicketController::class, 'ticketList'])->name('ticket.status.wise.list');
+    Route::get('status-wise-ticket-list-datatable', [TicketController::class, 'allListDataTable'])->name('ticket.status.wise.list.datatable');
     Route::resource('category', CategoryController::class);
     Route::resource('team', TeamController::class);
     Route::resource('source', SourceController::class);
