@@ -301,8 +301,13 @@ class TicketController extends Controller
             ]
         );
 
+        // dd('Database ' . $ticket->owners->last()->id, 'Request : ' . $request->owner_id);
         $ticket_status = TicketStatus::query()->where('id', $ticket->ticket_status_id)->first();
-        $ticket_agents = $ticket->owners()->attach($request->owner_id);
+
+        if ($ticket->owners->last()->id != $request->owner_id) {
+            $ticket_agents = $ticket->owners()->attach($request->owner_id);
+        }
+
         $ticket_logs = TicketLog::create(
             [
                 'ticket_id'             => $ticket->getKey(),
@@ -313,7 +318,15 @@ class TicketController extends Controller
             ]
         );
 
-        // $ticket_notes = TicketNote::
+        $ticket_notes = TicketNote::create(
+            [
+                'ticket_id' => $ticket->getKey(),
+                'note_type' => 'status_change',
+                'note'      => $request->comment,
+                'new_status' => $ticket_status->name,
+                'updated_by' => $request->user()->id,
+            ]
+        );
 
         flash()->success('Data has been updated successfully');
         return back();

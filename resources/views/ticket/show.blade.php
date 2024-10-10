@@ -6,23 +6,37 @@
 
     <div class="flex flex-wrap" id="tabs-id">
         <div class="w-full">
-            <ul class="flex mb-0 list-none bg-[#F3F4F6]">
-                <li class="-mb-px last:mr-0 px-5 text-center">
-                    <a class="cursor-pointer text-sm font-semibold font-inter py-3 px-5 block bg-primary-400 text-white" onclick="changeAtiveTab(event,'tab-detail')">
-                        <i class="fas fa-space-shuttle text-base mr-1"></i> Details
-                    </a>
-                </li>
-                <li class="-mb-px last:mr-0 px-5 text-center">
-                    <a class="cursor-pointer text-sm font-semibold font-inter py-3 px-5 block bg-transparent text-black-400" onclick="changeAtiveTab(event,'tab-conversation')">
-                        <i class="fas fa-cog text-base mr-1"></i> Conversations
-                    </a>
-                </li>
-                <li class="-mb-px last:mr-0 px-5 text-center">
-                    <a class="cursor-pointer text-sm font-semibold font-inter py-3 px-5 block bg-transparent text-black-400" onclick="changeAtiveTab(event,'tab-history')">
-                        <i class="fas fa-briefcase text-base mr-1"></i> History
-                    </a>
-                </li>
-            </ul>
+            <div class="flex w-full bg-[#F3F4F6] justify-between">
+                <ul class="flex mb-0 list-none">
+                    <li class="-mb-px last:mr-0 px-5 text-center">
+                        <a class="cursor-pointer text-sm font-semibold font-inter py-3 px-5 block bg-primary-400 text-white" onclick="changeAtiveTab(event,'tab-detail')">
+                            <i class="fas fa-space-shuttle text-base mr-1"></i> Details
+                        </a>
+                    </li>
+                    <li class="-mb-px last:mr-0 px-5 text-center">
+                        <a class="cursor-pointer text-sm font-semibold font-inter py-3 px-5 block bg-transparent text-black-400" onclick="changeAtiveTab(event,'tab-conversation')">
+                            <i class="fas fa-cog text-base mr-1"></i> Conversations
+                        </a>
+                    </li>
+                    <li class="-mb-px last:mr-0 px-5 text-center">
+                        <a class="cursor-pointer text-sm font-semibold font-inter py-3 px-5 block bg-transparent text-black-400" onclick="changeAtiveTab(event,'tab-history')">
+                            <i class="fas fa-briefcase text-base mr-1"></i> History
+                        </a>
+                    </li>
+                </ul>
+                <ul class="flex mb-0 list-none">
+                    <li class="-mb-px last:mr-0 px-5 text-center">
+                        <a class="cursor-pointer text-sm font-semibold font-inter py-3 px-5 block bg-transparent text-black-400" onclick="changeAtiveTab(event,'tab-add-requester')">
+                            <i class="fas fa-space-shuttle text-base mr-1"></i> Add A New Requester
+                        </a>
+                    </li>
+                    <li class="-mb-px last:mr-0 px-5 text-center">
+                        <a class="cursor-pointer text-sm font-semibold font-inter py-3 px-5 block bg-transparent text-black-400" onclick="changeAtiveTab(event,'tab-edit-request')">
+                            <i class="fas fa-cog text-base mr-1"></i> Edit Request
+                        </a>
+                    </li>
+                </ul>
+            </div>
 
             <div class="relative flex flex-col min-w-0 break-words bg-white w-full my-6">
                 <div class="px-4 py-5 flex-auto">
@@ -305,7 +319,7 @@
                                                                     <option value="" disabled>Select a Team
                                                                     </option>
                                                                     @foreach ($teams as $each)
-                                                                        <option value="{{ $each->id }}" @selected($each->team_id == $each->id)>
+                                                                        <option value="{{ $each->id }}" @selected(old('team_id', $ticket?->team_id) == $each?->id)>
                                                                             {{ $each->name }}</option>
                                                                     @endforeach
                                                                 </x-forms.select-input>
@@ -329,6 +343,16 @@
                                                                 </x-forms.select-input>
 
                                                                 <x-input-error :messages="$errors->get('owner_id')" class="mt-2" />
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="grid sm:grid-cols-1 md:grid-cols-1 lg:grid-cols-1">
+                                                            <x-forms.label for="comment" required="yes">
+                                                                {{ __('Comment') }}
+                                                            </x-forms.label>
+                                                            <div wire:ignore>
+                                                                <textarea cols="30" id="editor" rows="10" name='comment' class="w-full py-3 text-base font-normal font-inter border border-slate-400 rounded" placeholder="Add Comment here.."></textarea>
+                                                                <x-input-error :messages="$errors->get('comment')" class="mt-2" />
                                                             </div>
                                                         </div>
 
@@ -416,6 +440,12 @@
                         <div class="hidden" id="tab-history">
                             History Content is here..
                         </div>
+                        <div class="hidden" id="tab-add-requester">
+                            Add Requester Content is here..
+                        </div>
+                        <div class="hidden" id="tab-edit-request">
+                            Edit Request Content is here..
+                        </div>
                     </div>
                 </div>
             </div>
@@ -425,7 +455,7 @@
     @section('style')
         <style>
             .ck-editor__editable_inline {
-                min-height: 300px;
+                min-height: 100px;
                 /* Adjust the height to your preference */
             }
         </style>
@@ -493,11 +523,11 @@
         <script>
             const editor = ClassicEditor
                 .create(document.querySelector('#editor'))
-                .then(editor => {
-                    editor.model.document.on('change:data', () => {
-                        this.set('request_description', editor.getData());
-                    })
-                })
+                // .then(editor => {
+                //     editor.model.document.on('change:data', () => {
+                //         this.set('request_description', editor.getData());
+                //     })
+                // })
                 .catch(error => {
                     console.error(error);
                 });
