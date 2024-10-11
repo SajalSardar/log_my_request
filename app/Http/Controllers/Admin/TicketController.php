@@ -12,7 +12,6 @@ use App\Models\TicketLog;
 use App\Models\TicketNote;
 use App\Models\TicketStatus;
 use App\Models\User;
-use Illuminate\Contracts\View\View;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cache;
