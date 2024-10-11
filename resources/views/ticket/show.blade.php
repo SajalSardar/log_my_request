@@ -351,7 +351,7 @@
                                                                 {{ __('Comment') }}
                                                             </x-forms.label>
                                                             <div wire:ignore>
-                                                                <textarea cols="30" id="editor" rows="10" name='comment' class="w-full py-3 text-base font-normal font-inter border border-slate-400 rounded" placeholder="Add Comment here.."></textarea>
+                                                                <textarea cols="30" id="editor" rows="10" name='comment' class="w-full py-3 text-base font-normal font-inter border border-slate-400 rounded" placeholder="Add Comment here..">{{ $ticket->ticket_note->note }}</textarea>
                                                                 <x-input-error :messages="$errors->get('comment')" class="mt-2" />
                                                             </div>
                                                         </div>
