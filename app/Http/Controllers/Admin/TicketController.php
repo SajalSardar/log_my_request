@@ -15,6 +15,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Gate;
+use Illuminate\Support\Str;
 use Yajra\DataTables\Facades\DataTables;
 
 class TicketController extends Controller {
@@ -198,6 +199,7 @@ class TicketController extends Controller {
 
     public function allListDataTable(Request $request) {
         Gate::authorize('viewAny', Ticket::class);
+
         $user     = User::with('teams:id')->find(Auth::id());
         $userTeam = $user->teams->pluck('id');
 
@@ -212,39 +214,78 @@ class TicketController extends Controller {
 
         if ($request->query_status == 'unassign') {
 
-            $tickets = Cache::remember('unassign_' . Auth::id() . '_ticket_list', 60 * 60, function () use ($tickets, $userTeam) {
-                $tickets->leftJoin('ticket_ownerships as towner', 'tickets.id', '=', 'towner.ticket_id')
-                    ->with(['source', 'user', 'team', 'requester_type', 'ticket_status'])
-                    ->where('towner.owner_id', null)
-                    ->select('tickets.*', 'towner.owner_id');
-                if (!Auth::user()->hasRole('super-admin')) {
-                    $tickets->whereIn('team_id', $userTeam)
-                        ->orWhere('tickets.created_by', Auth::id());
-                }
+            // $tickets = Cache::remember('unassign_' . Auth::id() . '_ticket_list', 60 * 60, function () use ($tickets, $userTeam) {
+            $tickets->leftJoin('ticket_ownerships as towner', 'tickets.id', '=', 'towner.ticket_id')
+                ->with(['source', 'user', 'team', 'requester_type', 'ticket_status'])
+                ->where('towner.owner_id', null)
+                ->select('tickets.*', 'towner.owner_id');
+            if (!Auth::user()->hasRole('super-admin')) {
+                $tickets->whereIn('team_id', $userTeam)
+                    ->orWhere('tickets.created_by', Auth::id());
+            }
 
-                $tickets->orderBy('id', 'desc');
-                return $tickets->get();
-            });
+            // $tickets->orderBy('id', 'desc');
+            // return $tickets->get();
+            // });
 
         } elseif ($ticketStatus->count() > 0 && $ticketStatus->slug == $request->query_status) {
 
-            $tickets = Cache::remember('ticket_' . Auth::id() . '_list', 60 * 60, function () use ($tickets, $ticketStatus) {
-                $tickets->where('ticket_status_id', $ticketStatus->id)
-                    ->with(['owners', 'source', 'user', 'team', 'requester_type'])
-                    ->whereHas('owners')
-                    ->whereNotNull('team_id')
-                    ->orderBy('id', 'desc');
-                if (!Auth::user()->hasRole('super-admin')) {
-                    $tickets->whereHas('owners', function ($query) {
-                        $query->where('owner_id', Auth::id());
-                    });
-                }
-                return $tickets->get();
-            });
+            // $tickets = Cache::remember('ticket_' . Auth::id() . '_list', 60 * 60, function () use ($tickets, $ticketStatus) {
+            $tickets->where('ticket_status_id', $ticketStatus->id)
+                ->with(['owners', 'source', 'user', 'team', 'requester_type'])
+                ->whereHas('owners')
+                ->whereNotNull('team_id')
+                ->orderBy('id', 'desc');
+            if (!Auth::user()->hasRole('super-admin')) {
+                $tickets->whereHas('owners', function ($query) {
+                    $query->where('owner_id', Auth::id());
+                });
+            }
+            // return $tickets->get();
+            // });
         }
 
         return DataTables::of($tickets)
-
+            ->editColumn('priority', function ($tickets) {
+                return Str::ucfirst($tickets->priority);
+            })
+            ->editColumn('status', function ($tickets) {
+                $data = "<span class='font-inter font-bold !bg-open-400'>" . $tickets->ticket_status->name . "</span>";
+                return $data;
+            })
+            ->editColumn('user_id', function ($tickets) {
+                $data = '<div class="p-2 font-normal text-gray-400 flex items-center"><img src="https://i.pravatar.cc/300/5" alt="img" width="40" height="40"
+                                style="border-radius: 50%"><span class="ml-2">' . $tickets->user->name . '</span></div>';
+                return $data;
+            })
+            ->editColumn('requester_type', function ($tickets) {
+                $data = '<span class="font-normal text-gray-400">' . @$tickets->requester_type->name . '</span>';
+                return $data;
+            })
+            ->editColumn('team_id', function ($tickets) {
+                $data = '<span class="font-normal text-gray-400">' . @$tickets->team->name . '</span>';
+                return $data;
+            })
+            ->addColumn('agent', function ($tickets) {
+                $data = '<span class="font-normal text-gray-400">' . @$tickets->owners->pluck('name') . '</span>';
+                return $data;
+            })
+            ->editColumn('created_at', function ($tickets) {
+                $data = '<span class="font-normal text-gray-400">' . ISODate($tickets?->created_at) . '</span>';
+                return $data;
+            })
+            ->addColumn('request_age', function ($tickets) {
+                $data = '<span class="font-normal text-gray-400">' . dayMonthYearHourMininteSecond($tickets?->created_at, true, true, true) . '</span>';
+                return $data;
+            })
+            ->editColumn('source_id', function ($tickets) {
+                $data = '<span class="font-normal text-gray-400">' . @$tickets->source->title . '</span>';
+                return $data;
+            })
+            ->editColumn('due_date', function ($tickets) {
+                $data = '<span class="font-normal text-gray-400">' . ISOdate($tickets->due_date) . '</span>';
+                return $data;
+            })
         // ->addColumn('donor', function ($donates) {
         //     return $donates->donar_name ? $donates->donar_name : 'Guest';
 

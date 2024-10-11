@@ -24,7 +24,7 @@
                         </div>
                     </th> --}}
                     <th class="text-start p-2" style="width: 70px">ID</th>
-                    {{-- <th class="text-start p-2" style="width: 200px">Title</th>
+                    <th class="text-start p-2" style="width: 200px">Title</th>
                     <th class="text-start p-2" style="width: 80px">Priority</th>
                     <th class="text-start p-2" style="max-width: 130px">Status</th>
                     <th class="text-start p-2" style="width: 210px">Requester Name</th>
@@ -34,7 +34,7 @@
                     <th class="text-start p-2" style="max-width: 120px">Created Date</th>
                     <th class="text-start p-2" style="width: 120px">Request Age</th>
                     <th class="text-start p-2">Source</th>
-                    <th class="text-start p-2">Due Date</th> --}}
+                    <th class="text-start p-2">Due Date</th>
                     <th class="text-start p-2"></th>
                 </tr>
             </thead>
@@ -175,6 +175,50 @@
                     columns: [{
                             data: 'id',
                             name: 'id'
+                        },
+                        {
+                            data: 'title',
+                            name: 'title'
+                        },
+                        {
+                            data: 'priority',
+                            name: 'priority'
+                        },
+                        {
+                            data: 'status',
+                            name: 'status'
+                        },
+                        {
+                            data: 'user_id',
+                            name: 'user_id'
+                        },
+                        {
+                            data: 'requester_type',
+                            name: 'requester_type'
+                        },
+                        {
+                            data: 'team_id',
+                            name: 'team_id'
+                        },
+                        {
+                            data: 'agent',
+                            name: 'agent'
+                        },
+                        {
+                            data: 'created_at',
+                            name: 'created_at'
+                        },
+                        {
+                            data: 'request_age',
+                            name: 'request_age'
+                        },
+                        {
+                            data: 'source_id',
+                            name: 'source_id'
+                        },
+                        {
+                            data: 'due_date',
+                            name: 'due_date'
                         },
                         {
                             data: 'action_column',
