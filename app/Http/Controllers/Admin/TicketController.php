@@ -8,9 +8,10 @@ use App\Models\RequesterType;
 use App\Models\Source;
 use App\Models\Team;
 use App\Models\Ticket;
+use App\Models\TicketLog;
+use App\Models\TicketNote;
 use App\Models\TicketStatus;
 use App\Models\User;
-use Illuminate\Contracts\View\View;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cache;
@@ -18,7 +19,8 @@ use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Str;
 use Yajra\DataTables\Facades\DataTables;
 
-class TicketController extends Controller {
+class TicketController extends Controller
+{
     /**
      * Define public property $requester_type;
      * @var array|object
@@ -69,7 +71,8 @@ class TicketController extends Controller {
     /**
      * Display a listing of the resource.
      */
-    public function index() {
+    public function index()
+    {
         Gate::authorize('viewAny', Ticket::class);
         //$this->tickets = TicketStatus::query()->with('ticket', fn($query) => $query->with('source', 'ticket_status'))->withCount('ticket')->get();
 
@@ -117,7 +120,8 @@ class TicketController extends Controller {
     /**
      * Display a listing of the data table resource.
      */
-    public function displayListDatatable() {
+    public function displayListDatatable()
+    {
         Gate::authorize('viewAny', Ticket::class);
 
         $ticket = Cache::remember('ticket_' . Auth::id() . '_list', 60 * 60, function () {
@@ -128,7 +132,8 @@ class TicketController extends Controller {
     /**
      * Show the form for creating a new resource.
      */
-    public function create() {
+    public function create()
+    {
         Gate::authorize('create', Ticket::class);
         return view('ticket.create');
     }
@@ -136,7 +141,8 @@ class TicketController extends Controller {
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request) {
+    public function store(Request $request)
+    {
         //
         Gate::authorize('create', Ticket::class);
     }
@@ -144,7 +150,8 @@ class TicketController extends Controller {
     /**
      * Display the specified resource.
      */
-    public function show(Request $request, Ticket $ticket) {
+    public function show(Request $request, Ticket $ticket)
+    {
         if ($request->ajax()) {
             $agents = Team::query()->with('agents')->where('id', $request->team_id)->get();
             return response()->json($agents);
@@ -156,7 +163,9 @@ class TicketController extends Controller {
         $this->categories     = Category::query()->get();
         $this->ticket_status  = TicketStatus::query()->get();
         $agents               = Team::query()->with('agents')->where('id', $ticket?->team_id)->get();
-        // dd($ticket->ticket_status->name);
+
+        // Get all ticket list according to ticket status
+        $ticketStatusWise = Ticket::where('ticket_status_id', $ticket->ticket_status_id)->get();
         return view('ticket.show', [
             'ticket'         => $ticket,
             'requester_type' => $this->requester_type,
@@ -165,6 +174,7 @@ class TicketController extends Controller {
             'categories'     => $this->categories,
             'ticket_status'  => $this->ticket_status,
             'agents'         => $agents,
+            'ticketStatusWise' => $ticketStatusWise,
         ]);
     }
 
@@ -172,7 +182,8 @@ class TicketController extends Controller {
      * Show the form for editing the specified resource.
      * @param Ticket $ticket
      */
-    public function edit(Ticket $ticket) {
+    public function edit(Ticket $ticket)
+    {
         Gate::authorize('update', $ticket);
         return view('ticket.edit', compact('ticket'));
     }
@@ -180,24 +191,28 @@ class TicketController extends Controller {
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Ticket $ticket) {
+    public function update(Request $request, Ticket $ticket)
+    {
         Gate::authorize('update', $ticket);
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Ticket $ticket) {
+    public function destroy(Ticket $ticket)
+    {
         Gate::authorize('delete', $ticket);
     }
 
-    public function ticketList() {
+    public function ticketList()
+    {
         Gate::authorize('viewAny', Ticket::class);
         $queryStatus = request()->get('ticket_status');
         return view('ticket.view-all', compact('queryStatus'));
     }
 
-    public function allListDataTable(Request $request) {
+    public function allListDataTable(Request $request)
+    {
         Gate::authorize('viewAny', Ticket::class);
 
         $user     = User::with('teams:id')->find(Auth::id());
@@ -289,16 +304,16 @@ class TicketController extends Controller {
         // ->addColumn('donor', function ($donates) {
         //     return $donates->donar_name ? $donates->donar_name : 'Guest';
 
-        // })
-        // ->editColumn('amount', function ($donates) {
-        //     return '$' . number_format($donates->amount, 2);
-        // })
-        // ->editColumn('admin_view', function ($donates) {
-        //     return $donates->admin_view == 0 ? 'unread' : 'read';
-        // })
-        // ->editColumn('created_at', function ($donates) {
-        //     return $donates->created_at->format('M d, Y');
-        // })
+            // })
+            // ->editColumn('amount', function ($donates) {
+            //     return '$' . number_format($donates->amount, 2);
+            // })
+            // ->editColumn('admin_view', function ($donates) {
+            //     return $donates->admin_view == 0 ? 'unread' : 'read';
+            // })
+            // ->editColumn('created_at', function ($donates) {
+            //     return $donates->created_at->format('M d, Y');
+            // })
             ->addColumn('action_column', function ($tickets) {
                 $links = '';
 
@@ -312,5 +327,52 @@ class TicketController extends Controller {
             ->addIndexColumn()
             ->escapeColumns([])
             ->make(true);
+    }
+
+    /**
+     * Define public method logUpdate() to update log of ticket
+     * @param Request $request
+     */
+    public function logUpdate(Request $request, Ticket $ticket)
+    {
+        $updated_ticket = $ticket->update(
+            [
+                'source_id'         => $request->source_id,
+                'due_date'          => $request->due_date,
+                'team_id'           => $request->team_id,
+                'category_id'       => $request->category_id,
+                'ticket_status_id'  => $request->ticket_status_id,
+            ]
+        );
+
+        // dd('Database ' . $ticket->owners->last()->id, 'Request : ' . $request->owner_id);
+        $ticket_status = TicketStatus::query()->where('id', $ticket->ticket_status_id)->first();
+
+        if ($ticket->owners->last()->id != $request->owner_id) {
+            $ticket_agents = $ticket->owners()->attach($request->owner_id);
+        }
+
+        $ticket_logs = TicketLog::create(
+            [
+                'ticket_id'             => $ticket->getKey(),
+                'ticket_status'         => $ticket_status->name,
+                'status'                => 'updated',
+                'comment'               => $ticket,
+                'updated_by'            => $request->user()->id,
+            ]
+        );
+
+        $ticket_notes = TicketNote::create(
+            [
+                'ticket_id' => $ticket->getKey(),
+                'note_type' => 'status_change',
+                'note'      => $request->comment,
+                'new_status' => $ticket_status->name,
+                'updated_by' => $request->user()->id,
+            ]
+        );
+
+        flash()->success('Data has been updated successfully');
+        return back();
     }
 }

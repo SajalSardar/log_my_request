@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="This website is about manage events.">
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    <title>{{ config('app.name', 'Event Metro') }}</title>
+    <title>{{ config('app.name', 'Log My Request') }}</title>
 
     @livewireStyles
     <link rel="stylesheet" href="{{ asset('assets/css/select2.min.css') }}">
