@@ -6,6 +6,8 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\Relations\MorphOne;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Facades\Auth;
@@ -117,12 +119,20 @@ class Ticket extends Model
         return $this->belongsToMany(User::class, 'ticket_ownerships', 'ticket_id', 'owner_id');
     }
 
-    public function ticket_note()
+    /**
+     * Define public method ticket_note()
+     * @return HasOne
+     */
+    public function ticket_note(): HasOne
     {
         return $this->hasOne(TicketNote::class, 'ticket_id', 'id')->latest();
     }
 
-    public function ticket_notes()
+    /**
+     * Define public method ticket_notes()
+     * @return HasMany
+     */
+    public function ticket_notes(): HasMany
     {
         return $this->hasMany(TicketNote::class, 'ticket_id', 'id');
     }
