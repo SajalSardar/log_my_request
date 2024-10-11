@@ -372,7 +372,7 @@
                                     <!-- Edit Part End !-->
 
                                     <div class="mt-3">
-                                        <p class="text-base font-bold font-inter">Open Requests</p>
+                                        <p class="text-base font-bold font-inter">{{ $ticket?->ticket_status?->name }} Requests</p>
                                         <table class="w-full mt-3">
                                             <thead class="w-full bg-[#F3F4F6] mb-5 rounded">
                                                 <tr>
@@ -393,41 +393,27 @@
                                             </thead>
 
                                             <tbody>
-                                                <tr style="border:1px solid #DDDDDD">
-                                                    <td class="p-2">
-                                                        <span class="font-inter font-normal text-slate-500 text-sm">
-                                                            <x-forms.checkbox-input />
-                                                        </span>
-                                                    </td>
-                                                    <td class="p-2">
-                                                        <span class="font-inter font-normal text-slate-500 text-sm">
-                                                            #{{ $ticket?->id }}
-                                                        </span>
-                                                    </td>
-                                                    <td class="p-2">
-                                                        <span class="font-inter font-normal text-slate-500 text-sm">
-                                                            {{ Str::limit($ticket?->title, 30, '...') }}
-                                                        </span>
-                                                    </td>
-                                                </tr>
-
-                                                <tr style="border:1px solid #DDDDDD">
-                                                    <td class="p-2">
-                                                        <span class="font-inter font-normal text-slate-500 text-sm">
-                                                            <x-forms.checkbox-input />
-                                                        </span>
-                                                    </td>
-                                                    <td class="p-2">
-                                                        <span class="font-inter font-normal text-slate-500 text-sm">
-                                                            #{{ $ticket?->id }}
-                                                        </span>
-                                                    </td>
-                                                    <td class="p-2">
-                                                        <span class="font-inter font-normal text-slate-500 text-sm">
-                                                            {{ Str::limit($ticket?->title, 30, '...') }}
-                                                        </span>
-                                                    </td>
-                                                </tr>
+                                                @if (is_object($ticketStatusWise) && $ticketStatusWise->count() > 0)
+                                                    @foreach ($ticketStatusWise as $each)
+                                                        <tr style="border:1px solid #DDDDDD">
+                                                            <td class="p-2">
+                                                                <span class="font-inter font-normal text-slate-500 text-sm">
+                                                                    <x-forms.checkbox-input />
+                                                                </span>
+                                                            </td>
+                                                            <td class="p-2">
+                                                                <span class="font-inter font-normal text-slate-500 text-sm">
+                                                                    #{{ $each?->id }}
+                                                                </span>
+                                                            </td>
+                                                            <td class="p-2">
+                                                                <span class="font-inter font-normal text-slate-500 text-sm">
+                                                                    {{ Str::limit($each?->title, 30, '...') }}
+                                                                </span>
+                                                            </td>
+                                                        </tr>
+                                                    @endforeach
+                                                @endif
                                             </tbody>
                                         </table>
                                     </div>

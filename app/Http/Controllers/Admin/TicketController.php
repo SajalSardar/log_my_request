@@ -163,7 +163,9 @@ class TicketController extends Controller
         $this->categories     = Category::query()->get();
         $this->ticket_status  = TicketStatus::query()->get();
         $agents               = Team::query()->with('agents')->where('id', $ticket?->team_id)->get();
-        // dd($ticket->ticket_status->name);
+
+        // Get all ticket list according to ticket status
+        $ticketStatusWise = Ticket::where('ticket_status_id', $ticket->ticket_status_id)->get();
         return view('ticket.show', [
             'ticket'         => $ticket,
             'requester_type' => $this->requester_type,
@@ -172,6 +174,7 @@ class TicketController extends Controller
             'categories'     => $this->categories,
             'ticket_status'  => $this->ticket_status,
             'agents'         => $agents,
+            'ticketStatusWise' => $ticketStatusWise,
         ]);
     }
 
