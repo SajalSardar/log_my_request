@@ -25,6 +25,14 @@ function initSelect2form(eliment_id_and_name = "") {
             Livewire.find(componentId).set("form." + eliment_id_and_name, data);
         });
 }
+function toggleAction(ticketId) {
+    var actionDiv = document.getElementById("action-" + ticketId);
+    if (actionDiv.style.display === "none" || actionDiv.style.display === "") {
+        actionDiv.style.display = "block";
+    } else {
+        actionDiv.style.display = "none";
+    }
+}
 
 $(function ($) {
     $(".select2").select2({

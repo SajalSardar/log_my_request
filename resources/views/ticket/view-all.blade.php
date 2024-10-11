@@ -147,15 +147,6 @@
 
     @section(section: 'script')
         <script>
-            function toggleAction(ticketId) {
-                var actionDiv = document.getElementById('action-' + ticketId);
-                if (actionDiv.style.display === 'none' || actionDiv.style.display === '') {
-                    actionDiv.style.display = 'block';
-                } else {
-                    actionDiv.style.display = 'none';
-                }
-            }
-
             $(function() {
                 var dTable = $('#data-table').DataTable({
                     processing: true,
