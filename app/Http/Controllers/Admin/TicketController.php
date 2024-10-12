@@ -83,7 +83,7 @@ class TicketController extends Controller {
         $unassignRequest = Cache::remember('unassign_' . Auth::id() . '_ticket_list', 60 * 60, function () use ($userTeam) {
             $unassign = Ticket::query()
                 ->leftJoin('ticket_ownerships as towner', 'tickets.id', '=', 'towner.ticket_id')
-                ->with(['source', 'user', 'team', 'requester_type', 'ticket_status'])
+                ->with(['source', 'user', 'team', 'ticket_status'])
                 ->where('towner.owner_id', null)
                 ->select('tickets.*', 'towner.owner_id');
             if (!Auth::user()->hasRole('super-admin')) {
@@ -102,7 +102,7 @@ class TicketController extends Controller {
                             $query->where('owner_id', Auth::id());
                         });
                     }
-                    $query->with(['owners', 'source', 'user', 'team', 'requester_type'])
+                    $query->with(['owners', 'source', 'user', 'team'])
                         ->whereHas('owners')
                         ->whereNotNull('team_id')
                         ->orderBy('id', 'desc')
@@ -160,6 +160,7 @@ class TicketController extends Controller {
         $this->categories     = Category::query()->get();
         $this->ticket_status  = TicketStatus::query()->get();
         $agents               = Team::query()->with('agents')->where('id', $ticket?->team_id)->get();
+        $users                = User::whereNotIn('id', [1])->select('id', 'name', 'email')->get();
 
         // Get all ticket list according to ticket status
         // $ticketStatusWise = Ticket::where('ticket_status_id', $ticket->ticket_status_id)->get();
@@ -173,7 +174,7 @@ class TicketController extends Controller {
                 $query->where('owner_id', Auth::id());
             });
         }
-        $ticketStatusWise = $ticketStatusWiseList->get();
+        $ticketStatusWise = $ticketStatusWiseList->take(5)->get();
 
         return view('ticket.show', [
             'ticket'           => $ticket,
@@ -184,6 +185,7 @@ class TicketController extends Controller {
             'ticket_status'    => $this->ticket_status,
             'agents'           => $agents,
             'ticketStatusWise' => $ticketStatusWise,
+            'users'            => $users,
         ]);
     }
 
@@ -235,7 +237,7 @@ class TicketController extends Controller {
 
             // $tickets = Cache::remember('unassign_' . Auth::id() . '_ticket_list', 60 * 60, function () use ($tickets, $userTeam) {
             $tickets->leftJoin('ticket_ownerships as towner', 'tickets.id', '=', 'towner.ticket_id')
-                ->with(['source', 'user', 'team', 'requester_type', 'ticket_status'])
+                ->with(['source', 'user', 'team', 'ticket_status'])
                 ->where('towner.owner_id', null)
                 ->select('tickets.*', 'towner.owner_id');
             if (!Auth::user()->hasRole('super-admin')) {
@@ -251,7 +253,7 @@ class TicketController extends Controller {
 
             // $tickets = Cache::remember('ticket_' . Auth::id() . '_list', 60 * 60, function () use ($tickets, $ticketStatus) {
             $tickets->where('ticket_status_id', $ticketStatus->id)
-                ->with(['owners', 'source', 'user', 'team', 'requester_type'])
+                ->with(['owners', 'source', 'user', 'team'])
                 ->whereHas('owners')
                 ->whereNotNull('team_id')
                 ->orderBy('id', 'desc');
@@ -278,7 +280,7 @@ class TicketController extends Controller {
                 return $data;
             })
             ->editColumn('requester_type', function ($tickets) {
-                $data = '<span class="font-normal text-gray-400">' . @$tickets->requester_type->name . '</span>';
+                $data = '<span class="font-normal text-gray-400">' . @$tickets->user->requester_type->name . '</span>';
                 return $data;
             })
             ->editColumn('team_id', function ($tickets) {
@@ -305,19 +307,7 @@ class TicketController extends Controller {
                 $data = '<span class="font-normal text-gray-400">' . ISOdate($tickets->due_date) . '</span>';
                 return $data;
             })
-        // ->addColumn('donor', function ($donates) {
-        //     return $donates->donar_name ? $donates->donar_name : 'Guest';
 
-        // })
-        // ->editColumn('amount', function ($donates) {
-        //     return '$' . number_format($donates->amount, 2);
-        // })
-        // ->editColumn('admin_view', function ($donates) {
-        //     return $donates->admin_view == 0 ? 'unread' : 'read';
-        // })
-        // ->editColumn('created_at', function ($donates) {
-        //     return $donates->created_at->format('M d, Y');
-        // })
             ->addColumn('action_column', function ($tickets) {
                 $links = '';
 

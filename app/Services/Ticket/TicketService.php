@@ -36,35 +36,42 @@ class TicketService {
         $checkUser = User::query()->where('email', $request->requester_email)->first();
         if (!empty($checkUser)) {
             $request->credentials = false;
-            $checkUser->update(['phone' => $request->requester_phone, 'name' => $request->requester_name]);
+            $checkUser->update(
+                [
+                    'phone'             => $request->requester_phone,
+                    'name'              => $request->requester_name,
+                    'requester_type_id' => $request->requester_type_id,
+                    'requester_id'      => $request->requester_id,
+                ]
+            );
         } else {
             $this->password       = rand(10000000, 99999999);
             $request->credentials = true;
             $request->password    = $this->password;
             $this->user           = User::create([
-                'name'     => $request?->requester_name,
-                'email'    => $request?->requester_email,
-                'phone'    => $request?->requester_phone,
-                'password' => Hash::make($this->password),
+                'name'              => $request?->requester_name,
+                'email'             => $request?->requester_email,
+                'phone'             => $request?->requester_phone,
+                'password'          => Hash::make($this->password),
+                'requester_type_id' => $request?->requester_type_id,
+                'requester_id'      => $request?->requester_id,
             ]);
             $this->user->assignRole('agent');
         }
 
         $response = Ticket::create(
             [
-                'user_id'           => $checkUser ? $checkUser->id : $this->user->id,
-                'requester_type_id' => $request?->requester_type_id,
-                'team_id'           => $request?->team_id,
-                'category_id'       => $request?->category_id,
-                'ticket_status_id'  => $request?->ticket_status_id,
-                'source_id'         => $request?->source_id,
-                'title'             => $request?->request_title,
-                'description'       => $request?->request_description,
-                'requester_id'      => $request?->requester_id,
-                'priority'          => $request?->priority,
-                'ticket_type'       => 'customer',
-                'due_date'          => $request?->due_date,
-                'created_by'        => Auth::id(),
+                'user_id'          => $checkUser ? $checkUser->id : $this->user->id,
+                'team_id'          => $request?->team_id,
+                'category_id'      => $request?->category_id,
+                'ticket_status_id' => $request?->ticket_status_id,
+                'source_id'        => $request?->source_id,
+                'title'            => $request?->request_title,
+                'description'      => $request?->request_description,
+                'priority'         => $request?->priority,
+                'ticket_type'      => 'customer',
+                'due_date'         => $request?->due_date,
+                'created_by'       => Auth::id(),
             ]
         );
 
@@ -106,18 +113,16 @@ class TicketService {
 
         $response = Ticket::where('id', $model->getKey())->first();
 
-        $response->requester_type_id = $request->requester_type_id;
-        $response->team_id           = $request->team_id;
-        $response->category_id       = $request->category_id;
-        $response->ticket_status_id  = $request->ticket_status_id;
-        $response->source_id         = $request->source_id;
-        $response->title             = $request->request_title;
-        $response->description       = $request->request_description;
-        $response->requester_id      = $request->requester_id;
-        $response->priority          = $request->priority;
-        $response->ticket_type       = 'customer';
-        $response->due_date          = $request->due_date;
-        $response->updated_by        = Auth::user()->id;
+        $response->team_id          = $request->team_id;
+        $response->category_id      = $request->category_id;
+        $response->ticket_status_id = $request->ticket_status_id;
+        $response->source_id        = $request->source_id;
+        $response->title            = $request->request_title;
+        $response->description      = $request->request_description;
+        $response->priority         = $request->priority;
+        $response->ticket_type      = 'customer';
+        $response->due_date         = $request->due_date;
+        $response->updated_by       = Auth::user()->id;
         $response->save();
 
         $ticket_notes = TicketNote::query()->where('ticket_id', $model->getKey())->first();

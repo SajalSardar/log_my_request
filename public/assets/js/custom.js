@@ -34,7 +34,18 @@ function toggleAction(ticketId) {
     }
 }
 
-$(".select2").select2({
-    placeholder: "Select an option",
-    allowClear: true,
-});
+function activeCkEditor(eliment) {
+    const editor = ClassicEditor.create(document.querySelector(`#${eliment}`), {
+        toolbar: [
+            "heading",
+            "bold",
+            "italic",
+            "link",
+            "bulletedList",
+            "numberedList",
+            "blockQuote",
+        ],
+    }).catch((error) => {
+        console.error(error);
+    });
+}

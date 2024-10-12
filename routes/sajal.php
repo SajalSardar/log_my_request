@@ -2,6 +2,7 @@
 
 // module
 
+use App\Http\Controllers\Admin\AdminUserController;
 use App\Http\Controllers\Admin\MenuController;
 use App\Http\Controllers\Admin\RequesterTypeController;
 use App\Http\Controllers\Admin\RoleController;
@@ -35,6 +36,8 @@ Route::middleware('auth')->prefix('dashboard')->name('admin.')->group(function (
     Route::get('edit-user-role/{id}', [RoleController::class, 'edit'])->name('role.edit');
     Route::put('update-user-role/{id}', [RoleController::class, 'update'])->name('role.update');
 
+    //user
+    Route::get('get-user-by-id', [AdminUserController::class, 'getUserById'])->name('get.user.by.id');
     // change role in header option
     Route::post('switch-accont', [RoleController::class, 'switchAccount'])->name('role.swotch');
 });

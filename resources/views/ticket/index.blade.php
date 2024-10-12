@@ -95,7 +95,7 @@
                         </td>
                         <td class="p-2" style="max-width: 150px">
                             <span class="font-normal text-gray-400">
-                                {{ $ticket?->requester_type?->name }}
+                                {{ $ticket?->user?->requester_type?->name }}
                             </span>
                         </td>
                         <td class="p-2" style="max-width: 130px">
@@ -251,7 +251,7 @@
                                 </td>
                                 <td class="p-2" style="max-width: 150px">
                                     <span class="font-normal text-gray-400">
-                                        {{ $ticket?->requester_type?->name }}
+                                        {{ $ticket?->user?->requester_type?->name }}
                                     </span>
                                 </td>
                                 <td class="p-2" style="max-width: 130px">

@@ -81,14 +81,6 @@ class Ticket extends Model {
      * Define public method requester_type() associate with Ticket
      * @return BelongsTo
      */
-    public function requester_type(): BelongsTo {
-        return $this->belongsTo(RequesterType::class, 'requester_type_id', 'id');
-    }
-
-    /**
-     * Define public method requester_type() associate with Ticket
-     * @return BelongsTo
-     */
     public function source(): BelongsTo {
         return $this->belongsTo(Source::class, 'source_id', 'id');
     }
