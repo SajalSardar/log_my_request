@@ -34,9 +34,7 @@ function toggleAction(ticketId) {
     }
 }
 
-$(function ($) {
-    $(".select2").select2({
-        placeholder: "Select an option",
-        allowClear: true,
-    });
+$(".select2").select2({
+    placeholder: "Select an option",
+    allowClear: true,
 });

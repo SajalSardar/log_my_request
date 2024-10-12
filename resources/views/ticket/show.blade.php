@@ -4,6 +4,7 @@
             {{ $ticket?->title }}</span>
     </header>
 
+
     <div class="flex flex-wrap" id="tabs-id">
         <div class="w-full">
             <div class="flex w-full bg-[#F3F4F6] justify-between">
@@ -27,15 +28,17 @@
                         </a>
                     </li>
 
-                    <li class="-mb-px last:mr-0 px-5 text-center">
-                        <a class="cursor-pointer text-sm font-semibold font-inter py-3 px-5 block bg-transparent text-black-400"
-                            onclick="changeAtiveTab(event,'tab-add-requester')">
-                            <i class="fas fa-space-shuttle text-base mr-1"></i> Add A New Requester
+                </ul>
+                <ul class="flex mb-0 list-none">
+                    <li class="-mb-px last:mr-0 px-5 text-center" x-on:click="$dispatch('open-offcanvas-requester')">
+                        <a
+                            class="cursor-pointer text-sm font-semibold font-inter py-3 px-5 block bg-transparent text-black-400">
+                            <i class="fas fa-space-shuttle text-base mr-1"></i> Add New Requester
                         </a>
                     </li>
-                    <li class="-mb-px last:mr-0 px-5 text-center">
-                        <a class="cursor-pointer text-sm font-semibold font-inter py-3 px-5 block bg-transparent text-black-400"
-                            onclick="changeAtiveTab(event,'tab-edit-request')">
+                    <li class="-mb-px last:mr-0 px-5 text-center" x-on:click="$dispatch('open-offcanvas-request')">
+                        <a
+                            class="cursor-pointer text-sm font-semibold font-inter py-3 px-5 block bg-transparent text-black-400">
                             <i class="fas fa-cog text-base mr-1"></i> Edit Request
                         </a>
                     </li>
@@ -91,17 +94,20 @@
                                                             class="font-sm font-semibold font-inter text-red-600">{{ $ticket?->ticket_status->name }}</span>
                                                     </li>
                                                     <li>
-                                                        <span class="font-sm font-semibold font-inter">Priority: </span>
+                                                        <span class="font-sm font-semibold font-inter">Priority:
+                                                        </span>
                                                         <span
                                                             class="font-sm font-semibold font-inter text-red-600">{{ $ticket?->priority }}</span>
                                                     </li>
                                                     <li>
-                                                        <span class="font-sm font-semibold font-inter">Due Data: </span>
+                                                        <span class="font-sm font-semibold font-inter">Due Data:
+                                                        </span>
                                                         <span
                                                             class="font-sm font-normal font-inter">{{ Helper::ISODate($ticket?->due_date) }}</span>
                                                     </li>
                                                     <li>
-                                                        <span class="font-sm font-semibold font-inter">Category: </span>
+                                                        <span class="font-sm font-semibold font-inter">Category:
+                                                        </span>
                                                         <span
                                                             class="font-sm font-normal font-inter">{{ $ticket?->category?->name }}</span>
                                                     </li>
@@ -407,6 +413,30 @@
                                                                 <x-input-error :messages="$errors->get('owner_id')" class="mt-2" />
                                                             </div>
                                                         </div>
+                                                        <div
+                                                            class="grid sm:grid-cols-1 md:grid-cols-1 lg:grid-cols-1 mt-2">
+                                                            <div class="p-2 w-full">
+                                                                <x-forms.label for="priority" required="yes">
+                                                                    {{ __('Requester Priority') }}
+                                                                </x-forms.label>
+                                                                <div class="mt-2">
+                                                                    <x-forms.radio-input name="priority"
+                                                                        :checked="$ticket->priority === 'low'" value="low" />
+                                                                    <span class="ml-2">Low</span>
+
+                                                                    <x-forms.radio-input name="priority"
+                                                                        class="ml-2" value="medium"
+                                                                        :checked="$ticket->priority === 'medium'" />
+                                                                    <span class="ml-2">Medium</span>
+
+                                                                    <x-forms.radio-input name="priority"
+                                                                        class="ml-2" value="high"
+                                                                        :checked="$ticket->priority === 'high'" />
+                                                                    <span class="ml-2">High</span>
+                                                                </div>
+                                                                <x-input-error :messages="$errors->get('priority')" class="mt-2" />
+                                                            </div>
+                                                        </div>
 
                                                         <div
                                                             class="grid sm:grid-cols-1 md:grid-cols-1 lg:grid-cols-1 mt-3">
@@ -518,26 +548,158 @@
                         <div class="hidden" id="tab-history">
                             History Content is here..
                         </div>
-                        <div class="hidden" id="tab-add-requester">
-                            Add Requester Content is here..
-                        </div>
-                        <div class="hidden" id="tab-edit-request">
-                            Edit Request Content is here..
-                        </div>
+
+
                     </div>
                 </div>
             </div>
         </div>
     </div>
 
+    <x-offcanvas :position="'end'" :size="'md'" :eventname="'offcanvas-requester'">
+
+        @slot('header')
+            New Requester
+        @endslot
+        @slot('body')
+            <form action="" method="POST">
+                @csrf
+                <div>
+                    <div class="border border-slate-300 p-2 rounded">
+
+                        <div class="grid lg:grid-cols-1 md:grid-cols-1 sm:grid-cols-1 sm:gap-1 md:gap-4">
+                            <div class="p-2 w-full">
+                                <x-forms.label for="form.requester_type">
+                                    {{ __('Select requester') }}
+                                </x-forms.label>
+
+                                <div>
+                                    <select class="w-full select2" style="width: 100%">
+                                        <option selected value>Requester</option>
+                                        @foreach ($requester_type as $each)
+                                            <option @selected(old('form.requester_type_id', $ticket?->requester_type_id) == $each?->id) value="{{ $each->id }}">
+                                                {{ $each?->name }}
+                                            </option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        @endslot
+    </x-offcanvas>
+
+    {{-- edit request offcanvas --}}
+    <x-offcanvas :position="'end'" :size="'xl'" :eventname="'offcanvas-request'">
+
+        @slot('header')
+            Edit Request
+        @endslot
+
+        @slot('body')
+            <form wire:submit="update">
+                <div class="flex flex-row">
+                    <div class="">
+                        <div class="border border-slate-300 p-2 rounded">
+
+                            <div class="grid lg:grid-cols-1 md:grid-cols-1 sm:grid-cols-1 sm:gap-1 md:gap-4">
+                                <div class="p-2 w-full">
+                                    <x-forms.label for="form.request_title" required="yes">
+                                        {{ __('Request Title') }}
+                                    </x-forms.label>
+                                    <x-forms.text-input wire:model="form.request_title" value="{{ $ticket?->title }}"
+                                        type="text" required />
+                                    <x-input-error :messages="$errors->get('form.request_title')" class="mt-2" />
+                                </div>
+                            </div>
+
+                            <div class="grid md:grid-cols-1 sm:grid-cols-1 sm:gap-1 md:gap-4 p-2 w-full ">
+                                <x-forms.label for="form.request_description">
+                                    {{ __('Request Description') }}
+                                </x-forms.label>
+                                <div>
+                                    <textarea cols="30" id="request_description" rows="10" name="request_description"
+                                        class="w-full py-3 text-base font-normal font-inter border border-slate-400 rounded"
+                                        placeholder="Add description here..">{!! $ticket->description !!}</textarea>
+                                    <x-input-error :messages="$errors->get('request_description')" class="mt-2" />
+                                </div>
+                            </div>
+                            <div class="grid md:grid-cols-1 sm:grid-cols-1 sm:gap-1 md:gap-4">
+                                <div class="p-2 w-full">
+                                    <x-forms.input-file wire:model="form.request_attachment" accept=".pdf,.docs,.ppt" />
+                                    <x-input-error :messages="$errors->get('form.request_attachment')" class="mt-2" />
+                                </div>
+                            </div>
+                            <div class="grid md:grid-cols-2 sm:grid-cols-1 sm:gap-1 md:gap-4">
+                                <div class="p-2 w-full">
+                                    <x-forms.label for="form.requester_type">
+                                        {{ __('Requester Type') }}
+                                    </x-forms.label>
+
+                                    <x-forms.select-input wire:model="form.requester_type_id">
+                                        <option selected value>Requester type</option>
+                                        @foreach ($requester_type as $each)
+                                            <option @selected(old('form.requester_type_id', $ticket?->requester_type_id) == $each?->id) value="{{ $each->id }}">
+                                                {{ $each?->name }}
+                                            </option>
+                                        @endforeach
+                                    </x-forms.select-input>
+
+                                    <x-input-error :messages="$errors->get('form.requester_type_id')" class="mt-2" />
+                                </div>
+                                <div class="p-2 w-full">
+                                    <x-forms.label for="form.requester_id" value="{{ $ticket?->requester_id }}">
+                                        {{ __('Requester ID') }}
+                                    </x-forms.label>
+                                    <x-forms.text-input type="text" wire:model='form.requester_id' />
+                                    <x-input-error :messages="$errors->get('form.requester_id')" class="mt-2" />
+                                </div>
+                            </div>
+
+                            <div class="grid md:grid-cols-2 sm:grid-cols-1 sm:gap-1 md:gap-4">
+                                <div class="p-2">
+                                    <x-forms.label for="form.source_id">
+                                        {{ __('Source') }}
+                                    </x-forms.label>
+
+                                    <x-forms.select-input wire:model="form.source_id">
+                                        <option selected value>Source</option>
+                                        @foreach ($sources as $each)
+                                            <option @selected(old('form.source_id', $ticket?->source_id) == $each?->id) value="{{ $each->id }}">
+                                                {{ $each?->title }}
+                                            </option>
+                                        @endforeach
+                                    </x-forms.select-input>
+
+                                    <x-input-error :messages="$errors->get('form.source_id')" class="mt-2" />
+                                </div>
+
+                            </div>
+                            <div class="p-2">
+                                <x-buttons.primary>
+                                    Update Ticket
+                                </x-buttons.primary>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </form>
+
+        @endslot
+    </x-offcanvas>
+    {{-- edit request offcanvas --}}
+
     @section('style')
         <style>
             .ck-editor__editable_inline {
-                min-height: 100px;
+                min-height: 200px;
                 /* Adjust the height to your preference */
             }
         </style>
     @endsection
+
     @section('script')
         <script>
             let team = document.querySelector('#team');
@@ -600,12 +762,22 @@
         </script>
         <script>
             const editor = ClassicEditor
-                .create(document.querySelector('#editor'))
-                // .then(editor => {
-                //     editor.model.document.on('change:data', () => {
-                //         this.set('request_description', editor.getData());
-                //     })
-                // })
+                .create(document.querySelector('#editor'), {
+                    toolbar: [
+                        'heading', 'bold', 'italic', 'link', 'bulletedList', 'numberedList', 'blockQuote',
+                    ]
+                })
+                .catch(error => {
+                    console.error(error);
+                });
+
+            const request_description = ClassicEditor
+                .create(document.querySelector('#request_description'), {
+                    toolbar: [
+                        'heading', 'bold', 'italic', 'link', 'bulletedList', 'numberedList', 'blockQuote',
+                    ],
+                })
+
                 .catch(error => {
                     console.error(error);
                 });

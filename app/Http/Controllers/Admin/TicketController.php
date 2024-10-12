@@ -343,6 +343,7 @@ class TicketController extends Controller {
             "team_id"          => 'required',
             "category_id"      => 'required',
             "ticket_status_id" => 'required',
+            "priority"         => 'required',
             "comment"          => 'required',
         ]);
         DB::beginTransaction();
@@ -390,6 +391,16 @@ class TicketController extends Controller {
                     ]
                 );
             }
+            if ($ticket->priority != $request->priority) {
+                TicketNote::create(
+                    [
+                        'ticket_id'  => $ticket->id,
+                        'note_type'  => 'priority_change',
+                        'note'       => $request->comment,
+                        'created_by' => Auth::id(),
+                    ]
+                );
+            }
 
             $old_due_date = $ticket->due_date ? $ticket->due_date->format('Y-m-d') : '';
             if (empty($old_due_date) || $old_due_date != $request->due_date) {
@@ -415,7 +426,17 @@ class TicketController extends Controller {
                 );
             }
 
-            $ticket_logs = TicketLog::create(
+            $ticket->update(
+                [
+                    'priority'         => $request->priority,
+                    'due_date'         => $request->due_date,
+                    'team_id'          => $request->team_id,
+                    'category_id'      => $request->category_id,
+                    'ticket_status_id' => $request->ticket_status_id,
+                    'updated_by'       => Auth::id(),
+                ]
+            );
+            TicketLog::create(
                 [
                     'ticket_id'     => $ticket->getKey(),
                     'ticket_status' => $ticket_status->name,
@@ -426,14 +447,6 @@ class TicketController extends Controller {
                 ]
             );
 
-            $updated_ticket = $ticket->update(
-                [
-                    'due_date'         => $request->due_date,
-                    'team_id'          => $request->team_id,
-                    'category_id'      => $request->category_id,
-                    'ticket_status_id' => $request->ticket_status_id,
-                ]
-            );
             DB::commit();
         } catch (\Exception $e) {
             DB::rollBack();
