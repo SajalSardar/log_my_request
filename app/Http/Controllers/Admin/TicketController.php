@@ -271,7 +271,17 @@ class TicketController extends Controller {
                 return Str::ucfirst($tickets->priority);
             })
             ->editColumn('status', function ($tickets) {
-                $data = "<span class='font-inter font-bold !bg-open-400'>" . $tickets->ticket_status->name . "</span>";
+                $data = "";
+                if ($tickets->ticket_status->name === 'in progress') {
+                    $data .= '<span class="!bg-process-400 text-white rounded px-3 py-1 font-inter text-sm block">' . $tickets->ticket_status->name . '</span>';
+                } elseif ($tickets->ticket_status->name === 'open') {
+
+                    $data .= '<span class="!bg-green-400 text-white rounded px-3 py-1 font-inter text-sm">' . $tickets->ticket_status->name . '</span>';
+                } elseif ($tickets->ticket_status->name === 'on hold') {
+                    $data .= '<span class="!bg-orange-400 text-white rounded px-3 py-1 font-inter text-sm">' . $tickets->ticket_status->name . '</span>';
+                } else {
+                    $data .= '<span class="!bg-gray-400 text-white rounded px-3 py-1 font-inter text-sm">' . $tickets->ticket_status->name . '</span>';
+                }
                 return $data;
             })
             ->editColumn('user_id', function ($tickets) {
@@ -279,16 +289,12 @@ class TicketController extends Controller {
                                 style="border-radius: 50%"><span class="ml-2">' . $tickets->user->name . '</span></div>';
                 return $data;
             })
-            ->editColumn('requester_type', function ($tickets) {
-                $data = '<span class="font-normal text-gray-400">' . @$tickets->user->requester_type->name . '</span>';
-                return $data;
-            })
             ->editColumn('team_id', function ($tickets) {
                 $data = '<span class="font-normal text-gray-400">' . @$tickets->team->name . '</span>';
                 return $data;
             })
             ->addColumn('agent', function ($tickets) {
-                $data = '<span class="font-normal text-gray-400">' . @$tickets->owners->pluck('name') . '</span>';
+                $data = '<span class="font-normal text-gray-400">' . @$tickets->owners->last()->name . '</span>';
                 return $data;
             })
             ->editColumn('created_at', function ($tickets) {
@@ -299,22 +305,40 @@ class TicketController extends Controller {
                 $data = '<span class="font-normal text-gray-400">' . dayMonthYearHourMininteSecond($tickets?->created_at, true, true, true) . '</span>';
                 return $data;
             })
-            ->editColumn('source_id', function ($tickets) {
-                $data = '<span class="font-normal text-gray-400">' . @$tickets->source->title . '</span>';
-                return $data;
-            })
             ->editColumn('due_date', function ($tickets) {
                 $data = '<span class="font-normal text-gray-400">' . ISOdate($tickets->due_date) . '</span>';
                 return $data;
             })
 
             ->addColumn('action_column', function ($tickets) {
-                $links = '';
-
-                //     $links .= '<a href="' . route('dashboard.campaign.donation.admin.donation.show', $tickets->id) . '"
-                //     class="btn btn-sm btn-primary" title="View">
-                //     View
-                // </a>';
+                $links = '<div class="relative"><button onclick="toggleAction(' . $tickets->id . ')"
+                            class="p-3 hover:bg-slate-100 rounded-full">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
+                                xmlns="http://www.w3.org/2000/svg">
+                                <path d="M11.9922 12H12.0012" stroke="#666666" stroke-width="2.5"
+                                    stroke-linecap="round" stroke-linejoin="round" />
+                                <path d="M11.9844 18H11.9934" stroke="#666666" stroke-width="2.5"
+                                    stroke-linecap="round" stroke-linejoin="round" />
+                                <path d="M12 6H12.009" stroke="#666666" stroke-width="2.5"
+                                    stroke-linecap="round" stroke-linejoin="round" />
+                            </svg>
+                        </button>
+                        <div id="action-' . $tickets->id . '" class="shadow-lg z-30 absolute top-5 right-10"
+                            style="display: none">
+                            <ul>
+                                <li class="px-5 py-1 text-center" style="background: #FFF4EC;color:#F36D00">
+                                    <a
+                                        href="' . route('admin.ticket.edit', ['ticket' => $tickets?->id]) . '">Edit</a>
+                                </li>
+                                <li class="px-5 py-1 text-center bg-white">
+                                    <a
+                                        href="' . route('admin.ticket.show', ['ticket' => $tickets?->id]) . '">View</a>
+                                </li>
+                                <li class="px-5 py-1 text-center bg-red-600 text-white">
+                                    <a href="#">Delete</a>
+                                </li>
+                            </ul>
+                        </div></div>';
 
                 return $links;
             })
