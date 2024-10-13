@@ -81,7 +81,7 @@ class UpdateTicket extends Component {
         $this->form->requester_type_id   = $this->ticket->user->requester_type_id;
         $this->form->requester_id        = $this->ticket->user->requester_id;
         $this->form->priority            = $this->ticket->priority;
-        $this->form->due_date            = $this->ticket->due_date;
+        $this->form->due_date            = $this->ticket->due_date ? date('Y-m-d', strtotime($this->ticket->due_date)) : '';
         $this->form->source_id           = $this->ticket->source_id;
         $this->form->team_id             = $this->ticket->team_id;
         $this->form->category_id         = $this->ticket->category_id;
@@ -113,8 +113,10 @@ class UpdateTicket extends Component {
      * Define public method update() to update the resourses
      */
     public function update(TicketService $service) {
+
         $this->validate(rules: $this->form->rules(), attributes: $this->form->attributes());
         $isCreate = $service->update($this->ticket, $this->form);
+
         $isUpload = $this->form->request_attachment ? Fileupload::updateFile($this->form, Bucket::TICKET, $this->ticket, $this->ticket->getKey(), Ticket::class) : '';
         $response = $isCreate ? 'Data has been update successfuly' : 'Something went wrong';
         flash()->success($response);

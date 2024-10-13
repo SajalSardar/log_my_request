@@ -6,10 +6,13 @@ use App\Mail\TicketEmail;
 use App\Models\Ticket;
 use App\Models\TicketLog;
 use App\Models\TicketNote;
+use App\Models\TicketOwnership;
 use App\Models\TicketStatus;
 use App\Models\User;
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
 
@@ -109,38 +112,130 @@ class TicketService {
      * @param $request
      * @return array|object|bool
      */
-    public function update(Model $model, $request): array | object | bool {
+    public function update(Model $model, $request) {
 
-        $response = Ticket::where('id', $model->getKey())->first();
+        $ticket    = Ticket::with('owners')->where('id', $model->getKey())->first();
+        $requester = User::where('email', $request->requester_email)->first();
 
-        $response->team_id          = $request->team_id;
-        $response->category_id      = $request->category_id;
-        $response->ticket_status_id = $request->ticket_status_id;
-        $response->source_id        = $request->source_id;
-        $response->title            = $request->request_title;
-        $response->description      = $request->request_description;
-        $response->priority         = $request->priority;
-        $response->ticket_type      = 'customer';
-        $response->due_date         = $request->due_date;
-        $response->updated_by       = Auth::user()->id;
-        $response->save();
+        DB::beginTransaction();
+        try {
+            $ticket_status = TicketStatus::query()->where('id', $ticket->ticket_status_id)->first();
 
-        $ticket_notes = TicketNote::query()->where('ticket_id', $model->getKey())->first();
-        $ticket_notes->update([
-            'note'       => $request?->request_description,
-            'updated_by' => Auth::user()->id,
-        ]);
+            if ($ticket->owners->isEmpty() || $ticket->owners->last()->id != $request->owner_id) {
+                TicketNote::create(
+                    [
+                        'ticket_id'  => $ticket->id,
+                        'note_type'  => 'owner_change',
+                        'note'       => 'Edit',
+                        'created_by' => Auth::id(),
+                    ]
+                );
 
-        $ticketStatus = TicketStatus::where('id', $request?->ticket_status_id)->first();
-        TicketLog::create([
-            'ticket_id'     => $model->getKey(),
-            'ticket_status' => $ticketStatus?->name,
-            'comment'       => json_encode($response),
-            'status'        => 'update',
-            'created_by'    => Auth::user()->id,
-            'updated_by'    => Auth::user()->id,
-        ]);
+                $last_owner = TicketOwnership::where('ticket_id', $ticket->id)->where('duration', null)->orderBy('id', 'desc')->first();
+                if ($last_owner && $request->owner_id) {
+                    $now                 = Carbon::now();
+                    $duration_in_seconds = $last_owner->created_at->diffInSeconds($now);
+                    $last_owner->update([
+                        'duration' => $duration_in_seconds,
+                    ]);
+                }
 
-        return $response;
+                $ticket_agents = $ticket->owners()->attach($request->owner_id);
+            }
+            if ($ticket->team_id != $request->team_id) {
+                TicketNote::create(
+                    [
+                        'ticket_id'  => $ticket->id,
+                        'note_type'  => 'team_change',
+                        'note'       => 'Edit',
+                        'created_by' => Auth::id(),
+                    ]
+                );
+            }
+            if ($ticket->category_id != $request->category_id) {
+                TicketNote::create(
+                    [
+                        'ticket_id'  => $ticket->id,
+                        'note_type'  => 'category_change',
+                        'note'       => 'Edit',
+                        'created_by' => Auth::id(),
+                    ]
+                );
+            }
+            if ($ticket->priority != $request->priority) {
+                TicketNote::create(
+                    [
+                        'ticket_id'  => $ticket->id,
+                        'note_type'  => 'priority_change',
+                        'note'       => 'Edit',
+                        'created_by' => Auth::id(),
+                    ]
+                );
+            }
+
+            $old_due_date = $ticket->due_date ? $ticket->due_date->format('Y-m-d') : '';
+            if (empty($old_due_date) || $old_due_date != $request->due_date) {
+                TicketNote::create(
+                    [
+                        'ticket_id'  => $ticket->id,
+                        'note_type'  => 'due_date_change',
+                        'note'       => 'Edit',
+                        'created_by' => Auth::id(),
+                    ]
+                );
+            }
+            if ($ticket->ticket_status_id != $request->ticket_status_id) {
+                TicketNote::create(
+                    [
+                        'ticket_id'  => $ticket->id,
+                        'note_type'  => 'status_change',
+                        'note'       => 'Edit',
+                        'old_status' => $ticket->ticket_status->name,
+                        'new_status' => $ticket_status->name,
+                        'created_by' => Auth::id(),
+                    ]
+                );
+            }
+
+            $ticket->update(
+                [
+                    'source_id'        => $request->source_id,
+                    'title'            => $request->request_title,
+                    'description'      => $request->request_description,
+                    'priority'         => $request->priority,
+                    'due_date'         => $request->due_date,
+                    'team_id'          => $request->team_id,
+                    'category_id'      => $request->category_id,
+                    'ticket_status_id' => $request->ticket_status_id,
+                    'updated_by'       => Auth::id(),
+                ]
+            );
+            TicketLog::create(
+                [
+                    'ticket_id'     => $ticket->getKey(),
+                    'ticket_status' => $ticket_status->name,
+                    'status'        => 'updated',
+                    'comment'       => json_encode($ticket),
+                    'updated_by'    => Auth::id(),
+                    'created_by'    => Auth::id(),
+                ]
+            );
+
+            DB::commit();
+        } catch (\Exception $e) {
+            DB::rollBack();
+            TicketLog::create(
+                [
+                    'ticket_id'     => $ticket->getKey(),
+                    'ticket_status' => $ticket_status->name,
+                    'status'        => 'update_fail',
+                    'comment'       => json_encode($e->getMessage()),
+                    'updated_by'    => Auth::id(),
+                    'created_by'    => Auth::id(),
+                ]
+            );
+        }
+
+        return $ticket;
     }
 }

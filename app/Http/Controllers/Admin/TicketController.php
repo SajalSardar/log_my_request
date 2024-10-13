@@ -91,7 +91,7 @@ class TicketController extends Controller {
                     ->orWhere('tickets.created_by', Auth::id());
             }
 
-            return $unassign->orderBy('id', 'desc')->paginate(10);
+            return $unassign->orderBy('id', 'desc')->take(10)->get();
         });
 
         $this->tickets = Cache::remember('status_' . Auth::id() . '_ticket_list', 60 * 60, function () {
