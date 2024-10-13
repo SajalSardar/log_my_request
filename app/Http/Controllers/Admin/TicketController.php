@@ -364,7 +364,7 @@ class TicketController extends Controller {
         try {
             $ticket_status = TicketStatus::query()->where('id', $ticket->ticket_status_id)->first();
 
-            if ($ticket->owners->isEmpty() || $ticket->owners->last()->id != $request->owner_id) {
+            if ($request->owner_id && ($ticket->owners->isEmpty() || $ticket->owners->last()->id != $request->owner_id)) {
                 TicketNote::create(
                     [
                         'ticket_id'  => $ticket->id,
