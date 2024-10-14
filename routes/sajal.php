@@ -18,19 +18,22 @@ use Illuminate\Support\Facades\Route;
 Route::middleware('auth')->prefix('dashboard')->name('admin.')->group(function () {
     Route::resource('module', ModuleController::class);
     Route::resource('menu', MenuController::class);
-    Route::resource('ticket', TicketController::class);
-    Route::post('ticket-log-update/{ticket}', [TicketController::class, 'logUpdate'])->name('ticket.logUpdate');
-    Route::post('ticket-internal-note-update/{ticket}', [TicketController::class, 'interNoteStore'])->name('ticket.interNoteStore');
-    Route::get('ticket-download/{file}', [TicketController::class, 'downloadFile'])->name('ticket.downloadFile');
-    Route::post('conversations/{ticket}', [TicketController::class, 'conversation'])->name('ticket.conversation');
-    Route::get('status-wise-ticket-list', [TicketController::class, 'ticketList'])->name('ticket.status.wise.list');
-    Route::get('status-wise-ticket-list-datatable', [TicketController::class, 'allListDataTable'])->name('ticket.status.wise.list.datatable');
     Route::resource('category', CategoryController::class);
     Route::resource('team', TeamController::class);
     Route::resource('source', SourceController::class);
     Route::resource('requestertype', RequesterTypeController::class);
     Route::resource('ticketownership', TicketOwnershipController::class);
     Route::resource('ticketstatus', TicketStatusController::class);
+
+    Route::resource('ticket', TicketController::class);
+    Route::get('ticket-list', [TicketController::class, 'allTicketList'])->name('all.ticket.list');
+    Route::get('ticket-list-datatable', [TicketController::class, 'allTicketListDataTable'])->name('all.ticket.list.datatable');
+    Route::post('ticket-log-update/{ticket}', [TicketController::class, 'logUpdate'])->name('ticket.logUpdate');
+    Route::post('ticket-internal-note-update/{ticket}', [TicketController::class, 'interNoteStore'])->name('ticket.interNoteStore');
+    Route::get('ticket-download/{file}', [TicketController::class, 'downloadFile'])->name('ticket.downloadFile');
+    Route::post('conversations/{ticket}', [TicketController::class, 'conversation'])->name('ticket.conversation');
+    Route::get('status-wise-ticket-list', [TicketController::class, 'ticketList'])->name('ticket.status.wise.list');
+    Route::get('status-wise-ticket-list-datatable', [TicketController::class, 'allListDataTable'])->name('ticket.status.wise.list.datatable');
 
     // role
     Route::get('role-list', [RoleController::class, 'index'])->name('role.index');
