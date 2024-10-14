@@ -37,7 +37,7 @@ class UpdateTeam extends Component {
         return [
             'name'        => 'required|min:3|unique:categories,name,' . $this->team->id,
             'status'      => 'required|string:0,1',
-            'category_id' => 'nullable',
+            'category_id' => 'required|nullable',
             'agent_id'    => 'nullable',
             'image'       => 'nullable|mimes:jpg,jpeg,png|max:3024',
         ];

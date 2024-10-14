@@ -23,7 +23,7 @@
         <div class="grid md:grid-cols-2 sm:grid-cols-1 sm:gap-1 md:gap-4">
 
             <div class="p-2 w-full">
-                <x-forms.label for="form.category_id">
+                <x-forms.label for="form.category_id" required='yes'>
                     {{ __('Team Category') }}
                 </x-forms.label>
 

@@ -11,6 +11,7 @@
                 <tr>
                     <th class="text-start ps-10 py-2">Team Name</th>
                     <th class="text-start ps-10 py-2">Categories</th>
+                    <th class="text-start ps-10 py-2">Agents</th>
                     <th class="text-start ps-10 py-2">Status</th>
                     <th class="text-start ps-10 py-2">Mofified at</th>
                     <th class="text-start ps-10 py-2">Action</th>
@@ -30,6 +31,11 @@
                         </td>
                         <td class="p-10 font-normal text-gray-400">
                             @foreach ($each?->teamCategories as $item)
+                                {!! Helper::badge($item->name) !!}
+                            @endforeach
+                        </td>
+                        <td class="p-10 font-normal text-gray-400">
+                            @foreach ($each?->agents as $item)
                                 {!! Helper::badge($item->name) !!}
                             @endforeach
                         </td>
