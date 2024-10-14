@@ -161,6 +161,7 @@ class TicketController extends Controller
             return response()->json($agents);
         }
         Gate::authorize('view', $ticket);
+        $this->ticket = Ticket::query()->where('id', $ticket->id)->with('ticket_notes')->first();
         $this->requester_type = RequesterType::query()->get();
         $this->sources        = Source::query()->get();
         $this->teams          = Team::query()->get();
@@ -168,6 +169,7 @@ class TicketController extends Controller
         $this->ticket_status  = TicketStatus::query()->get();
         $agents               = Team::query()->with('agents')->where('id', $ticket?->team_id)->get();
         $users                = User::whereNotIn('id', [1])->select('id', 'name', 'email')->get();
+
 
         // Get all ticket list according to ticket status
         // $ticketStatusWise = Ticket::where('ticket_status_id', $ticket->ticket_status_id)->get();
@@ -184,7 +186,7 @@ class TicketController extends Controller
         $ticketStatusWise = $ticketStatusWiseList->take(5)->get();
 
         return view('ticket.show', [
-            'ticket'           => $ticket,
+            'ticket'           => $this->ticket,
             'requester_type'   => $this->requester_type,
             'sources'          => $this->sources,
             'teams'            => $this->teams,

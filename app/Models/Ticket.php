@@ -87,7 +87,7 @@ class Ticket extends Model {
 
     /**
      * Define public method image()
-     * @return MorphTo
+     * @return MorphOne
      */
     public function image(): MorphOne {
         return $this->morphOne(Image::class, 'image', 'image_type', 'image_id');
