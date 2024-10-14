@@ -5,10 +5,11 @@
     </button>
 </div>
 <div class="mt-3 p-4 border border-slate-200">
-    <form>
+    <form action="{{ route('admin.ticket.interNoteStore',['ticket' => $ticket?->id]) }}" method="POST">
+        @csrf
         <div>
             <textarea cols="30" id="internal_note" rows="10" name='internal_note'
-                class="w-full py-3 text-base font-normal font-inter border border-slate-400 rounded" placeholder="Add Comment here.."></textarea>
+                class="w-full py-3 text-base font-normal font-inter border border-slate-400 rounded" placeholder="Add Inter note here.."></textarea>
             <x-input-error :messages="$errors->get('internal_note')" class="mt-2" />
         </div>
         <div class="text-right">

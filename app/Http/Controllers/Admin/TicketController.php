@@ -14,6 +14,7 @@ use App\Models\TicketOwnership;
 use App\Models\TicketStatus;
 use App\Models\User;
 use Carbon\Carbon;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cache;
@@ -22,7 +23,8 @@ use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Str;
 use Yajra\DataTables\Facades\DataTables;
 
-class TicketController extends Controller {
+class TicketController extends Controller
+{
     /**
      * Define public property $requester_type;
      * @var array|object
@@ -73,7 +75,8 @@ class TicketController extends Controller {
     /**
      * Display a listing of the resource.
      */
-    public function index() {
+    public function index()
+    {
         Gate::authorize('viewAny', Ticket::class);
         //$this->tickets = TicketStatus::query()->with('ticket', fn($query) => $query->with('source', 'ticket_status'))->withCount('ticket')->get();
 
@@ -121,7 +124,8 @@ class TicketController extends Controller {
     /**
      * Display a listing of the data table resource.
      */
-    public function displayListDatatable() {
+    public function displayListDatatable()
+    {
         Gate::authorize('viewAny', Ticket::class);
 
         $ticket = Cache::remember('ticket_' . Auth::id() . '_list', 60 * 60, function () {
@@ -132,7 +136,8 @@ class TicketController extends Controller {
     /**
      * Show the form for creating a new resource.
      */
-    public function create() {
+    public function create()
+    {
         Gate::authorize('create', Ticket::class);
         return view('ticket.create');
     }
@@ -140,7 +145,8 @@ class TicketController extends Controller {
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request) {
+    public function store(Request $request)
+    {
         //
         Gate::authorize('create', Ticket::class);
     }
@@ -148,7 +154,8 @@ class TicketController extends Controller {
     /**
      * Display the specified resource.
      */
-    public function show(Request $request, Ticket $ticket) {
+    public function show(Request $request, Ticket $ticket)
+    {
         if ($request->ajax()) {
             $agents = Team::query()->with('agents')->where('id', $request->team_id)->get();
             return response()->json($agents);
@@ -193,7 +200,8 @@ class TicketController extends Controller {
      * Show the form for editing the specified resource.
      * @param Ticket $ticket
      */
-    public function edit(Ticket $ticket) {
+    public function edit(Ticket $ticket)
+    {
         Gate::authorize('update', $ticket);
         return view('ticket.edit', compact('ticket'));
     }
@@ -201,24 +209,28 @@ class TicketController extends Controller {
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Ticket $ticket) {
+    public function update(Request $request, Ticket $ticket)
+    {
         Gate::authorize('update', $ticket);
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Ticket $ticket) {
+    public function destroy(Ticket $ticket)
+    {
         Gate::authorize('delete', $ticket);
     }
 
-    public function ticketList() {
+    public function ticketList()
+    {
         Gate::authorize('viewAny', Ticket::class);
         $queryStatus = request()->get('ticket_status');
         return view('ticket.view-all', compact('queryStatus'));
     }
 
-    public function allListDataTable(Request $request) {
+    public function allListDataTable(Request $request)
+    {
         Gate::authorize('viewAny', Ticket::class);
 
         $user     = User::with('teams:id')->find(Auth::id());
@@ -351,7 +363,8 @@ class TicketController extends Controller {
      * Define public method logUpdate() to update log of ticket
      * @param Request $request
      */
-    public function logUpdate(Request $request, Ticket $ticket) {
+    public function logUpdate(Request $request, Ticket $ticket)
+    {
 
         $request->validate([
             "team_id"          => 'required',
@@ -477,6 +490,29 @@ class TicketController extends Controller {
         }
 
         flash()->success('Data has been updated successfully');
+        return back();
+    }
+
+    /**
+     * Define public method interNoteStore() to add internal notes
+     * @param \Illuminate\Http\Request $request
+     * @return RedirectResponse
+     */
+    public function interNoteStore(Request $request, Ticket $ticket): RedirectResponse
+    {
+        $ticket_status = TicketStatus::query()->where('id', $ticket->ticket_status_id)->firstOr();
+        $internal_note = TicketNote::create(
+            [
+                'ticket_id'     => $ticket->id,
+                'note_type'     => 'internal_note',
+                'note'          => $request->internal_note,
+                'old_status'    => $ticket_status->name,
+                'new_status'    => $ticket_status->name,
+                'created_by'    => $request->user()->id,
+                'updated_by'    => $request->user()->id,
+            ]
+        );
+        $internal_note ? flash()->success('Internal Note has been Added !') : flash()->success('Something went wrong !!!');
         return back();
     }
 }
