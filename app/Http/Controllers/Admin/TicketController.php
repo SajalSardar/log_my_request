@@ -18,6 +18,7 @@ use App\Models\RequesterType;
 use App\Models\TicketOwnership;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
+use App\Models\Conversation;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Http\RedirectResponse;
@@ -162,7 +163,7 @@ class TicketController extends Controller
             return response()->json($agents);
         }
         Gate::authorize('view', $ticket);
-        $this->ticket = Ticket::query()->where('id', $ticket->id)->with('ticket_notes', 'image')->first();
+        $this->ticket = Ticket::query()->where('id', $ticket->id)->with('ticket_notes', 'image','conversation')->first();
         $this->requester_type = RequesterType::query()->get();
         $this->sources        = Source::query()->get();
         $this->teams          = Team::query()->get();
@@ -528,5 +529,24 @@ class TicketController extends Controller
     {
         $filePath = public_path(parse_url($file->url, PHP_URL_PATH));
         return response()->download($filePath);
+    }
+
+    /**
+     * Define public method conversation() to store the conversation
+     * @param \Illuminate\Http\Request $request
+     * @param \App\Models\Ticket $ticket
+     */
+    public function conversation(Request $request, Ticket $ticket)
+    {
+        $conversation = Conversation::create([
+            'ticket_id'         => $ticket->id,
+            'requester_id'      => $ticket->user_id,
+            'conversation_type' => 'customer',
+            'conversation'      => $request->conversation,
+            'status'            => 1,
+        ]);
+
+        flash()->success('Conversation has been added successfully');
+        return back();
     }
 }

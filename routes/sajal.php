@@ -22,6 +22,7 @@ Route::middleware('auth')->prefix('dashboard')->name('admin.')->group(function (
     Route::post('ticket-log-update/{ticket}', [TicketController::class, 'logUpdate'])->name('ticket.logUpdate');
     Route::post('ticket-internal-note-update/{ticket}', [TicketController::class, 'interNoteStore'])->name('ticket.interNoteStore');
     Route::get('ticket-download/{file}', [TicketController::class, 'downloadFile'])->name('ticket.downloadFile');
+    Route::post('conversations/{ticket}', [TicketController::class, 'conversation'])->name('ticket.conversation');
     Route::get('status-wise-ticket-list', [TicketController::class, 'ticketList'])->name('ticket.status.wise.list');
     Route::get('status-wise-ticket-list-datatable', [TicketController::class, 'allListDataTable'])->name('ticket.status.wise.list.datatable');
     Route::resource('category', CategoryController::class);

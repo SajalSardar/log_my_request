@@ -30,8 +30,8 @@
         </div>
         <div class="-mt-2">
             <div class="flex gap-1 pl-14">
-                <p class="text-base font-normal font-inter inline-block">Added a private note one week ago</p>
-                <span>({{ date('l, d M, Y H:m:a', strtotime($note->created_at))}})</span>
+                <p class="text-base font-normal font-inter inline-block">Added a private note on</p>
+                <span>({{ date('l, d M, Y h:i:a', strtotime($note->created_at)) }})</span>
             </div>
             <div class="pl-14 -mt-3 flex items-end gap-2"> <!-- Added flex, items-center, and gap classes -->
                 <div>
