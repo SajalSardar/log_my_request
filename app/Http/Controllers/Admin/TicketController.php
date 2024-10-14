@@ -2,25 +2,26 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Http\Controllers\Controller;
-use App\Models\Category;
-use App\Models\RequesterType;
-use App\Models\Source;
+use Carbon\Carbon;
 use App\Models\Team;
+use App\Models\User;
+use App\Models\Image;
+use App\Models\Source;
 use App\Models\Ticket;
+use App\Models\Category;
 use App\Models\TicketLog;
 use App\Models\TicketNote;
-use App\Models\TicketOwnership;
-use App\Models\TicketStatus;
-use App\Models\User;
-use Carbon\Carbon;
-use Illuminate\Http\RedirectResponse;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Cache;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Str;
+use App\Models\TicketStatus;
+use Illuminate\Http\Request;
+use App\Models\RequesterType;
+use App\Models\TicketOwnership;
+use Illuminate\Support\Facades\DB;
+use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Gate;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\Support\Facades\Cache;
 use Yajra\DataTables\Facades\DataTables;
 
 class TicketController extends Controller
@@ -161,7 +162,7 @@ class TicketController extends Controller
             return response()->json($agents);
         }
         Gate::authorize('view', $ticket);
-        $this->ticket = Ticket::query()->where('id', $ticket->id)->with('ticket_notes')->first();
+        $this->ticket = Ticket::query()->where('id', $ticket->id)->with('ticket_notes', 'image')->first();
         $this->requester_type = RequesterType::query()->get();
         $this->sources        = Source::query()->get();
         $this->teams          = Team::query()->get();
@@ -169,7 +170,7 @@ class TicketController extends Controller
         $this->ticket_status  = TicketStatus::query()->get();
         $agents               = Team::query()->with('agents')->where('id', $ticket?->team_id)->get();
         $users                = User::whereNotIn('id', [1])->select('id', 'name', 'email')->get();
-
+        // return $this->ticket;
 
         // Get all ticket list according to ticket status
         // $ticketStatusWise = Ticket::where('ticket_status_id', $ticket->ticket_status_id)->get();
@@ -516,5 +517,16 @@ class TicketController extends Controller
         );
         $internal_note ? flash()->success('Internal Note has been Added !') : flash()->success('Something went wrong !!!');
         return back();
+    }
+
+    /**
+     * Define public method to download the file.
+     * @param \App\Models\Image $file
+     * @return mixed|\Symfony\Component\HttpFoundation\BinaryFileResponse
+     */
+    public function downloadFile(Image $file)
+    {
+        $filePath = public_path(parse_url($file->url, PHP_URL_PATH));
+        return response()->download($filePath);
     }
 }

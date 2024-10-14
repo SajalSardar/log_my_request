@@ -64,17 +64,17 @@
                     </span>
                     <span
                         class="font-sm font-normal font-inter">{{ @$ticket?->team->name }}</span>
-                </li>
-                <li>
-                    <span class="font-sm font-semibold font-inter">Assign Agent:
-                    </span>
-                    <span
-                        class="font-sm font-normal font-inter">{{ count($ticket->owners) > 0 ? $ticket->owners->last()->name : '-' }}</span>
-                </li>
+        </li>
+        <li>
+            <span class="font-sm font-semibold font-inter">Assign Agent:
+            </span>
+            <span
+                class="font-sm font-normal font-inter">{{ count($ticket->owners) > 0 ? $ticket->owners->last()->name : '-' }}</span>
+        </li>
 
-            </ul>
-        </div> --}}
-    </div>
+        </ul>
+    </div> --}}
+</div>
 
 </div>
 <!-- Infos Part End !-->
@@ -115,7 +115,8 @@
     <div class="flex items-center">
         <p class="text-base font-bold font-inter me-2">Attached File:</p>
         <div class="custom_file flex gap-5">
-            <a href="#" style="width: 200px;" download
+
+            <a href="{{ route('admin.ticket.downloadFile',['file' => $ticket->image?->id]) }}" style="width: 200px;"
                 class="flex justify-between px-1 py-1 border border-slate-300 rounded bg-gray-200">
                 <div class="flex items-center">
                     <span class="pr-1">
@@ -148,7 +149,7 @@
                 </div>
             </a>
 
-            <a href="#" style="width: 200px;" download
+            <!-- <a href="#" style="width: 200px;" download
                 class="flex justify-between px-1 py-1 border border-slate-300 rounded bg-gray-200">
                 <div class="flex items-center">
                     <span class="pr-1">
@@ -181,7 +182,7 @@
                             stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
                     </svg>
                 </div>
-            </a>
+            </a> -->
         </div>
 
     </div>
