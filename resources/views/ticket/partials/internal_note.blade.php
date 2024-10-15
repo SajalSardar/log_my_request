@@ -23,6 +23,7 @@
 <div class="mt-3 p-4 border border-slate-200">
     @if (is_object($ticket->ticket_notes) && $ticket->ticket_notes->count() > 0)
     @foreach ($ticket->ticket_notes as $note)
+    @if ($note->note)
     <div class="mb-5">
         <div class="flex items-center gap-2">
             <img src="{{asset('assets/images/profile.jpg')}}" width="40" height="40" style="border-radius: 50%;border:1px solid #eee" alt="profile">
@@ -33,7 +34,8 @@
                 <p class="text-base font-normal font-inter inline-block">Added a private note on</p>
                 <span>({{ date('l, d M, Y h:i:a', strtotime($note->created_at)) }})</span>
             </div>
-            <div class="pl-14 -mt-3 flex items-end gap-2"> <!-- Added flex, items-center, and gap classes -->
+            <div class="pl-14 -mt-3 flex items-end gap-2">
+                <!-- Added flex, items-center, and gap classes -->
                 <div>
                     <p class="text-base font-normal font-inter inline-block">{!! $note?->note ?? '--' !!}</p>
                 </div>
@@ -46,8 +48,9 @@
                 </span>
             </div>
         </div>
-
     </div>
+    @endif
+
     @endforeach
 
     @endif
