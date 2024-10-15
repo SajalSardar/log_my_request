@@ -196,7 +196,7 @@ class TicketController extends Controller {
             ->addColumn('category', function ($tickets) {
                 return Str::ucfirst($tickets->category->name);
             })
-            ->editColumn('status', function ($tickets) {
+            ->editColumn('ticket_status_id', function ($tickets) {
                 $data = "";
                 if ($tickets->ticket_status->name === 'in progress') {
                     $data .= '<span class="!bg-process-400 text-white rounded px-3 py-1 font-inter text-sm block">' . $tickets->ticket_status->name . '</span>';

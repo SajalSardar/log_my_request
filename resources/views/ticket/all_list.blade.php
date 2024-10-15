@@ -3,7 +3,7 @@
         <form action="">
             <div class="grid md:grid-cols-6 sm:grid-cols-1 sm:gap-1 md:gap-4">
                 <div>
-                    <x-forms.text-input id="ticket_id_search" placeholder="Ticket Id" />
+                    <x-forms.text-input id="ticket_id_search" class="text-sm" placeholder="Ticket Id" />
                 </div>
                 <div class="relative" x-data="{ priority: '' }">
                     <x-forms.select-input x-model="priority" class="text-sm" name='priority_search' id="priority_search">
@@ -123,6 +123,7 @@
                     processing: true,
                     serverSide: true,
                     responsive: true,
+                    searching: false,
                     ajax: {
                         url: "{{ route('admin.all.ticket.list.datatable') }}",
                         type: "GET",
@@ -153,8 +154,8 @@
                             name: 'category'
                         },
                         {
-                            data: 'status',
-                            name: 'status'
+                            data: 'ticket_status_id',
+                            name: 'ticket_status_id'
                         },
                         {
                             data: 'user_id',
