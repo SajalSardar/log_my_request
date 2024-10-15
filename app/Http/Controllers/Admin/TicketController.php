@@ -163,7 +163,7 @@ class TicketController extends Controller
             return response()->json($agents);
         }
         Gate::authorize('view', $ticket);
-        $this->ticket = Ticket::query()->where('id', $ticket->id)->with('ticket_notes', 'image','conversation')->first();
+        $this->ticket = Ticket::query()->where('id', $ticket->id)->with('ticket_notes', 'image', 'conversation')->first();
         $this->requester_type = RequesterType::query()->get();
         $this->sources        = Source::query()->get();
         $this->teams          = Team::query()->get();
