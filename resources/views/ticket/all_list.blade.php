@@ -3,7 +3,7 @@
         <form action="">
             <div class="grid md:grid-cols-6 sm:grid-cols-1 sm:gap-1 md:gap-4">
                 <div>
-                    <x-forms.text-input id="ticket_id_search" />
+                    <x-forms.text-input id="ticket_id_search" placeholder="Ticket Id" />
                 </div>
                 <div class="relative" x-data="{ priority: '' }">
                     <x-forms.select-input x-model="priority" class="text-sm" name='priority_search' id="priority_search">
@@ -186,7 +186,7 @@
                         }
                     ]
                 });
-               
+
                 $(document).on('change keyup',
                     '#priority_search, #category_search, #team_search, #status_search, #due_date_search, #ticket_id_search',
                     function(e) {
