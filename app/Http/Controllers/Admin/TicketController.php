@@ -122,13 +122,73 @@ class TicketController extends Controller {
     }
 
     public function allTicketList() {
-        return view('ticket.all_list');
+        $categories   = Category::where('status', 1)->get();
+        $teams        = Team::where('status', 1)->get();
+        $ticketStatus = TicketStatus::where('status', 1)->get();
+        return view('ticket.all_list', compact('categories', 'teams', 'ticketStatus'));
     }
-    public function allTicketListDataTable() {
+    public function allTicketListDataTable(Request $request) {
         Gate::authorize('viewAny', Ticket::class);
 
-        $tickets = Ticket::with(['owners', 'source', 'user', 'team', 'category']);
+        $tickets = Ticket::query()->with(['owners', 'source', 'user', 'team', 'category']);
 
+        if ($request->all()) {
+            $tickets->where(function ($query) use ($request) {
+                if ($request->ticket_id_search) {
+                    $query->where('id', 'like', '%' . $request->ticket_id_search . '%');
+                }
+                if ($request->priority_search) {
+                    $query->where('priority', '=', $request->priority_search);
+                }
+                if ($request->category_search) {
+                    $query->where('category_id', '=', $request->category_search);
+                }
+                if ($request->team_search) {
+                    $query->where('team_id', '=', $request->team_search);
+                }
+                if ($request->status_search) {
+                    $query->where('ticket_status_id', '=', $request->status_search);
+                }
+                if ($request->due_date_search) {
+                    $dueDate = '';
+
+                    switch ($request->due_date_search) {
+                    case 'today':
+                        $todayDate = Carbon::today()->toDateString();
+                        $query->whereDate('due_date', '=', $todayDate);
+                        break;
+
+                    case 'tomorrow':
+                        $tomorrowDate = Carbon::tomorrow()->toDateString();
+                        $query->whereDate('due_date', '=', $tomorrowDate);
+                        break;
+
+                    case 'this_week':
+                        $startOfWeek = Carbon::now()->startOfWeek()->toDateString();
+                        $endOfWeek   = Carbon::now()->endOfWeek()->toDateString();
+                        $query->whereBetween('due_date', [$startOfWeek, $endOfWeek]);
+                        break;
+
+                    case 'this_month':
+                        $startOfMonth = Carbon::now()->startOfMonth()->toDateString();
+                        $endOfMonth   = Carbon::now()->endOfMonth()->toDateString();
+                        $query->whereBetween('due_date', [$startOfMonth, $endOfMonth]);
+                        break;
+
+                    default:
+                        break;
+                    }
+                }
+                // if ($request->fromdate) {
+                //     $from_date = date("Y-m-d", strtotime($request->fromdate));
+                //     $query->where('created_at', '>=', $from_date);
+                // }
+                // if ($request->todate) {
+                //     $to_date = date("Y-m-d", strtotime($request->todate));
+                //     $query->where('created_at', '<=', $to_date);
+                // }
+            });
+        }
         return DataTables::of($tickets)
             ->editColumn('priority', function ($tickets) {
                 return Str::ucfirst($tickets->priority);

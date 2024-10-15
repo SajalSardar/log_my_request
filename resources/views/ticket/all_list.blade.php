@@ -1,6 +1,79 @@
 <x-app-layout>
+    <div class="mb-10">
+        <form action="">
+            <div class="grid md:grid-cols-6 sm:grid-cols-1 sm:gap-1 md:gap-4">
+                <div>
+                    <x-forms.text-input id="ticket_id_search" />
+                </div>
+                <div class="relative" x-data="{ priority: '' }">
+                    <x-forms.select-input x-model="priority" class="text-sm" name='priority_search' id="priority_search">
+                        <option value="">Priority</option>
+                        <option value="low">Low</option>
+                        <option value="medium">Medium</option>
+                        <option value="high">High</option>
+                    </x-forms.select-input>
+                    <span x-show="priority"
+                        class="absolute top-2 end-9 text-surface cursor-pointer focus:text-primary outline-none dark:text-white text-base"
+                        tabindex="0" style="display: block;"
+                        @click="priority = '';$nextTick(() => $('#priority_search').trigger('change'))">✕</span>
+                </div>
+
+                <div class="relative" x-data="{ status: '' }">
+                    <x-forms.select-input x-model="status" class="text-sm" id="status_search">
+                        <option value="">Status</option>
+                        @foreach ($ticketStatus as $ticketStatus)
+                            <option value="{{ $ticketStatus->id }}">{{ $ticketStatus->name }}</option>
+                        @endforeach
+                    </x-forms.select-input>
+                    <span x-show="status"
+                        class="absolute top-2 end-9 text-surface cursor-pointer focus:text-primary outline-none dark:text-white text-base"
+                        tabindex="0" style="display: block;"
+                        @click="status = '';$nextTick(() => $('#status_search').trigger('change'))">✕</span>
+                </div>
+
+                <div class="relative" x-data="{ category: '' }">
+                    <x-forms.select-input x-model="category" class="text-sm" id="category_search">
+                        <option value="">Category</option>
+                        @foreach ($categories as $category)
+                            <option value="{{ $category->id }}">{{ $category->name }}</option>
+                        @endforeach
+                    </x-forms.select-input>
+                    <span x-show="category"
+                        class="absolute top-2 end-9 text-surface cursor-pointer focus:text-primary outline-none dark:text-white text-base"
+                        tabindex="0" style="display: block;"
+                        @click="category = '';$nextTick(() => $('#category_search').trigger('change'))">✕</span>
+                </div>
+                <div class="relative" x-data="{ team: '' }">
+                    <x-forms.select-input class="text-sm" x-model="team" id="team_search">
+                        <option value="">Team</option>
+                        @foreach ($teams as $team)
+                            <option value="{{ $team->id }}">{{ $team->name }}</option>
+                        @endforeach
+                    </x-forms.select-input>
+                    <span x-show="team"
+                        class="absolute top-2 end-9 text-surface cursor-pointer focus:text-primary outline-none dark:text-white text-base"
+                        tabindex="0" style="display: block;"
+                        @click="team = '';$nextTick(() => $('#team_search').trigger('change'))">✕</span>
+                </div>
+                <div class="relative" x-data="{ due_date_x: '' }">
+                    <x-forms.select-input class="text-sm" x-model="due_date_x" id="due_date_search">
+                        <option value="">Due Date</option>
+                        <option value="today">Today</option>
+                        <option value="tomorrow">Tomorrow</option>
+                        <option value="this_week">This Week</option>
+                        <option value="this_month">This Month</option>
+                    </x-forms.select-input>
+                    <span x-show="due_date_x"
+                        class="absolute top-2 end-9 text-surface cursor-pointer focus:text-primary outline-none dark:text-white text-base"
+                        tabindex="0" style="display: block;"
+                        @click="due_date_x = '';$nextTick(() => $('#due_date_search').trigger('change'))">✕</span>
+                </div>
+
+            </div>
+        </form>
+    </div>
     <div class="relative overflow-x-auto">
-        <table class="w-full overflow-x-auto !py-10" id="data-table">
+        <table class="w-full !py-10" id="data-table">
             <thead class="w-full bg-slate-100 mb-5">
                 <tr>
                     {{-- <th class="text-start p-2" style="width: 80px">
@@ -24,10 +97,10 @@
                         </div>
                     </th> --}}
                     <th class="text-start p-2">ID</th>
-                    <th class="text-start p-2">Title</th>
+                    <th class="text-start p-2" style="width: 300px">Title</th>
                     <th class="text-start p-2">Priority</th>
                     <th class="text-start p-2">Category</th>
-                    <th class="text-start p-2">Status</th>
+                    <th class="text-start p-2" style="width: 200px">Status</th>
                     <th class="text-start p-2">Requester Name</th>
                     <th class="text-start p-2">Assigned Team</th>
                     <th class="text-start p-2">Assigned Agent</th>
@@ -55,9 +128,12 @@
                         type: "GET",
                         data: function(d) {
                             d._token = "{{ csrf_token() }}";
-                            // d.title = $('select[name=title]').val();
-                            // d.fromdate = $('input[name=fromdate]').val();
-                            // d.todate = $('input[name=todate]').val();
+                            d.ticket_id_search = $('#ticket_id_search').val();
+                            d.priority_search = $('#priority_search').val();
+                            d.category_search = $('#category_search').val();
+                            d.team_search = $('#team_search').val();
+                            d.status_search = $('#status_search').val();
+                            d.due_date_search = $('#due_date_search').val();
                         }
                     },
                     columns: [{
@@ -110,10 +186,13 @@
                         }
                     ]
                 });
-                $('#filterForm').on('submit', function(e) {
-                    dTable.draw();
-                    e.preventDefault();
-                });
+               
+                $(document).on('change keyup',
+                    '#priority_search, #category_search, #team_search, #status_search, #due_date_search, #ticket_id_search',
+                    function(e) {
+                        dTable.draw();
+                        e.preventDefault();
+                    });
             });
         </script>
     @endsection
