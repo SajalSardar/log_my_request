@@ -5,8 +5,11 @@
                 <div>
                     <x-forms.text-input id="ticket_id_search" class="text-sm" placeholder="Ticket Id" />
                 </div>
+                <input type="hidden" id="me_mode_search"
+                    value="{{ request()->has('me_mode') ? request()->get('me_mode') : '' }}">
                 <div class="relative" x-data="{ priority: '' }">
-                    <x-forms.select-input x-model="priority" class="text-sm" name='priority_search' id="priority_search">
+                    <x-forms.select-input x-model="priority" class="text-sm" name='priority_search'
+                        id="priority_search">
                         <option value="">Priority</option>
                         <option value="low">Low</option>
                         <option value="medium">Medium</option>
@@ -129,6 +132,7 @@
                         type: "GET",
                         data: function(d) {
                             d._token = "{{ csrf_token() }}";
+                            d.me_mode_search = $('#me_mode_search').val();
                             d.ticket_id_search = $('#ticket_id_search').val();
                             d.priority_search = $('#priority_search').val();
                             d.category_search = $('#category_search').val();

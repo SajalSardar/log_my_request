@@ -27,6 +27,7 @@ Route::middleware('auth')->prefix('dashboard')->name('admin.')->group(function (
 
     Route::resource('ticket', TicketController::class);
     Route::get('ticket-list', [TicketController::class, 'allTicketList'])->name('all.ticket.list');
+    Route::get('ticket-list?me_mode=on', [TicketController::class, 'allTicketList'])->name('ticket.list.active.memode');
     Route::get('ticket-list-datatable', [TicketController::class, 'allTicketListDataTable'])->name('all.ticket.list.datatable');
     Route::post('ticket-log-update/{ticket}', [TicketController::class, 'logUpdate'])->name('ticket.logUpdate');
     Route::post('ticket-internal-note-update/{ticket}', [TicketController::class, 'interNoteStore'])->name('ticket.interNoteStore');

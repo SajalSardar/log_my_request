@@ -134,6 +134,11 @@ class TicketController extends Controller {
 
         if ($request->all()) {
             $tickets->where(function ($query) use ($request) {
+                if ($request->me_mode_search) {
+                    $query->whereHas('owners', function ($query) {
+                        $query->where('owner_id', Auth::id());
+                    });
+                }
                 if ($request->ticket_id_search) {
                     $query->where('id', 'like', '%' . $request->ticket_id_search . '%');
                 }
@@ -179,14 +184,6 @@ class TicketController extends Controller {
                         break;
                     }
                 }
-                // if ($request->fromdate) {
-                //     $from_date = date("Y-m-d", strtotime($request->fromdate));
-                //     $query->where('created_at', '>=', $from_date);
-                // }
-                // if ($request->todate) {
-                //     $to_date = date("Y-m-d", strtotime($request->todate));
-                //     $query->where('created_at', '<=', $to_date);
-                // }
             });
         }
         return DataTables::of($tickets)
