@@ -171,7 +171,10 @@ class TicketController extends Controller
         $this->ticket_status  = TicketStatus::query()->get();
         $agents               = Team::query()->with('agents')->where('id', $ticket?->team_id)->get();
         $users                = User::whereNotIn('id', [1])->select('id', 'name', 'email')->get();
-        // return $this->ticket;
+        $conversations = Conversation::orderBy('created_at')->where('ticket_id', $ticket->id)->get()->groupBy(function ($query) {
+            return date('Y m d', strtotime($query->created_at));
+        });
+        // return $conversations;
 
         // Get all ticket list according to ticket status
         // $ticketStatusWise = Ticket::where('ticket_status_id', $ticket->ticket_status_id)->get();
@@ -197,6 +200,7 @@ class TicketController extends Controller
             'agents'           => $agents,
             'ticketStatusWise' => $ticketStatusWise,
             'users'            => $users,
+            'conversations'    => $conversations
         ]);
     }
 
