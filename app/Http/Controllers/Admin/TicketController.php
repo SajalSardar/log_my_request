@@ -187,23 +187,26 @@ class TicketController extends Controller {
             });
         }
         return DataTables::of($tickets)
+            ->editColumn('title', function ($tickets) {
+                return '<a href="' . route('admin.ticket.show', ['ticket' => $tickets?->id]) . '" class="font-normal text-gray-400 hover:bg-green-400 hover:underline">' . Str::limit(ucfirst($tickets->title), 30, '...') . '</a>';
+            })
             ->editColumn('priority', function ($tickets) {
-                return Str::ucfirst($tickets->priority);
+                return '<span class="font-normal text-gray-400">' . Str::ucfirst($tickets->priority) . '</span>';
             })
             ->addColumn('category', function ($tickets) {
-                return Str::ucfirst($tickets->category->name);
+                return '<span class="font-normal text-gray-400">' . Str::ucfirst($tickets->category->name) . '</span>';
             })
             ->editColumn('ticket_status_id', function ($tickets) {
                 $data = "";
                 if ($tickets->ticket_status->name === 'in progress') {
-                    $data .= '<span class="!bg-process-400 text-white rounded px-3 py-1 font-inter text-sm block">' . $tickets->ticket_status->name . '</span>';
+                    $data .= '<span class="!bg-process-400 text-white rounded px-2 font-inter block">' . $tickets->ticket_status->name . '</span>';
                 } elseif ($tickets->ticket_status->name === 'open') {
 
-                    $data .= '<span class="!bg-green-400 text-white rounded px-3 py-1 font-inter text-sm">' . $tickets->ticket_status->name . '</span>';
+                    $data .= '<span class="!bg-green-400 text-white rounded px-2 font-inter">' . $tickets->ticket_status->name . '</span>';
                 } elseif ($tickets->ticket_status->name === 'on hold') {
-                    $data .= '<span class="!bg-orange-400 text-white rounded px-3 py-1 font-inter text-sm">' . $tickets->ticket_status->name . '</span>';
+                    $data .= '<span class="!bg-orange-400 text-white rounded px-2 font-inter">' . $tickets->ticket_status->name . '</span>';
                 } else {
-                    $data .= '<span class="!bg-gray-400 text-white rounded px-3 py-1 font-inter text-sm">' . $tickets->ticket_status->name . '</span>';
+                    $data .= '<span class="!bg-gray-400 text-white rounded px-2 font-inter">' . $tickets->ticket_status->name . '</span>';
                 }
                 return $data;
             })
@@ -427,14 +430,14 @@ class TicketController extends Controller {
             ->editColumn('status', function ($tickets) {
                 $data = "";
                 if ($tickets->ticket_status->name === 'in progress') {
-                    $data .= '<span class="!bg-process-400 text-white rounded px-3 py-1 font-inter text-sm block">' . $tickets->ticket_status->name . '</span>';
+                    $data .= '<span class="!bg-process-400 text-white rounded px-2 font-inter block">' . $tickets->ticket_status->name . '</span>';
                 } elseif ($tickets->ticket_status->name === 'open') {
 
-                    $data .= '<span class="!bg-green-400 text-white rounded px-3 py-1 font-inter text-sm">' . $tickets->ticket_status->name . '</span>';
+                    $data .= '<span class="!bg-green-400 text-white rounded px-2 font-inter">' . $tickets->ticket_status->name . '</span>';
                 } elseif ($tickets->ticket_status->name === 'on hold') {
-                    $data .= '<span class="!bg-orange-400 text-white rounded px-3 py-1 font-inter text-sm">' . $tickets->ticket_status->name . '</span>';
+                    $data .= '<span class="!bg-orange-400 text-white rounded px-2 font-inter">' . $tickets->ticket_status->name . '</span>';
                 } else {
-                    $data .= '<span class="!bg-gray-400 text-white rounded px-3 py-1 font-inter text-sm">' . $tickets->ticket_status->name . '</span>';
+                    $data .= '<span class="!bg-gray-400 text-white rounded px-2 font-inter">' . $tickets->ticket_status->name . '</span>';
                 }
                 return $data;
             })

@@ -6,7 +6,7 @@
                     <x-forms.text-input id="ticket_id_search" class="text-sm" placeholder="Ticket Id" />
                 </div>
                 <input type="hidden" id="me_mode_search"
-                    value="{{ request()->has('me_mode') ? request()->get('me_mode') : '' }}">
+                    value="{{ Route::is('admin.ticket.list.active.memode') ? 'me_mode' : '' }}">
                 <div class="relative" x-data="{ priority: '' }">
                     <x-forms.select-input x-model="priority" class="text-sm" name='priority_search'
                         id="priority_search">
@@ -103,7 +103,7 @@
                     <th class="text-start p-2" style="width: 300px">Title</th>
                     <th class="text-start p-2">Priority</th>
                     <th class="text-start p-2">Category</th>
-                    <th class="text-start p-2" style="width: 200px">Status</th>
+                    <th class="text-start p-2" style="width: 140px">Status</th>
                     <th class="text-start p-2">Requester Name</th>
                     <th class="text-start p-2">Assigned Team</th>
                     <th class="text-start p-2">Assigned Agent</th>

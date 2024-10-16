@@ -1,6 +1,6 @@
-<div class="fixed left-0 top-0 w-64 h-full bg-white py-10 z-50 sidebar-menu transition-transform"
+<div class="fixed left-0 top-0 w-64 h-full bg-white py-5 z-50 sidebar-menu transition-transform"
     style="border-right: 1px solid #cfcece">
-    <a href="#" class="flex items-center justify-center pb-8">
+    <a href="#" class="flex items-center justify-center pb-4">
         <img src="{{ asset('assets/icons/EventMetro.png') }}" alt="logo">
     </a>
 
