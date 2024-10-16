@@ -81,7 +81,7 @@ class CreateTicket extends Component {
     }
 
     /**
-     * Define public method save() to store the resourses
+     * Define public method save() to store the resources
      * @return void
      */
     public function save(TicketService $service) {
@@ -89,7 +89,7 @@ class CreateTicket extends Component {
         $this->validate(rules: $this->form->rules(), attributes: $this->form->attributes());
         $isCreate = $service->store($this->form);
         $isUpload = $this->form->request_attachment ? Fileupload::uploadFile($this->form, Bucket::TICKET, $isCreate->getKey(), Ticket::class) : '';
-        $response = $isCreate ? 'Data has been update successfuly' : 'Something went wrong';
+        $response = $isCreate ? 'Data has been update successfully' : 'Something went wrong';
         flash()->success($response);
 
         return redirect()->to('dashboard/ticket');
