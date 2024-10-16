@@ -115,8 +115,8 @@
     <div class="flex items-center">
         <p class="text-base font-bold font-inter me-2">Attached File:</p>
         <div class="custom_file flex gap-5">
-
-            <a href="{{ route('admin.ticket.downloadFile',['file' => $ticket->image?->id]) }}" style="width: 200px;"
+            @if ($ticket?->image)
+            <a href="{{ route('admin.ticket.downloadFile',['file' => $ticket?->image?->id]) }}" style="width: 200px;"
                 class="flex justify-between px-1 py-1 border border-slate-300 rounded bg-gray-200">
                 <div class="flex items-center">
                     <span class="pr-1">
@@ -148,6 +148,8 @@
                     </svg>
                 </div>
             </a>
+            @endif
+
 
             <!-- <a href="#" style="width: 200px;" download
                 class="flex justify-between px-1 py-1 border border-slate-300 rounded bg-gray-200">
