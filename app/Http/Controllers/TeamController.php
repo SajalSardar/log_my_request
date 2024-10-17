@@ -17,7 +17,7 @@ class TeamController extends Controller {
     public function index() {
         Gate::authorize('viewAny', Team::class);
         $collections = Team::query()
-            ->with('image')
+            ->with('image', 'agents')
             ->with('teamCategories')
             ->get();
         // return $collections;

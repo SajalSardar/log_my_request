@@ -70,7 +70,7 @@
 
  .navbar {
      /* margin-left: 256px; */
-     height: 76px;
+     padding: 8px 0;
      background: #F8FAFF;
      position: fixed;
      left: 0;
@@ -101,7 +101,7 @@
 
  .search-input input {
      width: 100%;
-     padding: 15px;
+     padding: 8px;
      border: none;
      background: white;
      border-radius: 10px;
@@ -121,7 +121,7 @@
 
  .user-type-select {
      width: 100%;
-     padding: 15px;
+     padding: 8px;
      background: transparent;
      border-radius: 10px;
      -webkit-border-radius: 10px;
@@ -300,4 +300,11 @@
 
  .nice-select .option {
      padding: 0 15px;
+ }
+
+ #data-table  th{
+    font-size: 12px;
+ }
+ #data-table  td{
+    font-size: 12.5px;
  }

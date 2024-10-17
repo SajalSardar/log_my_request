@@ -22,7 +22,7 @@
                         </x-forms.label>
 
                         <x-forms.select-input name="category_id">
-                            <option disabled value>Category</option>
+                            <option value>Category</option>
                             @foreach ($categories as $each)
                                 <option @selected(old('category_id', $ticket?->category_id) == $each?->id) value="{{ $each?->id }}">
                                     {{ $each?->name }}
@@ -38,7 +38,7 @@
                         </x-forms.label>
 
                         <x-forms.select-input name="ticket_status_id">
-                            <option value="" disabled>Ticket status
+                            <option value="">Ticket status
                             </option>
                             @foreach ($ticket_status as $status)
                                 <option @selected(old('ticket_status_id', $ticket?->ticket_status_id) == $status?->id) value="{{ $status->id }}">
@@ -58,7 +58,7 @@
                         </x-forms.label>
 
                         <x-forms.select-input name="team_id" id="team">
-                            <option value="" disabled>Select a Team
+                            <option value="">Select a Team
                             </option>
                             @foreach ($teams as $each)
                                 <option value="{{ $each->id }}" @selected(old('team_id', $ticket?->team_id) == $each?->id)>

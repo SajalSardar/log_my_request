@@ -34,6 +34,17 @@ Route::middleware('auth')->prefix('dashboard')->name('admin.')->group(function (
     Route::resource('ticketownership', TicketOwnershipController::class);
     Route::resource('ticketstatus', TicketStatusController::class);
 
+    Route::resource('ticket', TicketController::class);
+    Route::get('ticket-list', [TicketController::class, 'allTicketList'])->name('all.ticket.list');
+    Route::get('ticket-active-memode', [TicketController::class, 'allTicketList'])->name('ticket.list.active.memode');
+    Route::get('ticket-list-datatable', [TicketController::class, 'allTicketListDataTable'])->name('all.ticket.list.datatable');
+    Route::post('ticket-log-update/{ticket}', [TicketController::class, 'logUpdate'])->name('ticket.logUpdate');
+    Route::post('ticket-internal-note-update/{ticket}', [TicketController::class, 'interNoteStore'])->name('ticket.interNoteStore');
+    Route::get('ticket-download/{file}', [TicketController::class, 'downloadFile'])->name('ticket.downloadFile');
+    Route::post('conversations/{ticket}', [TicketController::class, 'conversation'])->name('ticket.conversation');
+    Route::get('status-wise-ticket-list', [TicketController::class, 'ticketList'])->name('ticket.status.wise.list');
+    Route::get('status-wise-ticket-list-datatable', [TicketController::class, 'allListDataTable'])->name('ticket.status.wise.list.datatable');
+
     // role
     Route::get('role-list', [RoleController::class, 'index'])->name('role.index');
     Route::get('create-user-role', [RoleController::class, 'create'])->name('role.create');
