@@ -2,7 +2,10 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Enums\Bucket;
 use App\Http\Controllers\Controller;
+use App\LocaleStorage\Fileupload;
+use App\Mail\TicketEmail;
 use App\Models\Category;
 use App\Models\Conversation;
 use App\Models\Image;
@@ -22,6 +25,8 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Gate;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Str;
 use Yajra\DataTables\Facades\DataTables;
 
@@ -317,7 +322,10 @@ class TicketController extends Controller {
         $this->ticket_status  = TicketStatus::query()->get();
         $agents               = Team::query()->with('agents')->where('id', $ticket?->team_id)->get();
         $users                = User::whereNotIn('id', [1])->select('id', 'name', 'email')->get();
-        // return $this->ticket;
+        $conversations        = Conversation::orderBy('created_at')->where('ticket_id', $ticket->id)->get()->groupBy(function ($query) {
+            return date('Y m d', strtotime($query->created_at));
+        });
+        // return $conversations;
 
         // Get all ticket list according to ticket status
         // $ticketStatusWise = Ticket::where('ticket_status_id', $ticket->ticket_status_id)->get();
@@ -343,6 +351,7 @@ class TicketController extends Controller {
             'agents'           => $agents,
             'ticketStatusWise' => $ticketStatusWise,
             'users'            => $users,
+            'conversations'    => $conversations,
         ]);
     }
 
@@ -684,6 +693,133 @@ class TicketController extends Controller {
         ]);
 
         flash()->success('Conversation has been added successfully');
+        return back();
+    }
+
+    /**
+     * Method for change the owner of ticket
+     * @param Request $request
+     * @param Ticket $ticket
+     * @return RedirectResponse
+     */
+    public function ownerChange(Request $request, Ticket $ticket): RedirectResponse {
+        $checkUser = User::query()->where('email', $request->requester_email)->first();
+        if (!empty($checkUser)) {
+            $request->merge([
+                'credentials' => false,
+            ]);
+
+            $checkUser->update(
+                [
+                    'phone'             => $request->requester_phone,
+                    'name'              => $request->requester_name,
+                    'requester_type_id' => $request->requester_type_id,
+                    'requester_id'      => $request->requester_id,
+                ]
+            );
+        } else {
+            $password = rand(10000000, 99999999);
+            $request->merge([
+                'credentials' => true,
+                'password'    => $password,
+            ]);
+
+            $user = User::create([
+                'name'              => $request?->requester_name,
+                'email'             => $request?->requester_email,
+                'phone'             => $request?->requester_phone,
+                'password'          => Hash::make($password),
+                'requester_type_id' => $request?->requester_type_id,
+                'requester_id'      => $request?->requester_id,
+            ]);
+
+            $user->assignRole('agent');
+            $response = $ticket->update(
+                [
+                    'user_id' => $user->getKey(),
+                ]
+            );
+
+            try {
+                $ticket_note = TicketNote::create(
+                    [
+                        'ticket_id'  => $ticket->id,
+                        'note_type'  => 'owner_change',
+                        'old_status' => $ticket->ticket_note->old_status,
+                        'new_status' => $ticket->ticket_note->new_status,
+                        'note'       => $ticket->ticket_note->note,
+                        'created_by' => $request->user()->id,
+                        'updated_by' => $request->user()->id,
+                    ]
+                );
+
+                TicketLog::create(
+                    [
+                        'ticket_id'     => $ticket->getKey(),
+                        'ticket_status' => $ticket->ticket_status->name,
+                        'status'        => 'updated',
+                        'comment'       => json_encode($ticket_note),
+                        'updated_by'    => Auth::id(),
+                        'created_by'    => Auth::id(),
+                    ]
+                );
+            } catch (\Exception $e) {
+                TicketLog::create(
+                    [
+                        'ticket_id'     => $ticket->getKey(),
+                        'ticket_status' => $ticket->ticket_status->name,
+                        'status'        => 'update_fail',
+                        'comment'       => json_encode($e->getMessage()),
+                        'updated_by'    => Auth::id(),
+                        'created_by'    => Auth::id(),
+                    ]
+                );
+            }
+        }
+        Mail::to($request->requester_email)->send(new TicketEmail($request));
+        flash()->success('Requester Has been added');
+        return back();
+    }
+
+    /**
+     * Define public method partialUpdate() to update partially the ticket
+     * @param Request $request
+     * @param Ticket $ticket
+     * @return RedirectResponse
+     */
+    public function partialUpdate(Request $request, Ticket $ticket): RedirectResponse {
+        $ticketUpdate = $ticket->update([
+            'title'       => $request->request_title,
+            'description' => $request->request_description,
+            'source_id'   => $request->source_id,
+        ]);
+
+        $isUpload = $request->request_attachment ? Fileupload::uploadFile($request, Bucket::TICKET, $ticket->getKey(), Ticket::class) : '';
+
+        try {
+            TicketLog::create(
+                [
+                    'ticket_id'     => $ticket->getKey(),
+                    'ticket_status' => $ticket->ticket_status->name,
+                    'status'        => 'updated',
+                    'comment'       => json_encode($ticketUpdate),
+                    'updated_by'    => Auth::id(),
+                    'created_by'    => Auth::id(),
+                ]
+            );
+        } catch (\Exception $e) {
+            TicketLog::create(
+                [
+                    'ticket_id'     => $ticket->getKey(),
+                    'ticket_status' => $ticket->ticket_status->name,
+                    'status'        => 'update_fail',
+                    'comment'       => json_encode($e->getMessage()),
+                    'updated_by'    => Auth::id(),
+                    'created_by'    => Auth::id(),
+                ]
+            );
+        }
+        flash()->success('Edit has been successfully done');
         return back();
     }
 }
