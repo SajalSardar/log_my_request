@@ -16,7 +16,7 @@
                         <option value="high">High</option>
                     </x-forms.select-input>
                     <span x-show="priority"
-                        class="absolute top-2 end-9 text-surface cursor-pointer focus:text-primary outline-none dark:text-white text-base"
+                        class="absolute top-1 end-9 text-surface cursor-pointer focus:text-primary outline-none dark:text-white text-base"
                         tabindex="0" style="display: block;"
                         @click="priority = '';$nextTick(() => $('#priority_search').trigger('change'))">✕</span>
                 </div>
@@ -29,7 +29,7 @@
                         @endforeach
                     </x-forms.select-input>
                     <span x-show="status"
-                        class="absolute top-2 end-9 text-surface cursor-pointer focus:text-primary outline-none dark:text-white text-base"
+                        class="absolute top-1 end-9 text-surface cursor-pointer focus:text-primary outline-none dark:text-white text-base"
                         tabindex="0" style="display: block;"
                         @click="status = '';$nextTick(() => $('#status_search').trigger('change'))">✕</span>
                 </div>
@@ -42,7 +42,7 @@
                         @endforeach
                     </x-forms.select-input>
                     <span x-show="category"
-                        class="absolute top-2 end-9 text-surface cursor-pointer focus:text-primary outline-none dark:text-white text-base"
+                        class="absolute top-1 end-9 text-surface cursor-pointer focus:text-primary outline-none dark:text-white text-base"
                         tabindex="0" style="display: block;"
                         @click="category = '';$nextTick(() => $('#category_search').trigger('change'))">✕</span>
                 </div>
@@ -54,7 +54,7 @@
                         @endforeach
                     </x-forms.select-input>
                     <span x-show="team"
-                        class="absolute top-2 end-9 text-surface cursor-pointer focus:text-primary outline-none dark:text-white text-base"
+                        class="absolute top-1 end-9 text-surface cursor-pointer focus:text-primary outline-none dark:text-white text-base"
                         tabindex="0" style="display: block;"
                         @click="team = '';$nextTick(() => $('#team_search').trigger('change'))">✕</span>
                 </div>
@@ -67,7 +67,7 @@
                         <option value="this_month">This Month</option>
                     </x-forms.select-input>
                     <span x-show="due_date_x"
-                        class="absolute top-2 end-9 text-surface cursor-pointer focus:text-primary outline-none dark:text-white text-base"
+                        class="absolute top-1 end-9 text-surface cursor-pointer focus:text-primary outline-none dark:text-white text-base"
                         tabindex="0" style="display: block;"
                         @click="due_date_x = '';$nextTick(() => $('#due_date_search').trigger('change'))">✕</span>
                 </div>
@@ -75,9 +75,9 @@
             </div>
         </form>
     </div>
-    <div class="relative overflow-x-auto">
-        <table class="w-full !py-10" id="data-table">
-            <thead class="w-full bg-slate-100 mb-5">
+    <div class="relative">
+        <table class="display nowrap" id="data-table" style="width: 100%">
+            <thead>
                 <tr>
                     {{-- <th class="text-start p-2" style="width: 80px">
                         <div class="flex items-center">
@@ -99,17 +99,18 @@
                             <span class="ms-1">Select</span>
                         </div>
                     </th> --}}
-                    <th class="text-start p-2">ID</th>
-                    <th class="text-start p-2" style="width: 300px">Title</th>
-                    <th class="text-start p-2">Priority</th>
-                    <th class="text-start p-2">Category</th>
-                    <th class="text-start p-2" style="width: 140px">Status</th>
-                    <th class="text-start p-2">Requester Name</th>
-                    <th class="text-start p-2">Assigned Team</th>
-                    <th class="text-start p-2">Assigned Agent</th>
-                    <th class="text-start p-2">Created Date</th>
-                    <th class="text-start p-2">Due Date</th>
-                    <th class="text-start p-2"></th>
+                    <th>ID</th>
+                    <th>Title</th>
+                    <th>Priority</th>
+                    <th>Category</th>
+                    <th>Status</th>
+                    <th>Requester Name</th>
+                    <th>Assigned Team</th>
+                    <th>Assigned Agent</th>
+                    <th>Created Date</th>
+                    <th>Request Age</th>
+                    <th>Due Date</th>
+                    <th></th>
                 </tr>
             </thead>
 
@@ -126,6 +127,10 @@
                     serverSide: true,
                     responsive: true,
                     searching: false,
+                    scrollX: true,
+                    order: [
+                        0, 'desc'
+                    ],
                     ajax: {
                         url: "{{ route('admin.all.ticket.list.datatable') }}",
                         type: "GET",
@@ -176,7 +181,10 @@
                             data: 'created_at',
                             name: 'created_at'
                         },
-
+                        {
+                            data: 'request_age',
+                            name: 'request_age'
+                        },
                         {
                             data: 'due_date',
                             name: 'due_date'

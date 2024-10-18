@@ -83,36 +83,11 @@ class TicketController extends Controller {
      */
     public function index() {
         Gate::authorize('viewAny', Ticket::class);
-        //$this->tickets = TicketStatus::query()->with('ticket', fn($query) => $query->with('source', 'ticket_status'))->withCount('ticket')->get();
-
-        $user     = User::with('teams:id')->find(Auth::id());
-        $userTeam = $user->teams->pluck('id');
-
-        $unassignRequest = Cache::remember('unassign_' . Auth::id() . '_ticket_list', 60 * 60, function () use ($userTeam) {
-            $unassign = Ticket::query()
-                ->leftJoin('ticket_ownerships as towner', 'tickets.id', '=', 'towner.ticket_id')
-                ->with(['source', 'user', 'team', 'ticket_status'])
-                ->where('towner.owner_id', null)
-                ->select('tickets.*', 'towner.owner_id');
-            if (!Auth::user()->hasRole('super-admin')) {
-                $unassign->whereIn('team_id', $userTeam)
-                    ->orWhere('tickets.created_by', Auth::id());
-            }
-
-            return $unassign->orderBy('id', 'desc')->take(10)->get();
-        });
 
         $this->tickets = Cache::remember('status_' . Auth::id() . '_ticket_list', 60 * 60, function () {
             return TicketStatus::query()
                 ->with('ticket', function ($query) {
-                    if (!Auth::user()->hasRole('super-admin')) {
-                        $query->whereHas('owners', function ($query) {
-                            $query->where('owner_id', Auth::id());
-                        });
-                    }
                     $query->with(['owners', 'source', 'user', 'team'])
-                        ->whereHas('owners')
-                        ->whereNotNull('team_id')
                         ->orderBy('id', 'desc')
                         ->take(10);
                 })
@@ -123,7 +98,7 @@ class TicketController extends Controller {
 
         // return $this->tickets;
 
-        return view("ticket.index", ['tickets' => $this->tickets ?? collect(), 'unassignTicket' => $unassignRequest]);
+        return view("ticket.index", ['tickets' => $this->tickets ?? collect()]);
     }
 
     public function allTicketList() {
@@ -216,7 +191,7 @@ class TicketController extends Controller {
                 return $data;
             })
             ->editColumn('user_id', function ($tickets) {
-                $data = '<div class="p-2 font-normal text-gray-400 flex items-center"><img src="https://i.pravatar.cc/300/5" alt="img" width="25" height="25"
+                $data = '<div class="font-normal text-gray-400 flex items-center"><img src="https://i.pravatar.cc/300/5" alt="img" width="25" height="25"
                                 style="border-radius: 50%"><span class="ml-2">' . $tickets->user->name . '</span></div>';
                 return $data;
             })
@@ -230,6 +205,10 @@ class TicketController extends Controller {
             })
             ->editColumn('created_at', function ($tickets) {
                 $data = '<span class="font-normal text-gray-400">' . ISODate($tickets?->created_at) . '</span>';
+                return $data;
+            })
+            ->addColumn('request_age', function ($tickets) {
+                $data = '<span class="font-normal text-gray-400">' . dayMonthYearHourMininteSecond($tickets?->created_at, true, true, true, true, true, true) . '</span>';
                 return $data;
             })
             ->editColumn('due_date', function ($tickets) {
@@ -478,7 +457,7 @@ class TicketController extends Controller {
                 return $data;
             })
             ->editColumn('user_id', function ($tickets) {
-                $data = '<div class="p-2 font-normal text-gray-400 flex items-center"><img src="https://i.pravatar.cc/300/5" alt="img" width="25" height="25"
+                $data = '<div class="font-normal text-gray-400 flex items-center"><img src="https://i.pravatar.cc/300/5" alt="img" width="25" height="25"
                                 style="border-radius: 50%"><span class="ml-2">' . $tickets->user->name . '</span></div>';
                 return $data;
             })
@@ -494,7 +473,10 @@ class TicketController extends Controller {
                 $data = '<span class="font-normal text-gray-400">' . ISODate($tickets?->created_at) . '</span>';
                 return $data;
             })
-
+            ->addColumn('request_age', function ($tickets) {
+                $data = '<span class="font-normal text-gray-400">' . dayMonthYearHourMininteSecond($tickets?->created_at, true, true, true, true, true, true) . '</span>';
+                return $data;
+            })
             ->editColumn('due_date', function ($tickets) {
                 $data = '<span class="font-normal text-gray-400">' . ISOdate($tickets->due_date) . '</span>';
                 return $data;
