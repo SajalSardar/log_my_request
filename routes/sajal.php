@@ -35,6 +35,8 @@ Route::middleware('auth')->prefix('dashboard')->name('admin.')->group(function (
     Route::post('conversations/{ticket}', [TicketController::class, 'conversation'])->name('ticket.conversation');
     Route::get('status-wise-ticket-list', [TicketController::class, 'ticketList'])->name('ticket.status.wise.list');
     Route::get('status-wise-ticket-list-datatable', [TicketController::class, 'allListDataTable'])->name('ticket.status.wise.list.datatable');
+    Route::post('ticket-owner-change/{ticket}', [TicketController::class, 'ownerChange'])->name('ticket.ownerChange');
+    Route::post('ticket-partial-update/{ticket}', [TicketController::class, 'partialUpdate'])->name('ticket.partialUpdate');
 
     // role
     Route::get('role-list', [RoleController::class, 'index'])->name('role.index');

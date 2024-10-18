@@ -318,13 +318,11 @@ class TicketController extends Controller {
         $this->ticket_status  = TicketStatus::query()->get();
         $agents               = Team::query()->with('agents')->where('id', $ticket?->team_id)->get();
         $users                = User::whereNotIn('id', [1])->select('id', 'name', 'email')->get();
+        $histories            = TicketNote::query()->where('ticket_id', $ticket->id)->select('id', 'note', 'old_status', 'new_status')->get();
         $conversations        = Conversation::orderBy('created_at')->where('ticket_id', $ticket->id)->get()->groupBy(function ($query) {
             return date('Y m d', strtotime($query->created_at));
         });
-        // return $conversations;
 
-        // Get all ticket list according to ticket status
-        // $ticketStatusWise = Ticket::where('ticket_status_id', $ticket->ticket_status_id)->get();
         $ticketStatusWiseList = Ticket::query()
             ->where('ticket_status_id', $ticket->ticket_status_id)
             ->whereNot('id', $ticket->id)
@@ -348,6 +346,7 @@ class TicketController extends Controller {
             'ticketStatusWise' => $ticketStatusWise,
             'users'            => $users,
             'conversations'    => $conversations,
+            'histories'        => $histories,
         ]);
     }
 
@@ -467,14 +466,14 @@ class TicketController extends Controller {
             ->editColumn('status', function ($tickets) {
                 $data = "";
                 if ($tickets->ticket_status->name === 'in progress') {
-                    $data .= '<span class="!bg-process-400 text-white rounded px-2 font-inter block">' . $tickets->ticket_status->name . '</span>';
+                    $data .= '<span class="!bg-process-400 text-white rounded px-3 py-1 font-inter text-sm block">' . $tickets->ticket_status->name . '</span>';
                 } elseif ($tickets->ticket_status->name === 'open') {
 
-                    $data .= '<span class="!bg-green-400 text-white rounded px-2 font-inter">' . $tickets->ticket_status->name . '</span>';
+                    $data .= '<span class="!bg-green-400 text-white rounded px-3 py-1 font-inter text-sm">' . $tickets->ticket_status->name . '</span>';
                 } elseif ($tickets->ticket_status->name === 'on hold') {
-                    $data .= '<span class="!bg-orange-400 text-white rounded px-2 font-inter">' . $tickets->ticket_status->name . '</span>';
+                    $data .= '<span class="!bg-orange-400 text-white rounded px-3 py-1 font-inter text-sm">' . $tickets->ticket_status->name . '</span>';
                 } else {
-                    $data .= '<span class="!bg-gray-400 text-white rounded px-2 font-inter">' . $tickets->ticket_status->name . '</span>';
+                    $data .= '<span class="!bg-gray-400 text-white rounded px-3 py-1 font-inter text-sm">' . $tickets->ticket_status->name . '</span>';
                 }
                 return $data;
             })
@@ -555,7 +554,7 @@ class TicketController extends Controller {
         try {
             $ticket_status = TicketStatus::query()->where('id', $ticket->ticket_status_id)->first();
 
-            if ($request->owner_id && ($ticket->owners->isEmpty() || $ticket->owners->last()->id != $request->owner_id)) {
+            if ($ticket->owners->isEmpty() || $ticket->owners->last()->id != $request->owner_id) {
                 TicketNote::create(
                     [
                         'ticket_id'  => $ticket->id,
@@ -695,7 +694,7 @@ class TicketController extends Controller {
 
     /**
      * Define public method to download the file.
-     * @param \App\Models\Image $file
+     * @param Image $file
      * @return mixed|\Symfony\Component\HttpFoundation\BinaryFileResponse
      */
     public function downloadFile(Image $file) {
@@ -705,8 +704,8 @@ class TicketController extends Controller {
 
     /**
      * Define public method conversation() to store the conversation
-     * @param \Illuminate\Http\Request $request
-     * @param \App\Models\Ticket $ticket
+     * @param Request $request
+     * @param Ticket $ticket
      */
     public function conversation(Request $request, Ticket $ticket) {
         $conversation = Conversation::create([
