@@ -36,7 +36,7 @@
                 @endphp
                 <li class="group  pl-4 relative {{ Route::is($sbMenu) ? 'selected' : '' }} ">
                     <a href="{{ $menu->route == '#' ? '#' : route($menu->route) }}"
-                        class="block py-2 text-sm items-center text-gray-900 hover:bg-orange-100 hover:before:bg-primary-400 before:absolute before:rounded-r-xl before:content-[''] before:w-[2px] before:h-[35px] before:top-0 {{ Route::is($menu->route) || url($menu->url) == Request::fullUrl() ? 'font-semibold bg-orange-100 before:bg-primary-400' : '' }} {{ count($menu->submneus) > 0 ? 'sidebar-dropdown-toggle' : '' }} ">
+                        class="block py-2 text-sm items-center text-gray-900 hover:bg-orange-100 hover:before:bg-primary-400 before:absolute before:rounded-r-xl before:content-[''] before:w-[2px] before:h-[35px] before:top-0 {{ Route::is($menu->route) || Route::is($sbMenu) || url($menu->url) == Request::fullUrl() ? 'font-semibold bg-orange-100 before:bg-primary-400' : '' }} {{ count($menu->submneus) > 0 ? 'sidebar-dropdown-toggle' : '' }} ">
 
                         <span class="flex items-center text-sm">
                             <span class="pl-1">{!! $menu->icon !!}</span>
