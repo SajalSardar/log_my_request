@@ -135,7 +135,7 @@ class TicketController extends Controller {
     public function allTicketListDataTable(Request $request) {
         Gate::authorize('viewAny', Ticket::class);
 
-        $tickets = Ticket::query()->with(['owners', 'source', 'user', 'team', 'category']);
+        $tickets = Ticket::query()->with(['owners', 'source', 'user', 'team', 'category', 'ticket_status']);
 
         if ($request->all()) {
             $tickets->where(function ($query) use ($request) {
@@ -198,7 +198,7 @@ class TicketController extends Controller {
             ->editColumn('priority', function ($tickets) {
                 return '<span class="font-normal text-gray-400">' . Str::ucfirst($tickets->priority) . '</span>';
             })
-            ->addColumn('category', function ($tickets) {
+            ->editColumn('category_id', function ($tickets) {
                 return '<span class="font-normal text-gray-400">' . Str::ucfirst($tickets->category->name) . '</span>';
             })
             ->editColumn('ticket_status_id', function ($tickets) {
@@ -216,7 +216,7 @@ class TicketController extends Controller {
                 return $data;
             })
             ->editColumn('user_id', function ($tickets) {
-                $data = '<div class="p-2 font-normal text-gray-400 flex items-center"><img src="https://i.pravatar.cc/300/5" alt="img" width="40" height="40"
+                $data = '<div class="p-2 font-normal text-gray-400 flex items-center"><img src="https://i.pravatar.cc/300/5" alt="img" width="25" height="25"
                                 style="border-radius: 50%"><span class="ml-2">' . $tickets->user->name . '</span></div>';
                 return $data;
             })
@@ -230,10 +230,6 @@ class TicketController extends Controller {
             })
             ->editColumn('created_at', function ($tickets) {
                 $data = '<span class="font-normal text-gray-400">' . ISODate($tickets?->created_at) . '</span>';
-                return $data;
-            })
-            ->addColumn('request_age', function ($tickets) {
-                $data = '<span class="font-normal text-gray-400">' . dayMonthYearHourMininteSecond($tickets?->created_at, true, true, true) . '</span>';
                 return $data;
             })
             ->editColumn('due_date', function ($tickets) {
@@ -380,15 +376,15 @@ class TicketController extends Controller {
 
     public function ticketList() {
         Gate::authorize('viewAny', Ticket::class);
-        $queryStatus = request()->get('ticket_status');
-        return view('ticket.view-all', compact('queryStatus'));
+        $queryStatus  = request()->get('ticket_status');
+        $categories   = Category::where('status', 1)->get();
+        $teams        = Team::where('status', 1)->get();
+        $ticketStatus = TicketStatus::where('status', 1)->get();
+        return view('ticket.view-all', compact('queryStatus', 'categories', 'teams', 'ticketStatus'));
     }
 
     public function allListDataTable(Request $request) {
         Gate::authorize('viewAny', Ticket::class);
-
-        $user     = User::with('teams:id')->find(Auth::id());
-        $userTeam = $user->teams->pluck('id');
 
         $ticketStatus = null;
 
@@ -397,42 +393,74 @@ class TicketController extends Controller {
             $ticketStatus = TicketStatus::where('slug', $request->query_status)->first();
         }
 
-        $tickets = Ticket::query();
+        $tickets = Ticket::query()->with(['owners', 'source', 'user', 'team', 'category', 'ticket_status']);
 
         if ($request->query_status == 'unassign') {
 
-            // $tickets = Cache::remember('unassign_' . Auth::id() . '_ticket_list', 60 * 60, function () use ($tickets, $userTeam) {
             $tickets->leftJoin('ticket_ownerships as towner', 'tickets.id', '=', 'towner.ticket_id')
-                ->with(['source', 'user', 'team', 'ticket_status'])
                 ->where('towner.owner_id', null)
                 ->select('tickets.*', 'towner.owner_id');
-            if (!Auth::user()->hasRole('super-admin')) {
-                $tickets->whereIn('team_id', $userTeam)
-                    ->orWhere('tickets.created_by', Auth::id());
-            }
-
-            // $tickets->orderBy('id', 'desc');
-            // return $tickets->get();
-            // });
 
         } elseif ($ticketStatus->count() > 0 && $ticketStatus->slug == $request->query_status) {
 
-            // $tickets = Cache::remember('ticket_' . Auth::id() . '_list', 60 * 60, function () use ($tickets, $ticketStatus) {
-            $tickets->where('ticket_status_id', $ticketStatus->id)
-                ->with(['owners', 'source', 'user', 'team'])
-                ->whereHas('owners')
-                ->whereNotNull('team_id')
-                ->orderBy('id', 'desc');
-            if (!Auth::user()->hasRole('super-admin')) {
-                $tickets->whereHas('owners', function ($query) {
-                    $query->where('owner_id', Auth::id());
-                });
-            }
-            // return $tickets->get();
-            // });
+            $tickets->where('ticket_status_id', $ticketStatus->id);
+
+        }
+
+        if ($request->all()) {
+            $tickets->where(function ($query) use ($request) {
+                if ($request->ticket_id_search) {
+                    $query->where('id', 'like', '%' . $request->ticket_id_search . '%');
+                }
+                if ($request->priority_search) {
+                    $query->where('priority', '=', $request->priority_search);
+                }
+                if ($request->category_search) {
+                    $query->where('category_id', '=', $request->category_search);
+                }
+                if ($request->team_search) {
+                    $query->where('team_id', '=', $request->team_search);
+                }
+                if ($request->status_search) {
+                    $query->where('ticket_status_id', '=', $request->status_search);
+                }
+                if ($request->due_date_search) {
+                    $dueDate = '';
+
+                    switch ($request->due_date_search) {
+                    case 'today':
+                        $todayDate = Carbon::today()->toDateString();
+                        $query->whereDate('due_date', '=', $todayDate);
+                        break;
+
+                    case 'tomorrow':
+                        $tomorrowDate = Carbon::tomorrow()->toDateString();
+                        $query->whereDate('due_date', '=', $tomorrowDate);
+                        break;
+
+                    case 'this_week':
+                        $startOfWeek = Carbon::now()->startOfWeek()->toDateString();
+                        $endOfWeek   = Carbon::now()->endOfWeek()->toDateString();
+                        $query->whereBetween('due_date', [$startOfWeek, $endOfWeek]);
+                        break;
+
+                    case 'this_month':
+                        $startOfMonth = Carbon::now()->startOfMonth()->toDateString();
+                        $endOfMonth   = Carbon::now()->endOfMonth()->toDateString();
+                        $query->whereBetween('due_date', [$startOfMonth, $endOfMonth]);
+                        break;
+
+                    default:
+                        break;
+                    }
+                }
+            });
         }
 
         return DataTables::of($tickets)
+            ->editColumn('category_id', function ($tickets) {
+                return '<span class="font-normal text-gray-400">' . Str::ucfirst($tickets->category->name) . '</span>';
+            })
             ->editColumn('priority', function ($tickets) {
                 return Str::ucfirst($tickets->priority);
             })
@@ -451,7 +479,7 @@ class TicketController extends Controller {
                 return $data;
             })
             ->editColumn('user_id', function ($tickets) {
-                $data = '<div class="p-2 font-normal text-gray-400 flex items-center"><img src="https://i.pravatar.cc/300/5" alt="img" width="40" height="40"
+                $data = '<div class="p-2 font-normal text-gray-400 flex items-center"><img src="https://i.pravatar.cc/300/5" alt="img" width="25" height="25"
                                 style="border-radius: 50%"><span class="ml-2">' . $tickets->user->name . '</span></div>';
                 return $data;
             })
@@ -467,10 +495,7 @@ class TicketController extends Controller {
                 $data = '<span class="font-normal text-gray-400">' . ISODate($tickets?->created_at) . '</span>';
                 return $data;
             })
-            ->addColumn('request_age', function ($tickets) {
-                $data = '<span class="font-normal text-gray-400">' . dayMonthYearHourMininteSecond($tickets?->created_at, true, true, true) . '</span>';
-                return $data;
-            })
+
             ->editColumn('due_date', function ($tickets) {
                 $data = '<span class="font-normal text-gray-400">' . ISOdate($tickets->due_date) . '</span>';
                 return $data;

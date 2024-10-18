@@ -108,7 +108,6 @@
                     <th class="text-start p-2">Assigned Team</th>
                     <th class="text-start p-2">Assigned Agent</th>
                     <th class="text-start p-2">Created Date</th>
-                    <th class="text-start p-2">Request Age</th>
                     <th class="text-start p-2">Due Date</th>
                     <th class="text-start p-2"></th>
                 </tr>
@@ -154,8 +153,8 @@
                             name: 'priority'
                         },
                         {
-                            data: 'category',
-                            name: 'category'
+                            data: 'category_id',
+                            name: 'category_id'
                         },
                         {
                             data: 'ticket_status_id',
@@ -177,10 +176,7 @@
                             data: 'created_at',
                             name: 'created_at'
                         },
-                        {
-                            data: 'request_age',
-                            name: 'request_age'
-                        },
+
                         {
                             data: 'due_date',
                             name: 'due_date'

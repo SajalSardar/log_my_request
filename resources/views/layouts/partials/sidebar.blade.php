@@ -70,7 +70,7 @@
                                 @endphp --}}
                                 @if (Helper::roleWiseMenuPermission($submenu->id))
                                     <li class="py-2 px-2 flex relative">
-                                        <a href="{{ route($submenu->route) }}"
+                                        <a href="{{ $submenu->route == '#' && $submenu->url ? url($submenu->url) : route($submenu->route) }}"
                                             class="pl-1 text-gray-900 font-inter text-sm flex items-center hover:text-[#f84525]">
 
                                             <span
