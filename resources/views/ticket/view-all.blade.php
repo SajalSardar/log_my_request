@@ -127,6 +127,7 @@
                     processing: true,
                     serverSide: true,
                     responsive: true,
+                    searching: false,
                     ajax: {
                         url: "{{ route('admin.ticket.status.wise.list.datatable') }}",
                         type: "GET",
@@ -177,7 +178,7 @@
                             data: 'created_at',
                             name: 'created_at'
                         },
-                        
+
                         {
                             data: 'due_date',
                             name: 'due_date'
