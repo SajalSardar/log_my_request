@@ -41,11 +41,10 @@
 
 </main>
 @livewireScripts
-{{-- <script src="https://unpkg.com/@popperjs/core@2"></script> --}}
-<!-- <script src="{{ asset('assets/js/jquery-3.7.1.slim.min.js') }}"></script> -->
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+
+<script src="{{ asset('assets/js/jquery.min.js') }}"></script>
 <script src="{{ asset('assets/js/select2.min.js') }}"></script>
-<script src="https://cdn.ckeditor.com/ckeditor5/36.0.1/classic/ckeditor.js"></script>
+<script src="{{ asset('assets/js/ckeditor.js') }}"></script>
 <script src="{{ asset('vendor/datatable/dataTables.min.js') }}"></script>
 <script src="{{ asset('assets/js/script.js') }}"></script>
 <script src="{{ asset('assets/js/custom.js') }}"></script>
