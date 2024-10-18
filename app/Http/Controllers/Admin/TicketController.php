@@ -22,6 +22,7 @@ use App\Models\TicketOwnership;
 use App\LocaleStorage\Fileupload;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
+use App\Http\Resources\ConversationResource;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Hash;
@@ -177,10 +178,9 @@ class TicketController extends Controller
         $agents               = Team::query()->with('agents')->where('id', $ticket?->team_id)->get();
         $users                = User::whereNotIn('id', [1])->select('id', 'name', 'email')->get();
         $histories              = TicketNote::query()->where('ticket_id', $ticket->id)->select('id', 'note', 'old_status', 'new_status')->get();
-        $conversations = Conversation::orderBy('created_at')->where('ticket_id', $ticket->id)->get()->groupBy(function ($query) {
+        $conversations = Conversation::orderBy('created_at')->with('replay')->where('ticket_id', $ticket->id)->get()->groupBy(function ($query) {
             return date('Y m d', strtotime($query->created_at));
         });
-
 
         $ticketStatusWiseList = Ticket::query()
             ->where('ticket_status_id', $ticket->ticket_status_id)
