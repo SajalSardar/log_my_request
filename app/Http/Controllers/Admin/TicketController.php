@@ -111,6 +111,9 @@ class TicketController extends Controller {
         Gate::authorize('viewAny', Ticket::class);
 
         $tickets = Ticket::query()->with(['owners', 'source', 'user', 'team', 'category', 'ticket_status']);
+        if (Auth::user()->hasRole('requester')) {
+            $tickets->where('user_id', Auth::id());
+        }
 
         if ($request->all()) {
             $tickets->where(function ($query) use ($request) {
@@ -372,6 +375,10 @@ class TicketController extends Controller {
         }
 
         $tickets = Ticket::query()->with(['owners', 'source', 'user', 'team', 'category', 'ticket_status']);
+
+        if (Auth::user()->hasRole('requester')) {
+            $tickets->where('user_id', Auth::id());
+        }
 
         if ($request->query_status == 'unassign') {
 

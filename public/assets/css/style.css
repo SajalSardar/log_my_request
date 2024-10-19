@@ -307,3 +307,11 @@
     font-size: 14px;
     text-align: left;
  }
+
+ .menu_icon{
+    height: 13px;
+    width: 13px;
+ }
+.menu_icon_color{
+    stroke:#6D4DFF;
+}

@@ -20,16 +20,20 @@
         </li>
 
     </ul>
-    <ul class="flex mb-0 list-none">
-        <li class="-mb-px last:mr-0 px-2 text-center" x-on:click="$dispatch('open-offcanvas-requester')">
-            <a class="cursor-pointer text-sm font-semibold font-inter py-3 px-2 block bg-transparent text-black-400">
-                <i class="fas fa-space-shuttle text-base mr-1"></i> Add New Requester
-            </a>
-        </li>
-        <li class="-mb-px last:mr-0 px-2 text-center" x-on:click="$dispatch('open-offcanvas-request')">
-            <a class="cursor-pointer text-sm font-semibold font-inter py-3 px-2 block bg-transparent text-black-400">
-                <i class="fas fa-cog text-base mr-1"></i> Edit Details
-            </a>
-        </li>
-    </ul>
+    @if (!Auth::user()->hasRole('requester'))
+        <ul class="flex mb-0 list-none">
+            <li class="-mb-px last:mr-0 px-2 text-center" x-on:click="$dispatch('open-offcanvas-requester')">
+                <a
+                    class="cursor-pointer text-sm font-semibold font-inter py-3 px-2 block bg-transparent text-black-400">
+                    <i class="fas fa-space-shuttle text-base mr-1"></i> Add New Requester
+                </a>
+            </li>
+            <li class="-mb-px last:mr-0 px-2 text-center" x-on:click="$dispatch('open-offcanvas-request')">
+                <a
+                    class="cursor-pointer text-sm font-semibold font-inter py-3 px-2 block bg-transparent text-black-400">
+                    <i class="fas fa-cog text-base mr-1"></i> Edit Details
+                </a>
+            </li>
+        </ul>
+    @endif
 </div>

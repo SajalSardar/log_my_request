@@ -59,7 +59,7 @@ class TicketService {
                 'requester_type_id' => $request?->requester_type_id,
                 'requester_id'      => $request?->requester_id,
             ]);
-            $this->user->assignRole('agent');
+            $this->user->assignRole('requester');
         }
 
         $response = Ticket::create(
@@ -119,6 +119,17 @@ class TicketService {
 
         DB::beginTransaction();
         try {
+            if (!empty($requester)) {
+                $requester->update(
+                    [
+                        'phone'             => $request->requester_phone,
+                        'name'              => $request->requester_name,
+                        'requester_type_id' => $request->requester_type_id,
+                        'requester_id'      => $request->requester_id,
+                    ]
+                );
+            }
+
             $ticket_status = TicketStatus::query()->where('id', $ticket->ticket_status_id)->first();
 
             if ($request->owner_id && ($ticket->owners->isEmpty() || $ticket->owners->last()->id != $request->owner_id)) {
