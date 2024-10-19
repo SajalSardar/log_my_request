@@ -21,60 +21,44 @@
             </span>
         </li>
         @foreach (Helper::getAllMenus() as $menu)
+            @php
+                $subMenuRouts = $menu->submneus->pluck('route')->toArray();
 
-            @if (Helper::roleWiseMenuPermission($menu->id))
-                @php
-                    $subMenuRouts = $menu->submneus->pluck('route')->toArray();
+                $sbMenu = [];
+                foreach ($subMenuRouts as $key => $subMenuRout) {
+                    $exMenu = explode('.', $subMenuRout);
+                    array_pop($exMenu);
+                    $exnew = join('.', $exMenu);
+                    $sbMenu[] = $exnew . '.*';
+                }
+            @endphp
+            <li class="group  pl-4 relative {{ Route::is($sbMenu) ? 'selected' : '' }} ">
+                <a href="{{ $menu->route == '#' ? '#' : route($menu->route) }}"
+                    class="block py-2 text-sm items-center text-gray-900 hover:bg-orange-100 hover:before:bg-primary-400 before:absolute before:rounded-r-xl before:content-[''] before:w-[2px] before:h-[35px] before:top-0 {{ Route::is($menu->route) || Route::is($sbMenu) || url($menu->url) == Request::fullUrl() ? 'font-semibold bg-orange-100 before:bg-primary-400' : '' }} {{ count($menu->submneus) > 0 ? 'sidebar-dropdown-toggle' : '' }} ">
 
-                    $sbMenu = [];
-                    foreach ($subMenuRouts as $key => $subMenuRout) {
-                        $exMenu = explode('.', $subMenuRout);
-                        array_pop($exMenu);
-                        $exnew = join('.', $exMenu);
-                        $sbMenu[] = $exnew . '.*';
-                    }
-                @endphp
-                <li class="group  pl-4 relative {{ Route::is($sbMenu) ? 'selected' : '' }} ">
-                    <a href="{{ $menu->route == '#' ? '#' : route($menu->route) }}"
-                        class="block py-2 text-sm items-center text-gray-900 hover:bg-orange-100 hover:before:bg-primary-400 before:absolute before:rounded-r-xl before:content-[''] before:w-[2px] before:h-[35px] before:top-0 {{ Route::is($menu->route) || Route::is($sbMenu) || url($menu->url) == Request::fullUrl() ? 'font-semibold bg-orange-100 before:bg-primary-400' : '' }} {{ count($menu->submneus) > 0 ? 'sidebar-dropdown-toggle' : '' }} ">
+                    <span class="flex items-center text-sm">
+                        <span class="pl-1">{!! $menu->icon !!}</span>
+                        <span class="font-inter  ml-1">{{ $menu->name }}</span>
+                    </span>
+                </a>
+                @if (count($menu->submneus) > 0)
+                    <ul class="ml-3 mt-2 hidden group-[.selected]:block">
+                        @foreach ($menu->submneus as $submenu)
+                            <li class="relative">
+                                <a href="{{ $submenu->route == '#' && $submenu->url ? url($submenu->url) : route($submenu->route) }}"
+                                    class="pl-1 py-2 px-2 text-gray-900 font-inter text-sm flex items-center block hover:bg-orange-100 hover:before:bg-primary-400 before:absolute before:rounded-r-xl before:content-[''] before:w-[2px] before:h-full before:top-0 before:left-0 {{ Route::is($submenu->route) || url($submenu->url) == Request::fullUrl() ? 'font-semibold bg-orange-100 before:bg-primary-400' : '' }}">
 
-                        <span class="flex items-center text-sm">
-                            <span class="pl-1">{!! $menu->icon !!}</span>
-                            <span class="font-inter  ml-1">{{ $menu->name }}</span>
-                        </span>
-                    </a>
-                    @if (count($menu->submneus) > 0)
-                        <ul class="ml-3 mt-2 hidden group-[.selected]:block">
-                            @foreach ($menu->submneus as $submenu)
-                                {{-- @php
-                                    $submenuRoute = '';
-                                    $exsubmenuRoute = explode('.', $submenu->route);
-                                    array_pop($exsubmenuRoute);
-                                    $exsubmenuRoutenew = join('.', $exsubmenuRoute);
+                                    <span class="flex items-center">
+                                        <span class="pl-1"> {!! $submenu->icon !!}</span>
+                                        <span class="font-inter ml-1">{{ $submenu->name }}</span>
+                                    </span>
+                                </a>
+                            </li>
+                        @endforeach
 
-                                    $submenuRoute = $exsubmenuRoutenew . '.*';
-                                    echo $submenuRoute . PHP_EOL;
-                                    echo Route::currentRouteName() . PHP_EOL;
-                                    echo $submenu->route;
-                                @endphp --}}
-                                @if (Helper::roleWiseMenuPermission($submenu->id))
-                                    <li class="relative">
-                                        <a href="{{ $submenu->route == '#' && $submenu->url ? url($submenu->url) : route($submenu->route) }}"
-                                            class="pl-1 py-2 px-2 text-gray-900 font-inter text-sm flex items-center block hover:bg-orange-100 hover:before:bg-primary-400 before:absolute before:rounded-r-xl before:content-[''] before:w-[2px] before:h-full before:top-0 before:left-0 {{ Route::is($submenu->route) || url($submenu->url) == Request::fullUrl() ? 'font-semibold bg-orange-100 before:bg-primary-400' : '' }}">
-
-                                            <span class="flex items-center">
-                                                <span class="pl-1"> {!! $submenu->icon !!}</span>
-                                                <span class="font-inter ml-1">{{ $submenu->name }}</span>
-                                            </span>
-                                        </a>
-                                    </li>
-                                @endif
-                            @endforeach
-
-                        </ul>
-                    @endif
-                </li>
-            @endif
+                    </ul>
+                @endif
+            </li>
         @endforeach
     </ul>
 </div>
