@@ -114,7 +114,6 @@
             aElements = ulElement.querySelectorAll("li > a");
             tabContents = document.getElementById("tabs-id").querySelectorAll(".tab-content > div");
 
-            // Loop through all tabs and reset them to inactive styles
             for (let i = 0; i < aElements.length; i++) {
                 aElements[i].classList.remove("text-white");
                 aElements[i].classList.remove("bg-primary-400");
@@ -124,13 +123,11 @@
                 tabContents[i].classList.remove("block");
             }
 
-            // Apply active styles to the clicked tab
             element.classList.remove("text-black-400");
             element.classList.remove("bg-transparent");
             element.classList.add("text-white");
             element.classList.add("bg-primary-400");
 
-            // Show the corresponding content
             document.getElementById(tabID).classList.remove("hidden");
             document.getElementById(tabID).classList.add("block");
         }
@@ -182,7 +179,7 @@
                 const isVisible = textarea.style.opacity === '1';
                 if (isVisible) {
                     textarea.style.opacity = '0';
-                    textarea.style.maxHeight = '0'; 
+                    textarea.style.maxHeight = '0';
                 } else {
                     textarea.style.opacity = '1';
                     textarea.style.maxHeight = '150px';

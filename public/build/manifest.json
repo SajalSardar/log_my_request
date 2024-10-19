@@ -1,6 +1,10 @@
 {
   "resources/css/app.css": {
+<<<<<<< HEAD
     "file": "assets/app-CcazhO8s.css",
+=======
+    "file": "assets/app-f89X4Cet.css",
+>>>>>>> shahalam
     "src": "resources/css/app.css",
     "isEntry": true
   },
