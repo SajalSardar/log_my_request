@@ -69,10 +69,8 @@
  /* navbar css */
 
  .navbar {
-     /* margin-left: 256px; */
      padding: 8px 0;
      background: #F8FAFF;
-     position: fixed;
      left: 0;
      top: 0;
  }
@@ -306,4 +304,27 @@
  #data-table  td{
     font-size: 14px;
     text-align: left;
+    padding: 0 8px;
  }
+
+ .menu_icon{
+    height: 13px;
+    width: 13px;
+ }
+.menu_icon_color{
+    stroke:#6D4DFF;
+}
+
+div.dt-container select.dt-input{
+    width: 100px;
+}
+
+div.dt-container .dt-paging .dt-paging-button{
+    padding: 0!important;
+}
+div.dt-container .dt-paging .dt-paging-button.current, 
+div.dt-container .dt-paging .dt-paging-button.current:hover{
+    border: none!important;
+    background: transparent !important;
+    color: rgb(243 109 0)!important;
+}

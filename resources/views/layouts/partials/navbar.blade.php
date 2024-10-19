@@ -146,7 +146,7 @@
 
             </div>
             <div class="toggle-menu absolute z-50 p-3 shadow-lg w-[200px] rounded bg-white sm:right-12 z-50"
-                style="top: 75px;display:none">
+                style="top: 46px;display:none">
                 <ul>
                     <li class="py-2">
                         <p href="#" class="font-normal text-slate-700">
@@ -154,7 +154,7 @@
                         </p>
                     </li>
                     <li class="py-2">
-                        <a href="#" class="font-normal text-slate-700">Profile</a>
+                        <a href="{{ route('profile.edit') }}" class="font-normal text-slate-700">Profile</a>
                     </li>
                     <li class="py-2">
                         <form action="{{ route('logout') }}" method="POST">

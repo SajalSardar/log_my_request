@@ -1,7 +1,10 @@
 <x-app-layout>
-    <div class="mb-10">
-        <form action="">
-            <div class="grid md:grid-cols-6 sm:grid-cols-1 sm:gap-1 md:gap-4">
+    <div class="flex mb-8">
+        <div class="flex-none  w-48">
+            <p class="font-bold">{{ Str::ucfirst(request()->get('ticket_status')) }} request</p>
+        </div>
+        <div class="flex-1">
+            <div class="flex justify-between">
                 <div>
                     <x-forms.text-input id="ticket_id_search" class="text-sm" placeholder="Ticket Id" />
                 </div>
@@ -72,9 +75,22 @@
                         @click="due_date_x = '';$nextTick(() => $('#due_date_search').trigger('change'))">✕</span>
                 </div>
 
+                <div>
+                    <x-actions.href href="{{ route('admin.ticket.create') }}" class="!px-2 !py-0.5 inline-block">
+                        Create Ticket
+                        <svg class="inline-block" fill="none" width="15" height="15" viewBox="0 0 24 24"
+                            stroke-width="1.5" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round"
+                                d="M12 9v6m3-3H9m12 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
+                        </svg>
+
+                    </x-actions.href>
+                </div>
             </div>
-        </form>
+        </div>
     </div>
+
+
     <div class="relative">
         <table class="display nowrap" id="data-table" style="width: 100%">
             <thead>

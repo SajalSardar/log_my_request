@@ -102,6 +102,7 @@ class TicketController extends Controller {
     }
 
     public function allTicketList() {
+        Gate::authorize('viewAny', Ticket::class);
         $categories   = Category::where('status', 1)->get();
         $teams        = Team::where('status', 1)->get();
         $ticketStatus = TicketStatus::where('status', 1)->get();
@@ -111,6 +112,9 @@ class TicketController extends Controller {
         Gate::authorize('viewAny', Ticket::class);
 
         $tickets = Ticket::query()->with(['owners', 'source', 'user', 'team', 'category', 'ticket_status']);
+        if (Auth::user()->hasRole('requester')) {
+            $tickets->where('user_id', Auth::id());
+        }
 
         if ($request->all()) {
             $tickets->where(function ($query) use ($request) {
@@ -179,14 +183,14 @@ class TicketController extends Controller {
             ->editColumn('ticket_status_id', function ($tickets) {
                 $data = "";
                 if ($tickets->ticket_status->name === 'in progress') {
-                    $data .= '<span class="!bg-process-400 text-white rounded px-2 font-inter block">' . $tickets->ticket_status->name . '</span>';
+                    $data .= '<span class="!bg-process-400 text-white rounded px-3 py-1 font-inter text-sm block">' . $tickets->ticket_status->name . '</span>';
                 } elseif ($tickets->ticket_status->name === 'open') {
 
-                    $data .= '<span class="!bg-green-400 text-white rounded px-2 font-inter">' . $tickets->ticket_status->name . '</span>';
+                    $data .= '<span class="!bg-green-400 text-white rounded px-3 py-1 font-inter text-sm">' . $tickets->ticket_status->name . '</span>';
                 } elseif ($tickets->ticket_status->name === 'on hold') {
-                    $data .= '<span class="!bg-orange-400 text-white rounded px-2 font-inter">' . $tickets->ticket_status->name . '</span>';
+                    $data .= '<span class="!bg-orange-400 text-white rounded px-3 py-1 font-inter text-sm">' . $tickets->ticket_status->name . '</span>';
                 } else {
-                    $data .= '<span class="!bg-gray-400 text-white rounded px-2 font-inter">' . $tickets->ticket_status->name . '</span>';
+                    $data .= '<span class="!bg-gray-400 text-white rounded px-3 py-1 font-inter text-sm">' . $tickets->ticket_status->name . '</span>';
                 }
                 return $data;
             })
@@ -298,7 +302,7 @@ class TicketController extends Controller {
         $agents               = Team::query()->with('agents')->where('id', $ticket?->team_id)->get();
         $users                = User::whereNotIn('id', [1])->select('id', 'name', 'email')->get();
         $histories            = TicketNote::query()->where('ticket_id', $ticket->id)->select('id', 'note', 'old_status', 'new_status')->get();
-        $conversations        = Conversation::orderBy('created_at')->with('replay')->where('ticket_id', $ticket->id)->get()->groupBy(function ($query) {
+        $conversations        = Conversation::orderBy('created_at')->where('parent_id', null)->with('replay')->where('ticket_id', $ticket->id)->get()->groupBy(function ($query) {
             return date('Y m d', strtotime($query->created_at));
         });
 
@@ -373,6 +377,10 @@ class TicketController extends Controller {
 
         $tickets = Ticket::query()->with(['owners', 'source', 'user', 'team', 'category', 'ticket_status']);
 
+        if (Auth::user()->hasRole('requester')) {
+            $tickets->where('user_id', Auth::id());
+        }
+
         if ($request->query_status == 'unassign') {
 
             $tickets->leftJoin('ticket_ownerships as towner', 'tickets.id', '=', 'towner.ticket_id')
@@ -436,11 +444,14 @@ class TicketController extends Controller {
         }
 
         return DataTables::of($tickets)
-            ->editColumn('category_id', function ($tickets) {
-                return '<span class="font-normal text-gray-400">' . Str::ucfirst($tickets->category->name) . '</span>';
+            ->editColumn('title', function ($tickets) {
+                return '<a href="' . route('admin.ticket.show', ['ticket' => $tickets?->id]) . '" class="font-normal text-gray-400 hover:text-amber-500 hover:underline">' . Str::limit(ucfirst($tickets->title), 30, '...') . '</a>';
             })
             ->editColumn('priority', function ($tickets) {
-                return Str::ucfirst($tickets->priority);
+                return '<span class="font-normal text-gray-400">' . Str::ucfirst($tickets->priority) . '</span>';
+            })
+            ->editColumn('category_id', function ($tickets) {
+                return '<span class="font-normal text-gray-400">' . Str::ucfirst($tickets->category->name) . '</span>';
             })
             ->editColumn('status', function ($tickets) {
                 $data = "";

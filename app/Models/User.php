@@ -9,8 +9,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Spatie\Permission\Traits\HasRoles;
 
-class User extends Authenticatable
-{
+class User extends Authenticatable {
     use HasFactory, Notifiable, HasRoles, SoftDeletes;
 
     /**
@@ -43,25 +42,21 @@ class User extends Authenticatable
      *
      * @return array<string, string>
      */
-    protected function casts(): array
-    {
+    protected function casts(): array {
         return [
             'email_verified_at' => 'datetime',
             'password'          => 'hashed',
         ];
     }
 
-    public function tickets()
-    {
+    public function tickets() {
         return $this->belongsToMany(Ticket::class, 'ticket_ownerships', 'owner_id', 'ticket_id');
     }
-    public function teams()
-    {
+    public function teams() {
         return $this->belongsToMany(Team::class, 'team_user', 'user_id', 'team_id');
     }
 
-    public function requester_type()
-    {
+    public function requester_type() {
         return $this->belongsTo(RequesterType::class, 'requester_type_id', 'id');
     }
 }
