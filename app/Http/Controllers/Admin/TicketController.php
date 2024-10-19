@@ -102,6 +102,7 @@ class TicketController extends Controller {
     }
 
     public function allTicketList() {
+        Gate::authorize('viewAny', Ticket::class);
         $categories   = Category::where('status', 1)->get();
         $teams        = Team::where('status', 1)->get();
         $ticketStatus = TicketStatus::where('status', 1)->get();
@@ -182,14 +183,14 @@ class TicketController extends Controller {
             ->editColumn('ticket_status_id', function ($tickets) {
                 $data = "";
                 if ($tickets->ticket_status->name === 'in progress') {
-                    $data .= '<span class="!bg-process-400 text-white rounded px-2 font-inter block">' . $tickets->ticket_status->name . '</span>';
+                    $data .= '<span class="!bg-process-400 text-white rounded px-3 py-1 font-inter text-sm block">' . $tickets->ticket_status->name . '</span>';
                 } elseif ($tickets->ticket_status->name === 'open') {
 
-                    $data .= '<span class="!bg-green-400 text-white rounded px-2 font-inter">' . $tickets->ticket_status->name . '</span>';
+                    $data .= '<span class="!bg-green-400 text-white rounded px-3 py-1 font-inter text-sm">' . $tickets->ticket_status->name . '</span>';
                 } elseif ($tickets->ticket_status->name === 'on hold') {
-                    $data .= '<span class="!bg-orange-400 text-white rounded px-2 font-inter">' . $tickets->ticket_status->name . '</span>';
+                    $data .= '<span class="!bg-orange-400 text-white rounded px-3 py-1 font-inter text-sm">' . $tickets->ticket_status->name . '</span>';
                 } else {
-                    $data .= '<span class="!bg-gray-400 text-white rounded px-2 font-inter">' . $tickets->ticket_status->name . '</span>';
+                    $data .= '<span class="!bg-gray-400 text-white rounded px-3 py-1 font-inter text-sm">' . $tickets->ticket_status->name . '</span>';
                 }
                 return $data;
             })
