@@ -2,7 +2,8 @@
     <div class="flex h-full sm:justify-center lg:justify-center md:justify-center items-center">
         <div class="grid sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-2">
             <div class="flex justify-center sm:px-5 sm:py-12 md:px-10 md:py-24 lg:px-20 lg:py-32 items-center">
-                <form method="POST" action="{{ route('login') }}" class="border border-slate-300 rounded py-10 px-10 w-full">
+                <form method="POST" action="{{ route('login') }}"
+                    class="border border-slate-300 rounded py-10 px-10 w-full">
                     @csrf
                     <h3 class="font-bold text-2xl">SIGN IN</h3>
                     <x-auth-session-status class="mb-4" :status="session('status')" />
@@ -10,15 +11,15 @@
                     <div class="mt-3">
                         <x-forms.text-input-icon type="email" name="email" placeholder="Email Address"
                             :value="old('email')" dir="start">
-                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none"
                                 xmlns="http://www.w3.org/2000/svg">
                                 <g clip-path="url(#clip0_1_4773)">
                                     <path
                                         d="M4 4H20C21.1 4 22 4.9 22 6V18C22 19.1 21.1 20 20 20H4C2.9 20 2 19.1 2 18V6C2 4.9 2.9 4 4 4Z"
                                         stroke="#666666" stroke-width="1.5" stroke-linecap="round"
                                         stroke-linejoin="round" />
-                                    <path d="M22 6L12 13L2 6" stroke="#666666" stroke-width="1.5"
-                                        stroke-linecap="round" stroke-linejoin="round" />
+                                    <path d="M22 6L12 13L2 6" stroke="#666666" stroke-width="1.5" stroke-linecap="round"
+                                        stroke-linejoin="round" />
                                 </g>
                                 <defs>
                                     <clipPath id="clip0_1_4773">
@@ -31,9 +32,8 @@
                     </div>
 
                     <div class="mt-3">
-                        <x-forms.text-input-icon type="password" name="password" placeholder="Password"
-                            dir="start">
-                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
+                        <x-forms.text-input-icon type="password" name="password" placeholder="Password" dir="start">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none"
                                 xmlns="http://www.w3.org/2000/svg">
                                 <path
                                     d="M19 11H5C3.89543 11 3 11.8954 3 13V20C3 21.1046 3.89543 22 5 22H19C20.1046 22 21 21.1046 21 20V13C21 11.8954 20.1046 11 19 11Z"
@@ -73,9 +73,9 @@
                     </div>
 
                     <div class="mt-3">
-                        <a href="#" class="inline-block border border-slate-200 rounded-lg p-3 w-full text-center">
-                            <img class="inline-block" src="{{ asset('assets/icons/goolge-logo.png') }}"
-                                alt="google">
+                        <a href="#"
+                            class="inline-block border border-slate-200 rounded-lg p-3 w-full text-center">
+                            <img class="inline-block" src="{{ asset('assets/icons/goolge-logo.png') }}" alt="google">
                             <span class="pl-2 sm:hidden md:inline-block text-center">Sign in with Google</span>
                             <span class="pl-2 md:hidden">Sign In</span>
                         </a>
