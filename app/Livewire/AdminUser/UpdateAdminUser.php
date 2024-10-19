@@ -2,25 +2,22 @@
 
 namespace App\Livewire\AdminUser;
 
+use App\Livewire\Forms\AdminUserUpdateRequest;
+use App\Services\AdminUser\AdminUserService;
 use Livewire\Component;
 use Spatie\Permission\Models\Role;
-use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Crypt;
-use App\Services\AdminUser\AdminUserService;
-use App\Livewire\Forms\AdminUserUpdateRequest;
 
-class UpdateAdminUser extends Component
-{
+class UpdateAdminUser extends Component {
     /**
      * Define publlic property $roles
      * @var array|object
      */
-    public array|object $roles;
+    public array | object $roles;
 
     /**
      * Define public property $user;
      */
-    public array|object $user;
+    public array | object $user;
 
     /**
      * Define public form method AdminUserUpdateRequest $form;
@@ -31,12 +28,10 @@ class UpdateAdminUser extends Component
      * Define public method mount()
      * @return void
      */
-    public function mount(): void
-    {
-        $this->form->ignore = $this->user->id;
-        $this->form->name = $this->user?->name;
-        $this->form->email = $this->user?->email;
-        $this->form->password = $this->user?->password;
+    public function mount(): void {
+        $this->form->ignore  = $this->user->id;
+        $this->form->name    = $this->user?->name;
+        $this->form->email   = $this->user?->email;
         $this->form->role_id = $this->user->roles->first()->id;
     }
 
@@ -44,16 +39,14 @@ class UpdateAdminUser extends Component
      * Define public method update() to update the resourses
      * @return void
      */
-    public function update(AdminUserService $service): void
-    {
+    public function update(AdminUserService $service): void {
         $this->validate(rules: $this->form->rules(), attributes: $this->form->attributes());
         $isUpdate = $service->update($this->user, $this->form);
         $response = $isUpdate ? 'Data has been update sccessfully !' : 'Something went wrong !';
         flash()->success($response);
     }
 
-    public function render()
-    {
+    public function render() {
         $this->roles = Role::query()->whereNotIn('id', [1])->get();
         return view('livewire.adminuser.update-adminuser');
     }

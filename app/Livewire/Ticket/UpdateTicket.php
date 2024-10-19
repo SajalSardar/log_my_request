@@ -11,8 +11,11 @@ use App\Models\Source;
 use App\Models\Team;
 use App\Models\TeamCategory;
 use App\Models\Ticket;
+use App\Models\TicketLog;
+use App\Models\TicketNote;
 use App\Models\TicketStatus;
 use App\Services\Ticket\TicketService;
+use Illuminate\Support\Facades\Auth;
 use Livewire\Component;
 use Livewire\Features\SupportFileUploads\WithFileUploads;
 
@@ -120,10 +123,50 @@ class UpdateTicket extends Component {
         $isUpload = $this->form->request_attachment ? Fileupload::updateFile($this->form, Bucket::TICKET, $this->ticket, $this->ticket->getKey(), Ticket::class) : '';
         $response = $isCreate ? 'Data has been update successfuly' : 'Something went wrong';
         flash()->success($response);
-        return redirect()->to('dashboard/ticket');
+        return redirect()->to('dashboard/ticket-list');
+    }
+
+    public function requesterUpdate() {
+        $this->validate([
+            'form.request_title' => ['required'],
+            'form.category_id'   => ['required'],
+        ]);
+
+        $this->ticket->update(
+            [
+                'category_id' => $this->form->category_id,
+                'title'       => $this->form->request_title,
+                'description' => $this->form->request_description,
+                'updated_by'  => Auth::id(),
+            ]
+        );
+        $isUpload = $this->form->request_attachment ? Fileupload::uploadFile($this->form, Bucket::TICKET, $this->ticket->getKey(), Ticket::class) : '';
+
+        TicketNote::create([
+            'ticket_id'  => $this->ticket->getKey(),
+            'note_type'  => 'title_desc_updated',
+            'note'       => 'Update title or description!',
+            'created_by' => Auth::user()->id,
+        ]);
+
+        TicketLog::create([
+            'ticket_id'     => $this->ticket->getKey(),
+            'ticket_status' => 'open',
+            'comment'       => json_encode($this->ticket),
+            'status'        => 'title_desc_updated',
+            'created_by'    => Auth::user()->id,
+            'updated_by'    => Auth::user()->id,
+        ]);
+
+        flash()->success('Data has been Save successfully');
+
+        return redirect()->to('dashboard/ticket-list');
     }
 
     public function render() {
+        if (Auth::user()->hasRole('requester')) {
+            return view('livewire.ticket.update-requester');
+        }
         return view('livewire.ticket.update-ticket');
     }
 }

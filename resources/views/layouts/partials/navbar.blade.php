@@ -154,7 +154,7 @@
                         </p>
                     </li>
                     <li class="py-2">
-                        <a href="#" class="font-normal text-slate-700">Profile</a>
+                        <a href="{{ route('profile.edit') }}" class="font-normal text-slate-700">Profile</a>
                     </li>
                     <li class="py-2">
                         <form action="{{ route('logout') }}" method="POST">
