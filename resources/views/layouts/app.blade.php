@@ -18,7 +18,7 @@
     <link rel="stylesheet" href="{{ asset('vendor/datatable/dataTables.dataTables.min.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/css/style.css') }}">
     @yield('style')
-    <link rel="stylesheet" href="{{ asset('build/assets/app-CcazhO8s.css') }}">
+    <link rel="stylesheet" href="{{ asset('build/assets/app-0wP-suyQ.css') }}">
     <script src="{{ asset('build/assets/app-DCrXoRMQ.js') }}"></script>
 </head>
 
