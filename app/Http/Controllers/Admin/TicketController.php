@@ -175,7 +175,7 @@ class TicketController extends Controller
             });
         }
         return DataTables::of($tickets)
-            ->addColumn('status', function () {
+            ->addColumn('select', function () {
                 return '<div class="flex items-center justify-center"><input type="checkbox" class ="border text-center border-slate-200 rounded focus:ring-transparent p-1" style="background-color: #ddd; accent-color: !important #5C5C5C;">
                 </div>';
             })
@@ -463,7 +463,11 @@ class TicketController extends Controller
             });
         }
 
-        return DataTables::of($tickets)
+        return DataTables::of(source: $tickets)
+            ->addColumn('select', function () {
+                return '<div class="flex items-center justify-center"><input type="checkbox" class ="border text-center border-slate-200 rounded focus:ring-transparent p-1" style="background-color: #ddd; accent-color: !important #5C5C5C;">
+            </div>';
+            })
             ->editColumn('title', function ($tickets) {
                 return '<a href="' . route('admin.ticket.show', ['ticket' => $tickets?->id]) . '" class="text-title hover:text-amber-500 hover:underline">' . Str::limit(ucfirst($tickets->title), 30, '...') . '</a>';
             })
@@ -476,14 +480,13 @@ class TicketController extends Controller
             ->editColumn('status', function ($tickets) {
                 $data = "";
                 if ($tickets->ticket_status->name === 'in progress') {
-                    $data .= '<span class="!bg-process-400 text-white rounded px-3 py-1 font-inter text-sm block">' . $tickets->ticket_status->name . '</span>';
+                    $data .= '<span style="width:102px;display:inline-block;text-align:center" class="py-2 !bg-process-400 text-white rounded px-3 font-inter text-sm block">' . $tickets->ticket_status->name . '</span>';
                 } elseif ($tickets->ticket_status->name === 'open') {
-
-                    $data .= '<span class="!bg-green-400 text-white rounded px-3 py-1 font-inter text-sm">' . $tickets->ticket_status->name . '</span>';
+                    $data .= '<span style="width:102px;display:inline-block;text-align:center" class="py-2 !bg-green-400 text-white rounded px-3 font-inter text-sm">' . $tickets->ticket_status->name . '</span>';
                 } elseif ($tickets->ticket_status->name === 'on hold') {
-                    $data .= '<span class="!bg-orange-400 text-white rounded px-3 py-1 font-inter text-sm">' . $tickets->ticket_status->name . '</span>';
+                    $data .= '<span style="width:102px;display:inline-block;text-align:center" class="py-2 !bg-orange-400 text-white rounded px-3 font-inter text-sm">' . $tickets->ticket_status->name . '</span>';
                 } else {
-                    $data .= '<span class="!bg-gray-400 text-white rounded px-3 py-1 font-inter text-sm">' . $tickets->ticket_status->name . '</span>';
+                    $data .= '<span style="width:102px;display:inline-block;text-align:center" class="py-2 !bg-gray-400 text-white rounded px-3 font-inter text-sm">' . $tickets->ticket_status->name . '</span>';
                 }
                 return $data;
             })

@@ -135,8 +135,8 @@
                 },
                 columns: [
                     {
-                        data: 'status',
-                        name: 'status'
+                        data: 'select',
+                        name: 'select'
                     },
                     {
                         data: 'id',
