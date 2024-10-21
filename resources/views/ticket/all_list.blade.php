@@ -1,16 +1,22 @@
 <x-app-layout>
     <div class="flex mb-10">
         <div class="flex-none  w-48">
-            <p class="font-bold">All request</p>
+            <p class="text-heading-dark">All request</p>
+            <span class="text-caption">(Showing 19 of 120 requests)</span>
         </div>
         <div class="flex-1">
             <div class="flex justify-between">
                 <div>
                     <input type="hidden" id="me_mode_search" value="{{ Route::is('admin.ticket.list.active.memode') ? 'me_mode' : '' }}">
-                    <x-forms.text-input id="ticket_id_search" class="text-sm" placeholder="Ticket Id" />
+                    <x-forms.text-input-icon dir="start" id="ticket_id_search" class="text-sm" placeholder="Search ID or Name">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M11 19C15.4183 19 19 15.4183 19 11C19 6.58172 15.4183 3 11 3C6.58172 3 3 6.58172 3 11C3 15.4183 6.58172 19 11 19Z" stroke="#666666" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                            <path d="M21.0004 20.9999L16.6504 16.6499" stroke="#666666" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                        </svg>
+                    </x-forms.text-input-icon>
                 </div>
                 <div class="relative" x-data="{ priority: '' }">
-                    <x-forms.select-input x-model="priority" class="text-sm" name='priority_search' id="priority_search">
+                    <x-forms.select-input x-model="Priority" name='priority_search' id="priority_search">
                         <option value="">Priority</option>
                         <option value="low">Low</option>
                         <option value="medium">Medium</option>
@@ -21,8 +27,8 @@
                 <div class="relative" x-data="{ status: '' }">
                     <x-forms.select-input x-model="status" class="text-sm" id="status_search">
                         <option value="">Status</option>
-                        @foreach ($ticketStatus as $ticketStatus)
-                            <option value="{{ $ticketStatus->id }}">{{ $ticketStatus->name }}</option>
+                        @foreach ($ticketStatus as $item)
+                            <option value="{{ $item->id }}">{{ $item->name }}</option>
                         @endforeach
                     </x-forms.select-input>
                     <span x-show="status" class="absolute top-1 end-9 text-surface cursor-pointer focus:text-primary outline-none dark:text-white text-base" tabindex="0" style="display: block;" @click="status = '';$nextTick(() => $('#status_search').trigger('change'))">✕</span>
@@ -56,9 +62,9 @@
                     <span x-show="due_date_x" class="absolute top-1 end-9 text-surface cursor-pointer focus:text-primary outline-none dark:text-white text-base" tabindex="0" style="display: block;" @click="due_date_x = '';$nextTick(() => $('#due_date_search').trigger('change'))">✕</span>
                 </div>
                 <div>
-                    <x-actions.href href="{{ route('admin.ticket.create') }}" class="inline-block">
-                        Create Ticket
-                        <svg class="inline-block" fill="none" width="15" height="15" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                    <x-actions.href href="{{ route('admin.ticket.create') }}" class="flex items-center gap-1 text-heading-light">
+                        <span>Create Ticket</span>
+                        <svg fill="none" width="24" height="24" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
                             <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v6m3-3H9m12 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
                         </svg>
                     </x-actions.href>
@@ -71,7 +77,7 @@
         <table class="display nowrap" id="data-table" style="width: 100%">
             <thead>
                 <tr>
-                    {{-- <th class="text-start p-2" style="width: 80px">
+                    <th class="text-start p-2 text-heading-dark" style="width: 80px">
                         <div class="flex items-center">
                             <span>
                                 <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -83,19 +89,19 @@
                             </span>
                             <span class="ms-1">Select</span>
                         </div>
-                    </th> --}}
-                    <th>ID</th>
-                    <th>Title</th>
-                    <th>Priority</th>
-                    <th>Category</th>
-                    <th>Status</th>
-                    <th>Requester Name</th>
-                    <th>Assigned Team</th>
-                    <th>Assigned Agent</th>
-                    <th>Created Date</th>
-                    <th>Request Age</th>
-                    <th>Due Date</th>
-                    <th></th>
+                    </th>
+                    <th class="text-heading-dark">ID</th>
+                    <th class="text-heading-dark">Title</th>
+                    <th class="text-heading-dark">Priority</th>
+                    <th class="text-heading-dark">Category</th>
+                    <th class="text-heading-dark">Status</th>
+                    <th class="text-heading-dark">Requester Name</th>
+                    <th class="text-heading-dark">Assigned Team</th>
+                    <th class="text-heading-dark">Assigned Agent</th>
+                    <th class="text-heading-dark">Created Date</th>
+                    <th class="text-heading-dark">Request Age</th>
+                    <th class="text-heading-dark">Due Date</th>
+                    <th class="text-heading-dark"></th>
                 </tr>
             </thead>
 
@@ -108,6 +114,7 @@
     <script>
         $(function () {
             var dTable = $('#data-table').DataTable({
+                stripeClasses: [],
                 processing: true,
                 serverSide: true,
                 responsive: true,
@@ -130,54 +137,59 @@
                         d.due_date_search = $('#due_date_search').val();
                     }
                 },
-                columns: [{
-                    data: 'id',
-                    name: 'id'
-                },
-                {
-                    data: 'title',
-                    name: 'title'
-                },
-                {
-                    data: 'priority',
-                    name: 'priority'
-                },
-                {
-                    data: 'category_id',
-                    name: 'category_id'
-                },
-                {
-                    data: 'ticket_status_id',
-                    name: 'ticket_status_id'
-                },
-                {
-                    data: 'user_id',
-                    name: 'user_id'
-                },
-                {
-                    data: 'team_id',
-                    name: 'team_id'
-                },
-                {
-                    data: 'agent',
-                    name: 'agent'
-                },
-                {
-                    data: 'created_at',
-                    name: 'created_at'
-                },
-                {
-                    data: 'request_age',
-                    name: 'request_age'
-                },
-                {
-                    data: 'due_date',
-                    name: 'due_date'
-                },
-                {
-                    data: 'action_column',
-                    name: 'action_column'
-                }
+                columns: [
+                    {
+                        data: 'status',
+                        name: 'status'
+                    },
+                    {
+                        data: 'id',
+                        name: 'id'
+                    },
+                    {
+                        data: 'title',
+                        name: 'title'
+                    },
+                    {
+                        data: 'priority',
+                        name: 'priority'
+                    },
+                    {
+                        data: 'category_id',
+                        name: 'category_id'
+                    },
+                    {
+                        data: 'ticket_status_id',
+                        name: 'ticket_status_id'
+                    },
+                    {
+                        data: 'user_id',
+                        name: 'user_id'
+                    },
+                    {
+                        data: 'team_id',
+                        name: 'team_id'
+                    },
+                    {
+                        data: 'agent',
+                        name: 'agent'
+                    },
+                    {
+                        data: 'created_at',
+                        name: 'created_at'
+                    },
+                    {
+                        data: 'request_age',
+                        name: 'request_age'
+                    },
+                    {
+                        data: 'due_date',
+                        name: 'due_date'
+                    },
+                    {
+                        data: 'action_column',
+                        name: 'action_column'
+                    }
                 ]
             });
 

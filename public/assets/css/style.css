@@ -27,19 +27,21 @@
  /* Scrollbar Design Start */
  ::-webkit-scrollbar {
      width: 7px;
+     height: 16px;
  }
 
  ::-webkit-scrollbar-track {
-     background: #f1f1f1;
+     background: #fff;
+     border: 1px solid #ddd;
  }
 
  ::-webkit-scrollbar-thumb {
-     background: #F36D00;
-     border-radius: 8px;
+     background: #ddd;
+     /* border-radius: 8px; */
  }
 
  ::-webkit-scrollbar-thumb:hover {
-     background: #666;
+     background: #ddd;
  }
 
  /* Scrollbar Design End */
