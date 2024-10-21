@@ -18,14 +18,34 @@
                 </tr>
             </thead>
 
-            <tbody class="mt-5">
-                @forelse ($collections as $each)
+
+            @forelse ($collections as $each)
+                <tbody x-data="{ open: false }">
                     <tr class="rounded shadow">
                         <td class="p-3 flex">
-                            <div class="profile">
-                                <img src="{{ $each?->image?->url }}" alt="user_picture">
+                            <div class="mr-2">
+                                <!-- Toggle button -->
+                                <span class="cursor-pointer" @click="open = !open">
+                                    <template x-if="!open">
+                                        <svg fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
+                                            class="size-6">
+                                            <path stroke-linecap="round" stroke-linejoin="round"
+                                                d="M4.5 9.75l7.5 7.5 7.5-7.5" />
+                                        </svg>
+                                    </template>
+                                    <template x-if="open">
+                                        <svg fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
+                                            class="size-6">
+                                            <path stroke-linecap="round" stroke-linejoin="round"
+                                                d="M4.5 14.25l7.5-7.5 7.5 7.5" />
+                                        </svg>
+                                    </template>
+                                </span>
                             </div>
-                            <div class="infos ps-5">
+                            <div class="profile">
+                                <img src="{{ $each?->image?->url }}" alt="user_picture" height="25" width="25">
+                            </div>
+                            <div class="infos ps-5 flex">
                                 <h5 class="font-medium text-slate-900">{{ $each?->name }}</h5>
                             </div>
                         </td>
@@ -48,15 +68,47 @@
                             </div>
                         </td>
                     </tr>
-                @empty
+
+                    <!-- Hidden content with x-show -->
+                    <tr x-show="open" style="display: none;">
+                        <td colspan="6" align="center">
+                            <table class="my-3" style="width: 95%">
+                                <thead class="w-full bg-slate-100">
+                                    <tr>
+                                        <th class="text-start pl-3 py-2">Name</th>
+                                        <th class="text-start pl-3 py-2">Email</th>
+                                        <th class="text-start pl-3 py-2">Role</th>
+                                        <th class="text-start pl-3 py-2">Phone</th>
+                                        <th class="text-start pl-3 py-2">Designation</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach ($each->agents as $agent)
+                                        <tr>
+                                            <td class="p-3 font-normal text-gray-400">{{ $agent->name }}</td>
+                                            <td class="p-3 font-normal text-gray-400">{{ $agent->email }}</td>
+                                            <td class="p-3 font-normal text-gray-400">{{ $agent->roles->first()->name }}
+                                            </td>
+                                            <td class="p-3 font-normal text-gray-400">{{ $agent->phone }}</td>
+                                            <td class="p-3 font-normal text-gray-400">{{ $agent->designation }}</td>
+                                        </tr>
+                                    @endforeach
+
+                                </tbody>
+                            </table>
+                        </td>
+                    </tr>
+                </tbody>
+            @empty
+                <tbody>
                     <tr>
-                        <td colspan="4" class="text-center">
+                        <td colspan="6" class="text-center">
                             <h5 class="font-medium text-slate-900">No data found !!!</h5>
                         </td>
                     </tr>
-                @endforelse
+                </tbody>
+            @endforelse
 
-            </tbody>
         </table>
     </div>
 </x-app-layout>
