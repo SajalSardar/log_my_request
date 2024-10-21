@@ -176,7 +176,7 @@ class TicketController extends Controller
         }
         return DataTables::of($tickets)
             ->addColumn('status', function () {
-                return '<div class="flex items-center justify-center"><input type="checkbox" class = "border text-center border-slate-400 rounded focus:ring-transparent p-1 accent-pink-500">
+                return '<div class="flex items-center justify-center"><input type="checkbox" class ="border text-center border-slate-200 rounded focus:ring-transparent p-1" style="background-color: #ddd; accent-color: !important #5C5C5C;">
                 </div>';
             })
             ->editColumn('title', function ($tickets) {
@@ -191,21 +191,24 @@ class TicketController extends Controller
             ->editColumn('ticket_status_id', function ($tickets) {
                 $data = "";
                 if ($tickets->ticket_status->name === 'in progress') {
-                    $data .= '<span class="!bg-process-400 text-white rounded px-3 py-1 font-inter text-sm block">' . $tickets->ticket_status->name . '</span>';
+                    $data .= '<span style="display:inline-block;width:102px" class="!bg-process-400 text-center text-header-light text-white rounded px-3 py-2 font-inter text-sm block">' . ucfirst($tickets->ticket_status->name) . '</span>';
                 } elseif ($tickets->ticket_status->name === 'open') {
-
-                    $data .= '<span class="!bg-green-400 text-white rounded px-3 py-1 font-inter text-sm">' . $tickets->ticket_status->name . '</span>';
+                    $data .= '<span style="display:inline-block;width:102px" class="bg-red-600 text-center text-header-light text-white rounded px-3 py-2 font-inter text-sm">' . ucfirst($tickets->ticket_status->name) . '</span>';
                 } elseif ($tickets->ticket_status->name === 'on hold') {
-                    $data .= '<span class="!bg-orange-400 text-white rounded px-3 py-1 font-inter text-sm">' . $tickets->ticket_status->name . '</span>';
+                    $data .= '<span style="display:inline-block;width:102px" class="!bg-orange-400 text-center text-header-light text-white rounded px-3 py-2 font-inter text-sm">' . ucfirst($tickets->ticket_status->name) . '</span>';
                 } else {
-                    $data .= '<span class="!bg-gray-400 text-white rounded px-3 py-1 font-inter text-sm">' . $tickets->ticket_status->name . '</span>';
+                    $data .= '<span style="display:inline-block;width:102px" class="!bg-gray-400 text-center text-header-light text-white rounded px-3 py-2 font-inter text-sm" style="width:102px">' . ucfirst($tickets->ticket_status->name) . '</span>';
                 }
                 return $data;
             })
+
             ->editColumn('user_id', function ($tickets) {
-                $data = '<div class="text-title flex items-center"><img src="https://i.pravatar.cc/300/5" alt="img" width="25" height="25"
-                                style="border-radius: 50%"><span class="ml-2">' . $tickets->user->name . '</span></div>';
+                $data = "<div class='text-title flex items-center'>
+            <img src='" . asset('assets/images/profile.jpg') . "' width='40' height='40' style='border-radius: 50%;border:1px solid #eee' alt='profile'>
+            <span class='ml-2'>" . $tickets->user->name . "</span>
+         </div>";
                 return $data;
+
             })
             ->editColumn('team_id', function ($tickets) {
                 $data = '<span class="text-title">' . @$tickets->team->name . '</span>';

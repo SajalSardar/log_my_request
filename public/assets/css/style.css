@@ -303,30 +303,48 @@
  }
 
 
- #data-table  td{
-    font-size: 14px;
-    text-align: left;
-    padding: 0 8px;
+ #data-table td {
+     font-size: 14px;
+     text-align: left;
+     padding: 0 8px;
  }
 
- .menu_icon{
-    height: 13px;
-    width: 13px;
+ .menu_icon {
+     height: 13px;
+     width: 13px;
  }
-.menu_icon_color{
-    stroke:#6D4DFF;
-}
 
-div.dt-container select.dt-input{
-    width: 100px;
-}
+ .menu_icon_color {
+     stroke: #6D4DFF;
+ }
 
-div.dt-container .dt-paging .dt-paging-button{
-    padding: 0!important;
-}
-div.dt-container .dt-paging .dt-paging-button.current, 
-div.dt-container .dt-paging .dt-paging-button.current:hover{
-    border: none!important;
-    background: transparent !important;
-    color: rgb(243 109 0)!important;
-}
+ div.dt-container select.dt-input {
+     width: 100px;
+ }
+
+ div.dt-container .dt-paging .dt-paging-button {
+     padding: 0 !important;
+ }
+
+ div.dt-container .dt-paging .dt-paging-button.current,
+ div.dt-container .dt-paging .dt-paging-button.current:hover {
+     border: none !important;
+     background: transparent !important;
+     color: rgb(243 109 0) !important;
+ }
+
+ table.dataTable.stripe>tbody>tr:nth-child(odd)>*,
+ table.dataTable.display>tbody>tr:nth-child(odd)>* {
+     box-shadow: inset 0 0 0 9999px #ffffff;
+     box-shadow: inset 0 0 0 9999px #ffffff;
+ }
+
+ table.dataTable.display>tbody>tr:nth-child(odd)>.sorting_1,
+ table.dataTable.order-column.stripe>tbody>tr:nth-child(odd)>.sorting_1 {
+     box-shadow: inset 0 0 0 9999px #ffffff;
+     box-shadow: inset 0 0 0 9999px #ffffff;
+ }
+
+ table tr {
+     height: 52px;
+ }
