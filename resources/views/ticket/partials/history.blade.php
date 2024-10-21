@@ -1,5 +1,5 @@
 <table class="w-full mt-3">
-    <thead class="w-full bg-[#F3F4F6] mb-5 rounded">
+    <!-- <thead class="w-full bg-[#F3F4F6] mb-5 rounded">
         <tr>
             <th class="text-start p-2">ID</th>
             <th class="text-start p-2">Note</th>
@@ -65,5 +65,54 @@
             </td>
         </tr>
         @endforelse
-    </tbody>
+    </tbody> -->
+
+    <div class="grid grid-cols-2">
+        <div class="">
+            <div class="flex gap-x-7" style="margin-top:16px">
+                <div class="time" style="width:120px;height:40px">
+                    <p class="text-title">15 Oct, 2024</p>
+                    <span class="text-title">Sunday, 3:45pm</span>
+                </div>
+
+                <div class="overview" style="position:relative">
+                    <div class="top w-[16px] h-[16px] rounded-full" style="background:#FFF4EC;border:1px solid #ddd;z-index:3">
+                    </div>
+                    <div style="width:1px;height:100%;border:1px dotted gray;position:absolute;left:50%;transform: translate(-50%);z-index:2">
+                    </div>
+                    <div class="top w-[16px] h-[16px] rounded-full" style="background:#FFF4EC;border:1px solid #222;z-index:3">
+                    </div>
+                </div>
+
+                <div class="details" style="width:556px;height:80px">
+                    <div class="border p-3 rounded">
+                        <h3 class="text-heading-dark">Marvin McKinney</h3>
+                        <span class="text-title">Added a private note</span>
+                    </div>
+                </div>
+            </div>
+            <div class="flex gap-x-7" style="margin-top:16px">
+                <div class="time" style="width:120px;height:40px">
+                    <p class="text-title">15 Oct, 2024</p>
+                    <span class="text-title">Sunday, 3:45pm</span>
+                </div>
+
+                <div class="overview" style="position:relative">
+                    <div class="top w-[16px] h-[16px] rounded-full" style="background:#FFF4EC;border:1px solid #ddd;z-index:3">
+                    </div>
+                    <div style="width:1px;height:100%;border:1px dotted gray;position:absolute;left:50%;transform: translate(-50%);z-index:2">
+                    </div>
+                </div>
+
+                <div class="details" style="width:556px;height:80px">
+                    <div class="border p-3 rounded">
+                        <h3 class="text-heading-dark">Marvin McKinney</h3>
+                        <span class="text-title">Added a private note</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+    </div>
 </table>
