@@ -19,7 +19,7 @@
     <link rel="stylesheet" href="{{ asset('assets/css/style.css') }}">
     @yield('style')
     <link rel="stylesheet" href="{{ asset('build/assets/app-0wP-suyQ.css') }}">
-    <script src="{{ asset('build/assets/app-DCrXoRMQ.js') }}"></script>
+
 </head>
 
 <!-- Sidenav start -->
@@ -43,7 +43,7 @@
 
 </main>
 @livewireScripts
-
+<script src="{{ asset('build/assets/app-DCrXoRMQ.js') }}"></script>
 <script src="{{ asset('assets/js/jquery.min.js') }}"></script>
 <script src="{{ asset('assets/js/select2.min.js') }}"></script>
 <script src="{{ asset('assets/js/ckeditor.js') }}"></script>
