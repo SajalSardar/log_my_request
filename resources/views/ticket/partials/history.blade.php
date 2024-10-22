@@ -3,9 +3,9 @@
         @if (is_object($histories) && $histories->count() > 0)
             @foreach ($histories as $item)
                 <div class="flex gap-x-7" style="margin-top:16px">
-                    <div class="time" style="width:120px;height:40px">
-                        <p class="text-title">{{ date('d M, y l, h:i:a', strtotime($item->created_at)) }}</p>
-                        <span class="text-title">{{ date('h:i:a', strtotime($item->created_at)) }}</span>
+                    <div class="time" style="width:140px;height:40px">
+                        <p class="text-title">{{ date('d M, Y', strtotime($item->created_at)) }}</p>
+                        <span class="text-title">{{ date('l h:i:a', strtotime($item->created_at)) }}</span>
                     </div>
 
                     <div class="overview" style="position:relative">
@@ -20,7 +20,7 @@
                     <div class="details" style="width:556px;height:80px">
                         <div class="border p-3 rounded">
                             <h3 class="text-heading-dark">Marvin McKinney</h3>
-                            <span class="text-title">Added a private note</span>
+                            <span class="text-title">{!! $item?->note !!}</span>
                         </div>
                     </div>
                 </div>
