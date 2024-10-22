@@ -316,7 +316,7 @@ class TicketController extends Controller
         $this->ticket_status = TicketStatus::query()->get();
         $agents = Team::query()->with('agents')->where('id', $ticket?->team_id)->get();
         $users = User::whereNotIn('id', [1])->select('id', 'name', 'email')->get();
-        $histories = TicketNote::query()->where('ticket_id', $ticket->id)->select('id', 'note', 'old_status', 'new_status')->get();
+        $histories = TicketNote::query()->where('ticket_id', $ticket->id)->select('id', 'note', 'created_at')->get();
         $conversations = Conversation::orderBy('created_at')->where('parent_id', null)->with('replay')->where('ticket_id', $ticket->id)->get()->groupBy(function ($query) {
             return date('Y m d', strtotime($query->created_at));
         });
