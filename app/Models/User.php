@@ -22,6 +22,8 @@ class User extends Authenticatable {
         'email',
         'password',
         'phone',
+        'requester_type_id',
+        'requester_id',
         'designation',
     ];
 
@@ -52,5 +54,9 @@ class User extends Authenticatable {
     }
     public function teams() {
         return $this->belongsToMany(Team::class, 'team_user', 'user_id', 'team_id');
+    }
+
+    public function requester_type() {
+        return $this->belongsTo(RequesterType::class, 'requester_type_id', 'id');
     }
 }

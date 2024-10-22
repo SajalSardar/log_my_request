@@ -56,7 +56,7 @@ class Fileupload
      * @param int $width
      * @param int $height
      * @param $request
-     * @return array|object|bool|string
+     * @return array|object|bool|string|null
      */
     public static function update(array | object $request, Bucket $bucket, $oldItem, int $model_id, $model, int $width, int $height)
     {

@@ -13,16 +13,18 @@
                     <form action="{{ route('admin.role.update', $role->id) }}" method="POST">
                         @csrf
                         @method('PUT')
-                        <input type="text" name="role" placeholder="Role Name"
-                            value="{{ old('role', $role->name) }}">
+
+                        <x-text-input class="block mt-1 w-full mb-2" type="text" placeholder="Role Name"
+                            value="{{ old('role', $role->name) }}" required name="role" />
+
                         <div class="my-3">
                             @forelse ($modules as $module)
-                                <h3 class="mb-2">{{ $module->name }}</h3>
+                                <h3 class="mb-2 font-bold">{{ $module->name }}</h3>
                                 @foreach ($module->permissions as $permission)
-                                    <label class="">
+                                    <label class="border border-gray-100 p-1 m-2 inline-block">
                                         <input type="checkbox" value="{{ $permission->name }}"
                                             {{ @in_array(@$permission->id, @$rolePermmission) ? 'checked' : '' }}
-                                            name="permission[]"> {{ $permission->name }}
+                                            name="permission[]"> {{ Str::ucfirst($permission->name) }}
                                     </label>
                                 @endforeach
                                 <hr class="my-3">
@@ -32,7 +34,9 @@
 
                         </div>
                         <div>
-                            <button type="submit"> Update </button>
+                            <x-buttons.primary>
+                                Update
+                            </x-buttons.primary>
                         </div>
                     </form>
                 </div>

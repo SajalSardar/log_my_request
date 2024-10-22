@@ -39,7 +39,7 @@ class Team extends Model
 
     /**
      * Define public method image()
-     * @return MorphTo
+     * @return MorphOne
      */
     public function image(): MorphOne
     {

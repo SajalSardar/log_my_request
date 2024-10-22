@@ -82,4 +82,8 @@ class AdminUserController extends Controller {
         flash()->success('User has been deleted');
         return back();
     }
+
+    public function getUserById(Request $request) {
+        return User::where('id', $request->user_id)->first();
+    }
 }

@@ -87,15 +87,6 @@ class Ticket extends Model
      * Define public method requester_type() associate with Ticket
      * @return BelongsTo
      */
-    public function requester_type(): BelongsTo
-    {
-        return $this->belongsTo(RequesterType::class, 'requester_type_id', 'id');
-    }
-
-    /**
-     * Define public method requester_type() associate with Ticket
-     * @return BelongsTo
-     */
     public function source(): BelongsTo
     {
         return $this->belongsTo(Source::class, 'source_id', 'id');
@@ -103,7 +94,7 @@ class Ticket extends Model
 
     /**
      * Define public method image()
-     * @return MorphTo
+     * @return MorphOne
      */
     public function image(): MorphOne
     {
@@ -116,7 +107,7 @@ class Ticket extends Model
      */
     public function owners(): BelongsToMany
     {
-        return $this->belongsToMany(User::class, 'ticket_ownerships', 'ticket_id', 'owner_id');
+        return $this->belongsToMany(User::class, 'ticket_ownerships', 'ticket_id', 'owner_id')->withTimestamps();
     }
 
     /**
@@ -135,5 +126,10 @@ class Ticket extends Model
     public function ticket_notes(): HasMany
     {
         return $this->hasMany(TicketNote::class, 'ticket_id', 'id');
+    }
+
+    public function conversation()
+    {
+        return $this->hasMany(Conversation::class, 'ticket_id', 'id');
     }
 }

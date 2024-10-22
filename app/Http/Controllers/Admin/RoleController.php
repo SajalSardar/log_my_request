@@ -13,7 +13,7 @@ class RoleController extends Controller {
     public function index() {
         Gate::authorize('viewAny', Role::class);
 
-        $roles = Role::orderBy('id', 'desc')->get();
+        $roles = Role::with('permissions')->orderBy('id', 'desc')->get();
         return view('role.index', compact('roles'));
     }
 

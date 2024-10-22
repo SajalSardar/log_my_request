@@ -12,7 +12,6 @@ return new class extends Migration {
         Schema::create('tickets', function (Blueprint $table) {
             $table->id();
             $table->integer('user_id');
-            $table->integer('requester_type_id')->nullable();
             $table->integer('team_id')->nullable()->index();
             $table->integer('category_id')->nullable()->index();
             $table->integer('ticket_status_id')->nullable()->index();
@@ -20,7 +19,6 @@ return new class extends Migration {
             $table->string('title');
             $table->longText('description')->nullable();
             $table->string('attachment')->nullable();
-            $table->string('requester_id')->nullable()->index()->comment('student id, employee id');
             $table->string('priority')->nullable()->comment('low,medium,high');
             $table->string('ticket_type')->default('customer')->comment('internal,customer');
             $table->date('due_date')->nullable();

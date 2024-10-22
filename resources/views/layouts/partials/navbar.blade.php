@@ -1,4 +1,4 @@
-<div class="navbar sticky border z-50 border-b-slate-300">
+<div class="navbar sticky border z-10 border-b-slate-300">
     <div class="navbar-wrapper">
         <div class="hamberger">
             <button type="button" class="text-lg text-gray-900 font-semibold sidebar-toggle">
@@ -33,8 +33,7 @@
         </div>
 
         <div class="user-type">
-            <form action="{{ route('admin.role.swotch') }}" method="POST" x-data
-                @change="submitSwitchAccount($event)">
+            <form action="{{ route('admin.role.swotch') }}" method="POST" x-data @change="submitSwitchAccount($event)">
                 @csrf
                 <select
                     class="user-type-select border border-slate-200 rounded bg-transparent text-sm font-normal text-center"
@@ -138,16 +137,16 @@
 
         <div class="profile relative">
             <div class="toggle-menu-button flex justify-center items-center">
-                <img src="{{ asset('assets/images/profile.png') }}" alt="profile"
-                    class="ml-3 sm:w-2/4 sm:h-2/4 md:w-full md:h-full">
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
-                    xmlns="http://www.w3.org/2000/svg">
-                    <path d="M6 9L12 15L18 9" stroke="#333333" stroke-width="2" stroke-linecap="round"
-                        stroke-linejoin="round" />
+                <img src="{{ asset('assets/images/profile.png') }}" alt="profile" width="35" width="35"
+                    style="border-radius: 50%">
+                <svg width="15" height="15" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                    stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="m19.5 8.25-7.5 7.5-7.5-7.5" />
                 </svg>
+
             </div>
-            <div class="toggle-menu absolute z-50 p-3 shadow-lg w-[200px] rounded bg-white sm:right-12"
-                style="top: 75px;display:none">
+            <div class="toggle-menu absolute z-50 p-3 shadow-lg w-[200px] rounded bg-white sm:right-12 z-50"
+                style="top: 46px;display:none">
                 <ul>
                     <li class="py-2">
                         <p href="#" class="font-normal text-slate-700">
@@ -155,7 +154,7 @@
                         </p>
                     </li>
                     <li class="py-2">
-                        <a href="#" class="font-normal text-slate-700">Profile</a>
+                        <a href="{{ route('profile.edit') }}" class="font-normal text-slate-700">Profile</a>
                     </li>
                     <li class="py-2">
                         <form action="{{ route('logout') }}" method="POST">

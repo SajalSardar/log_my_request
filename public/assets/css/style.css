@@ -27,19 +27,21 @@
  /* Scrollbar Design Start */
  ::-webkit-scrollbar {
      width: 7px;
+     height: 16px;
  }
 
  ::-webkit-scrollbar-track {
-     background: #f1f1f1;
+     background: #fff;
+     border: 1px solid #ddd;
  }
 
  ::-webkit-scrollbar-thumb {
-     background: #F36D00;
-     border-radius: 8px;
+     background: #ddd;
+     /* border-radius: 8px; */
  }
 
  ::-webkit-scrollbar-thumb:hover {
-     background: #666;
+     background: #ddd;
  }
 
  /* Scrollbar Design End */
@@ -69,10 +71,8 @@
  /* navbar css */
 
  .navbar {
-     /* margin-left: 256px; */
-     height: 76px;
+     padding: 8px 0;
      background: #F8FAFF;
-     position: fixed;
      left: 0;
      top: 0;
  }
@@ -101,7 +101,7 @@
 
  .search-input input {
      width: 100%;
-     padding: 15px;
+     padding: 8px;
      border: none;
      background: white;
      border-radius: 10px;
@@ -121,7 +121,7 @@
 
  .user-type-select {
      width: 100%;
-     padding: 15px;
+     padding: 8px;
      background: transparent;
      border-radius: 10px;
      -webkit-border-radius: 10px;
@@ -300,4 +300,57 @@
 
  .nice-select .option {
      padding: 0 15px;
+ }
+
+
+ #data-table td {
+     font-size: 14px;
+     text-align: left;
+     padding: 0 8px;
+ }
+
+ .menu_icon {
+     height: 13px;
+     width: 13px;
+ }
+
+ .menu_icon_color {
+     stroke: #6D4DFF;
+ }
+
+ div.dt-container select.dt-input {
+     width: 100px;
+ }
+
+ div.dt-container .dt-paging .dt-paging-button {
+     padding: 0 !important;
+ }
+
+ div.dt-container .dt-paging .dt-paging-button.current,
+ div.dt-container .dt-paging .dt-paging-button.current:hover {
+     border: none !important;
+     background: transparent !important;
+     color: rgb(243 109 0) !important;
+ }
+
+ table.dataTable.stripe>tbody>tr:nth-child(odd)>*,
+ table.dataTable.display>tbody>tr:nth-child(odd)>* {
+     box-shadow: inset 0 0 0 9999px #ffffff;
+     box-shadow: inset 0 0 0 9999px #ffffff;
+ }
+
+ table.dataTable.display>tbody>tr:nth-child(odd)>.sorting_1,
+ table.dataTable.order-column.stripe>tbody>tr:nth-child(odd)>.sorting_1 {
+     box-shadow: inset 0 0 0 9999px #ffffff;
+     box-shadow: inset 0 0 0 9999px #ffffff;
+ }
+
+ table.dataTable.display>tbody>tr:nth-child(even)>.sorting_1,
+ table.dataTable.order-column.stripe>tbody>tr:nth-child(even)>.sorting_1 {
+     box-shadow: inset 0 0 0 9999px #ffffff;
+     box-shadow: inset 0 0 0 9999px #ffffff;
+ }
+
+ table tr {
+     height: 52px;
  }

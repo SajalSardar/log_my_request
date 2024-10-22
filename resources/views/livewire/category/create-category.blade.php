@@ -14,7 +14,7 @@
                     {{ __('Parent Category') }}
                 </x-forms.label>
                 <x-forms.select-input wire:model.live="form.parent_id">
-                    <option disabled selected>--Select Parent Category--</option>
+                    <option value="" selected>Select Parent Category</option>
                     @foreach ($parent_categories as $each)
                         <option value="{{ $each->id }}">{{ $each->name }}</option>
                     @endforeach
