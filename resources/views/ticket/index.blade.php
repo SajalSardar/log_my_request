@@ -239,7 +239,6 @@
                                             {{ $each->name }}
                                         </x-buttons.primary>
                                     @endif
-
                                 </td>
 
                                 <td class="p-2 font-normal text-gray-400 flex items-center" style="max-width: 210px">
