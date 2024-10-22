@@ -7,11 +7,11 @@
             </div>
 
             <div class="flex md:flex-row-reverse sm:flex-row">
-               <div>
-                <x-actions.href href="{{ route('admin.user.index') }}">
-                    {{ __('Users') }}
-                </x-actions.href>
-               </div>
+                <div>
+                    <x-actions.href href="{{ route('admin.user.index') }}">
+                        {{ __('Users List') }}
+                    </x-actions.href>
+                </div>
             </div>
         </header>
         <hr>
