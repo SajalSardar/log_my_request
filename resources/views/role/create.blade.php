@@ -12,7 +12,7 @@
                 @forelse ($modules as $module)
                     <h3 class="mb-2">{{ $module->name }}</h3>
                     @foreach ($module->permissions as $permission)
-                        <label>
+                        <label class="border border-gray-100 p-1 m-2 inline-block">
                             {{-- <input type="checkbox" value="{{ $permission->name }}" name="permission[]"> --}}
                             <x-forms.checkbox-input type="checkbox" value="{{ $permission->name }}"
                                 name="permission[]" />
