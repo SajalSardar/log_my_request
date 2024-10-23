@@ -2,11 +2,13 @@
 
 use Carbon\Carbon;
 
-function ISOdate($date) {
+function ISOdate($date)
+{
     return $date ? date('M d, Y', strtotime($date)) : '';
 }
 
-function dayMonthYearHourMininteSecond($date, $year = false, $month = false, $day = false, $hour = false, $minute = false, $second = false) {
+function dayMonthYearHourMininteSecond($date, $year = false, $month = false, $day = false, $hour = false, $minute = false, $second = false)
+{
     $startDate = Carbon::create($date);
     $endDate   = Carbon::now();
 
@@ -45,22 +47,22 @@ function dayMonthYearHourMininteSecond($date, $year = false, $month = false, $da
     $output = '';
 
     if ($year) {
-        $output .= $y . ' years, ';
+        $output .= $y . ' y, ';
     }
     if ($month) {
-        $output .= $mon . ' months, ';
+        $output .= $mon . ' m, ';
     }
     if ($day) {
-        $output .= $d . ' days, ';
+        $output .= $d . ' d, ';
     }
     if ($hour) {
-        $output .= $h . ' hours, ';
+        $output .= $h . ' h, ';
     }
     if ($minute) {
-        $output .= $m . ' minutes and ';
+        $output .= $m . ' min and ';
     }
     if ($second) {
-        $output .= $s . ' seconds.';
+        $output .= $s . ' sec.';
     }
     $output = rtrim($output, ', ');
     return $output;
