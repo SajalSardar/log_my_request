@@ -9,7 +9,8 @@
                 <x-forms.text-input type="text" wire:model.blur="name" placeholder="Menu name" />
                 <x-input-error :messages="$errors->get('name')" class="mt-2" />
             </div>
-
+        </div>
+        <div class="grid md:grid-cols-2 sm:grid-cols-1 sm:gap-1 md:gap-4">
             <div class="p-2 w-full">
                 <x-forms.label for="parent_id">
                     {{ __('Parent Menu') }}
@@ -31,13 +32,14 @@
                 <x-forms.text-input type="text" wire:model.blur="route" placeholder="Route name" />
                 <x-input-error :messages="$errors->get('route')" class="mt-2" />
             </div>
-
+        </div>
+        <div class="grid md:grid-cols-2 sm:grid-cols-1 sm:gap-1 md:gap-4">
             <div class="p-2 w-full">
-                <x-forms.label for="url">
-                    {{ __('Url') }}
+                <x-forms.label for="route" required='yes'>
+                    {{ __('Route name') }}
                 </x-forms.label>
-                <x-forms.text-input type="text" wire:model.blur="url" placeholder="Full url" />
-                <x-input-error :messages="$errors->get('url')" class="mt-2" />
+                <x-forms.text-input type="text" wire:model.blur="route" placeholder="Route name" />
+                <x-input-error :messages="$errors->get('route')" class="mt-2" />
             </div>
         </div>
 
@@ -56,6 +58,8 @@
                     <x-input-error :messages="$errors->get('role')" class="mt-2" />
                 </div>
             </div>
+        </div>
+        <div class="grid md:grid-cols-2 sm:grid-cols-1 sm:gap-1 md:gap-4">
 
             <div class="p-2 w-full">
                 <x-forms.label for="status" required='yes'>
@@ -69,7 +73,7 @@
             </div>
         </div>
 
-        <div class="grid md:grid-cols-1 sm:grid-cols-1 sm:gap-1 md:gap-4">
+        <div class="grid md:grid-cols-2 sm:grid-cols-1 sm:gap-1 md:gap-4">
             <div class="p-2 w-full">
                 <x-forms.label for="icon">
                     {{ __('Svg icon') }}

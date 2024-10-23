@@ -18,40 +18,41 @@
     <link rel="stylesheet" href="{{ asset('vendor/datatable/dataTables.dataTables.min.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/css/style.css') }}">
     @yield('style')
-    <link rel="stylesheet" href="{{ asset('build/assets/app-0wP-suyQ.css') }}">
+    <link rel="stylesheet" href="{{ asset('build/assets/app-BnNv1BrL.css') }}">
 
 </head>
 
-<!-- Sidenav start -->
-@include('layouts.partials.sidebar')
-<!-- Sidenav end -->
+<body>
+    <!-- Sidenav start -->
+    @include('layouts.partials.sidebar')
+    <!-- Sidenav end -->
 
-<main class="w-full bg-white md:w-[calc(100%-256px)] md:ml-64 min-h-screen transition-all main">
-    <!-- Navbar Start -->
-    @include('layouts.partials.navbar')
-    <!-- Navbar End -->
-    <div class="pt-8 px-10">
+    <main class="w-full bg-white md:w-[calc(100%-256px)] md:ml-64 min-h-screen transition-all main">
+        <!-- Navbar Start -->
+        @include('layouts.partials.navbar')
+        <!-- Navbar End -->
+        <div class="pt-8 px-10">
 
-        <!-- Breadcrumb Start -->
-        @include('layouts.partials.breadcrumb')
-        <!-- Breadcrumb End -->
+            <!-- Breadcrumb Start -->
+            @include('layouts.partials.breadcrumb')
+            <!-- Breadcrumb End -->
 
-        <div class=" mt-2">
-            {{ $slot }}
+            <div class=" mt-2">
+                {{ $slot }}
+            </div>
         </div>
-    </div>
 
-</main>
-@livewireScripts
-<script src="{{ asset('build/assets/app-DCrXoRMQ.js') }}"></script>
-<script src="{{ asset('assets/js/jquery.min.js') }}"></script>
-<script src="{{ asset('assets/js/select2.min.js') }}"></script>
-<script src="{{ asset('assets/js/ckeditor.js') }}"></script>
-<script src="{{ asset('vendor/datatable/dataTables.min.js') }}"></script>
-<script src="{{ asset('assets/js/script.js') }}"></script>
-<script src="{{ asset('assets/js/custom.js') }}"></script>
+    </main>
+    @livewireScripts
+    <script src="{{ asset('build/assets/app-DCrXoRMQ.js') }}"></script>
+    <script src="{{ asset('assets/js/jquery.min.js') }}"></script>
+    <script src="{{ asset('assets/js/select2.min.js') }}"></script>
+    <script src="{{ asset('assets/js/ckeditor.js') }}"></script>
+    <script src="{{ asset('vendor/datatable/dataTables.min.js') }}"></script>
+    <script src="{{ asset('assets/js/script.js') }}"></script>
+    <script src="{{ asset('assets/js/custom.js') }}"></script>
 
-@yield('script')
+    @yield('script')
 
 
 </body>

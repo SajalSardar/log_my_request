@@ -190,7 +190,7 @@
                          <x-input-error :messages="$errors->get('form.ticket_status_id')" class="mt-2" />
                      </div>
                  </div>
-                 <div class="p-2">
+                 <div class="p-2 flex gap-2">
                      <x-buttons.secondary type="button">
                          Cancel
                      </x-buttons.secondary>

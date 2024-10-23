@@ -1,3 +1,19 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+.text-heading-light {
+    @apply text-sm font-semibold font-inter text-[#fff];
+}
+
+.text-heading-dark {
+    @apply text-sm font-semibold font-inter text-[#333];
+}
+
+.text-title {
+    @apply text-sm font-normal font-inter dark:text-[#333];
+}
+
+.text-caption {
+    @apply text-xs font-normal font-inter dark:text-[#5C5C5C];
+}

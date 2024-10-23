@@ -9,7 +9,8 @@
                     placeholder="Menu name" />
                 <x-input-error :messages="$errors->get('name')" class="mt-2" />
             </div>
-
+        </div>
+        <div class="grid md:grid-cols-2 sm:grid-cols-1 sm:gap-1 md:gap-4">
             <div class="p-2 w-full">
                 <x-forms.label for="parent_id">
                     {{ __('Parent Menu') }}
@@ -33,7 +34,8 @@
                     placeholder="Route name" />
                 <x-input-error :messages="$errors->get('route')" class="mt-2" />
             </div>
-
+        </div>
+        <div class="grid md:grid-cols-2 sm:grid-cols-1 sm:gap-1 md:gap-4">
             <div class="p-2 w-full">
                 <x-forms.label for="url">
                     {{ __('Url') }}
@@ -61,6 +63,9 @@
                 <x-input-error :messages="$errors->get('role')" class="mt-2" />
             </div>
 
+        </div>
+        <div class="grid md:grid-cols-2 sm:grid-cols-1 sm:gap-1 md:gap-4">
+
             <div class="p-2 w-full">
                 <x-forms.label for="status" required='yes'>
                     {{ __('Status') }}
@@ -73,7 +78,7 @@
             </div>
         </div>
 
-        <div class="grid md:grid-cols-1 sm:grid-cols-1 sm:gap-1 md:gap-4">
+        <div class="grid md:grid-cols-2 sm:grid-cols-1 sm:gap-1 md:gap-4">
             <div class="p-2 w-full">
                 <x-forms.label for="icon">
                     {{ __('Svg icon') }}

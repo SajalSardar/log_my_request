@@ -1,7 +1,7 @@
 <x-app-layout>
     <div class="flex justify-end pb-3">
         <x-actions.href href="{{ route('admin.team.create') }}">
-            Create Team
+            Team List
         </x-actions.href>
     </div>
     <div class="relative overflow-x-auto bg-white">
@@ -11,9 +11,8 @@
                 <tr>
                     <th class="text-start pl-3 py-2">Team Name</th>
                     <th class="text-start pl-3 py-2">Categories</th>
-                    <th class="text-start pl-3 py-2">Agents</th>
                     <th class="text-start pl-3 py-2">Status</th>
-                    <th class="text-start pl-3 py-2">Mofified at</th>
+                    <th class="text-start pl-3 py-2">Created Date</th>
                     <th class="text-start pl-3 py-2">Action</th>
                 </tr>
             </thead>
@@ -23,7 +22,7 @@
                 <tbody x-data="{ open: false }">
                     <tr class="rounded shadow">
                         <td class="p-3 flex">
-                            <div class="mr-2">
+                            <div class="mr-2 mt-0.5">
                                 <!-- Toggle button -->
                                 <span class="cursor-pointer" @click="open = !open">
                                     <template x-if="!open">
@@ -54,13 +53,8 @@
                                 {!! Helper::badge($item->name) !!}
                             @endforeach
                         </td>
-                        <td class="p-3 font-normal text-gray-400">
-                            @foreach ($each?->agents as $item)
-                                {!! Helper::badge($item->name) !!}
-                            @endforeach
-                        </td>
                         <td class="p-3 font-normal text-gray-400">{!! Helper::status($each?->status) !!} </td>
-                        <td class="p-3 font-normal text-gray-400">{{ Helper::ISOdate($each?->updated_at) }}</td>
+                        <td class="p-3 font-normal text-gray-400">{{ Helper::ISOdate($each?->created_at) }}</td>
                         <td>
                             <div class="flex">
                                 <x-actions.edit route="{{ route('admin.team.edit', $each->id) }}" />
