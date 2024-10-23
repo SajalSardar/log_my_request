@@ -18,6 +18,7 @@ use Illuminate\Support\Facades\Route;
 Route::middleware('auth')->prefix('dashboard')->name('admin.')->group(function () {
     Route::resource('module', ModuleController::class);
     Route::resource('menu', MenuController::class);
+    Route::get('menu-list-datatable', [MenuController::class, 'displayListDatatable'])->name('menu.list.datatable');
     Route::resource('category', CategoryController::class);
     Route::resource('team', TeamController::class);
     Route::resource('source', SourceController::class);
