@@ -79,7 +79,6 @@
                                             {{ $each->name }}
                                         </x-span-status>
                                     @endif
-
                                 </td>
 
                                 <td class="p-2 font-normal text-gray-400 flex items-center">
