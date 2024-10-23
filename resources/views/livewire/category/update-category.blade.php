@@ -9,6 +9,8 @@
                 <x-input-error :messages="$errors->get('form.name')" class="mt-2" />
             </div>
 
+        </div>
+        <div class="grid md:grid-cols-2 sm:grid-cols-1 sm:gap-1 md:gap-4">
             <div class="p-2 w-full">
                 <x-forms.label for="form.parent_id">
                     {{ __('Parent Category') }}
@@ -38,6 +40,9 @@
 
                 <x-input-error :messages="$errors->get('form.status')" class="mt-2" />
             </div>
+
+        </div>
+        <div class="grid md:grid-cols-2 sm:grid-cols-1 sm:gap-1 md:gap-4">
 
             <div class="p-2 w-full">
                 <x-forms.label for="form.image">
