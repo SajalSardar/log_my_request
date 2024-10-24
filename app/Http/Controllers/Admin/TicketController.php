@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Enums\Bucket;
 use App\Http\Controllers\Controller;
 use App\LocaleStorage\Fileupload;
+use App\Mail\ConversationMail;
 use App\Mail\TicketEmail;
 use App\Models\Category;
 use App\Models\Conversation;
@@ -735,7 +736,7 @@ class TicketController extends Controller
             'conversation' => $request->conversation,
             'status' => 1,
         ]);
-
+        Mail::to($ticket->user->email)->send(new ConversationMail($conversation));
         flash()->success('Conversation has been added successfully');
         return back();
     }
