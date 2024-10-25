@@ -5,6 +5,8 @@ namespace App\Http\Controllers\Admin;
 use App\Models\Conversation;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Notifications\NotifyMail;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\RedirectResponse;
 
 class ConversationController extends Controller
