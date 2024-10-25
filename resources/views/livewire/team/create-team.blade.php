@@ -27,7 +27,7 @@
 
             <div class="p-2 w-full">
                 <x-forms.label for="form.category_id" required='yes'>
-                    {{ __('Team Category') }}
+                    {{ __('Ticket Category') }}
                 </x-forms.label>
 
                 <div wire:ignore>
@@ -44,18 +44,23 @@
 
 
         </div>
+
         <div class="grid md:grid-cols-2 sm:grid-cols-1 sm:gap-1 md:gap-4">
 
             <div class="p-2 w-full">
-                <x-forms.label for="form.status" required='yes'>
-                    {{ __('Status') }}
+                <x-forms.label for="form.department_id" required='yes'>
+                    {{ __('Department') }}
                 </x-forms.label>
-                <x-forms.select-input wire:model.blur='form.status'>
-                    <option selected>Select Status</option>
-                    <option value="1">Active</option>
-                    <option value="0">Inactive</option>
-                </x-forms.select-input>
-                <x-input-error :messages="$errors->get('form.status')" class="mt-2" />
+                <div wire:ignore>
+                    <x-forms.select2-select wire:model.defer='form.department_id' id="department_id">
+                        <option value="">Select Department</option>
+                        @foreach ($departments as $department)
+                            <option value="{{ $department->id }}">{{ $department->name }}</option>
+                        @endforeach
+                    </x-forms.select2-select>
+
+                    <x-input-error :messages="$errors->get('form.department_id')" class="mt-2" />
+                </div>
             </div>
 
         </div>
@@ -75,6 +80,22 @@
 
                     <x-input-error :messages="$errors->get('form.agent_id')" class="mt-2" />
                 </div>
+            </div>
+
+        </div>
+
+        <div class="grid md:grid-cols-2 sm:grid-cols-1 sm:gap-1 md:gap-4">
+
+            <div class="p-2 w-full">
+                <x-forms.label for="form.status" required='yes'>
+                    {{ __('Status') }}
+                </x-forms.label>
+                <x-forms.select-input wire:model.blur='form.status'>
+                    <option selected>Select Status</option>
+                    <option value="1">Active</option>
+                    <option value="0">Inactive</option>
+                </x-forms.select-input>
+                <x-input-error :messages="$errors->get('form.status')" class="mt-2" />
             </div>
 
         </div>

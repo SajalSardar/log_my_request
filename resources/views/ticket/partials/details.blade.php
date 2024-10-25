@@ -50,25 +50,10 @@
                 <li>
                     <span class="font-sm font-semibold font-inter">Request Age:
                     </span>
-                    <span class="font-sm font-normal font-inter">{{ Helper::dayMonthYearHourMininteSecond($ticket?->created_at, true, true, true, true) }}</span>
+                    <span class="font-sm font-normal font-inter">{{ dayMonthYearHourMininteSecond($ticket?->created_at, true, true, true, true) }}</span>
                 </li>
             </ul>
         </div>
-        {{-- <div class="basis-full sm:basis-full md:basis-1/3 lg:basis-1/3 sm:px-0 md:px-10 lg:px-4">
-            <ul>
-                <li>
-                    <span class="font-sm font-semibold font-inter">Assign Team:
-                    </span>
-                    <span class="font-sm font-normal font-inter">{{ @$ticket?->team->name }}</span>
-                </li>
-                <li>
-                    <span class="font-sm font-semibold font-inter">Assign Agent:
-                    </span>
-                    <span class="font-sm font-normal font-inter">{{ count($ticket->owners) > 0 ? $ticket->owners->last()->name : '-' }}</span>
-                </li>
-
-            </ul>
-        </div> --}}
     </div>
 
 </div>
