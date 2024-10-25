@@ -15,7 +15,7 @@
             </div>
         </header>
         <hr>
-        <livewire:team.create-team :categories="$categories" :agentUser="$agentUser" />
+        <livewire:team.create-team :categories="$categories" :agentUser="$agentUser" :departments="$departments" />
 
     </div>
 
@@ -23,6 +23,7 @@
         document.addEventListener('DOMContentLoaded', function() {
             initSelect2form('category_id');
             initSelect2form('agent_id');
+            initSelect2form('department_id');
         });
     </script>
 </x-app-layout>

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Category;
+use App\Models\Department;
 use App\Models\Team;
 use App\Models\TeamCategory;
 use App\Models\User;
@@ -17,8 +18,7 @@ class TeamController extends Controller {
     public function index() {
         Gate::authorize('viewAny', Team::class);
         $collections = Team::query()
-            ->with('image', 'agents')
-            ->with('teamCategories')
+            ->with('image', 'agents', 'department', 'teamCategories')
             ->get();
         // return $collections;
         return view("team.index", compact('collections'));
@@ -41,9 +41,10 @@ class TeamController extends Controller {
     public function create() {
         Gate::authorize('create', Team::class);
         $usesCategory = TeamCategory::pluck('category_id');
+        $departments  = Department::where('status', 1)->get();
         $categories   = Category::query()->whereNotIn('id', $usesCategory)->get();
         $agentUser    = User::role('agent')->get();
-        return view('team.create', compact('categories', 'agentUser'));
+        return view('team.create', compact('categories', 'agentUser', 'departments'));
     }
 
     /**
@@ -68,11 +69,12 @@ class TeamController extends Controller {
      */
     public function edit(Team $team) {
         Gate::authorize('update', $team);
-
+        $departments  = Department::where('status', 1)->get();
         $usesCategory = TeamCategory::where('team_id', '!=', $team->id)->pluck('category_id');
         $categories   = Category::query()->whereNotIn('id', $usesCategory)->get();
         $agentUser    = User::role('agent')->get();
-        return view('team.edit', compact('team', 'categories', 'agentUser'));
+
+        return view('team.edit', compact('team', 'categories', 'agentUser', 'departments'));
     }
 
     /**

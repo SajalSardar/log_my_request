@@ -32,6 +32,12 @@ class CreateTeam extends Component {
     public $agentUser;
 
     /**
+     * Define public property $departments
+     * @var array|object
+     */
+    public $departments;
+
+    /**
      * Define public method save() to store the resourses
      */
     public function save(TeamService $service) {
