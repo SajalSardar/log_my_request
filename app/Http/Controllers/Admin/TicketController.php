@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use App\LocaleStorage\Fileupload;
 use App\Mail\ConversationMail;
 use App\Mail\TicketEmail;
+use App\Mail\UpdateInfoMail;
 use App\Models\Category;
 use App\Models\Conversation;
 use App\Models\Image;
@@ -872,6 +873,9 @@ class TicketController extends Controller
                 ]
             );
         }
+        $source = Source::find($request->source_id);
+        $request->source = $source->title;
+        Mail::to($ticket->user->email)->send(new UpdateInfoMail($request));
         flash()->success('Edit has been successfully done');
         return back();
     }
