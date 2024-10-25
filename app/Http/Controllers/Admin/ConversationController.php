@@ -2,11 +2,13 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Models\Ticket;
+use App\Mail\ReplayMail;
 use App\Models\Conversation;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\Notifications\NotifyMail;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Http\RedirectResponse;
 
 class ConversationController extends Controller
@@ -19,15 +21,18 @@ class ConversationController extends Controller
      */
     public function replay(Request $request, Conversation $conversation): RedirectResponse
     {
+         
         $replay = Conversation::create([
-            'ticket_id'             => $conversation->ticket_id,
-            'requester_id'          => $conversation->requester_id,
-            'parent_id'             => $conversation->id,
-            'conversation_type'     => 'customer_type',
-            'conversation'          => $request->conversation,
-            'status'                => '1',
+            'ticket_id' => $conversation->ticket_id,
+            'requester_id' => $conversation->requester_id,
+            'parent_id' => $conversation->id,
+            'conversation_type' => 'customer_type',
+            'conversation' => $request->conversation,
+            'status' => '1',
         ]);
 
+        $ticket = Ticket::with('user')->where('id', $conversation->ticket_id)->first();
+        Mail::to($ticket->user->email)->send(new ReplayMail($request->conversation));
         flash()->success('Replay has been added');
         return back();
     }
