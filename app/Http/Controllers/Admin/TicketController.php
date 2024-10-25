@@ -316,8 +316,6 @@ class TicketController extends Controller
         }
         Gate::authorize('view', $ticket);
         $ticket = Ticket::query()->where('id', $ticket->id)->with('ticket_notes', 'images', 'conversation')->first();
-
-        // return $ticket;
         $requester_type = RequesterType::query()->get();
         $sources = Source::query()->get();
         $teams = Team::query()->get();
