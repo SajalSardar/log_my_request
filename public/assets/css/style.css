@@ -354,3 +354,7 @@
  table tr {
      height: 52px;
  }
+
+ .title-width{
+    width: 325px;
+ }

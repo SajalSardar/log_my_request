@@ -20,7 +20,7 @@ class Fileupload
      * @param $request
      * @return array|object|bool|string
      */
-    public static function upload(array | object $request, Bucket $bucket, int $model_id, $model, int $width, int $height): array | object | bool | string
+    public static function upload(array|object $request, Bucket $bucket, int $model_id, $model, int $width, int $height): array|object|bool|string
     {
         $filename = Str::slug($request->name) . '-' . uniqid() . '-' . $request->image->getClientOriginalName();
         $size = $request->image->getSize() . 'bytes';
@@ -58,7 +58,7 @@ class Fileupload
      * @param $request
      * @return array|object|bool|string|null
      */
-    public static function update(array | object $request, Bucket $bucket, $oldItem, int $model_id, $model, int $width, int $height)
+    public static function update(array|object $request, Bucket $bucket, $oldItem, int $model_id, $model, int $width, int $height)
     {
         if ($request->image) {
             if (!empty($oldItem?->image?->path) && !empty($oldItem?->image?->filename)) {
@@ -100,7 +100,7 @@ class Fileupload
      * @param $model
      * @return array|object|bool|string
      */
-    public static function uploadFile(array | object $request, Bucket $bucket, int $model_id, $model): array | object | bool | string
+    public static function uploadFile(array|object $request, Bucket $bucket, int $model_id, $model): array|object|bool|string
     {
         $filename = uniqid() . '-' . $request->request_attachment->getClientOriginalName();
         $size = $request->request_attachment->getSize() . ' bytes';
@@ -133,7 +133,46 @@ class Fileupload
      * @param $model
      * @return array|object|bool|string
      */
-    public static function updateFile(array | object $request, Bucket $bucket, $oldItem, $model_id, $model): array | object | bool | string
+    public static function uploadFiles(array|object $request, Bucket $bucket, int $model_id, $model)
+    {
+        $uploadedImages = [];
+
+        foreach ($request->request_attachment as $key => $file) {
+            $filename = uniqid() . '-' . $file->getClientOriginalName();
+            $size = $file->getSize() . ' bytes';
+            $isUpload = $file->storeAs($bucket->toString(), $filename, 'public');
+            $url = asset('storage/' . $bucket->toString() . '/' . $filename);
+
+            if ($isUpload) {
+                $imageDatabase = Image::create([
+                    'image_type' => $model,
+                    'image_id' => $model_id,
+                    'filename' => $filename,
+                    'disk' => 'local',
+                    'path' => $bucket->toString(),
+                    'url' => $url,
+                    'size' => $size,
+                ]);
+
+                $uploadedImages[] = $imageDatabase; // Add to uploaded images array
+            } else {
+                return false;
+            }
+        }
+
+        return $uploadedImages;
+    }
+
+
+    /**
+     * Define public method uploadFile() to uploadFile the file server and database
+     * @param array|object $request
+     * @param Bucket $bucket
+     * @param int $model_id int
+     * @param $model
+     * @return array|object|bool|string
+     */
+    public static function updateFile(array|object $request, Bucket $bucket, $oldItem, $model_id, $model): array|object|bool|string
     {
         if (!empty($oldItem?->image?->path) && !empty($oldItem?->image?->filename)) {
             $fileToDelete = storage_path('app/public/' . $oldItem->image->path . '/' . $oldItem?->image?->filename);
@@ -147,7 +186,8 @@ class Fileupload
         $isUpload = $request->request_attachment->storeAs($bucket->toString(), $filename, 'public');
         $url = asset('storage/' . $bucket->toString() . '/' . $filename);
         if ($isUpload) {
-            $imageDatabase = Image::updateOrCreate(['image_id' => $model_id],
+            $imageDatabase = Image::updateOrCreate(
+                ['image_id' => $model_id],
                 [
                     'image_type' => $model,
                     'image_id' => $model_id,

@@ -20,7 +20,8 @@ use Illuminate\Support\Facades\Mail;
 use Livewire\Component;
 use Livewire\Features\SupportFileUploads\WithFileUploads;
 
-class CreateTicket extends Component {
+class CreateTicket extends Component
+{
     use WithFileUploads;
 
     /**
@@ -65,15 +66,16 @@ class CreateTicket extends Component {
     public $teamAgent;
 
     /**
-     * Define public method mount() to load the resourses
+     * Define public method mount() to load the resources
      */
-    public function mount(): void {
+    public function mount(): void
+    {
         $this->requester_type = RequesterType::query()->get();
-        $this->sources        = Source::query()->get();
-        $this->teams          = Team::query()->get();
-        $this->categories     = Category::query()->get();
-        $this->ticket_status  = TicketStatus::query()->get();
-        $this->teamAgent      = [];
+        $this->sources = Source::query()->get();
+        $this->teams = Team::query()->get();
+        $this->categories = Category::query()->get();
+        $this->ticket_status = TicketStatus::query()->get();
+        $this->teamAgent = [];
     }
 
     /**
@@ -81,60 +83,62 @@ class CreateTicket extends Component {
      * change of Team.
      * @return void
      */
-    public function selectCategoryAgent(): void {
+    public function selectCategoryAgent(): void
+    {
         $this->teamAgent = Team::query()->with('agents')->where('id', $this->form?->team_id)->get();
     }
 
     /**
      * Define public method save() to store the resources
+     * @param TicketService $service
      * @return void
      */
-    public function save(TicketService $service) {
-
+    public function save(TicketService $service)
+    {
         $this->validate(rules: $this->form->rules(), attributes: $this->form->attributes());
         $isCreate = $service->store($this->form);
-        $isUpload = $this->form->request_attachment ? Fileupload::uploadFile($this->form, Bucket::TICKET, $isCreate->getKey(), Ticket::class) : '';
+        $isUpload = $this->form->request_attachment ? Fileupload::uploadFiles($this->form, Bucket::TICKET, $isCreate->getKey(), Ticket::class) : '';
         $response = $isCreate ? 'Data has been Save successfully' : 'Something went wrong';
         flash()->success($response);
-
         return redirect()->to('dashboard/ticket-list');
     }
 
-    public function requesterSave() {
+    public function requesterSave()
+    {
         $this->validate([
             'form.request_title' => ['required'],
-            'form.category_id'   => ['required'],
+            'form.category_id' => ['required'],
         ]);
         $response = Ticket::create(
             [
-                'user_id'          => Auth::id(),
-                'category_id'      => $this->form->category_id,
+                'user_id' => Auth::id(),
+                'category_id' => $this->form->category_id,
                 'ticket_status_id' => 1,
-                'source_id'        => 1,
-                'title'            => $this->form->request_title,
-                'description'      => $this->form->request_description,
-                'priority'         => 'low',
-                'ticket_type'      => 'customer',
-                'created_by'       => Auth::id(),
+                'source_id' => 1,
+                'title' => $this->form->request_title,
+                'description' => $this->form->request_description,
+                'priority' => 'low',
+                'ticket_type' => 'customer',
+                'created_by' => Auth::id(),
             ]
         );
         $isUpload = $this->form->request_attachment ? Fileupload::uploadFile($this->form, Bucket::TICKET, $response->getKey(), Ticket::class) : '';
 
         $ticket_notes = TicketNote::create([
-            'ticket_id'  => $response->getKey(),
-            'note_type'  => 'initiated',
-            'note'       => $this->form->request_description,
+            'ticket_id' => $response->getKey(),
+            'note_type' => 'initiated',
+            'note' => $this->form->request_description,
             'new_status' => 'open',
             'created_by' => Auth::user()->id,
         ]);
 
         $ticket_logs = TicketLog::create([
-            'ticket_id'     => $response->getKey(),
+            'ticket_id' => $response->getKey(),
             'ticket_status' => 'open',
-            'comment'       => json_encode($response),
-            'status'        => 'create',
-            'created_by'    => Auth::user()->id,
-            'updated_by'    => Auth::user()->id,
+            'comment' => json_encode($response),
+            'status' => 'create',
+            'created_by' => Auth::user()->id,
+            'updated_by' => Auth::user()->id,
         ]);
 
         Mail::to(Auth::user()->email)->send(new TicketEmail($response));
@@ -144,7 +148,8 @@ class CreateTicket extends Component {
         return redirect()->to('dashboard/ticket-list');
     }
 
-    public function render() {
+    public function render()
+    {
         if (Auth::user()->hasRole('requester')) {
             return view('livewire.ticket.create-requester');
         }

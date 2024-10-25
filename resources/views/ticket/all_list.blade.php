@@ -116,9 +116,8 @@
                 responsive: true,
                 searching: false,
                 scrollX: true,
-                order: [
-                    0, 'desc'
-                ],
+                autoWidth: false,
+                order: [[0, 'desc']], // Corrected syntax for 'order'
                 ajax: {
                     url: "{{ route('admin.all.ticket.list.datatable') }}",
                     type: "GET",
@@ -134,58 +133,25 @@
                     }
                 },
                 columns: [
-                    {
-                        data: 'select',
-                        name: 'select'
-                    },
-                    {
-                        data: 'id',
-                        name: 'id'
-                    },
-                    {
-                        data: 'title',
-                        name: 'title'
-                    },
-                    {
-                        data: 'priority',
-                        name: 'priority'
-                    },
-                    {
-                        data: 'category_id',
-                        name: 'category_id'
-                    },
-                    {
-                        data: 'ticket_status_id',
-                        name: 'ticket_status_id'
-                    },
-                    {
-                        data: 'user_id',
-                        name: 'user_id'
-                    },
-                    {
-                        data: 'team_id',
-                        name: 'team_id'
-                    },
-                    {
-                        data: 'agent',
-                        name: 'agent'
-                    },
-                    {
-                        data: 'created_at',
-                        name: 'created_at'
-                    },
-                    {
-                        data: 'request_age',
-                        name: 'request_age'
-                    },
-                    {
-                        data: 'due_date',
-                        name: 'due_date'
-                    },
-                    {
-                        data: 'action_column',
-                        name: 'action_column'
-                    }
+                    { data: 'select', name: 'select', visible: true },
+                    { data: 'id', name: 'id' },
+                    { data: 'title', name: 'title' },
+                    { data: 'priority', name: 'priority' },
+                    { data: 'category_id', name: 'category_id' },
+                    { data: 'ticket_status_id', name: 'ticket_status_id' },
+                    { data: 'user_id', name: 'user_id' },
+                    { data: 'team_id', name: 'team_id' },
+                    { data: 'agent', name: 'agent' },
+                    { data: 'created_at', name: 'created_at' },
+                    { data: 'request_age', name: 'request_age' },
+                    { data: 'due_date', name: 'due_date' },
+                    { data: 'action_column', name: 'action_column' }
+                ],
+                columnDefs: [
+                    { width: "50px", targets: 0 },
+                    { width: "50px", targets: 1 },
+                    { width: "325px", targets: 2 },
+                    { width: "80px", targets: 3 }
                 ]
             });
 
