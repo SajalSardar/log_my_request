@@ -126,7 +126,7 @@ class Fileupload
     }
 
     /**
-     * Define public method uploadFile() to uploadFile the file server and database
+     * Define public method uploadFiles() to uploadFile the file server and database
      * @param array|object $request
      * @param Bucket $bucket
      * @param int $model_id int
@@ -154,7 +154,7 @@ class Fileupload
                     'size' => $size,
                 ]);
 
-                $uploadedImages[] = $imageDatabase; // Add to uploaded images array
+                $uploadedImages[] = $imageDatabase;
             } else {
                 return false;
             }

@@ -8,8 +8,7 @@
                         <x-forms.label for="form.request_title" required="yes">
                             {{ __('Request Title') }}
                         </x-forms.label>
-                        <x-forms.text-input wire:model="form.request_title" value="{{ $ticket?->title }}"
-                            type="text" />
+                        <x-forms.text-input wire:model="form.request_title" value="{{ $ticket?->title }}" type="text" />
                         <x-input-error :messages="$errors->get('form.request_title')" class="mt-2" />
                     </div>
                 </div>
@@ -19,16 +18,14 @@
                         {{ __('Request Description') }}
                     </x-forms.label>
                     <div wire:ignore>
-                        <textarea wire:ignore cols="30" id="editor" rows="10" wire:model.lazy='form.request_description'
-                            class="w-full py-3 text-base font-normal font-inter border border-slate-400 rounded"
-                            placeholder="Add description here..">{!! $ticket->description !!}</textarea>
+                        <textarea wire:ignore cols="30" id="editor" rows="10" wire:model.lazy='form.request_description' class="w-full py-3 text-base font-normal font-inter border border-slate-400 rounded" placeholder="Add description here..">{!! $ticket->description !!}</textarea>
                         <x-input-error :messages="$errors->get('form.request_description')" class="mt-2" />
                     </div>
                 </div>
 
                 <div class="grid md:grid-cols-1 sm:grid-cols-1 sm:gap-1 md:gap-4">
                     <div class="p-2 w-full">
-                        <x-forms.input-file wire:model="form.request_attachment" accept=".pdf,.docs,.ppt" />
+                        <x-forms.input-file wire:model="form.request_attachment" accept=".jpg, .jpeg, .png, .pdf,.docs,.ppt" />
                         <x-input-error :messages="$errors->get('form.request_attachment')" class="mt-2" />
                     </div>
                 </div>
@@ -38,16 +35,14 @@
                         <x-forms.label for="form.requester_name" required='yes'>
                             {{ __('Requester Name') }}
                         </x-forms.label>
-                        <x-forms.text-input type="text" readonly wire:model='form.requester_name'
-                            value="{{ $ticket?->user?->name }}" />
+                        <x-forms.text-input type="text" readonly wire:model='form.requester_name' value="{{ $ticket?->user?->name }}" />
                         <x-input-error :messages="$errors->get('form.requester_name')" class="mt-2" />
                     </div>
                     <div class="p-2 w-full">
                         <x-forms.label for="form.requester_email" required="yes">
                             {{ __('Requester Email') }}
                         </x-forms.label>
-                        <x-forms.text-input wire:model="form.requester_email" readonly type="email"
-                            value="{{ $ticket?->user?->email }}" />
+                        <x-forms.text-input wire:model="form.requester_email" readonly type="email" value="{{ $ticket?->user?->email }}" />
                         <x-input-error :messages="$errors->get('form.requester_email')" class="mt-2" />
                     </div>
                 </div>
@@ -57,8 +52,7 @@
                         <x-forms.label for="form.requester_phone">
                             {{ __('Requester Phone') }}
                         </x-forms.label>
-                        <x-forms.text-input type="number" readonly wire:model='form.requester_phone'
-                            value="{{ $ticket?->user?->phone }}" />
+                        <x-forms.text-input type="number" readonly wire:model='form.requester_phone' value="{{ $ticket?->user?->phone }}" />
                         <x-input-error :messages="$errors->get('form.requester_phone')" class="mt-2" />
                     </div>
                     <div class="p-2 w-full">
@@ -91,12 +85,9 @@
                             {{ __('Requester Priority') }}
                         </x-forms.label>
                         <div class="mt-3">
-                            <x-forms.radio-input wire:model="form.priority" name="priority" class="ml-2"
-                                value="low" /> <span class="ml-2">Low</span>
-                            <x-forms.radio-input wire:model="form.priority" name="priority" class="ml-2"
-                                value="medium" /> <span class="ml-2">Medium</span>
-                            <x-forms.radio-input wire:model="form.priority" name="priority" class="ml-2"
-                                value="high" /> <span class="ml-2">High</span>
+                            <x-forms.radio-input wire:model="form.priority" name="priority" class="ml-2" value="low" /> <span class="ml-2">Low</span>
+                            <x-forms.radio-input wire:model="form.priority" name="priority" class="ml-2" value="medium" /> <span class="ml-2">Medium</span>
+                            <x-forms.radio-input wire:model="form.priority" name="priority" class="ml-2" value="high" /> <span class="ml-2">High</span>
                         </div>
                         <x-input-error :messages="$errors->get('form.priority')" class="mt-2" />
                     </div>
@@ -107,8 +98,7 @@
                         <x-forms.label for="form.due_date">
                             {{ __('Due Date') }}
                         </x-forms.label>
-                        <x-forms.text-input type="date" wire:model='form.due_date'
-                            value="{{ $ticket?->due_date }}" />
+                        <x-forms.text-input type="date" wire:model='form.due_date' value="{{ $ticket?->due_date }}" />
                         <x-input-error :messages="$errors->get('form.due_date')" class="mt-2" />
                     </div>
 
@@ -172,9 +162,7 @@
                             <option value="">Assign Agent</option>
                             @foreach ($teamAgent as $each)
                                 @foreach ($each->agents as $item)
-                                    <option
-                                        {{ in_array($item->id, $ticket?->owners?->pluck('id')->toArray()) ? 'selected' : '' }}
-                                        value="{{ $item?->id }}">
+                                    <option {{ in_array($item->id, $ticket?->owners?->pluck('id')->toArray()) ? 'selected' : '' }} value="{{ $item?->id }}">
                                         {{ $item?->name }}
                                     </option>
                                 @endforeach
@@ -212,24 +200,24 @@
     </div>
 </form>
 @section('style')
-    <style>
-        .ck-editor__editable_inline {
-            min-height: 300px;
-            /* Adjust the height to your preference */
-        }
-    </style>
+<style>
+    .ck-editor__editable_inline {
+        min-height: 300px;
+        /* Adjust the height to your preference */
+    }
+</style>
 @endsection
 @section('script')
-    <script>
-        const editor = ClassicEditor
-            .create(document.querySelector('#editor'))
-            .then(editor => {
-                editor.model.document.on('change:data', () => {
-                    @this.set('form.request_description', editor.getData());
-                })
+<script>
+    const editor = ClassicEditor
+        .create(document.querySelector('#editor'))
+        .then(editor => {
+            editor.model.document.on('change:data', () => {
+                @this.set('form.request_description', editor.getData());
             })
-            .catch(error => {
-                console.error(error);
-            });
-    </script>
+        })
+        .catch(error => {
+            console.error(error);
+        });
+</script>
 @endsection

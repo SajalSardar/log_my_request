@@ -315,12 +315,14 @@ class TicketController extends Controller
             return response()->json($agents);
         }
         Gate::authorize('view', $ticket);
-        $this->ticket = Ticket::query()->where('id', $ticket->id)->with('ticket_notes', 'image', 'conversation')->first();
-        $this->requester_type = RequesterType::query()->get();
-        $this->sources = Source::query()->get();
-        $this->teams = Team::query()->get();
-        $this->categories = Category::query()->get();
-        $this->ticket_status = TicketStatus::query()->get();
+        $ticket = Ticket::query()->where('id', $ticket->id)->with('ticket_notes', 'images', 'conversation')->first();
+
+        // return $ticket;
+        $requester_type = RequesterType::query()->get();
+        $sources = Source::query()->get();
+        $teams = Team::query()->get();
+        $categories = Category::query()->get();
+        $ticket_status = TicketStatus::query()->get();
         $agents = Team::query()->with('agents')->where('id', $ticket?->team_id)->get();
         $users = User::whereNotIn('id', [1])->select('id', 'name', 'email')->get();
         $histories = TicketNote::query()->where('ticket_id', $ticket->id)->select('id', 'note', 'created_at')->get();
@@ -341,12 +343,12 @@ class TicketController extends Controller
         $ticketStatusWise = $ticketStatusWiseList->take(5)->get();
 
         return view('ticket.show', [
-            'ticket' => $this->ticket,
-            'requester_type' => $this->requester_type,
-            'sources' => $this->sources,
-            'teams' => $this->teams,
-            'categories' => $this->categories,
-            'ticket_status' => $this->ticket_status,
+            'ticket' => $ticket,
+            'requester_type' => $requester_type,
+            'sources' => $sources,
+            'teams' => $teams,
+            'categories' => $categories,
+            'ticket_status' => $ticket_status,
             'agents' => $agents,
             'ticketStatusWise' => $ticketStatusWise,
             'users' => $users,

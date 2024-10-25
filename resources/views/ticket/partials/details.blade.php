@@ -30,8 +30,7 @@
             <ul>
                 <li>
                     <span class="font-sm font-semibold font-inter">Status: </span>
-                    <span
-                        class="font-sm font-semibold font-inter text-red-600">{{ $ticket?->ticket_status->name }}</span>
+                    <span class="font-sm font-semibold font-inter text-red-600">{{ $ticket?->ticket_status->name }}</span>
                 </li>
                 <li>
                     <span class="font-sm font-semibold font-inter">Priority:
@@ -51,30 +50,26 @@
                 <li>
                     <span class="font-sm font-semibold font-inter">Request Age:
                     </span>
-                    <span
-                        class="font-sm font-normal font-inter">{{ Helper::dayMonthYearHourMininteSecond($ticket?->created_at, true, true, true, true) }}</span>
+                    <span class="font-sm font-normal font-inter">{{ Helper::dayMonthYearHourMininteSecond($ticket?->created_at, true, true, true, true) }}</span>
                 </li>
             </ul>
         </div>
-        {{-- <div
-            class="basis-full sm:basis-full md:basis-1/3 lg:basis-1/3 sm:px-0 md:px-10 lg:px-4">
+        {{-- <div class="basis-full sm:basis-full md:basis-1/3 lg:basis-1/3 sm:px-0 md:px-10 lg:px-4">
             <ul>
                 <li>
                     <span class="font-sm font-semibold font-inter">Assign Team:
                     </span>
-                    <span
-                        class="font-sm font-normal font-inter">{{ @$ticket?->team->name }}</span>
-        </li>
-        <li>
-            <span class="font-sm font-semibold font-inter">Assign Agent:
-            </span>
-            <span
-                class="font-sm font-normal font-inter">{{ count($ticket->owners) > 0 ? $ticket->owners->last()->name : '-' }}</span>
-        </li>
+                    <span class="font-sm font-normal font-inter">{{ @$ticket?->team->name }}</span>
+                </li>
+                <li>
+                    <span class="font-sm font-semibold font-inter">Assign Agent:
+                    </span>
+                    <span class="font-sm font-normal font-inter">{{ count($ticket->owners) > 0 ? $ticket->owners->last()->name : '-' }}</span>
+                </li>
 
-        </ul>
-    </div> --}}
-</div>
+            </ul>
+        </div> --}}
+    </div>
 
 </div>
 <!-- Infos Part End !-->
@@ -83,20 +78,13 @@
 <div class="flex justify-between">
     <p class="text-base font-bold font-inter">Request Description</p>
     <div class="action flex">
-        <svg class="me-2" width="24" height="24" viewBox="0 0 24 24" fill="none"
-            xmlns="http://www.w3.org/2000/svg">
-            <path
-                d="M16.2141 4.98239L17.6158 3.58063C18.39 2.80646 19.6452 2.80646 20.4194 3.58063C21.1935 4.3548 21.1935 5.60998 20.4194 6.38415L19.0176 7.78591M16.2141 4.98239L10.9802 10.2163C9.93493 11.2616 9.41226 11.7842 9.05637 12.4211C8.70047 13.058 8.3424 14.5619 8 16C9.43809 15.6576 10.942 15.2995 11.5789 14.9436C12.2158 14.5877 12.7384 14.0651 13.7837 13.0198L19.0176 7.78591M16.2141 4.98239L19.0176 7.78591"
-                stroke="#666666" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
-            <path
-                d="M21 12C21 16.2426 21 18.364 19.682 19.682C18.364 21 16.2426 21 12 21C7.75736 21 5.63604 21 4.31802 19.682C3 18.364 3 16.2426 3 12C3 7.75736 3 5.63604 4.31802 4.31802C5.63604 3 7.75736 3 12 3"
-                stroke="#666666" stroke-width="1.5" stroke-linecap="round" />
+        <svg class="me-2" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M16.2141 4.98239L17.6158 3.58063C18.39 2.80646 19.6452 2.80646 20.4194 3.58063C21.1935 4.3548 21.1935 5.60998 20.4194 6.38415L19.0176 7.78591M16.2141 4.98239L10.9802 10.2163C9.93493 11.2616 9.41226 11.7842 9.05637 12.4211C8.70047 13.058 8.3424 14.5619 8 16C9.43809 15.6576 10.942 15.2995 11.5789 14.9436C12.2158 14.5877 12.7384 14.0651 13.7837 13.0198L19.0176 7.78591M16.2141 4.98239L19.0176 7.78591" stroke="#666666" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+            <path d="M21 12C21 16.2426 21 18.364 19.682 19.682C18.364 21 16.2426 21 12 21C7.75736 21 5.63604 21 4.31802 19.682C3 18.364 3 16.2426 3 12C3 7.75736 3 5.63604 4.31802 4.31802C5.63604 3 7.75736 3 12 3" stroke="#666666" stroke-width="1.5" stroke-linecap="round" />
         </svg>
 
         <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path
-                d="M4 17.9808V9.70753C4 6.07416 4 4.25748 5.17157 3.12874C6.34315 2 8.22876 2 12 2C15.7712 2 17.6569 2 18.8284 3.12874C20 4.25748 20 6.07416 20 9.70753V17.9808C20 20.2867 20 21.4396 19.2272 21.8523C17.7305 22.6514 14.9232 19.9852 13.59 19.1824C12.8168 18.7168 12.4302 18.484 12 18.484C11.5698 18.484 11.1832 18.7168 10.41 19.1824C9.0768 19.9852 6.26947 22.6514 4.77285 21.8523C4 21.4396 4 20.2867 4 17.9808Z"
-                stroke="#666666" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+            <path d="M4 17.9808V9.70753C4 6.07416 4 4.25748 5.17157 3.12874C6.34315 2 8.22876 2 12 2C15.7712 2 17.6569 2 18.8284 3.12874C20 4.25748 20 6.07416 20 9.70753V17.9808C20 20.2867 20 21.4396 19.2272 21.8523C17.7305 22.6514 14.9232 19.9852 13.59 19.1824C12.8168 18.7168 12.4302 18.484 12 18.484C11.5698 18.484 11.1832 18.7168 10.41 19.1824C9.0768 19.9852 6.26947 22.6514 4.77285 21.8523C4 21.4396 4 20.2867 4 17.9808Z" stroke="#666666" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
         </svg>
     </div>
 </div>
@@ -115,39 +103,32 @@
     <div class="flex items-center">
         <p class="text-base font-bold font-inter me-2">Attached File:</p>
         <div class="custom_file flex gap-5">
-            @if ($ticket?->image)
-            <a href="{{ route('admin.ticket.downloadFile',['file' => $ticket?->image?->id]) }}" style="width: 200px;"
-                class="flex justify-between px-1 py-1 border border-slate-300 rounded bg-gray-200">
-                <div class="flex items-center">
-                    <span class="pr-1">
-                        <svg width="30" height="30" viewBox="0 0 24 24" fill="none"
-                            xmlns="http://www.w3.org/2000/svg">
-                            <path d="M8 17H16" stroke="#333333" stroke-width="1.5" stroke-linecap="round"
-                                stroke-linejoin="round" />
-                            <path d="M8 13H12" stroke="#333333" stroke-width="1.5" stroke-linecap="round"
-                                stroke-linejoin="round" />
-                            <path
-                                d="M13 2.5V3C13 5.82843 13 7.24264 13.8787 8.12132C14.7574 9 16.1716 9 19 9H19.5M20 10.6569V14C20 17.7712 20 19.6569 18.8284 20.8284C17.6569 22 15.7712 22 12 22C8.22876 22 6.34315 22 5.17157 20.8284C4 19.6569 4 17.7712 4 14V9.45584C4 6.21082 4 4.58831 4.88607 3.48933C5.06508 3.26731 5.26731 3.06508 5.48933 2.88607C6.58831 2 8.21082 2 11.4558 2C12.1614 2 12.5141 2 12.8372 2.11401C12.9044 2.13772 12.9702 2.165 13.0345 2.19575C13.3436 2.34355 13.593 2.593 14.0919 3.09188L18.8284 7.82843C19.4065 8.40649 19.6955 8.69552 19.8478 9.06306C20 9.4306 20 9.83935 20 10.6569Z"
-                                stroke="#333333" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
-                        </svg>
-                    </span>
-                    <div class="info">
-                        <p class="text-sm font-inter font-normal">Doc File</p>
-                        <p class="text-sm font-inter font-normal">3 MB</p>
-                    </div>
-                </div>
+            @if (is_object($ticket?->images) && $ticket?->images->count() > 0)
+                @foreach ($ticket->images as $image)
+                    <a href="{{ route('admin.ticket.downloadFile', ['file' => $image?->id]) }}" style="width: 200px;" class="flex justify-between px-1 py-1 border border-slate-300 rounded bg-gray-200">
+                        <div class="flex items-center">
+                            <span class="pr-1">
+                                <svg width="30" height="30" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M8 17H16" stroke="#333333" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+                                    <path d="M8 13H12" stroke="#333333" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+                                    <path d="M13 2.5V3C13 5.82843 13 7.24264 13.8787 8.12132C14.7574 9 16.1716 9 19 9H19.5M20 10.6569V14C20 17.7712 20 19.6569 18.8284 20.8284C17.6569 22 15.7712 22 12 22C8.22876 22 6.34315 22 5.17157 20.8284C4 19.6569 4 17.7712 4 14V9.45584C4 6.21082 4 4.58831 4.88607 3.48933C5.06508 3.26731 5.26731 3.06508 5.48933 2.88607C6.58831 2 8.21082 2 11.4558 2C12.1614 2 12.5141 2 12.8372 2.11401C12.9044 2.13772 12.9702 2.165 13.0345 2.19575C13.3436 2.34355 13.593 2.593 14.0919 3.09188L18.8284 7.82843C19.4065 8.40649 19.6955 8.69552 19.8478 9.06306C20 9.4306 20 9.83935 20 10.6569Z" stroke="#333333" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+                                </svg>
+                            </span>
+                            <div class="info">
+                                <p class="text-sm font-inter font-normal">{{ Str::limit($image->filename, '10', '..') }}</p>
+                                <p class="text-sm font-inter font-normal">{{ $image->size }}</p>
+                            </div>
+                        </div>
 
-                <div class="flex items-center">
-                    <svg width="30" height="30" viewBox="0 0 24 25" fill="none"
-                        xmlns="http://www.w3.org/2000/svg">
-                        <path d="M6 20.5H18" stroke="#666666" stroke-width="1.5" stroke-linecap="round" />
-                        <path d="M12 16.5V4.5" stroke="#666666" stroke-width="1.5" stroke-linecap="round"
-                            stroke-linejoin="round" />
-                        <path d="M16 12.5C16 12.5 13.054 16.5 12 16.5C10.9459 16.5 8 12.5 8 12.5" stroke="#666666"
-                            stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
-                    </svg>
-                </div>
-            </a>
+                        <div class="flex items-center">
+                            <svg width="30" height="30" viewBox="0 0 24 25" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M6 20.5H18" stroke="#666666" stroke-width="1.5" stroke-linecap="round" />
+                                <path d="M12 16.5V4.5" stroke="#666666" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+                                <path d="M16 12.5C16 12.5 13.054 16.5 12 16.5C10.9459 16.5 8 12.5 8 12.5" stroke="#666666" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+                            </svg>
+                        </div>
+                    </a>
+                @endforeach
             @endif
 
 
