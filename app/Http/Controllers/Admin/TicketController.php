@@ -6,6 +6,7 @@ use App\Enums\Bucket;
 use App\Http\Controllers\Controller;
 use App\LocaleStorage\Fileupload;
 use App\Mail\ConversationMail;
+use App\Mail\LogUpdateMail;
 use App\Mail\TicketEmail;
 use App\Mail\UpdateInfoMail;
 use App\Models\Category;
@@ -567,7 +568,7 @@ class TicketController extends Controller
      */
     public function logUpdate(Request $request, Ticket $ticket)
     {
-
+        $emailResponse = [];
         $request->validate([
             "team_id" => 'required',
             "category_id" => 'required',
@@ -609,6 +610,7 @@ class TicketController extends Controller
                         'created_by' => Auth::id(),
                     ]
                 );
+                $emailResponse['team_change'] = 'Team changed';
             }
             if ($ticket->category_id != $request->category_id) {
                 TicketNote::create(
@@ -619,6 +621,7 @@ class TicketController extends Controller
                         'created_by' => Auth::id(),
                     ]
                 );
+                $emailResponse['category_change'] = 'Category changed';
             }
             if ($ticket->priority != $request->priority) {
                 TicketNote::create(
@@ -629,6 +632,7 @@ class TicketController extends Controller
                         'created_by' => Auth::id(),
                     ]
                 );
+                $emailResponse['priority'] = 'Priority changed';
             }
 
             $old_due_date = $ticket->due_date ? $ticket->due_date->format('Y-m-d') : '';
@@ -653,6 +657,7 @@ class TicketController extends Controller
                         'created_by' => Auth::id(),
                     ]
                 );
+                $emailResponse['status_change'] = 'Status changed';
             }
 
             $ticket->update(
@@ -691,6 +696,9 @@ class TicketController extends Controller
             );
         }
 
+        if (!empty($emailResponse)) {
+            Mail::to($ticket->user->email)->send(new LogUpdateMail($emailResponse));
+        }
         flash()->success('Data has been updated successfully');
         return back();
     }
