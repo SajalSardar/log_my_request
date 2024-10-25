@@ -3,6 +3,7 @@
 // module
 
 use App\Http\Controllers\Admin\AdminUserController;
+use App\Http\Controllers\Admin\DepartmentController;
 use App\Http\Controllers\Admin\MenuController;
 use App\Http\Controllers\Admin\RequesterTypeController;
 use App\Http\Controllers\Admin\RoleController;
@@ -25,6 +26,7 @@ Route::middleware('auth')->prefix('dashboard')->name('admin.')->group(function (
     Route::resource('requestertype', RequesterTypeController::class);
     Route::resource('ticketownership', TicketOwnershipController::class);
     Route::resource('ticketstatus', TicketStatusController::class);
+    Route::resource('department', DepartmentController::class);
 
     Route::resource('ticket', TicketController::class);
     Route::get('ticket-list', [TicketController::class, 'allTicketList'])->name('all.ticket.list');

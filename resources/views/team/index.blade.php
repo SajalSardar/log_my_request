@@ -1,7 +1,7 @@
 <x-app-layout>
     <div class="flex justify-end pb-3">
         <x-actions.href href="{{ route('admin.team.create') }}">
-            Team List
+            Create Team
         </x-actions.href>
     </div>
     <div class="relative overflow-x-auto bg-white">
