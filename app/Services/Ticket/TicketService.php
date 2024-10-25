@@ -65,6 +65,7 @@ class TicketService {
         $response = Ticket::create(
             [
                 'user_id'          => $checkUser ? $checkUser->id : $this->user->id,
+                'department_id'    => $request?->department_id,
                 'team_id'          => $request?->team_id,
                 'category_id'      => $request?->category_id,
                 'ticket_status_id' => $request?->ticket_status_id,
@@ -210,6 +211,7 @@ class TicketService {
 
             $ticket->update(
                 [
+                    'department_id'    => $request?->department_id,
                     'source_id'        => $request->source_id,
                     'title'            => $request->request_title,
                     'description'      => $request->request_description,

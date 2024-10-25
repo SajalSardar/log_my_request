@@ -52,7 +52,7 @@
                     <span class="font-sm font-semibold font-inter">Request Age:
                     </span>
                     <span
-                        class="font-sm font-normal font-inter">{{ Helper::dayMonthYearHourMininteSecond($ticket?->created_at, true, true, true, true) }}</span>
+                        class="font-sm font-normal font-inter">{{ dayMonthYearHourMininteSecond($ticket?->created_at, true, true, true, true, true, true, true) }}</span>
                 </li>
             </ul>
         </div>
@@ -74,7 +74,7 @@
 
         </ul>
     </div> --}}
-</div>
+    </div>
 
 </div>
 <!-- Infos Part End !-->
@@ -116,38 +116,40 @@
         <p class="text-base font-bold font-inter me-2">Attached File:</p>
         <div class="custom_file flex gap-5">
             @if ($ticket?->image)
-            <a href="{{ route('admin.ticket.downloadFile',['file' => $ticket?->image?->id]) }}" style="width: 200px;"
-                class="flex justify-between px-1 py-1 border border-slate-300 rounded bg-gray-200">
-                <div class="flex items-center">
-                    <span class="pr-1">
-                        <svg width="30" height="30" viewBox="0 0 24 24" fill="none"
-                            xmlns="http://www.w3.org/2000/svg">
-                            <path d="M8 17H16" stroke="#333333" stroke-width="1.5" stroke-linecap="round"
-                                stroke-linejoin="round" />
-                            <path d="M8 13H12" stroke="#333333" stroke-width="1.5" stroke-linecap="round"
-                                stroke-linejoin="round" />
-                            <path
-                                d="M13 2.5V3C13 5.82843 13 7.24264 13.8787 8.12132C14.7574 9 16.1716 9 19 9H19.5M20 10.6569V14C20 17.7712 20 19.6569 18.8284 20.8284C17.6569 22 15.7712 22 12 22C8.22876 22 6.34315 22 5.17157 20.8284C4 19.6569 4 17.7712 4 14V9.45584C4 6.21082 4 4.58831 4.88607 3.48933C5.06508 3.26731 5.26731 3.06508 5.48933 2.88607C6.58831 2 8.21082 2 11.4558 2C12.1614 2 12.5141 2 12.8372 2.11401C12.9044 2.13772 12.9702 2.165 13.0345 2.19575C13.3436 2.34355 13.593 2.593 14.0919 3.09188L18.8284 7.82843C19.4065 8.40649 19.6955 8.69552 19.8478 9.06306C20 9.4306 20 9.83935 20 10.6569Z"
-                                stroke="#333333" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
-                        </svg>
-                    </span>
-                    <div class="info">
-                        <p class="text-sm font-inter font-normal">Doc File</p>
-                        <p class="text-sm font-inter font-normal">3 MB</p>
+                <a href="{{ route('admin.ticket.downloadFile', ['file' => $ticket?->image?->id]) }}"
+                    style="width: 200px;"
+                    class="flex justify-between px-1 py-1 border border-slate-300 rounded bg-gray-200">
+                    <div class="flex items-center">
+                        <span class="pr-1">
+                            <svg width="30" height="30" viewBox="0 0 24 24" fill="none"
+                                xmlns="http://www.w3.org/2000/svg">
+                                <path d="M8 17H16" stroke="#333333" stroke-width="1.5" stroke-linecap="round"
+                                    stroke-linejoin="round" />
+                                <path d="M8 13H12" stroke="#333333" stroke-width="1.5" stroke-linecap="round"
+                                    stroke-linejoin="round" />
+                                <path
+                                    d="M13 2.5V3C13 5.82843 13 7.24264 13.8787 8.12132C14.7574 9 16.1716 9 19 9H19.5M20 10.6569V14C20 17.7712 20 19.6569 18.8284 20.8284C17.6569 22 15.7712 22 12 22C8.22876 22 6.34315 22 5.17157 20.8284C4 19.6569 4 17.7712 4 14V9.45584C4 6.21082 4 4.58831 4.88607 3.48933C5.06508 3.26731 5.26731 3.06508 5.48933 2.88607C6.58831 2 8.21082 2 11.4558 2C12.1614 2 12.5141 2 12.8372 2.11401C12.9044 2.13772 12.9702 2.165 13.0345 2.19575C13.3436 2.34355 13.593 2.593 14.0919 3.09188L18.8284 7.82843C19.4065 8.40649 19.6955 8.69552 19.8478 9.06306C20 9.4306 20 9.83935 20 10.6569Z"
+                                    stroke="#333333" stroke-width="1.5" stroke-linecap="round"
+                                    stroke-linejoin="round" />
+                            </svg>
+                        </span>
+                        <div class="info">
+                            <p class="text-sm font-inter font-normal">Doc File</p>
+                            <p class="text-sm font-inter font-normal">3 MB</p>
+                        </div>
                     </div>
-                </div>
 
-                <div class="flex items-center">
-                    <svg width="30" height="30" viewBox="0 0 24 25" fill="none"
-                        xmlns="http://www.w3.org/2000/svg">
-                        <path d="M6 20.5H18" stroke="#666666" stroke-width="1.5" stroke-linecap="round" />
-                        <path d="M12 16.5V4.5" stroke="#666666" stroke-width="1.5" stroke-linecap="round"
-                            stroke-linejoin="round" />
-                        <path d="M16 12.5C16 12.5 13.054 16.5 12 16.5C10.9459 16.5 8 12.5 8 12.5" stroke="#666666"
-                            stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
-                    </svg>
-                </div>
-            </a>
+                    <div class="flex items-center">
+                        <svg width="30" height="30" viewBox="0 0 24 25" fill="none"
+                            xmlns="http://www.w3.org/2000/svg">
+                            <path d="M6 20.5H18" stroke="#666666" stroke-width="1.5" stroke-linecap="round" />
+                            <path d="M12 16.5V4.5" stroke="#666666" stroke-width="1.5" stroke-linecap="round"
+                                stroke-linejoin="round" />
+                            <path d="M16 12.5C16 12.5 13.054 16.5 12 16.5C10.9459 16.5 8 12.5 8 12.5" stroke="#666666"
+                                stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+                        </svg>
+                    </div>
+                </a>
             @endif
 
 

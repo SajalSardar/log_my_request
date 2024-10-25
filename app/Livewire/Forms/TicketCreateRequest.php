@@ -100,6 +100,11 @@ class TicketCreateRequest extends Form {
     public $owner_id = null;
 
     /**
+     * Define public property $owner_id;
+     */
+    public $department_id = null;
+
+    /**
      * Define public method rules() to validation
      * @return array
      */
@@ -117,6 +122,7 @@ class TicketCreateRequest extends Form {
         $arr['form.ticket_status_id']    = ['required', Rule::exists(TicketStatus::class, 'id')];
         $arr['form.request_attachment']  = ['nullable', 'mimes:pdf,docs,ppt', 'max:3024'];
         $arr['form.owner_id']            = ['nullable', Rule::exists(User::class, 'id')];
+        $arr['form.department_id']       = ['nullable'];
         return $arr;
     }
 
@@ -138,6 +144,7 @@ class TicketCreateRequest extends Form {
         $arr['form.ticket_status_id']    = 'ticket status';
         $arr['form.request_attachment']  = 'attachment';
         $arr['form.owner_id']            = 'owner';
+        $arr['form.department_id']       = 'Department';
         return $arr;
     }
 }

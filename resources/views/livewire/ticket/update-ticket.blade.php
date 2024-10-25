@@ -132,7 +132,7 @@
                             {{ __('Category') }}
                         </x-forms.label>
 
-                        <x-forms.select-input wire:model="form.category_id">
+                        <x-forms.select-input wire:model="form.category_id" id="category_id">
                             <option disabled value>Category</option>
                             @foreach ($categories as $each)
                                 <option @selected(old('form.category_id', $ticket?->category_id) == $each?->id) value="{{ $each?->id }}">
@@ -146,14 +146,30 @@
 
                 </div>
 
-                <div class="grid md:grid-cols-3 sm:grid-cols-1">
+                <div class="grid md:grid-cols-4 sm:grid-cols-1">
+                    <div class="p-2">
+                        <x-forms.label for="department_id_select">
+                            {{ __('Department') }}
+                        </x-forms.label>
+                        <div>
+                            <x-forms.select-input wire:model="form.department_id" wire:change="selectDepartemntTeam">
+                                <option value="">Select Department</option>
+                                @foreach ($departments as $each)
+                                    <option value="{{ $each->id }}" :key="{{ $each->id }}">
+                                        {{ $each?->name }}
+                                    </option>
+                                @endforeach
+                            </x-forms.select-input>
+                            <x-input-error :messages="$errors->get('form.department_id')" class="mt-2" />
+                        </div>
+                    </div>
                     <div class="p-2">
                         <x-forms.label for="form.team_id">
                             {{ __('Assign Team') }}
                         </x-forms.label>
 
-                        <x-forms.select-input wire:model="form.team_id" wire:change="selectCategoryAgent">
-                            <option value="" disabled>Select a Team</option>
+                        <x-forms.select-input wire:model="form.team_id" wire:change="selectTeamAgent">
+                            <option value="">Select a Team</option>
                             @foreach ($teams as $each)
                                 <option value="{{ $each->id }}" @selected($form->team_id == $each->id)>{{ $each->name }}
                                 </option>
@@ -169,15 +185,13 @@
                         </x-forms.label>
 
                         <x-forms.select-input wire:model="form.owner_id">
-                            <option value="">Assign Agent</option>
-                            @foreach ($teamAgent as $each)
-                                @foreach ($each->agents as $item)
-                                    <option
-                                        {{ in_array($item->id, $ticket?->owners?->pluck('id')->toArray()) ? 'selected' : '' }}
-                                        value="{{ $item?->id }}">
-                                        {{ $item?->name }}
-                                    </option>
-                                @endforeach
+                            <option value="">Select Agent</option>
+                            @foreach ($teamAgent as $item)
+                                <option
+                                    {{ in_array($item->id, $ticket?->owners?->pluck('id')->toArray()) ? 'selected' : '' }}
+                                    value="{{ $item?->id }}">
+                                    {{ $item?->name }}
+                                </option>
                             @endforeach
                         </x-forms.select-input>
 
@@ -200,9 +214,6 @@
                     </div>
                 </div>
                 <div class="p-2">
-                    <x-buttons.secondary type="button">
-                        Cancel
-                    </x-buttons.secondary>
                     <x-buttons.primary>
                         Update Ticket
                     </x-buttons.primary>
@@ -231,5 +242,22 @@
             .catch(error => {
                 console.error(error);
             });
+
+        document.addEventListener('DOMContentLoaded', function() {
+
+            let attachment = document.querySelector('#attachment');
+            let attachmentName = document.querySelector('#attachmentName');
+
+            attachment.addEventListener('change', function(event) {
+                event.preventDefault();
+                let files = event.target.files;
+                if (files.length > 0) {
+                    let filename = files[0].name;
+                    attachmentName.innerHTML = filename;
+                }
+            });
+
+            initSelect2form('category_id');
+        });
     </script>
 @endsection

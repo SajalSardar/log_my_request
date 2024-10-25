@@ -6,10 +6,10 @@ use App\Enums\Bucket;
 use App\Livewire\Forms\TicketUpdateRequest;
 use App\LocaleStorage\Fileupload;
 use App\Models\Category;
+use App\Models\Department;
 use App\Models\RequesterType;
 use App\Models\Source;
 use App\Models\Team;
-use App\Models\TeamCategory;
 use App\Models\Ticket;
 use App\Models\TicketLog;
 use App\Models\TicketNote;
@@ -68,6 +68,8 @@ class UpdateTicket extends Component {
      */
     public $ticket;
 
+    public $departments;
+
     /**
      * Define public method mount() to load the resourses
      */
@@ -90,33 +92,40 @@ class UpdateTicket extends Component {
         $this->form->category_id         = $this->ticket->category_id;
         $this->form->ticket_status_id    = $this->ticket->ticket_status_id;
         $this->form->owner_id            = $this->ticket->owners->pluck('id')->toArray();
+        $this->form->department_id       = $this->ticket->department_id;
 
         /**
          * Select box dynamic value set.
          */
+        $teams = Team::with('agents')->where('id', $this->ticket->team_id)->first();
+
         $this->requester_type = RequesterType::query()->get();
         $this->sources        = Source::query()->get();
-        $this->teams          = Team::query()->get();
+        $this->teams          = Team::where('department_id', $this->ticket->department_id)->get();
         $this->categories     = Category::query()->get();
         $this->ticket_status  = TicketStatus::query()->get();
-        $this->teamAgent      = Team::query()->with('agents')->where('id', $this->ticket?->team_id)->get();
+        $this->teamAgent      = $teams->agents;
+        $this->departments    = Department::where('status', true)->get();
     }
 
     /**
-     * Define public method selectCategoryAgent() to select category and agent with the
+     * Define public method selectTeamAgent() to select category and agent with the
      * change of Team.
      * @return void
      */
-    public function selectCategoryAgent(): void {
-        $this->categories = TeamCategory::query()->with('category')->where('team_id', $this->form?->team_id)->get();
-        $this->teamAgent  = Team::query()->with('agents')->where('id', $this->form?->team_id)->get();
+    public function selectTeamAgent(): void {
+        $teams = Team::query()->with('agents')->where('id', $this->form?->team_id)->first();
+
+        $this->teamAgent = $teams->agents;
+    }
+    public function selectDepartemntTeam(): void {
+        $this->teams = Team::where('department_id', $this->form?->department_id)->get();
     }
 
     /**
      * Define public method update() to update the resourses
      */
     public function update(TicketService $service) {
-
         $this->validate(rules: $this->form->rules(), attributes: $this->form->attributes());
         $isCreate = $service->update($this->ticket, $this->form);
 
