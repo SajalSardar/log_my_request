@@ -117,8 +117,7 @@ class TicketController extends Controller {
      * @param Request $request
      * @return \Illuminate\Http\JsonResponse
      */
-    public function allTicketListDataTable(Request $request)
-    {
+    public function allTicketListDataTable(Request $request) {
         Gate::authorize('viewAny', Ticket::class);
 
         $tickets = Ticket::query()->with(['owners', 'source', 'user', 'team', 'category', 'ticket_status', 'department']);
@@ -313,16 +312,16 @@ class TicketController extends Controller {
             return response()->json($agents);
         }
         Gate::authorize('view', $ticket);
-        $ticket = Ticket::query()->where('id', $ticket->id)->with('ticket_notes', 'images', 'conversation')->first();
+        $ticket         = Ticket::query()->where('id', $ticket->id)->with('ticket_notes', 'images', 'conversation')->first();
         $requester_type = RequesterType::query()->get();
-        $sources = Source::query()->get();
-        $teams = Team::query()->get();
-        $categories = Category::query()->get();
-        $ticket_status = TicketStatus::query()->get();
-        $agents = Team::query()->with('agents')->where('id', $ticket?->team_id)->get();
-        $users = User::whereNotIn('id', [1])->select('id', 'name', 'email')->get();
-        $histories = TicketNote::query()->where('ticket_id', $ticket->id)->select('id', 'note', 'created_at')->get();
-        $conversations = Conversation::orderBy('created_at')->where('parent_id', null)->with('replay')->where('ticket_id', $ticket->id)->get()->groupBy(function ($query) {
+        $sources        = Source::query()->get();
+        $teams          = Team::query()->get();
+        $categories     = Category::query()->get();
+        $ticket_status  = TicketStatus::query()->get();
+        $agents         = Team::query()->with('agents')->where('id', $ticket?->team_id)->get();
+        $users          = User::whereNotIn('id', [1])->select('id', 'name', 'email')->get();
+        $histories      = TicketNote::query()->where('ticket_id', $ticket->id)->select('id', 'note', 'created_at')->get();
+        $conversations  = Conversation::orderBy('created_at')->where('parent_id', null)->with('replay')->where('ticket_id', $ticket->id)->get()->groupBy(function ($query) {
             return date('Y m d', strtotime($query->created_at));
         });
 
@@ -339,13 +338,13 @@ class TicketController extends Controller {
         $ticketStatusWise = $ticketStatusWiseList->take(5)->get();
 
         return view('ticket.show', [
-            'ticket' => $ticket,
-            'requester_type' => $requester_type,
-            'sources' => $sources,
-            'teams' => $teams,
-            'categories' => $categories,
-            'ticket_status' => $ticket_status,
-            'agents' => $agents,
+            'ticket'           => $ticket,
+            'requester_type'   => $requester_type,
+            'sources'          => $sources,
+            'teams'            => $teams,
+            'categories'       => $categories,
+            'ticket_status'    => $ticket_status,
+            'agents'           => $agents,
             'ticketStatusWise' => $ticketStatusWise,
             'users'            => $users,
             'conversations'    => $conversations,
@@ -560,8 +559,7 @@ class TicketController extends Controller {
      * Define public method logUpdate() to update log of ticket
      * @param Request $request
      */
-    public function logUpdate(Request $request, Ticket $ticket)
-    {
+    public function logUpdate(Request $request, Ticket $ticket) {
 
         $request->validate([
             "team_id"          => 'required',
@@ -870,7 +868,7 @@ class TicketController extends Controller {
                 ]
             );
         }
-        $source = Source::find($request->source_id);
+        $source          = Source::find($request->source_id);
         $request->source = $source->title;
         Mail::to($ticket->user->email)->send(new UpdateInfoMail($request));
         flash()->success('Edit has been successfully done');

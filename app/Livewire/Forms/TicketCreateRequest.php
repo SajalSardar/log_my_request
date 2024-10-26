@@ -104,26 +104,30 @@ class TicketCreateRequest extends Form {
      */
     public $department_id = null;
 
+    public $sub_category_id = null;
+
     /**
      * Define public method rules() to validation
      * @return array
      */
     public function rules(): array {
-        $arr['form.request_title']       = ['required'];
-        $arr['form.request_description'] = ['nullable'];
-        $arr['form.requester_name']      = ['required'];
-        $arr['form.requester_email']     = ['required', 'email'];
-        $arr['form.requester_phone']     = ['nullable', 'string', 'max:15'];
-        $arr['form.priority']            = ['required'];
-        $arr['form.due_date']            = ['nullable'];
-        $arr['form.source_id']           = ['nullable', Rule::exists(Source::class, 'id')];
-        $arr['form.category_id']         = ['required', Rule::exists(Category::class, 'id')];
-        $arr['form.team_id']             = ['nullable', Rule::exists(Team::class, 'id')];
-        $arr['form.ticket_status_id']    = ['required', Rule::exists(TicketStatus::class, 'id')];
-        $arr['form.request_attachment'] = ['nullable', 'array'];
+        $arr['form.request_title']        = ['required'];
+        $arr['form.request_description']  = ['nullable'];
+        $arr['form.requester_name']       = ['required'];
+        $arr['form.requester_email']      = ['required', 'email'];
+        $arr['form.requester_phone']      = ['nullable', 'string', 'max:15'];
+        $arr['form.priority']             = ['required'];
+        $arr['form.due_date']             = ['nullable'];
+        $arr['form.source_id']            = ['nullable', Rule::exists(Source::class, 'id')];
+        $arr['form.category_id']          = ['required', Rule::exists(Category::class, 'id')];
+        $arr['form.team_id']              = ['nullable', Rule::exists(Team::class, 'id')];
+        $arr['form.ticket_status_id']     = ['required', Rule::exists(TicketStatus::class, 'id')];
+        $arr['form.request_attachment']   = ['nullable', 'array'];
         $arr['form.request_attachment.*'] = ['file', 'mimes:jpg,jpeg,png,pdf,doc,docx,ppt', 'max:3024'];
-        $arr['form.owner_id']            = ['nullable', Rule::exists(User::class, 'id')];
-        $arr['form.department_id']       = ['nullable'];
+        $arr['form.owner_id']             = ['nullable', Rule::exists(User::class, 'id')];
+        $arr['form.department_id']        = ['nullable'];
+        $arr['form.sub_category_id']      = ['nullable'];
+
         return $arr;
     }
 
@@ -146,6 +150,7 @@ class TicketCreateRequest extends Form {
         $arr['form.request_attachment']  = 'attachment';
         $arr['form.owner_id']            = 'owner';
         $arr['form.department_id']       = 'Department';
+        $arr['form.sub_category_id']     = 'Sub Category';
         return $arr;
     }
 }

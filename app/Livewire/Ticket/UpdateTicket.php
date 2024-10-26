@@ -19,8 +19,7 @@ use Illuminate\Support\Facades\Auth;
 use Livewire\Component;
 use Livewire\Features\SupportFileUploads\WithFileUploads;
 
-class UpdateTicket extends Component
-{
+class UpdateTicket extends Component {
     use WithFileUploads;
 
     /**
@@ -71,16 +70,17 @@ class UpdateTicket extends Component
 
     public $departments;
 
+    public $subCategory;
+
     /**
      * Define public method mount() to load the resources
      */
-    public function mount(): void
-    {
+    public function mount(): void {
         /**
          * Old value set to the input field
          */
-        $this->ticket = Ticket::query()->with('user', 'source', 'image', 'owners')->where('id', $this->ticket->id)->first();
-        $this->form->request_title = $this->ticket?->title;
+        $this->ticket                    = Ticket::query()->with('user', 'source', 'image', 'owners')->where('id', $this->ticket->id)->first();
+        $this->form->request_title       = $this->ticket?->title;
         $this->form->request_description = $this->ticket?->description;
         $this->form->requester_name      = $this->ticket->user->name;
         $this->form->requester_email     = $this->ticket->user->email;
@@ -95,6 +95,7 @@ class UpdateTicket extends Component
         $this->form->ticket_status_id    = $this->ticket->ticket_status_id;
         $this->form->owner_id            = $this->ticket->owners->pluck('id')->toArray();
         $this->form->department_id       = $this->ticket->department_id;
+        $this->form->sub_category_id     = $this->ticket->sub_category_id;
 
         /**
          * Select box dynamic value set.
@@ -108,6 +109,7 @@ class UpdateTicket extends Component
         $this->ticket_status  = TicketStatus::query()->get();
         $this->teamAgent      = $teams->agents;
         $this->departments    = Department::where('status', true)->get();
+        $this->subCategory    = Category::where('id', $this->ticket->sub_category_id)->get();
     }
 
     /**
@@ -124,6 +126,11 @@ class UpdateTicket extends Component
         $this->teams = Team::where('department_id', $this->form?->department_id)->get();
     }
 
+    public function selectChildeCategory(): void {
+
+        $this->subCategory = Category::where('parent_id', $this->form?->category_id)->get();
+
+    }
     /**
      * Define public method update() to update the resources
      */
@@ -137,37 +144,36 @@ class UpdateTicket extends Component
         return redirect()->to('dashboard/ticket-list');
     }
 
-    public function requesterUpdate()
-    {
+    public function requesterUpdate() {
         $this->validate([
             'form.request_title' => ['required'],
-            'form.category_id' => ['required'],
+            'form.category_id'   => ['required'],
         ]);
 
         $this->ticket->update(
             [
                 'category_id' => $this->form->category_id,
-                'title' => $this->form->request_title,
+                'title'       => $this->form->request_title,
                 'description' => $this->form->request_description,
-                'updated_by' => Auth::id(),
+                'updated_by'  => Auth::id(),
             ]
         );
         $isUpload = $this->form->request_attachment ? Fileupload::uploadFile($this->form, Bucket::TICKET, $this->ticket->getKey(), Ticket::class) : '';
 
         TicketNote::create([
-            'ticket_id' => $this->ticket->getKey(),
-            'note_type' => 'title_desc_updated',
-            'note' => 'Update title or description!',
+            'ticket_id'  => $this->ticket->getKey(),
+            'note_type'  => 'title_desc_updated',
+            'note'       => 'Update title or description!',
             'created_by' => Auth::user()->id,
         ]);
 
         TicketLog::create([
-            'ticket_id' => $this->ticket->getKey(),
+            'ticket_id'     => $this->ticket->getKey(),
             'ticket_status' => 'open',
-            'comment' => json_encode($this->ticket),
-            'status' => 'title_desc_updated',
-            'created_by' => Auth::user()->id,
-            'updated_by' => Auth::user()->id,
+            'comment'       => json_encode($this->ticket),
+            'status'        => 'title_desc_updated',
+            'created_by'    => Auth::user()->id,
+            'updated_by'    => Auth::user()->id,
         ]);
 
         flash()->success('Data has been Save successfully');
@@ -175,8 +181,7 @@ class UpdateTicket extends Component
         return redirect()->to('dashboard/ticket-list');
     }
 
-    public function render()
-    {
+    public function render() {
         if (Auth::user()->hasRole('requester')) {
             return view('livewire.ticket.update-requester');
         }

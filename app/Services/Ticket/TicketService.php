@@ -76,6 +76,7 @@ class TicketService {
                 'ticket_type'      => 'customer',
                 'due_date'         => $request?->due_date,
                 'created_by'       => Auth::id(),
+                'sub_category_id'  => $request?->sub_category_id,
             ]
         );
 
@@ -221,6 +222,7 @@ class TicketService {
                     'category_id'      => $request->category_id,
                     'ticket_status_id' => $request->ticket_status_id,
                     'updated_by'       => Auth::id(),
+                    'sub_category_id'  => $request?->sub_category_id,
                 ]
             );
             TicketLog::create(
