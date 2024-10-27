@@ -134,7 +134,8 @@ class TicketController extends Controller {
                     });
                 }
                 if ($request->ticket_id_search) {
-                    $query->where('id', 'like', '%' . $request->ticket_id_search . '%');
+                    $query->where('id', 'like', '%' . $request->ticket_id_search . '%')
+                        ->orWhere('title', 'like', '%' . $request->ticket_id_search . '%');
                 }
                 if ($request->priority_search) {
                     $query->where('priority', '=', $request->priority_search);
@@ -186,16 +187,16 @@ class TicketController extends Controller {
                 </div>';
             })
             ->editColumn('title', function ($tickets) {
-                return '<a href="' . route('admin.ticket.show', ['ticket' => $tickets?->id]) . '" class="text-title hover:bg-green-400 hover:underline">' . Str::limit(ucfirst($tickets->title), 30, '...') . '</a>';
+                return '<a href="' . route('admin.ticket.show', ['ticket' => $tickets?->id]) . '" class="pr-4 text-title hover:text-orange-300 hover:underline block w-72">' . Str::limit(ucfirst($tickets->title), 50, '...') . '</a>';
             })
             ->editColumn('priority', function ($tickets) {
-                return '<span class="text-title">' . Str::ucfirst($tickets->priority) . '</span>';
+                return '<span class="text-title w-20 pr-3 block">' . Str::ucfirst($tickets->priority) . '</span>';
             })
             ->editColumn('department_id', function ($tickets) {
-                return '<span class="text-title">' . Str::ucfirst(@$tickets->department->name) . '</span>';
+                return '<span class="text-title w-40 block pr-3">' . Str::ucfirst(@$tickets->department->name) . '</span>';
             })
             ->editColumn('category_id', function ($tickets) {
-                return '<span class="text-title">' . Str::ucfirst($tickets->category->name) . '</span>';
+                return '<span class="text-title w-44 block pr-4">' . Str::ucfirst($tickets->category->name) . '</span>';
             })
             ->editColumn('ticket_status_id', function ($tickets) {
                 $data = "";
