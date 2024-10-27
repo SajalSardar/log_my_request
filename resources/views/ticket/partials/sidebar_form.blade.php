@@ -15,13 +15,13 @@
                     </div>
                 </div>
 
-                <div class="grid md:grid-cols-2 sm:grid-cols-2 sm:gap-1 md:gap-3">
+                <div class="grid md:grid-cols-1 sm:grid-cols-2 sm:gap-1 md:gap-3">
                     <div class="mt-3">
                         <x-forms.label for="category_id" required="yes">
                             {{ __('Category') }}
                         </x-forms.label>
 
-                        <x-forms.select-input name="category_id">
+                        <x-forms.select-input name="category_id" id="category_id">
                             <option value>Category</option>
                             @foreach ($categories as $each)
                                 <option @selected(old('category_id', $ticket?->category_id) == $each?->id) value="{{ $each?->id }}">
@@ -32,6 +32,26 @@
 
                         <x-input-error :messages="$errors->get('category_id')" class="mt-2" />
                     </div>
+                </div>
+
+                <div class="grid md:grid-cols-1 sm:grid-cols-2 sm:gap-1 md:gap-3 hidden" id="sub_category_div">
+
+                    <div class="mt-3">
+                        <x-forms.label for="sub_category_id" required="yes">
+                            {{ __('Sub Category') }}
+                        </x-forms.label>
+
+                        <x-forms.select-input name="sub_category_id" id="sub_category_id" required>
+
+                        </x-forms.select-input>
+
+                        <x-input-error :messages="$errors->get('sub_category_id')" class="mt-2" />
+                    </div>
+                </div>
+
+
+                <div class="grid md:grid-cols-1 sm:grid-cols-2 sm:gap-1 md:gap-3">
+
                     <div class="mt-3">
                         <x-forms.label for="ticket_status_id" required="yes">
                             {{ __('Status') }}
@@ -51,6 +71,24 @@
                     </div>
                 </div>
 
+                <div class="grid md:grid-cols-1 sm:grid-cols-2 sm:gap-1 md:gap-3">
+
+                    <div class="mt-3">
+                        <x-forms.label for="sub_category_id" required="yes">
+                            {{ __('Department') }}
+                        </x-forms.label>
+
+                        <x-forms.select-input name="department_id" id="department">
+                            <option value="">Select department </option>
+                            @foreach ($departments as $department)
+                                <option value="{{ $department->id }}" @selected(old('department_id', $ticket?->department_id) == $department?->id)>
+                                    {{ $department->name }}</option>
+                            @endforeach
+                        </x-forms.select-input>
+
+                        <x-input-error :messages="$errors->get('department_id')" class="mt-2" />
+                    </div>
+                </div>
                 <div class="grid md:grid-cols-2 sm:grid-cols-2 sm:gap-1 md:gap-3">
                     <div class="mt-3">
                         <x-forms.label for="team_id" required="yes">
@@ -74,8 +112,7 @@
                         </x-forms.label>
 
                         <x-forms.select-input name="owner_id">
-                            <option value="">Assign Agent
-                            </option>
+                            <option value="">Select Agent</option>
                             @foreach ($agents as $each)
                                 @foreach ($each->agents as $item)
                                     <option
@@ -130,4 +167,3 @@
         </div>
     </div>
 </form>
-

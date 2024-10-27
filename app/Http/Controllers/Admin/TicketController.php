@@ -11,6 +11,7 @@ use App\Mail\TicketEmail;
 use App\Mail\UpdateInfoMail;
 use App\Models\Category;
 use App\Models\Conversation;
+use App\Models\Department;
 use App\Models\Image;
 use App\Models\RequesterType;
 use App\Models\Source;
@@ -316,7 +317,7 @@ class TicketController extends Controller {
         $requester_type = RequesterType::query()->get();
         $sources        = Source::query()->get();
         $teams          = Team::query()->get();
-        $categories     = Category::query()->get();
+        $categories     = Category::where('parent_id', null)->get();
         $ticket_status  = TicketStatus::query()->get();
         $agents         = Team::query()->with('agents')->where('id', $ticket?->team_id)->get();
         $users          = User::whereNotIn('id', [1])->select('id', 'name', 'email')->get();
@@ -349,6 +350,7 @@ class TicketController extends Controller {
             'users'            => $users,
             'conversations'    => $conversations,
             'histories'        => $histories,
+            'departments'      => Department::where('status', true)->get(),
         ]);
     }
 
@@ -567,6 +569,7 @@ class TicketController extends Controller {
             "ticket_status_id" => 'required',
             "priority"         => 'required',
             "comment"          => 'required',
+            "department_id"    => 'required',
         ]);
         DB::beginTransaction();
         try {
@@ -651,6 +654,19 @@ class TicketController extends Controller {
                 );
                 $emailResponse['status_change'] = 'Status changed';
             }
+            if ($ticket->department_id != $request->department_id) {
+                TicketNote::create(
+                    [
+                        'ticket_id'  => $ticket->id,
+                        'note_type'  => 'department_change',
+                        'note'       => $request->comment,
+                        'old_status' => $ticket_status->name,
+                        'new_status' => $ticket_status->name,
+                        'created_by' => Auth::id(),
+                    ]
+                );
+                $emailResponse['department_change'] = 'Department changed';
+            }
 
             $ticket->update(
                 [
@@ -659,6 +675,7 @@ class TicketController extends Controller {
                     'team_id'          => $request->team_id,
                     'category_id'      => $request->category_id,
                     'ticket_status_id' => $request->ticket_status_id,
+                    'department_id'    => $request->department_id,
                     'updated_by'       => Auth::id(),
                 ]
             );
@@ -873,5 +890,20 @@ class TicketController extends Controller {
         Mail::to($ticket->user->email)->send(new UpdateInfoMail($request));
         flash()->success('Edit has been successfully done');
         return back();
+    }
+
+    public function categoryWiseSubcategory(Request $request) {
+        // return $request->category_id;
+        $subCategorys = Category::where('parent_id', $request->category_id)->where('status', 1)->get();
+
+        return $subCategorys;
+
+    }
+    public function departmentWiseTeam(Request $request) {
+        // return $request->category_id;
+        $teams = Team::where('department_id', $request->department_id)->where('status', 1)->get();
+
+        return $teams;
+
     }
 }

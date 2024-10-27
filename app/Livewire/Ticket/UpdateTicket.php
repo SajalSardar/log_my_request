@@ -105,7 +105,7 @@ class UpdateTicket extends Component {
         $this->requester_type = RequesterType::query()->get();
         $this->sources        = Source::query()->get();
         $this->teams          = Team::where('department_id', $this->ticket->department_id)->get();
-        $this->categories     = Category::query()->get();
+        $this->categories     = Category::where('parent_id', null)->get();
         $this->ticket_status  = TicketStatus::query()->get();
         $this->teamAgent      = $teams->agents;
         $this->departments    = Department::where('status', true)->get();
@@ -127,14 +127,15 @@ class UpdateTicket extends Component {
     }
 
     public function selectChildeCategory(): void {
-
-        $this->subCategory = Category::where('parent_id', $this->form?->category_id)->get();
+        $this->form->sub_category_id = null;
+        $this->subCategory           = Category::where('parent_id', $this->form?->category_id)->get();
 
     }
     /**
      * Define public method update() to update the resources
      */
     public function update(TicketService $service) {
+        // dd($this->form);
         $this->validate(rules: $this->form->rules(), attributes: $this->form->attributes());
         $isCreate = $service->update($this->ticket, $this->form);
 

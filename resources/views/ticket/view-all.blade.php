@@ -142,7 +142,7 @@
                     searching: false,
                     scrollX: true,
                     order: [
-                        0, 'desc'
+                        1, 'desc'
                     ],
                     ajax: {
                         url: "{{ route('admin.ticket.status.wise.list.datatable') }}",
