@@ -800,7 +800,7 @@ class TicketController extends Controller {
                 'requester_id'      => $request?->requester_id,
             ]);
 
-            $user->assignRole('agent');
+            $user->assignRole('requester');
             $response = $ticket->update(
                 [
                     'user_id' => $user->getKey(),
