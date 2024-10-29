@@ -15,5 +15,6 @@ Route::middleware(['auth', 'locale'])->prefix('dashboard')->name('admin.')->grou
 
     Route::controller(ConversationController::class)->prefix('conversations')->name('conversation.')->group(function () {
         Route::post('replay/{conversation}', 'replay')->name('replay');
+        Route::post('conversations/{ticket}', 'conversation')->name('ticket.conversation');
     });
 });

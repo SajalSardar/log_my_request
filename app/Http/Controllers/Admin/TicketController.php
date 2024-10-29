@@ -746,24 +746,6 @@ class TicketController extends Controller {
     }
 
     /**
-     * Define public method conversation() to store the conversation
-     * @param Request $request
-     * @param Ticket $ticket
-     */
-    public function conversation(Request $request, Ticket $ticket) {
-        $conversation = Conversation::create([
-            'ticket_id'         => $ticket->id,
-            'requester_id'      => $ticket->user_id,
-            'conversation_type' => 'customer',
-            'conversation'      => $request->conversation,
-            'status'            => 1,
-        ]);
-        Mail::to($ticket->user->email)->send(new ConversationMail($conversation));
-        flash()->success('Conversation has been added successfully');
-        return back();
-    }
-
-    /**
      * Method for change the owner of ticket
      * @param Request $request
      * @param Ticket $ticket
