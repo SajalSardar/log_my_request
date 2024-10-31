@@ -3,6 +3,7 @@
 // module
 
 use App\Http\Controllers\Admin\AdminUserController;
+use App\Http\Controllers\Admin\DepartmentController;
 use App\Http\Controllers\Admin\MenuController;
 use App\Http\Controllers\Admin\RequesterTypeController;
 use App\Http\Controllers\Admin\RoleController;
@@ -25,6 +26,7 @@ Route::middleware('auth')->prefix('dashboard')->name('admin.')->group(function (
     Route::resource('requestertype', RequesterTypeController::class);
     Route::resource('ticketownership', TicketOwnershipController::class);
     Route::resource('ticketstatus', TicketStatusController::class);
+    Route::resource('department', DepartmentController::class);
 
     Route::resource('ticket', TicketController::class);
     Route::get('ticket-list', [TicketController::class, 'allTicketList'])->name('all.ticket.list');
@@ -33,11 +35,12 @@ Route::middleware('auth')->prefix('dashboard')->name('admin.')->group(function (
     Route::post('ticket-log-update/{ticket}', [TicketController::class, 'logUpdate'])->name('ticket.logUpdate');
     Route::post('ticket-internal-note-update/{ticket}', [TicketController::class, 'interNoteStore'])->name('ticket.interNoteStore');
     Route::get('ticket-download/{file}', [TicketController::class, 'downloadFile'])->name('ticket.downloadFile');
-    Route::post('conversations/{ticket}', [TicketController::class, 'conversation'])->name('ticket.conversation');
     Route::get('status-wise-ticket-list', [TicketController::class, 'ticketList'])->name('ticket.status.wise.list');
     Route::get('status-wise-ticket-list-datatable', [TicketController::class, 'allListDataTable'])->name('ticket.status.wise.list.datatable');
     Route::post('ticket-owner-change/{ticket}', [TicketController::class, 'ownerChange'])->name('ticket.ownerChange');
     Route::post('ticket-partial-update/{ticket}', [TicketController::class, 'partialUpdate'])->name('ticket.partialUpdate');
+    Route::get('get-category-wise-subcategory', [TicketController::class, 'categoryWiseSubcategory'])->name('ticket.category.wise.subcategory');
+    Route::get('get-department-wise-team', [TicketController::class, 'departmentWiseTeam'])->name('ticket.department.wise.team');
 
     // role
     Route::get('role-list', [RoleController::class, 'index'])->name('role.index');

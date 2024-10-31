@@ -7,6 +7,7 @@ use App\Livewire\Forms\TicketCreateRequest;
 use App\LocaleStorage\Fileupload;
 use App\Mail\TicketEmail;
 use App\Models\Category;
+use App\Models\Department;
 use App\Models\RequesterType;
 use App\Models\Source;
 use App\Models\Team;
@@ -64,39 +65,55 @@ class CreateTicket extends Component {
      */
     public $teamAgent;
 
+    public $departments;
+
+    public $subCategory;
+
     /**
-     * Define public method mount() to load the resourses
+     * Define public method mount() to load the resources
      */
     public function mount(): void {
         $this->requester_type = RequesterType::query()->get();
         $this->sources        = Source::query()->get();
-        $this->teams          = Team::query()->get();
-        $this->categories     = Category::query()->get();
+        $this->teams          = [];
+        $this->categories     = Category::where('parent_id', null)->get();
         $this->ticket_status  = TicketStatus::query()->get();
         $this->teamAgent      = [];
+        $this->departments    = Department::where('status', true)->get();
+        $this->subCategory    = [];
     }
 
     /**
-     * Define public method selectCategoryAgent() to select category and agent with the
+     * Define public method selectTeamAgent() to select category and agent with the
      * change of Team.
      * @return void
      */
-    public function selectCategoryAgent(): void {
-        $this->teamAgent = Team::query()->with('agents')->where('id', $this->form?->team_id)->get();
+    public function selectTeamAgent(): void {
+        $teams = Team::query()->with('agents')->where('id', $this->form?->team_id)->first();
+
+        $this->teamAgent = $teams->agents;
+    }
+    public function selectDepartemntTeam(): void {
+        $this->teams = Team::where('department_id', $this->form?->department_id)->get();
+    }
+
+    public function selectChildeCategory(): void {
+
+        $this->subCategory = Category::where('parent_id', $this->form?->category_id)->get();
+
     }
 
     /**
      * Define public method save() to store the resources
+     * @param TicketService $service
      * @return void
      */
     public function save(TicketService $service) {
-
         $this->validate(rules: $this->form->rules(), attributes: $this->form->attributes());
         $isCreate = $service->store($this->form);
-        $isUpload = $this->form->request_attachment ? Fileupload::uploadFile($this->form, Bucket::TICKET, $isCreate->getKey(), Ticket::class) : '';
+        $isUpload = $this->form->request_attachment ? Fileupload::uploadFiles($this->form, Bucket::TICKET, $isCreate->getKey(), Ticket::class) : '';
         $response = $isCreate ? 'Data has been Save successfully' : 'Something went wrong';
         flash()->success($response);
-
         return redirect()->to('dashboard/ticket-list');
     }
 

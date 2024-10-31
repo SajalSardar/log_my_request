@@ -9,13 +9,13 @@
             <div class="flex md:flex-row-reverse sm:flex-row">
                 <div>
                     <x-actions.href href="{{ route('admin.team.index') }}">
-                        {{ __('Team Create') }}
+                        {{ __('Team List') }}
                     </x-actions.href>
                 </div>
             </div>
         </header>
         <hr>
-        <livewire:team.create-team :categories="$categories" :agentUser="$agentUser" />
+        <livewire:team.create-team :categories="$categories" :agentUser="$agentUser" :departments="$departments" />
 
     </div>
 
@@ -23,6 +23,7 @@
         document.addEventListener('DOMContentLoaded', function() {
             initSelect2form('category_id');
             initSelect2form('agent_id');
+            initSelect2form('department_id');
         });
     </script>
 </x-app-layout>

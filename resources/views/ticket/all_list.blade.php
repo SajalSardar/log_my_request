@@ -92,6 +92,7 @@
                     <th class="text-heading-dark">Category</th>
                     <th class="text-heading-dark">Status</th>
                     <th class="text-heading-dark">Requester Name</th>
+                    <th class="text-heading-dark">Department</th>
                     <th class="text-heading-dark">Assigned Team</th>
                     <th class="text-heading-dark">Assigned Agent</th>
                     <th class="text-heading-dark">Created Date</th>
@@ -107,95 +108,98 @@
     </div>
 
     @section('script')
-    <script>
-        $(function () {
-            var dTable = $('#data-table').DataTable({
-                stripeClasses: [],
-                processing: true,
-                serverSide: true,
-                responsive: true,
-                searching: false,
-                scrollX: true,
-                order: [
-                    0, 'desc'
-                ],
-                ajax: {
-                    url: "{{ route('admin.all.ticket.list.datatable') }}",
-                    type: "GET",
-                    data: function (d) {
-                        d._token = "{{ csrf_token() }}";
-                        d.me_mode_search = $('#me_mode_search').val();
-                        d.ticket_id_search = $('#ticket_id_search').val();
-                        d.priority_search = $('#priority_search').val();
-                        d.category_search = $('#category_search').val();
-                        d.team_search = $('#team_search').val();
-                        d.status_search = $('#status_search').val();
-                        d.due_date_search = $('#due_date_search').val();
-                    }
-                },
-                columns: [
-                    {
-                        data: 'select',
-                        name: 'select'
+        <script>
+            $(function() {
+                var dTable = $('#data-table').DataTable({
+                    stripeClasses: [],
+                    processing: true,
+                    serverSide: true,
+                    responsive: true,
+                    searching: false,
+                    scrollX: true,
+                    order: [
+                        1, 'desc'
+                    ],
+                    ajax: {
+                        url: "{{ route('admin.all.ticket.list.datatable') }}",
+                        type: "GET",
+                        data: function(d) {
+                            d._token = "{{ csrf_token() }}";
+                            d.me_mode_search = $('#me_mode_search').val();
+                            d.ticket_id_search = $('#ticket_id_search').val();
+                            d.priority_search = $('#priority_search').val();
+                            d.category_search = $('#category_search').val();
+                            d.team_search = $('#team_search').val();
+                            d.status_search = $('#status_search').val();
+                            d.due_date_search = $('#due_date_search').val();
+                        }
                     },
-                    {
-                        data: 'id',
-                        name: 'id'
-                    },
-                    {
-                        data: 'title',
-                        name: 'title'
-                    },
-                    {
-                        data: 'priority',
-                        name: 'priority'
-                    },
-                    {
-                        data: 'category_id',
-                        name: 'category_id'
-                    },
-                    {
-                        data: 'ticket_status_id',
-                        name: 'ticket_status_id'
-                    },
-                    {
-                        data: 'user_id',
-                        name: 'user_id'
-                    },
-                    {
-                        data: 'team_id',
-                        name: 'team_id'
-                    },
-                    {
-                        data: 'agent',
-                        name: 'agent'
-                    },
-                    {
-                        data: 'created_at',
-                        name: 'created_at'
-                    },
-                    {
-                        data: 'request_age',
-                        name: 'request_age'
-                    },
-                    {
-                        data: 'due_date',
-                        name: 'due_date'
-                    },
-                    {
-                        data: 'action_column',
-                        name: 'action_column'
-                    }
-                ]
-            });
-
-            $(document).on('change keyup',
-                '#priority_search, #category_search, #team_search, #status_search, #due_date_search, #ticket_id_search',
-                function (e) {
-                    dTable.draw();
-                    e.preventDefault();
+                    columns: [{
+                            data: 'select',
+                            name: 'select'
+                        },
+                        {
+                            data: 'id',
+                            name: 'id'
+                        },
+                        {
+                            data: 'title',
+                            name: 'title'
+                        },
+                        {
+                            data: 'priority',
+                            name: 'priority'
+                        },
+                        {
+                            data: 'category_id',
+                            name: 'category_id'
+                        },
+                        {
+                            data: 'ticket_status_id',
+                            name: 'ticket_status_id'
+                        },
+                        {
+                            data: 'user_id',
+                            name: 'user_id'
+                        },
+                        {
+                            data: 'department_id',
+                            name: 'department_id'
+                        },
+                        {
+                            data: 'team_id',
+                            name: 'team_id'
+                        },
+                        {
+                            data: 'agent',
+                            name: 'agent'
+                        },
+                        {
+                            data: 'created_at',
+                            name: 'created_at'
+                        },
+                        {
+                            data: 'request_age',
+                            name: 'request_age'
+                        },
+                        {
+                            data: 'due_date',
+                            name: 'due_date'
+                        },
+                        {
+                            data: 'action_column',
+                            name: 'action_column'
+                        }
+                    ]
                 });
-        });
-    </script>
+
+                $(document).on('change keyup',
+                    '#priority_search, #category_search, #team_search, #status_search, #due_date_search, #ticket_id_search',
+                    function(e) {
+                        dTable.draw();
+                        e.preventDefault();
+                    });
+            });
+        </script>
     @endsection
 </x-app-layout>

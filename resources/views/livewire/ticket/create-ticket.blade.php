@@ -1,20 +1,20 @@
  <form wire:submit="save">
 
      <div class="flex flex-row">
-         <div class="md:basis-2/3 sm:basis-full">
+         <div style="width:651px !important">
              <div class="border border-slate-300 p-5 rounded">
 
-                 <div class="grid lg:grid-cols-1 md:grid-cols-1 sm:grid-cols-1 sm:gap-1 md:gap-4">
+                 <div class="grid lg:grid-cols-1 md:grid-cols-1 sm:grid-cols-1 sm:gap-1 md:gap-2">
                      <div class="p-2 w-full">
                          <x-forms.label for="form.request_title" required="yes">
                              {{ __('Request Title') }}
                          </x-forms.label>
-                         <x-forms.text-input wire:model="form.request_title" type="text" />
+                         <x-forms.text-input wire:model="form.request_title" type="text" required />
                          <x-input-error :messages="$errors->get('form.request_title')" class="mt-2" />
                      </div>
                  </div>
 
-                 <div class="grid md:grid-cols-1 sm:grid-cols-1 sm:gap-1 md:gap-4 p-2 w-full ">
+                 <div class="grid md:grid-cols-1 sm:grid-cols-1 sm:gap-1 md:gap-2 p-2 w-full ">
                      <x-forms.label for="form.request_description">
                          {{ __('Request Description') }}
                      </x-forms.label>
@@ -26,31 +26,32 @@
                      </div>
                  </div>
 
-                 <div class="grid md:grid-cols-1 sm:grid-cols-1 sm:gap-1 md:gap-4">
+                 <div class="grid md:grid-cols-1 sm:grid-cols-1 sm:gap-1 md:gap-2">
                      <div class="p-2 w-full">
-                         <x-forms.input-file wire:model="form.request_attachment" accept=".pdf,.docs,.ppt" />
+                         <x-forms.input-file wire:model="form.request_attachment" multiple
+                             accept=".jpg,.jpeg, .png,.pdf,.docx,.ppt" />
                          <x-input-error :messages="$errors->get('form.request_attachment')" class="mt-2" />
                      </div>
                  </div>
 
-                 <div class="grid md:grid-cols-2 sm:grid-cols-1 sm:gap-1 md:gap-4">
+                 <div class="grid md:grid-cols-2 sm:grid-cols-1 sm:gap-1 md:gap-2">
                      <div class="p-2 w-full">
                          <x-forms.label for="form.requester_name" required='yes'>
                              {{ __('Requester Name') }}
                          </x-forms.label>
-                         <x-forms.text-input type="text" wire:model='form.requester_name' />
+                         <x-forms.text-input type="text" wire:model='form.requester_name' required />
                          <x-input-error :messages="$errors->get('form.requester_name')" class="mt-2" />
                      </div>
                      <div class="p-2 w-full">
                          <x-forms.label for="form.requester_email" required="yes">
                              {{ __('Requester Email') }}
                          </x-forms.label>
-                         <x-forms.text-input wire:model="form.requester_email" type="email" />
+                         <x-forms.text-input wire:model="form.requester_email" type="email" required />
                          <x-input-error :messages="$errors->get('form.requester_email')" class="mt-2" />
                      </div>
                  </div>
 
-                 <div class="grid md:grid-cols-2 sm:grid-cols-1 sm:gap-1 md:gap-4">
+                 <div class="grid md:grid-cols-2 sm:grid-cols-1 sm:gap-1 md:gap-2">
                      <div class="p-2 w-full">
                          <x-forms.label for="form.requester_phone">
                              {{ __('Requester Phone') }}
@@ -75,7 +76,7 @@
                      </div>
                  </div>
 
-                 <div class="grid md:grid-cols-2 sm:grid-cols-1 sm:gap-1 md:gap-4">
+                 <div class="grid md:grid-cols-2 sm:grid-cols-1 sm:gap-1 md:gap-2">
                      <div class="p-2 w-full">
                          <x-forms.label for="form.requester_id">
                              {{ __('Requester ID') }}
@@ -89,17 +90,17 @@
                          </x-forms.label>
                          <div class="mt-3">
                              <x-forms.radio-input wire:model="form.priority" name="priority" class="ml-2"
-                                 value="low" /> <span class="ml-2">Low</span>
+                                 value="low" required /> <span class="ml-2">Low</span>
                              <x-forms.radio-input wire:model="form.priority" name="priority" class="ml-2"
-                                 value="medium" /> <span class="ml-2">Medium</span>
+                                 value="medium" required /> <span class="ml-2">Medium</span>
                              <x-forms.radio-input wire:model="form.priority" name="priority" class="ml-2"
-                                 value="high" /> <span class="ml-2">High</span>
+                                 value="high" required /> <span class="ml-2">High</span>
                          </div>
                          <x-input-error :messages="$errors->get('form.priority')" class="mt-2" />
                      </div>
                  </div>
 
-                 <div class="grid md:grid-cols-3 sm:grid-cols-1">
+                 <div class="grid md:grid-cols-2 sm:grid-cols-1">
                      <div class="p-2">
                          <x-forms.label for="form.due_date">
                              {{ __('Due Date') }}
@@ -123,63 +124,53 @@
 
                          <x-input-error :messages="$errors->get('form.source_id')" class="mt-2" />
                      </div>
+                 </div>
+
+                 <div class="grid md:grid-cols-2 sm:grid-cols-1">
                      <div class="p-2">
-                         <x-forms.label for="form.category_id" required="yes">
+                         <x-forms.label for="category_id" required="yes">
                              {{ __('Category') }}
                          </x-forms.label>
 
-                         <x-forms.select-input wire:model="form.category_id">
-                             <option value="">Select Category</option>
-                             @foreach ($categories as $each)
-                                 <option value="{{ $each?->id }}" :key="{{ $each->id }}">{{ $each?->name }}
-                                 </option>
-                             @endforeach
-                         </x-forms.select-input>
-
-                         <x-input-error :messages="$errors->get('form.category_id')" class="mt-2" />
-                     </div>
-
-                 </div>
-
-                 <div class="grid md:grid-cols-3 sm:grid-cols-1">
-                     <div class="p-2">
-                         <x-forms.label for="form.team_id">
-                             {{ __('Assign Team') }}
-                         </x-forms.label>
-                         <x-forms.select-input wire:model="form.team_id" wire:change="selectCategoryAgent">
-                             <option value="">Assign Team</option>
-                             @foreach ($teams as $each)
-                                 <option value="{{ $each->id }}" :key="{{ $each->id }}">{{ $each?->name }}
-                                 </option>
-                             @endforeach
-                         </x-forms.select-input>
-                         <x-input-error :messages="$errors->get('form.team_id')" class="mt-2" />
-                     </div>
-
-                     <div class="p-2">
-                         <x-forms.label for="form.owner_id">
-                             {{ __('Assign Agent') }}
-                         </x-forms.label>
                          <div>
-                             <x-forms.select-input wire:model="form.owner_id">
-                                 <option value="">Select Assign Agent</option>
-                                 @foreach ($teamAgent as $item)
-                                     @foreach ($item->agents as $each)
-                                         <option value="{{ $each?->id }}" :key="{{ $each->id }}">
-                                             {{ $each?->name }}</option>
-                                     @endforeach
+                             <x-forms.select-input wire:model="form.category_id" wire:change="selectChildeCategory"
+                                 required>
+                                 <option value="">Select Category</option>
+                                 @foreach ($categories as $each)
+                                     <option value="{{ $each?->id }}" :key="{{ $each->id }}">
+                                         {{ $each?->name }}
+                                     </option>
                                  @endforeach
                              </x-forms.select-input>
-                         </div>
+                             <x-input-error :messages="$errors->get('form.category_id')" class="mt-2" />
 
-                         <x-input-error :messages="$errors->get('form.owner_id')" class="mt-2" />
+                             @if ($subCategory && $subCategory->count() > 0)
+                                 <div class="mt-2">
+                                     <x-forms.label for="sub_category_id" required="yes">
+                                         {{ __('Sub Category') }}
+                                     </x-forms.label>
+                                     <x-forms.select-input wire:model="form.sub_category_id" id="sub_category_id"
+                                         required>
+                                         <option value="">Select Sub Category</option>
+                                         @foreach ($subCategory as $each)
+                                             <option value="{{ $each?->id }}" :key="{{ $each->id }}">
+                                                 {{ $each?->name }}
+                                             </option>
+                                         @endforeach
+                                     </x-forms.select-input>
+
+                                     <x-input-error :messages="$errors->get('form.sub_category_id')" class="mt-2" />
+                                 </div>
+                             @endif
+
+                         </div>
                      </div>
                      <div class="p-2">
                          <x-forms.label for="form.ticket_status_id" required="yes">
                              {{ __('Status') }}
                          </x-forms.label>
 
-                         <x-forms.select-input wire:model="form.ticket_status_id">
+                         <x-forms.select-input wire:model="form.ticket_status_id" required>
                              <option value="">Select status</option>
                              @foreach ($ticket_status as $status)
                                  <option value="{{ $status->id }}" :key="{{ $status->id }}">{{ $status->name }}
@@ -190,10 +181,60 @@
                          <x-input-error :messages="$errors->get('form.ticket_status_id')" class="mt-2" />
                      </div>
                  </div>
-                 <div class="p-2 flex gap-2">
-                     <x-buttons.secondary type="button">
-                         Cancel
-                     </x-buttons.secondary>
+
+                 <div class="grid md:grid-cols-3 sm:grid-cols-1">
+                     <div class="p-2">
+                         <x-forms.label for="department_id_select">
+                             {{ __('Department') }}
+                         </x-forms.label>
+                         <div>
+                             <x-forms.select-input wire:model="form.department_id" wire:change="selectDepartemntTeam">
+                                 <option value="">Select Department</option>
+                                 @foreach ($departments as $each)
+                                     <option value="{{ $each->id }}" :key="{{ $each->id }}">
+                                         {{ $each?->name }}
+                                     </option>
+                                 @endforeach
+                             </x-forms.select-input>
+                             <x-input-error :messages="$errors->get('form.department_id')" class="mt-2" />
+                         </div>
+                     </div>
+                     <div class="p-2">
+                         <x-forms.label for="team_id_select">
+                             {{ __('Assign Team') }}
+                         </x-forms.label>
+                         <div>
+                             <x-forms.select-input wire:model="form.team_id" wire:change="selectTeamAgent">
+                                 <option value="">Select Team</option>
+                                 @foreach ($teams as $each)
+                                     <option value="{{ $each->id }}" :key="{{ $each->id }}">
+                                         {{ $each?->name }}
+                                     </option>
+                                 @endforeach
+                             </x-forms.select-input>
+                             <x-input-error :messages="$errors->get('form.team_id')" class="mt-2" />
+                         </div>
+                     </div>
+
+                     <div class="p-2">
+                         <x-forms.label for="form.owner_id">
+                             {{ __('Assign Agent') }}
+                         </x-forms.label>
+                         <div>
+                             <x-forms.select-input wire:model="form.owner_id">
+                                 <option value="">Select Assign Agent</option>
+                                 @foreach ($teamAgent as $each)
+                                     <option value="{{ $each?->id }}" :key="{{ $each->id }}">
+                                         {{ $each?->name }}</option>
+                                 @endforeach
+                             </x-forms.select-input>
+                         </div>
+
+                         <x-input-error :messages="$errors->get('form.owner_id')" class="mt-2" />
+                     </div>
+
+                 </div>
+                 <div class="p-2">
                      <x-buttons.primary>
                          Create Ticket
                      </x-buttons.primary>
@@ -207,7 +248,7 @@
  @section('style')
      <style>
          .ck-editor__editable_inline {
-             min-height: 250px;
+             min-height: 200px;
              /* Adjust the height to your preference */
          }
      </style>
@@ -224,5 +265,22 @@
              .catch(error => {
                  console.error(error);
              });
+
+         document.addEventListener('DOMContentLoaded', function() {
+
+             let attachment = document.querySelector('#attachment');
+             let attachmentName = document.querySelector('#attachmentName');
+
+             attachment.addEventListener('change', function(event) {
+                 event.preventDefault();
+                 let files = event.target.files;
+                 if (files.length > 0) {
+                     let filename = files[0].name;
+                     attachmentName.innerHTML = filename;
+                 }
+             });
+
+             //  initSelect2form('category_id');
+         });
      </script>
  @endsection

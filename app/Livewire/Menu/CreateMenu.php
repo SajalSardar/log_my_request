@@ -60,7 +60,7 @@ class CreateMenu extends Component {
             ]);
         }
         flash()->success('Menu Created!');
-        return redirect()->to('/dashboard/menu/create');
+        return redirect()->to('/dashboard/menu');
     }
 
     public function render() {

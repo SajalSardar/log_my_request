@@ -1,7 +1,7 @@
 <x-app-layout>
     <div class="flex justify-end pb-3">
         <x-actions.href href="{{ route('admin.team.create') }}">
-            Team List
+            Create Team
         </x-actions.href>
     </div>
     <div class="relative overflow-x-auto bg-white">
@@ -10,6 +10,7 @@
             <thead class="w-full bg-slate-100 mb-5">
                 <tr>
                     <th class="text-start pl-3 py-2">Team Name</th>
+                    <th class="text-start pl-3 py-2">Department</th>
                     <th class="text-start pl-3 py-2">Categories</th>
                     <th class="text-start pl-3 py-2">Status</th>
                     <th class="text-start pl-3 py-2">Created Date</th>
@@ -48,6 +49,7 @@
                                 <h5 class="font-medium text-slate-900">{{ $each?->name }}</h5>
                             </div>
                         </td>
+                        <td class="p-3 font-normal text-gray-400">{{ @$each->department->name }} </td>
                         <td class="p-3 font-normal text-gray-400">
                             @foreach ($each?->teamCategories as $item)
                                 {!! Helper::badge($item->name) !!}

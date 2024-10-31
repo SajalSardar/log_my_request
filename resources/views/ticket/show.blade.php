@@ -146,6 +146,94 @@
                 allowClear: true,
             });
 
+
+            $(window).on('load', function() {
+                let category_id = "{{ $ticket->category_id }}";
+                select_sub_category(category_id);
+            });
+
+            $(document).on('change', '#category_id', function() {
+                let category_id = $(this).val();
+                select_sub_category(category_id);
+            });
+
+            function select_sub_category(category_id) {
+
+                let sub_category_id = "{{ $ticket->sub_category_id }}";
+                let url = "{{ route('admin.ticket.category.wise.subcategory') }}";
+
+                $.ajax({
+                    type: 'GET',
+                    url: url,
+                    dataType: 'json',
+                    data: {
+                        category_id: category_id,
+                    },
+                    success: function(response) {
+                        if (response) {
+                            let sub_category_div = $('#sub_category_div');
+                            let sub_category_select = $('#sub_category_id');
+
+                            if (response && response.length > 0) {
+                                sub_category_div.removeClass('hidden');
+
+                                let options = '<option value>Select sub category</option>';
+                                response.forEach(function(subcategory) {
+                                    let select = subcategory.id == sub_category_id ? "selected" :
+                                        "";
+                                    options +=
+                                        `<option value="${subcategory.id}" ${select}>${subcategory.name}</option>`;
+                                });
+                                sub_category_select.html(options);
+                            } else {
+                                sub_category_div.addClass('hidden');
+                            }
+                        } else {
+                            alert('User data could not be retrieved. Please try again.');
+                        }
+                    },
+                    error: function() {
+                        alert('There was an error processing the request.');
+                    }
+                });
+            }
+
+            $(document).on('change', '#department', function() {
+                let department_id = $(this).val();
+                let team_id = "{{ $ticket->team_id }}";
+                let url = "{{ route('admin.ticket.department.wise.team') }}";
+                let team = $('#team');
+
+                $.ajax({
+                    type: 'GET',
+                    url: url,
+                    dataType: 'json',
+                    data: {
+                        department_id: department_id,
+                    },
+                    success: function(response) {
+                        if (response) {
+
+                            if (response && response.length > 0) {
+
+                                let options = '<option value>Select Team</option>';
+                                response.forEach(function(team) {
+                                    let select = team.id == team_id ? "selected" : "";
+                                    options +=
+                                        `<option value="${team.id}" ${select}>${team.name}</option>`;
+                                });
+                                team.html(options);
+                            }
+                        } else {
+                            alert('User data could not be retrieved. Please try again.');
+                        }
+                    },
+                    error: function() {
+                        alert('There was an error processing the request.');
+                    }
+                });
+            });
+
             $(document).on('change', '#userOnChabge', function() {
                 let user_id = $(this).val();
                 let url = "{{ route('admin.get.user.by.id') }}";

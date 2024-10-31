@@ -8,13 +8,13 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
+use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Database\Eloquent\Relations\MorphOne;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cache;
 
-class Ticket extends Model
-{
+class Ticket extends Model {
     use HasFactory, SoftDeletes;
     protected $casts = [
         'due_date' => 'date',
@@ -22,8 +22,7 @@ class Ticket extends Model
 
     protected $guarded = ['id'];
 
-    protected static function boot()
-    {
+    protected static function boot() {
         parent::boot();
 
         static::created(function () {
@@ -51,8 +50,7 @@ class Ticket extends Model
      * Define public method team() associate with Ticket
      * @return BelongsTo
      */
-    public function team(): BelongsTo
-    {
+    public function team(): BelongsTo {
         return $this->belongsTo(Team::class, 'team_id', 'id');
     }
 
@@ -60,8 +58,7 @@ class Ticket extends Model
      * Define public method category() associate with Ticket
      * @return BelongsTo
      */
-    public function category(): BelongsTo
-    {
+    public function category(): BelongsTo {
         return $this->belongsTo(Category::class, 'category_id', 'id');
     }
 
@@ -69,8 +66,7 @@ class Ticket extends Model
      * Define public method team() associate with Ticket
      * @return BelongsTo
      */
-    public function user(): BelongsTo
-    {
+    public function user(): BelongsTo {
         return $this->belongsTo(User::class, 'user_id', 'id');
     }
 
@@ -78,8 +74,7 @@ class Ticket extends Model
      * Define public method ticket_status() associate with Ticket
      * @return BelongsTo
      */
-    public function ticket_status(): BelongsTo
-    {
+    public function ticket_status(): BelongsTo {
         return $this->belongsTo(TicketStatus::class, 'ticket_status_id', 'id');
     }
 
@@ -87,8 +82,7 @@ class Ticket extends Model
      * Define public method requester_type() associate with Ticket
      * @return BelongsTo
      */
-    public function source(): BelongsTo
-    {
+    public function source(): BelongsTo {
         return $this->belongsTo(Source::class, 'source_id', 'id');
     }
 
@@ -96,17 +90,25 @@ class Ticket extends Model
      * Define public method image()
      * @return MorphOne
      */
-    public function image(): MorphOne
-    {
+    public function image(): MorphOne {
         return $this->morphOne(Image::class, 'image', 'image_type', 'image_id');
+    }
+
+
+    /**
+     * Define public method images()
+     * @return MorphMany
+     */
+    public function images(): MorphMany
+    {
+        return $this->morphMany(Image::class, 'image', 'image_type', 'image_id');
     }
 
     /**
      * Define public method owners()
      * @return BelongsToMany
      */
-    public function owners(): BelongsToMany
-    {
+    public function owners(): BelongsToMany {
         return $this->belongsToMany(User::class, 'ticket_ownerships', 'ticket_id', 'owner_id')->withTimestamps();
     }
 
@@ -114,8 +116,7 @@ class Ticket extends Model
      * Define public method ticket_note()
      * @return HasOne
      */
-    public function ticket_note(): HasOne
-    {
+    public function ticket_note(): HasOne {
         return $this->hasOne(TicketNote::class, 'ticket_id', 'id')->latest();
     }
 
@@ -123,13 +124,14 @@ class Ticket extends Model
      * Define public method ticket_notes()
      * @return HasMany
      */
-    public function ticket_notes(): HasMany
-    {
+    public function ticket_notes(): HasMany {
         return $this->hasMany(TicketNote::class, 'ticket_id', 'id');
     }
 
-    public function conversation()
-    {
+    public function conversation() {
         return $this->hasMany(Conversation::class, 'ticket_id', 'id');
+    }
+    public function department() {
+        return $this->belongsTo(Department::class);
     }
 }

@@ -15,9 +15,10 @@ class TeamService {
      */
     public function store(array | object $request): array | object {
         $team = Team::create([
-            'name'   => $request->name,
-            'slug'   => Str::slug($request->name),
-            'status' => $request->status,
+            'name'          => $request->name,
+            'slug'          => Str::slug($request->name),
+            'status'        => $request->status,
+            'department_id' => $request->department_id,
         ]);
 
         $teamCategories = [];

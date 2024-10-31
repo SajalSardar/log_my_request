@@ -5,9 +5,13 @@ namespace App\Http\Controllers\Admin;
 use App\Enums\Bucket;
 use App\Http\Controllers\Controller;
 use App\LocaleStorage\Fileupload;
+use App\Mail\ConversationMail;
+use App\Mail\LogUpdateMail;
 use App\Mail\TicketEmail;
+use App\Mail\UpdateInfoMail;
 use App\Models\Category;
 use App\Models\Conversation;
+use App\Models\Department;
 use App\Models\Image;
 use App\Models\RequesterType;
 use App\Models\Source;
@@ -77,7 +81,7 @@ class TicketController extends Controller
      * Define public property $tickets
      * @var array|object
      */
-    public array|object $tickets = [];
+    public array | object $tickets = [];
 
     /**
      * Display a listing of the resource.
@@ -106,16 +110,22 @@ class TicketController extends Controller
     public function allTicketList()
     {
         Gate::authorize('viewAny', Ticket::class);
-        $categories = Category::where('status', 1)->get();
-        $teams = Team::where('status', 1)->get();
+        $categories   = Category::where('status', 1)->get();
+        $teams        = Team::where('status', 1)->get();
         $ticketStatus = TicketStatus::where('status', 1)->get();
         return view('ticket.all_list', compact('categories', 'teams', 'ticketStatus'));
     }
+
+    /**
+     * Define all ticket list datatable
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function allTicketListDataTable(Request $request)
     {
         Gate::authorize('viewAny', Ticket::class);
 
-        $tickets = Ticket::query()->with(['owners', 'source', 'user', 'team', 'category', 'ticket_status']);
+        $tickets = Ticket::query()->with(['owners', 'source', 'user', 'team', 'category', 'ticket_status', 'department']);
         if (Auth::user()->hasRole('requester')) {
             $tickets->where('user_id', Auth::id());
         }
@@ -128,7 +138,8 @@ class TicketController extends Controller
                     });
                 }
                 if ($request->ticket_id_search) {
-                    $query->where('id', 'like', '%' . $request->ticket_id_search . '%');
+                    $query->where('id', 'like', '%' . $request->ticket_id_search . '%')
+                        ->orWhere('title', 'like', '%' . $request->ticket_id_search . '%');
                 }
                 if ($request->priority_search) {
                     $query->where('priority', '=', $request->priority_search);
@@ -158,13 +169,13 @@ class TicketController extends Controller
 
                         case 'this_week':
                             $startOfWeek = Carbon::now()->startOfWeek()->toDateString();
-                            $endOfWeek = Carbon::now()->endOfWeek()->toDateString();
+                            $endOfWeek   = Carbon::now()->endOfWeek()->toDateString();
                             $query->whereBetween('due_date', [$startOfWeek, $endOfWeek]);
                             break;
 
                         case 'this_month':
                             $startOfMonth = Carbon::now()->startOfMonth()->toDateString();
-                            $endOfMonth = Carbon::now()->endOfMonth()->toDateString();
+                            $endOfMonth   = Carbon::now()->endOfMonth()->toDateString();
                             $query->whereBetween('due_date', [$startOfMonth, $endOfMonth]);
                             break;
 
@@ -180,46 +191,49 @@ class TicketController extends Controller
                 </div>';
             })
             ->editColumn('title', function ($tickets) {
-                return '<a href="' . route('admin.ticket.show', ['ticket' => $tickets?->id]) . '" class="text-title hover:bg-green-400 hover:underline">' . Str::limit(ucfirst($tickets->title), 30, '...') . '</a>';
+                return '<a href="' . route('admin.ticket.show', ['ticket' => $tickets?->id]) . '" class="pr-4 text-title hover:text-orange-300 hover:underline block" style="width: 325px; display: inline-block; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">' . Str::limit(ucfirst($tickets->title), 50, '...') . '</a>';
             })
+
             ->editColumn('priority', function ($tickets) {
-                return '<span class="text-title">' . Str::ucfirst($tickets->priority) . '</span>';
+                return '<span class="text-title w-20 pr-3 block" style="width: 80px; display: inline-block; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">' . Str::ucfirst($tickets->priority) . '</span>';
+            })
+            ->editColumn('department_id', function ($tickets) {
+                return '<span class="text-title w-40 block pr-3">' . Str::ucfirst(@$tickets->department->name) . '</span>';
             })
             ->editColumn('category_id', function ($tickets) {
-                return '<span class="text-title">' . Str::ucfirst($tickets->category->name) . '</span>';
+                return '<span class="text-title w-44 block pr-4">' . Str::ucfirst($tickets->category->name) . '</span>';
             })
             ->editColumn('ticket_status_id', function ($tickets) {
                 $data = "";
                 if ($tickets->ticket_status->name === 'in progress') {
-                    $data .= '<span style="display:inline-block;width:102px" class="!bg-process-400 text-center text-header-light text-white rounded px-3 py-2 font-inter text-sm block">' . ucfirst($tickets->ticket_status->name) . '</span>';
+                    $data .= '<span style="display:inline-block;" class="py-2 !bg-process-400 text-white rounded px-3 font-inter text-sm block">' . ucfirst($tickets->ticket_status->name) . '</span>';
                 } elseif ($tickets->ticket_status->name === 'open') {
-                    $data .= '<span style="display:inline-block;width:102px" class="bg-red-600 text-center text-header-light text-white rounded px-3 py-2 font-inter text-sm">' . ucfirst($tickets->ticket_status->name) . '</span>';
+                    $data .= '<span style="display:inline-block;" class="bg-red-600 text-center text-header-light text-white rounded px-3 py-2 font-inter text-sm">' . ucfirst($tickets->ticket_status->name) . '</span>';
                 } elseif ($tickets->ticket_status->name === 'on hold') {
-                    $data .= '<span style="display:inline-block;width:102px" class="!bg-orange-400 text-center text-header-light text-white rounded px-3 py-2 font-inter text-sm">' . ucfirst($tickets->ticket_status->name) . '</span>';
+                    $data .= '<span style="display:inline-block;" class="!bg-orange-400 text-center text-header-light text-white rounded px-3 py-2 font-inter text-sm">' . ucfirst($tickets->ticket_status->name) . '</span>';
                 } else {
-                    $data .= '<span style="display:inline-block;width:102px" class="!bg-gray-400 text-center text-header-light text-white rounded px-3 py-2 font-inter text-sm" style="width:102px">' . ucfirst($tickets->ticket_status->name) . '</span>';
+                    $data .= '<span style="display:inline-block;" class="!bg-gray-400 text-center text-header-light text-white rounded px-3 py-2 font-inter text-sm" style="">' . ucfirst($tickets->ticket_status->name) . '</span>';
                 }
                 return $data;
             })
 
             ->editColumn('user_id', function ($tickets) {
-                $data = "<div class='text-title flex items-center'>
+                $data = "<div style='width:163px' class='text-title flex items-center'>
             <img src='" . asset('assets/images/profile.jpg') . "' width='40' height='40' style='border-radius: 50%;border:1px solid #eee' alt='profile'>
             <span class='ml-2'>" . $tickets->user->name . "</span>
          </div>";
                 return $data;
-
             })
             ->editColumn('team_id', function ($tickets) {
                 $data = '<span class="text-title">' . @$tickets->team->name . '</span>';
                 return $data;
             })
             ->addColumn('agent', function ($tickets) {
-                $data = '<span class="text-title">' . @$tickets->owners->last()->name . '</span>';
+                $data = '<span class="text-title" style="width:138px">' . @$tickets->owners->last()->name . '</span>';
                 return $data;
             })
             ->editColumn('created_at', function ($tickets) {
-                $data = '<span class="text-title">' . ISODate($tickets?->created_at) . '</span>';
+                $data = '<span class="text-title" style="width:120px">' . ISODate($tickets?->created_at) . '</span>';
                 return $data;
             })
             ->addColumn('request_age', function ($tickets) {
@@ -227,7 +241,7 @@ class TicketController extends Controller
                 return $data;
             })
             ->editColumn('due_date', function ($tickets) {
-                $data = '<span class="text-title">' . ISOdate($tickets->due_date) . '</span>';
+                $data = '<span class="text-title" style="width:103px">' . ISOdate($tickets->due_date) . '</span>';
                 return $data;
             })
 
@@ -308,16 +322,16 @@ class TicketController extends Controller
             return response()->json($agents);
         }
         Gate::authorize('view', $ticket);
-        $this->ticket = Ticket::query()->where('id', $ticket->id)->with('ticket_notes', 'image', 'conversation')->first();
-        $this->requester_type = RequesterType::query()->get();
-        $this->sources = Source::query()->get();
-        $this->teams = Team::query()->get();
-        $this->categories = Category::query()->get();
-        $this->ticket_status = TicketStatus::query()->get();
-        $agents = Team::query()->with('agents')->where('id', $ticket?->team_id)->get();
-        $users = User::whereNotIn('id', [1])->select('id', 'name', 'email')->get();
-        $histories = TicketNote::query()->where('ticket_id', $ticket->id)->select('id', 'note', 'created_at')->get();
-        $conversations = Conversation::orderBy('created_at')->where('parent_id', null)->with('replay')->where('ticket_id', $ticket->id)->get()->groupBy(function ($query) {
+        $ticket         = Ticket::query()->where('id', $ticket->id)->with('ticket_notes', 'images', 'conversation')->first();
+        $requester_type = RequesterType::query()->get();
+        $sources        = Source::query()->get();
+        $teams          = Team::query()->get();
+        $categories     = Category::where('parent_id', null)->get();
+        $ticket_status  = TicketStatus::query()->get();
+        $agents         = Team::query()->with('agents')->where('id', $ticket?->team_id)->get();
+        $users          = User::whereNotIn('id', [1])->select('id', 'name', 'email')->get();
+        $histories      = TicketNote::query()->where('ticket_id', $ticket->id)->select('id', 'note', 'created_at')->get();
+        $conversations  = Conversation::orderBy('created_at')->where('parent_id', null)->with('replay')->where('ticket_id', $ticket->id)->get()->groupBy(function ($query) {
             return date('Y m d', strtotime($query->created_at));
         });
 
@@ -334,17 +348,18 @@ class TicketController extends Controller
         $ticketStatusWise = $ticketStatusWiseList->take(5)->get();
 
         return view('ticket.show', [
-            'ticket' => $this->ticket,
-            'requester_type' => $this->requester_type,
-            'sources' => $this->sources,
-            'teams' => $this->teams,
-            'categories' => $this->categories,
-            'ticket_status' => $this->ticket_status,
-            'agents' => $agents,
+            'ticket'           => $ticket,
+            'requester_type'   => $requester_type,
+            'sources'          => $sources,
+            'teams'            => $teams,
+            'categories'       => $categories,
+            'ticket_status'    => $ticket_status,
+            'agents'           => $agents,
             'ticketStatusWise' => $ticketStatusWise,
-            'users' => $users,
-            'conversations' => $conversations,
-            'histories' => $histories,
+            'users'            => $users,
+            'conversations'    => $conversations,
+            'histories'        => $histories,
+            'departments'      => Department::where('status', true)->get(),
         ]);
     }
 
@@ -377,9 +392,9 @@ class TicketController extends Controller
     public function ticketList()
     {
         Gate::authorize('viewAny', Ticket::class);
-        $queryStatus = request()->get('ticket_status');
-        $categories = Category::where('status', 1)->get();
-        $teams = Team::where('status', 1)->get();
+        $queryStatus  = request()->get('ticket_status');
+        $categories   = Category::where('status', 1)->get();
+        $teams        = Team::where('status', 1)->get();
         $ticketStatus = TicketStatus::where('status', 1)->get();
         return view('ticket.view-all', compact('queryStatus', 'categories', 'teams', 'ticketStatus'));
     }
@@ -395,7 +410,7 @@ class TicketController extends Controller
             $ticketStatus = TicketStatus::where('slug', $request->query_status)->first();
         }
 
-        $tickets = Ticket::query()->with(['owners', 'source', 'user', 'team', 'category', 'ticket_status']);
+        $tickets = Ticket::query()->with(['owners', 'source', 'user', 'team', 'category', 'ticket_status', 'department']);
 
         if (Auth::user()->hasRole('requester')) {
             $tickets->where('user_id', Auth::id());
@@ -406,11 +421,9 @@ class TicketController extends Controller
             $tickets->leftJoin('ticket_ownerships as towner', 'tickets.id', '=', 'towner.ticket_id')
                 ->where('towner.owner_id', null)
                 ->select('tickets.*', 'towner.owner_id');
-
         } elseif ($ticketStatus->count() > 0 && $ticketStatus->slug == $request->query_status) {
 
             $tickets->where('ticket_status_id', $ticketStatus->id);
-
         }
 
         if ($request->all()) {
@@ -446,13 +459,13 @@ class TicketController extends Controller
 
                         case 'this_week':
                             $startOfWeek = Carbon::now()->startOfWeek()->toDateString();
-                            $endOfWeek = Carbon::now()->endOfWeek()->toDateString();
+                            $endOfWeek   = Carbon::now()->endOfWeek()->toDateString();
                             $query->whereBetween('due_date', [$startOfWeek, $endOfWeek]);
                             break;
 
                         case 'this_month':
                             $startOfMonth = Carbon::now()->startOfMonth()->toDateString();
-                            $endOfMonth = Carbon::now()->endOfMonth()->toDateString();
+                            $endOfMonth   = Carbon::now()->endOfMonth()->toDateString();
                             $query->whereBetween('due_date', [$startOfMonth, $endOfMonth]);
                             break;
 
@@ -469,29 +482,32 @@ class TicketController extends Controller
             </div>';
             })
             ->editColumn('title', function ($tickets) {
-                return '<a href="' . route('admin.ticket.show', ['ticket' => $tickets?->id]) . '" class="text-title hover:text-amber-500 hover:underline">' . Str::limit(ucfirst($tickets->title), 30, '...') . '</a>';
+                return '<a href="' . route('admin.ticket.show', ['ticket' => $tickets?->id]) . '" class="text-title hover:text-amber-500 hover:underline" style="width: 325px; display: inline-block; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">' . Str::limit(ucfirst($tickets->title), 30, '...') . '</a>';
             })
             ->editColumn('priority', function ($tickets) {
-                return '<span class="text-title">' . Str::ucfirst($tickets->priority) . '</span>';
+                return '<span class="text-title" style="width: 80px;">' . Str::ucfirst($tickets->priority) . '</span>';
             })
             ->editColumn('category_id', function ($tickets) {
                 return '<span class="text-title">' . Str::ucfirst($tickets->category->name) . '</span>';
             })
+            ->editColumn('department_id', function ($tickets) {
+                return '<span class="text-title">' . Str::ucfirst(@$tickets->department->name) . '</span>';
+            })
             ->editColumn('status', function ($tickets) {
                 $data = "";
                 if ($tickets->ticket_status->name === 'in progress') {
-                    $data .= '<span style="width:102px;display:inline-block;text-align:center" class="py-2 !bg-process-400 text-white rounded px-3 font-inter text-sm block">' . $tickets->ticket_status->name . '</span>';
+                    $data .= '<span style=";display:inline-block;text-align:center" class="py-2 !bg-process-400 text-white rounded px-3 font-inter text-sm block">' . $tickets->ticket_status->name . '</span>';
                 } elseif ($tickets->ticket_status->name === 'open') {
-                    $data .= '<span style="width:102px;display:inline-block;text-align:center" class="py-2 !bg-green-400 text-white rounded px-3 font-inter text-sm">' . $tickets->ticket_status->name . '</span>';
+                    $data .= '<span style=";display:inline-block;text-align:center" class="bg-red-600 text-center text-header-light text-white rounded px-3 py-2 font-inter text-sm">' . $tickets->ticket_status->name . '</span>';
                 } elseif ($tickets->ticket_status->name === 'on hold') {
-                    $data .= '<span style="width:102px;display:inline-block;text-align:center" class="py-2 !bg-orange-400 text-white rounded px-3 font-inter text-sm">' . $tickets->ticket_status->name . '</span>';
+                    $data .= '<span style=";display:inline-block;text-align:center" class="py-2 !bg-orange-400 text-white rounded px-3 font-inter text-sm">' . $tickets->ticket_status->name . '</span>';
                 } else {
-                    $data .= '<span style="width:102px;display:inline-block;text-align:center" class="py-2 !bg-gray-400 text-white rounded px-3 font-inter text-sm">' . $tickets->ticket_status->name . '</span>';
+                    $data .= '<span style=";display:inline-block;text-align:center" class="py-2 !bg-gray-400 text-white rounded px-3 font-inter text-sm">' . $tickets->ticket_status->name . '</span>';
                 }
                 return $data;
             })
             ->editColumn('user_id', function ($tickets) {
-                $data = '<div class="text-title flex items-center"><img src="https://i.pravatar.cc/300/5" alt="img" width="25" height="25"
+                $data = '<div style="width:163px" class="text-title flex items-center"><img src="https://i.pravatar.cc/300/5" alt="img" width="25" height="25"
                                 style="border-radius: 50%"><span class="ml-2">' . $tickets->user->name . '</span></div>';
                 return $data;
             })
@@ -500,11 +516,11 @@ class TicketController extends Controller
                 return $data;
             })
             ->addColumn('agent', function ($tickets) {
-                $data = '<span class="text-title">' . @$tickets->owners->last()->name . '</span>';
+                $data = '<span class="text-title" style="width:138px">' . @$tickets->owners->last()->name . '</span>';
                 return $data;
             })
             ->editColumn('created_at', function ($tickets) {
-                $data = '<span class="text-title">' . ISODate($tickets?->created_at) . '</span>';
+                $data = '<span class="text-title" style="width:120px">' . ISODate($tickets?->created_at) . '</span>';
                 return $data;
             })
             ->addColumn('request_age', function ($tickets) {
@@ -512,7 +528,7 @@ class TicketController extends Controller
                 return $data;
             })
             ->editColumn('due_date', function ($tickets) {
-                $data = '<span class="text-title">' . ISOdate($tickets->due_date) . '</span>';
+                $data = '<span class="text-title" style="width:103px">' . ISOdate($tickets->due_date) . '</span>';
                 return $data;
             })
 
@@ -561,11 +577,12 @@ class TicketController extends Controller
     {
 
         $request->validate([
-            "team_id" => 'required',
-            "category_id" => 'required',
+            "team_id"          => 'required',
+            "category_id"      => 'required',
             "ticket_status_id" => 'required',
-            "priority" => 'required',
-            "comment" => 'required',
+            "priority"         => 'required',
+            "comment"          => 'required',
+            "department_id"    => 'required',
         ]);
         DB::beginTransaction();
         try {
@@ -574,16 +591,16 @@ class TicketController extends Controller
             if ($ticket->owners->isEmpty() || $ticket->owners->last()->id != $request->owner_id) {
                 TicketNote::create(
                     [
-                        'ticket_id' => $ticket->id,
-                        'note_type' => 'owner_change',
-                        'note' => $request->comment,
+                        'ticket_id'  => $ticket->id,
+                        'note_type'  => 'owner_change',
+                        'note'       => $request->comment,
                         'created_by' => Auth::id(),
                     ]
                 );
 
                 $last_owner = TicketOwnership::where('ticket_id', $ticket->id)->where('duration', null)->orderBy('id', 'desc')->first();
                 if ($last_owner && $request->owner_id) {
-                    $now = Carbon::now();
+                    $now                 = Carbon::now();
                     $duration_in_seconds = $last_owner->created_at->diffInSeconds($now);
                     $last_owner->update([
                         'duration' => $duration_in_seconds,
@@ -595,41 +612,44 @@ class TicketController extends Controller
             if ($ticket->team_id != $request->team_id) {
                 TicketNote::create(
                     [
-                        'ticket_id' => $ticket->id,
-                        'note_type' => 'team_change',
-                        'note' => $request->comment,
+                        'ticket_id'  => $ticket->id,
+                        'note_type'  => 'team_change',
+                        'note'       => $request->comment,
                         'created_by' => Auth::id(),
                     ]
                 );
+                $emailResponse['team_change'] = 'Team changed';
             }
             if ($ticket->category_id != $request->category_id) {
                 TicketNote::create(
                     [
-                        'ticket_id' => $ticket->id,
-                        'note_type' => 'category_change',
-                        'note' => $request->comment,
+                        'ticket_id'  => $ticket->id,
+                        'note_type'  => 'category_change',
+                        'note'       => $request->comment,
                         'created_by' => Auth::id(),
                     ]
                 );
+                $emailResponse['category_change'] = 'Category changed';
             }
             if ($ticket->priority != $request->priority) {
                 TicketNote::create(
                     [
-                        'ticket_id' => $ticket->id,
-                        'note_type' => 'priority_change',
-                        'note' => $request->comment,
+                        'ticket_id'  => $ticket->id,
+                        'note_type'  => 'priority_change',
+                        'note'       => $request->comment,
                         'created_by' => Auth::id(),
                     ]
                 );
+                $emailResponse['priority'] = 'Priority changed';
             }
 
             $old_due_date = $ticket->due_date ? $ticket->due_date->format('Y-m-d') : '';
             if (empty($old_due_date) || $old_due_date != $request->due_date) {
                 TicketNote::create(
                     [
-                        'ticket_id' => $ticket->id,
-                        'note_type' => 'due_date_change',
-                        'note' => $request->comment,
+                        'ticket_id'  => $ticket->id,
+                        'note_type'  => 'due_date_change',
+                        'note'       => $request->comment,
                         'created_by' => Auth::id(),
                     ]
                 );
@@ -637,34 +657,49 @@ class TicketController extends Controller
             if ($ticket->ticket_status_id != $request->ticket_status_id) {
                 TicketNote::create(
                     [
-                        'ticket_id' => $ticket->id,
-                        'note_type' => 'status_change',
-                        'note' => $request->comment,
+                        'ticket_id'  => $ticket->id,
+                        'note_type'  => 'status_change',
+                        'note'       => $request->comment,
                         'old_status' => $ticket->ticket_status->name,
                         'new_status' => $ticket_status->name,
                         'created_by' => Auth::id(),
                     ]
                 );
+                $emailResponse['status_change'] = 'Status changed';
+            }
+            if ($ticket->department_id != $request->department_id) {
+                TicketNote::create(
+                    [
+                        'ticket_id'  => $ticket->id,
+                        'note_type'  => 'department_change',
+                        'note'       => $request->comment,
+                        'old_status' => $ticket_status->name,
+                        'new_status' => $ticket_status->name,
+                        'created_by' => Auth::id(),
+                    ]
+                );
+                $emailResponse['department_change'] = 'Department changed';
             }
 
             $ticket->update(
                 [
-                    'priority' => $request->priority,
-                    'due_date' => $request->due_date,
-                    'team_id' => $request->team_id,
-                    'category_id' => $request->category_id,
+                    'priority'         => $request->priority,
+                    'due_date'         => $request->due_date,
+                    'team_id'          => $request->team_id,
+                    'category_id'      => $request->category_id,
                     'ticket_status_id' => $request->ticket_status_id,
-                    'updated_by' => Auth::id(),
+                    'department_id'    => $request->department_id,
+                    'updated_by'       => Auth::id(),
                 ]
             );
             TicketLog::create(
                 [
-                    'ticket_id' => $ticket->getKey(),
+                    'ticket_id'     => $ticket->getKey(),
                     'ticket_status' => $ticket_status->name,
-                    'status' => 'updated',
-                    'comment' => json_encode($ticket),
-                    'updated_by' => Auth::id(),
-                    'created_by' => Auth::id(),
+                    'status'        => 'updated',
+                    'comment'       => json_encode($ticket),
+                    'updated_by'    => Auth::id(),
+                    'created_by'    => Auth::id(),
                 ]
             );
 
@@ -673,16 +708,19 @@ class TicketController extends Controller
             DB::rollBack();
             TicketLog::create(
                 [
-                    'ticket_id' => $ticket->getKey(),
+                    'ticket_id'     => $ticket->getKey(),
                     'ticket_status' => $ticket_status->name,
-                    'status' => 'update_fail',
-                    'comment' => json_encode($e->getMessage()),
-                    'updated_by' => Auth::id(),
-                    'created_by' => Auth::id(),
+                    'status'        => 'update_fail',
+                    'comment'       => json_encode($e->getMessage()),
+                    'updated_by'    => Auth::id(),
+                    'created_by'    => Auth::id(),
                 ]
             );
         }
 
+        if (!empty($emailResponse)) {
+            Mail::to($ticket->user->email)->send(new LogUpdateMail($emailResponse));
+        }
         flash()->success('Data has been updated successfully');
         return back();
     }
@@ -697,9 +735,9 @@ class TicketController extends Controller
         $ticket_status = TicketStatus::query()->where('id', $ticket->ticket_status_id)->firstOr();
         $internal_note = TicketNote::create(
             [
-                'ticket_id' => $ticket->id,
-                'note_type' => 'internal_note',
-                'note' => $request->internal_note,
+                'ticket_id'  => $ticket->id,
+                'note_type'  => 'internal_note',
+                'note'       => $request->internal_note,
                 'old_status' => $ticket_status->name,
                 'new_status' => $ticket_status->name,
                 'created_by' => $request->user()->id,
@@ -729,13 +767,13 @@ class TicketController extends Controller
     public function conversation(Request $request, Ticket $ticket)
     {
         $conversation = Conversation::create([
-            'ticket_id' => $ticket->id,
-            'requester_id' => $ticket->user_id,
+            'ticket_id'         => $ticket->id,
+            'requester_id'      => $ticket->user_id,
             'conversation_type' => 'customer',
-            'conversation' => $request->conversation,
-            'status' => 1,
+            'conversation'      => $request->conversation,
+            'status'            => 1,
         ]);
-
+        Mail::to($ticket->user->email)->send(new ConversationMail($conversation));
         flash()->success('Conversation has been added successfully');
         return back();
     }
@@ -756,29 +794,29 @@ class TicketController extends Controller
 
             $checkUser->update(
                 [
-                    'phone' => $request->requester_phone,
-                    'name' => $request->requester_name,
+                    'phone'             => $request->requester_phone,
+                    'name'              => $request->requester_name,
                     'requester_type_id' => $request->requester_type_id,
-                    'requester_id' => $request->requester_id,
+                    'requester_id'      => $request->requester_id,
                 ]
             );
         } else {
             $password = rand(10000000, 99999999);
             $request->merge([
                 'credentials' => true,
-                'password' => $password,
+                'password'    => $password,
             ]);
 
             $user = User::create([
-                'name' => $request?->requester_name,
-                'email' => $request?->requester_email,
-                'phone' => $request?->requester_phone,
-                'password' => Hash::make($password),
+                'name'              => $request?->requester_name,
+                'email'             => $request?->requester_email,
+                'phone'             => $request?->requester_phone,
+                'password'          => Hash::make($password),
                 'requester_type_id' => $request?->requester_type_id,
-                'requester_id' => $request?->requester_id,
+                'requester_id'      => $request?->requester_id,
             ]);
 
-            $user->assignRole('agent');
+            $user->assignRole('requester');
             $response = $ticket->update(
                 [
                     'user_id' => $user->getKey(),
@@ -788,11 +826,11 @@ class TicketController extends Controller
             try {
                 $ticket_note = TicketNote::create(
                     [
-                        'ticket_id' => $ticket->id,
-                        'note_type' => 'owner_change',
+                        'ticket_id'  => $ticket->id,
+                        'note_type'  => 'owner_change',
                         'old_status' => $ticket->ticket_note->old_status,
                         'new_status' => $ticket->ticket_note->new_status,
-                        'note' => $ticket->ticket_note->note,
+                        'note'       => $ticket->ticket_note->note,
                         'created_by' => $request->user()->id,
                         'updated_by' => $request->user()->id,
                     ]
@@ -800,23 +838,23 @@ class TicketController extends Controller
 
                 TicketLog::create(
                     [
-                        'ticket_id' => $ticket->getKey(),
+                        'ticket_id'     => $ticket->getKey(),
                         'ticket_status' => $ticket->ticket_status->name,
-                        'status' => 'updated',
-                        'comment' => json_encode($ticket_note),
-                        'updated_by' => Auth::id(),
-                        'created_by' => Auth::id(),
+                        'status'        => 'updated',
+                        'comment'       => json_encode($ticket_note),
+                        'updated_by'    => Auth::id(),
+                        'created_by'    => Auth::id(),
                     ]
                 );
             } catch (\Exception $e) {
                 TicketLog::create(
                     [
-                        'ticket_id' => $ticket->getKey(),
+                        'ticket_id'     => $ticket->getKey(),
                         'ticket_status' => $ticket->ticket_status->name,
-                        'status' => 'update_fail',
-                        'comment' => json_encode($e->getMessage()),
-                        'updated_by' => Auth::id(),
-                        'created_by' => Auth::id(),
+                        'status'        => 'update_fail',
+                        'comment'       => json_encode($e->getMessage()),
+                        'updated_by'    => Auth::id(),
+                        'created_by'    => Auth::id(),
                     ]
                 );
             }
@@ -835,9 +873,9 @@ class TicketController extends Controller
     public function partialUpdate(Request $request, Ticket $ticket): RedirectResponse
     {
         $ticketUpdate = $ticket->update([
-            'title' => $request->request_title,
+            'title'       => $request->request_title,
             'description' => $request->request_description,
-            'source_id' => $request->source_id,
+            'source_id'   => $request->source_id,
         ]);
 
         $isUpload = $request->request_attachment ? Fileupload::uploadFile($request, Bucket::TICKET, $ticket->getKey(), Ticket::class) : '';
@@ -845,27 +883,45 @@ class TicketController extends Controller
         try {
             TicketLog::create(
                 [
-                    'ticket_id' => $ticket->getKey(),
+                    'ticket_id'     => $ticket->getKey(),
                     'ticket_status' => $ticket->ticket_status->name,
-                    'status' => 'updated',
-                    'comment' => json_encode($ticketUpdate),
-                    'updated_by' => Auth::id(),
-                    'created_by' => Auth::id(),
+                    'status'        => 'updated',
+                    'comment'       => json_encode($ticketUpdate),
+                    'updated_by'    => Auth::id(),
+                    'created_by'    => Auth::id(),
                 ]
             );
         } catch (\Exception $e) {
             TicketLog::create(
                 [
-                    'ticket_id' => $ticket->getKey(),
+                    'ticket_id'     => $ticket->getKey(),
                     'ticket_status' => $ticket->ticket_status->name,
-                    'status' => 'update_fail',
-                    'comment' => json_encode($e->getMessage()),
-                    'updated_by' => Auth::id(),
-                    'created_by' => Auth::id(),
+                    'status'        => 'update_fail',
+                    'comment'       => json_encode($e->getMessage()),
+                    'updated_by'    => Auth::id(),
+                    'created_by'    => Auth::id(),
                 ]
             );
         }
+        $source          = Source::find($request->source_id);
+        $request->source = $source->title;
+        Mail::to($ticket->user->email)->send(new UpdateInfoMail($request));
         flash()->success('Edit has been successfully done');
         return back();
+    }
+
+    public function categoryWiseSubcategory(Request $request)
+    {
+        // return $request->category_id;
+        $subCategorys = Category::where('parent_id', $request->category_id)->where('status', 1)->get();
+
+        return $subCategorys;
+    }
+    public function departmentWiseTeam(Request $request)
+    {
+        // return $request->category_id;
+        $teams = Team::where('department_id', $request->department_id)->where('status', 1)->get();
+
+        return $teams;
     }
 }
