@@ -44,7 +44,7 @@ export default {
                     500 : "#ddd"
                 },
                 black : {
-                    400 : "333333"
+                    400 : "#333333"
                 },
                 navbar: {
                     bg: "#F8FAFF",

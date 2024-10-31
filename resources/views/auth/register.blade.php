@@ -113,9 +113,9 @@
             <div class="sm:hidden md:hidden lg:block relative">
                 <div class="flex justify-center items-center h-full">
                     <img src="{{ asset('assets/images/signup.png') }}" alt="signup">
-                    <div class="absolute top-20 left-12 pr-10">
+                    <div class="absolute top-20 left-12 pe-14">
                         <h3 class="font-inter text-2xl font-semibold">Welcome Back !</h3>
-                        <p class="font-inter text-sm font-normal"><span class="text-primary-400 !font-semibold">LogmyRequest</span>
+                        <p class="font-inter text-sm font-normal text-black-400"><span class="!text-primary-400 !font-semibold">LogmyRequest</span>
                             is a customer service platform designed to help businesses efficiently track, manage, and resolve customer requests in real time. Our mission is to streamline communication and ensure every query is addressed promptly, enhancing customer satisfaction.</p>
                     </div>
                 </div>
