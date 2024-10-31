@@ -33,7 +33,7 @@ class CreateTicketStatus extends Component {
         ]);
 
         flash()->success('Status Created!');
-        return redirect()->to('/dashboard/ticketstatus');
+        return redirect()->to('/dashboard/request-status');
     }
 
     public function render() {

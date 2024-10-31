@@ -7,7 +7,6 @@ use App\Models\Department;
 use App\Models\Team;
 use App\Models\TeamCategory;
 use App\Models\User;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Gate;
 
@@ -48,14 +47,6 @@ class TeamController extends Controller {
     }
 
     /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request) {
-        //
-        Gate::authorize('create', Team::class);
-    }
-
-    /**
      * Display the specified resource.
      */
     public function show(Team $team) {
@@ -75,13 +66,6 @@ class TeamController extends Controller {
         $agentUser    = User::role('agent')->get();
 
         return view('team.edit', compact('team', 'categories', 'agentUser', 'departments'));
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, Team $team) {
-        Gate::authorize('update', $team);
     }
 
     /**

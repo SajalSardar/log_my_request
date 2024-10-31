@@ -34,8 +34,7 @@ use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Str;
 use Yajra\DataTables\Facades\DataTables;
 
-class TicketController extends Controller
-{
+class TicketController extends Controller {
     /**
      * Define public property $requester_type;
      * @var array|object
@@ -86,8 +85,7 @@ class TicketController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
-    {
+    public function index() {
         Gate::authorize('viewAny', Ticket::class);
 
         $this->tickets = Cache::remember('status_' . Auth::id() . '_ticket_list', 60 * 60, function () {
@@ -107,8 +105,7 @@ class TicketController extends Controller
         return view("ticket.index", ['tickets' => $this->tickets ?? collect()]);
     }
 
-    public function allTicketList()
-    {
+    public function allTicketList() {
         Gate::authorize('viewAny', Ticket::class);
         $categories   = Category::where('status', 1)->get();
         $teams        = Team::where('status', 1)->get();
@@ -121,8 +118,7 @@ class TicketController extends Controller
      * @param Request $request
      * @return \Illuminate\Http\JsonResponse
      */
-    public function allTicketListDataTable(Request $request)
-    {
+    public function allTicketListDataTable(Request $request) {
         Gate::authorize('viewAny', Ticket::class);
 
         $tickets = Ticket::query()->with(['owners', 'source', 'user', 'team', 'category', 'ticket_status', 'department']);
@@ -157,30 +153,30 @@ class TicketController extends Controller
                     $dueDate = '';
 
                     switch ($request->due_date_search) {
-                        case 'today':
-                            $todayDate = Carbon::today()->toDateString();
-                            $query->whereDate('due_date', '=', $todayDate);
-                            break;
+                    case 'today':
+                        $todayDate = Carbon::today()->toDateString();
+                        $query->whereDate('due_date', '=', $todayDate);
+                        break;
 
-                        case 'tomorrow':
-                            $tomorrowDate = Carbon::tomorrow()->toDateString();
-                            $query->whereDate('due_date', '=', $tomorrowDate);
-                            break;
+                    case 'tomorrow':
+                        $tomorrowDate = Carbon::tomorrow()->toDateString();
+                        $query->whereDate('due_date', '=', $tomorrowDate);
+                        break;
 
-                        case 'this_week':
-                            $startOfWeek = Carbon::now()->startOfWeek()->toDateString();
-                            $endOfWeek   = Carbon::now()->endOfWeek()->toDateString();
-                            $query->whereBetween('due_date', [$startOfWeek, $endOfWeek]);
-                            break;
+                    case 'this_week':
+                        $startOfWeek = Carbon::now()->startOfWeek()->toDateString();
+                        $endOfWeek   = Carbon::now()->endOfWeek()->toDateString();
+                        $query->whereBetween('due_date', [$startOfWeek, $endOfWeek]);
+                        break;
 
-                        case 'this_month':
-                            $startOfMonth = Carbon::now()->startOfMonth()->toDateString();
-                            $endOfMonth   = Carbon::now()->endOfMonth()->toDateString();
-                            $query->whereBetween('due_date', [$startOfMonth, $endOfMonth]);
-                            break;
+                    case 'this_month':
+                        $startOfMonth = Carbon::now()->startOfMonth()->toDateString();
+                        $endOfMonth   = Carbon::now()->endOfMonth()->toDateString();
+                        $query->whereBetween('due_date', [$startOfMonth, $endOfMonth]);
+                        break;
 
-                        default:
-                            break;
+                    default:
+                        break;
                     }
                 }
             });
@@ -263,11 +259,11 @@ class TicketController extends Controller
                             <ul>
                                 <li class="px-5 py-1 text-center" style="background: #FFF4EC;color:#F36D00">
                                     <a
-                                        href="' . route('admin.ticket.edit', ['ticket' => $tickets?->id]) . '">Edit</a>
+                                        href="' . route('admin.ticket.edit', $tickets?->id) . '">Edit</a>
                                 </li>
                                 <li class="px-5 py-1 text-center bg-white">
                                     <a
-                                        href="' . route('admin.ticket.show', ['ticket' => $tickets?->id]) . '">View</a>
+                                        href="' . route('admin.ticket.show', $tickets?->id) . '">View</a>
                                 </li>
                                 <li class="px-5 py-1 text-center bg-red-600 text-white">
                                     <a href="#">Delete</a>
@@ -285,8 +281,7 @@ class TicketController extends Controller
     /**
      * Display a listing of the data table resource.
      */
-    public function displayListDatatable()
-    {
+    public function displayListDatatable() {
         Gate::authorize('viewAny', Ticket::class);
 
         $ticket = Cache::remember('ticket_' . Auth::id() . '_list', 60 * 60, function () {
@@ -297,26 +292,15 @@ class TicketController extends Controller
     /**
      * Show the form for creating a new resource.
      */
-    public function create()
-    {
+    public function create() {
         Gate::authorize('create', Ticket::class);
         return view('ticket.create');
     }
 
     /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
-    {
-        //
-        Gate::authorize('create', Ticket::class);
-    }
-
-    /**
      * Display the specified resource.
      */
-    public function show(Request $request, Ticket $ticket)
-    {
+    public function show(Request $request, Ticket $ticket) {
         if ($request->ajax()) {
             $agents = Team::query()->with('agents')->where('id', $request->team_id)->get();
             return response()->json($agents);
@@ -367,40 +351,28 @@ class TicketController extends Controller
      * Show the form for editing the specified resource.
      * @param Ticket $ticket
      */
-    public function edit(Ticket $ticket)
-    {
+    public function edit(Ticket $ticket) {
         Gate::authorize('update', $ticket);
         return view('ticket.edit', compact('ticket'));
     }
 
     /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, Ticket $ticket)
-    {
-        Gate::authorize('update', $ticket);
-    }
-
-    /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Ticket $ticket)
-    {
+    public function destroy(Ticket $ticket) {
         Gate::authorize('delete', $ticket);
     }
 
-    public function ticketList()
-    {
+    public function ticketList() {
         Gate::authorize('viewAny', Ticket::class);
-        $queryStatus  = request()->get('ticket_status');
+        $queryStatus  = request()->get('request_status');
         $categories   = Category::where('status', 1)->get();
         $teams        = Team::where('status', 1)->get();
         $ticketStatus = TicketStatus::where('status', 1)->get();
         return view('ticket.view-all', compact('queryStatus', 'categories', 'teams', 'ticketStatus'));
     }
 
-    public function allListDataTable(Request $request)
-    {
+    public function allListDataTable(Request $request) {
         Gate::authorize('viewAny', Ticket::class);
 
         $ticketStatus = null;
@@ -447,30 +419,30 @@ class TicketController extends Controller
                     $dueDate = '';
 
                     switch ($request->due_date_search) {
-                        case 'today':
-                            $todayDate = Carbon::today()->toDateString();
-                            $query->whereDate('due_date', '=', $todayDate);
-                            break;
+                    case 'today':
+                        $todayDate = Carbon::today()->toDateString();
+                        $query->whereDate('due_date', '=', $todayDate);
+                        break;
 
-                        case 'tomorrow':
-                            $tomorrowDate = Carbon::tomorrow()->toDateString();
-                            $query->whereDate('due_date', '=', $tomorrowDate);
-                            break;
+                    case 'tomorrow':
+                        $tomorrowDate = Carbon::tomorrow()->toDateString();
+                        $query->whereDate('due_date', '=', $tomorrowDate);
+                        break;
 
-                        case 'this_week':
-                            $startOfWeek = Carbon::now()->startOfWeek()->toDateString();
-                            $endOfWeek   = Carbon::now()->endOfWeek()->toDateString();
-                            $query->whereBetween('due_date', [$startOfWeek, $endOfWeek]);
-                            break;
+                    case 'this_week':
+                        $startOfWeek = Carbon::now()->startOfWeek()->toDateString();
+                        $endOfWeek   = Carbon::now()->endOfWeek()->toDateString();
+                        $query->whereBetween('due_date', [$startOfWeek, $endOfWeek]);
+                        break;
 
-                        case 'this_month':
-                            $startOfMonth = Carbon::now()->startOfMonth()->toDateString();
-                            $endOfMonth   = Carbon::now()->endOfMonth()->toDateString();
-                            $query->whereBetween('due_date', [$startOfMonth, $endOfMonth]);
-                            break;
+                    case 'this_month':
+                        $startOfMonth = Carbon::now()->startOfMonth()->toDateString();
+                        $endOfMonth   = Carbon::now()->endOfMonth()->toDateString();
+                        $query->whereBetween('due_date', [$startOfMonth, $endOfMonth]);
+                        break;
 
-                        default:
-                            break;
+                    default:
+                        break;
                     }
                 }
             });
@@ -550,11 +522,11 @@ class TicketController extends Controller
                             <ul>
                                 <li class="px-5 py-1 text-center" style="background: #FFF4EC;color:#F36D00">
                                     <a
-                                        href="' . route('admin.ticket.edit', ['ticket' => $tickets?->id]) . '">Edit</a>
+                                        href="' . route('admin.ticket.edit', $tickets->id) . '">Edit</a>
                                 </li>
                                 <li class="px-5 py-1 text-center bg-white">
                                     <a
-                                        href="' . route('admin.ticket.show', ['ticket' => $tickets?->id]) . '">View</a>
+                                        href="' . route('admin.ticket.show', $tickets->id) . '">View</a>
                                 </li>
                                 <li class="px-5 py-1 text-center bg-red-600 text-white">
                                     <a href="#">Delete</a>
@@ -573,8 +545,7 @@ class TicketController extends Controller
      * Define public method logUpdate() to update log of ticket
      * @param Request $request
      */
-    public function logUpdate(Request $request, Ticket $ticket)
-    {
+    public function logUpdate(Request $request, Ticket $ticket) {
 
         $request->validate([
             "team_id"          => 'required',
@@ -730,8 +701,7 @@ class TicketController extends Controller
      * @param \Illuminate\Http\Request $request
      * @return RedirectResponse
      */
-    public function interNoteStore(Request $request, Ticket $ticket): RedirectResponse
-    {
+    public function interNoteStore(Request $request, Ticket $ticket): RedirectResponse {
         $ticket_status = TicketStatus::query()->where('id', $ticket->ticket_status_id)->firstOr();
         $internal_note = TicketNote::create(
             [
@@ -753,8 +723,7 @@ class TicketController extends Controller
      * @param Image $file
      * @return mixed|\Symfony\Component\HttpFoundation\BinaryFileResponse
      */
-    public function downloadFile(Image $file)
-    {
+    public function downloadFile(Image $file) {
         $filePath = public_path(parse_url($file->url, PHP_URL_PATH));
         return response()->download($filePath);
     }
@@ -764,8 +733,7 @@ class TicketController extends Controller
      * @param Request $request
      * @param Ticket $ticket
      */
-    public function conversation(Request $request, Ticket $ticket)
-    {
+    public function conversation(Request $request, Ticket $ticket) {
         $conversation = Conversation::create([
             'ticket_id'         => $ticket->id,
             'requester_id'      => $ticket->user_id,
@@ -784,8 +752,7 @@ class TicketController extends Controller
      * @param Ticket $ticket
      * @return RedirectResponse
      */
-    public function ownerChange(Request $request, Ticket $ticket): RedirectResponse
-    {
+    public function ownerChange(Request $request, Ticket $ticket): RedirectResponse {
         $checkUser = User::query()->where('email', $request->requester_email)->first();
         if (!empty($checkUser)) {
             $request->merge([
@@ -870,8 +837,7 @@ class TicketController extends Controller
      * @param Ticket $ticket
      * @return RedirectResponse
      */
-    public function partialUpdate(Request $request, Ticket $ticket): RedirectResponse
-    {
+    public function partialUpdate(Request $request, Ticket $ticket): RedirectResponse {
         $ticketUpdate = $ticket->update([
             'title'       => $request->request_title,
             'description' => $request->request_description,
@@ -910,15 +876,13 @@ class TicketController extends Controller
         return back();
     }
 
-    public function categoryWiseSubcategory(Request $request)
-    {
+    public function categoryWiseSubcategory(Request $request) {
         // return $request->category_id;
         $subCategorys = Category::where('parent_id', $request->category_id)->where('status', 1)->get();
 
         return $subCategorys;
     }
-    public function departmentWiseTeam(Request $request)
-    {
+    public function departmentWiseTeam(Request $request) {
         // return $request->category_id;
         $teams = Team::where('department_id', $request->department_id)->where('status', 1)->get();
 

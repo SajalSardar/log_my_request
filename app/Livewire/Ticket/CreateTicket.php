@@ -114,7 +114,7 @@ class CreateTicket extends Component {
         $isUpload = $this->form->request_attachment ? Fileupload::uploadFiles($this->form, Bucket::TICKET, $isCreate->getKey(), Ticket::class) : '';
         $response = $isCreate ? 'Data has been Save successfully' : 'Something went wrong';
         flash()->success($response);
-        return redirect()->to('dashboard/ticket-list');
+        return redirect()->to('dashboard/request-list');
     }
 
     public function requesterSave() {
@@ -158,7 +158,7 @@ class CreateTicket extends Component {
 
         flash()->success('Data has been Save successfully');
 
-        return redirect()->to('dashboard/ticket-list');
+        return redirect()->to('dashboard/request-list');
     }
 
     public function render() {

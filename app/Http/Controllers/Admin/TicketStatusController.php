@@ -4,7 +4,6 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\TicketStatus;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Gate;
 
@@ -40,15 +39,6 @@ class TicketStatusController extends Controller {
     }
 
     /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request) {
-        //
-        Gate::authorize('create', TicketStatus::class);
-
-    }
-
-    /**
      * Display the specified resource.
      */
     public function show(TicketStatus $ticketstatus) {
@@ -63,13 +53,6 @@ class TicketStatusController extends Controller {
     public function edit(TicketStatus $ticketstatus) {
         Gate::authorize('update', $ticketstatus);
         return view('ticketStatus.edit', compact('ticketstatus'));
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, TicketStatus $ticketStatus) {
-        Gate::authorize('update', $ticketStatus);
     }
 
     /**
