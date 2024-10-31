@@ -56,14 +56,17 @@ Route::middleware('auth')->prefix('dashboard')->name('admin.')->group(function (
     });
 
     // role
-    Route::get('role-list', [RoleController::class, 'index'])->name('role.index');
-    Route::get('create-user-role', [RoleController::class, 'create'])->name('role.create');
-    Route::post('create-user-role', [RoleController::class, 'store'])->name('role.store');
-    Route::get('edit-user-role/{id}', [RoleController::class, 'edit'])->name('role.edit');
-    Route::put('update-user-role/{id}', [RoleController::class, 'update'])->name('role.update');
+    Route::controller(RoleController::class)->name('role.')->group(function () {
+        Route::get('role-list', 'index')->name('index');
+        Route::get('create-user-role', 'create')->name('create');
+        Route::post('create-user-role', 'store')->name('store');
+        Route::get('edit-user-role/{id}', 'edit')->name('edit');
+        Route::put('update-user-role/{id}', 'update')->name('update');
+        Route::post('switch-accont', 'switchAccount')->name('swotch');
+    });
 
     //user
     Route::get('get-user-by-id', [AdminUserController::class, 'getUserById'])->name('get.user.by.id');
     // change role in header option
-    Route::post('switch-accont', [RoleController::class, 'switchAccount'])->name('role.swotch');
+
 });
