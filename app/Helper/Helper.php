@@ -77,6 +77,7 @@ class Helper {
         $loginRole = Helper::getLoggedInUserRoleSession();
         $menus     = Menu::with(['submneus' => function ($q) use ($loginRole) {
             $q->orderBy('order', 'asc')
+                ->where('status', 'active')
                 ->whereJsonContains('roles', $loginRole);
         }])
             ->whereJsonContains('roles', $loginRole)
