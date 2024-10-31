@@ -1,10 +1,10 @@
  <form wire:submit="save">
 
      <div class="flex flex-row">
-         <div class="md:basis-2/3 sm:basis-full">
+         <div style="width:651px !important">
              <div class="border border-slate-300 p-5 rounded">
 
-                 <div class="grid lg:grid-cols-1 md:grid-cols-1 sm:grid-cols-1 sm:gap-1 md:gap-4">
+                 <div class="grid lg:grid-cols-1 md:grid-cols-1 sm:grid-cols-1 sm:gap-1 md:gap-2">
                      <div class="p-2 w-full">
                          <x-forms.label for="form.request_title" required="yes">
                              {{ __('Request Title') }}
@@ -14,7 +14,7 @@
                      </div>
                  </div>
 
-                 <div class="grid md:grid-cols-1 sm:grid-cols-1 sm:gap-1 md:gap-4 p-2 w-full ">
+                 <div class="grid md:grid-cols-1 sm:grid-cols-1 sm:gap-1 md:gap-2 p-2 w-full ">
                      <x-forms.label for="form.request_description">
                          {{ __('Request Description') }}
                      </x-forms.label>
@@ -26,7 +26,7 @@
                      </div>
                  </div>
 
-                 <div class="grid md:grid-cols-1 sm:grid-cols-1 sm:gap-1 md:gap-4">
+                 <div class="grid md:grid-cols-1 sm:grid-cols-1 sm:gap-1 md:gap-2">
                      <div class="p-2 w-full">
                          <x-forms.input-file wire:model="form.request_attachment" multiple
                              accept=".jpg,.jpeg, .png,.pdf,.docx,.ppt" />
@@ -34,7 +34,7 @@
                      </div>
                  </div>
 
-                 <div class="grid md:grid-cols-2 sm:grid-cols-1 sm:gap-1 md:gap-4">
+                 <div class="grid md:grid-cols-2 sm:grid-cols-1 sm:gap-1 md:gap-2">
                      <div class="p-2 w-full">
                          <x-forms.label for="form.requester_name" required='yes'>
                              {{ __('Requester Name') }}
@@ -51,7 +51,7 @@
                      </div>
                  </div>
 
-                 <div class="grid md:grid-cols-2 sm:grid-cols-1 sm:gap-1 md:gap-4">
+                 <div class="grid md:grid-cols-2 sm:grid-cols-1 sm:gap-1 md:gap-2">
                      <div class="p-2 w-full">
                          <x-forms.label for="form.requester_phone">
                              {{ __('Requester Phone') }}
@@ -76,7 +76,7 @@
                      </div>
                  </div>
 
-                 <div class="grid md:grid-cols-2 sm:grid-cols-1 sm:gap-1 md:gap-4">
+                 <div class="grid md:grid-cols-2 sm:grid-cols-1 sm:gap-1 md:gap-2">
                      <div class="p-2 w-full">
                          <x-forms.label for="form.requester_id">
                              {{ __('Requester ID') }}
