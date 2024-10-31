@@ -15,6 +15,6 @@
             </div>
         </header>
         <hr>
-        @livewire('admin-user.create-adminuser')
+        @livewire('admin-user.create-admin-user')
     </div>
 </x-app-layout>

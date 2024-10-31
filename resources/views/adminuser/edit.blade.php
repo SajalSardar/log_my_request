@@ -15,6 +15,6 @@
              </div>
          </header>
          <hr>
-         @livewire('admin-user.update-adminuser', ['user' => $user])
+         @livewire('admin-user.update-admin-user', ['user' => $user])
      </div>
  </x-app-layout>
