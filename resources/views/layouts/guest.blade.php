@@ -17,7 +17,7 @@
 
     @livewireStyles
 
-    <link rel="stylesheet" href="{{ asset('build/assets/app-BnNv1BrL.css') }}">
+    <link rel="stylesheet" href="{{ asset('build/assets/app-C-2Cwgeu.css') }}">
     <script src="{{ asset('build/assets/app-DCrXoRMQ.js') }}"></script>
 </head>
 

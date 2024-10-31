@@ -16,7 +16,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,100..900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="{{ asset('vendor/datatable/dataTables.dataTables.min.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/css/style.css') }}">
-    <link rel="stylesheet" href="{{ asset('build/assets/app-BnNv1BrL.css') }}">
+    <link rel="stylesheet" href="{{ asset('build/assets/app-C-2Cwgeu.css') }}">
     @yield('style')
 
 </head>
