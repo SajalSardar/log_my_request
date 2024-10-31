@@ -39,11 +39,11 @@
                  </x-forms.label>
 
                  <x-forms.select-input wire:model.live="form.role_id">
-                     <option selected disabled>--User Role--</option>
+                     <option selected disabled>User Role</option>
                      @forelse ($roles as $role)
                          <option value="{{ $role?->id }}">{{ $role?->name }}</option>
                      @empty
-                         <option disabled>--No Roles Found--</option>
+                         <option disabled>No Roles Found</option>
                      @endforelse
                      </x-forms-select-input>
                      <x-input-error :messages="$errors->get('form.role_id')" class="mt-2" />

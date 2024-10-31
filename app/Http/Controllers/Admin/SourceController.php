@@ -4,7 +4,6 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Source;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Gate;
 
@@ -41,15 +40,6 @@ class SourceController extends Controller {
     }
 
     /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request) {
-        //
-        Gate::authorize('create', Source::class);
-
-    }
-
-    /**
      * Display the specified resource.
      */
     public function show(Source $source) {
@@ -65,13 +55,6 @@ class SourceController extends Controller {
         Gate::authorize('update', $source);
 
         return view('source.edit', compact('source'));
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, Source $source) {
-        Gate::authorize('update', $source);
     }
 
     /**

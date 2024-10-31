@@ -38,7 +38,7 @@ class UpdateTicketStatus extends Component {
         ]);
 
         flash()->success('Status updated!');
-        return redirect()->to('/dashboard/ticketstatus');
+        return redirect()->to('/dashboard/request-status');
     }
     public function render() {
         Gate::authorize('update', TicketStatus::class);
