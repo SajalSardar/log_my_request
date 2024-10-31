@@ -2,10 +2,10 @@
     <div class="flex h-full sm:justify-center lg:justify-center md:justify-center items-center">
         <div class="grid sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-2">
             <div class="flex h-full justify-center items-center sm:px-5 sm:py-12 md:px-10 md:py-24 lg:px-20 lg:-mr-14">
-                <form action="{{ route('register') }}" method="POST" class="border border-slate-300 rounded py-6 px-7 w-full">
+                <form action="{{ route('register') }}" method="POST" class="border border-slate-300 rounded p-6 w-full">
                     @csrf
-                    <h3 class="font-bold text-2xl">SIGN UP</h3>
-                    <x-auth-session-status class="mb-4" :status="session('status')" />
+                    <h3 class="font-bold text-2xl mb-6">SIGN UP</h3>
+                    <x-auth-session-status class="mb-6" :status="session('status')" />
                     <div class="">
                         <div class="mt-3">
                             <x-forms.text-input-icon style="width: 100%;" type="text" name="name" placeholder="User Name" dir="start">
@@ -101,8 +101,8 @@
                         </a>
                     </div>
 
-                    <div class="mt-3">
-                        <p class="mt-4 text-sm text-gray-500 sm:mt-0">
+                    <div class="mt-2">
+                        <p class="text-sm text-gray-500 sm:mt-0">
                             {{ __('Already have an account ?') }}
                             <a href="{{ route('login') }}" class="text-primary-400 underline font-bold">Sign In</a>.
                         </p>
