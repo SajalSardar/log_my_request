@@ -16,6 +16,7 @@ export default {
                 primary: {
                     400: "#F36D00",
                     500: "rgb(109,77,266,4%)",
+                    600 : '#FFF4EC'
                 },
                 high: {
                     400: "#10B982",
@@ -40,6 +41,10 @@ export default {
                 },
                 base: {
                     400: "#666666",
+                    500 : "#ddd"
+                },
+                black : {
+                    400 : "#333333"
                 },
                 navbar: {
                     bg: "#F8FAFF",
