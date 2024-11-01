@@ -784,13 +784,15 @@ class TicketController extends Controller {
                     'user_id' => $user->getKey(),
                 ]
             );
+
+            event(new Registered($user));
         }
 
         try {
             $ticket_note = TicketNote::create(
                 [
                     'ticket_id'  => $ticket->id,
-                    'note_type'  => 'owner_change',
+                    'note_type'  => 'requester_change',
                     'old_status' => $ticket->ticket_note->old_status,
                     'new_status' => $ticket->ticket_note->new_status,
                     'note'       => $ticket->ticket_note->note,
@@ -809,8 +811,6 @@ class TicketController extends Controller {
                     'created_by'    => Auth::id(),
                 ]
             );
-
-            event(new Registered($user));
 
         } catch (\Exception $e) {
             TicketLog::create(
