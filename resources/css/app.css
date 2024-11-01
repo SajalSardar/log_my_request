@@ -11,7 +11,11 @@
 }
 
 .text-title {
-    @apply text-sm font-normal font-inter dark:text-[#333];
+    @apply text-sm font-normal font-inter text-[#333];
+}
+
+.text-paragraph {
+    @apply text-sm font-normal font-inter text-[#5c5c5c];
 }
 
 .text-caption {
