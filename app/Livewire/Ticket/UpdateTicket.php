@@ -61,7 +61,7 @@ class UpdateTicket extends Component {
      * Define public property $agents;
      * @var array|object
      */
-    public $teamAgent;
+    public $teamAgent = [];
 
     /**
      * Define public property $ticket
@@ -107,7 +107,7 @@ class UpdateTicket extends Component {
         $this->teams          = Team::where('department_id', $this->ticket->department_id)->get();
         $this->categories     = Category::where('parent_id', null)->get();
         $this->ticket_status  = TicketStatus::query()->get();
-        $this->teamAgent      = $teams->agents;
+        $this->teamAgent      = $teams->agents ?? [];
         $this->departments    = Department::where('status', true)->get();
         $this->subCategory    = Category::where('id', $this->ticket->sub_category_id)->get();
     }
@@ -142,7 +142,7 @@ class UpdateTicket extends Component {
         $isUpload = $this->form->request_attachment ? Fileupload::uploadFiles($this->form, Bucket::TICKET, $isCreate->getKey(), Ticket::class) : '';
         $response = $isCreate ? 'Data has been update successfully' : 'Something went wrong';
         flash()->success($response);
-        return redirect()->to('dashboard/ticket-list');
+        return redirect()->to('dashboard/request-list');
     }
 
     public function requesterUpdate() {
@@ -179,7 +179,7 @@ class UpdateTicket extends Component {
 
         flash()->success('Data has been Save successfully');
 
-        return redirect()->to('dashboard/ticket-list');
+        return redirect()->to('dashboard/request-list');
     }
 
     public function render() {

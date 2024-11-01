@@ -121,7 +121,7 @@
                         1, 'desc'
                     ],
                     ajax: {
-                        url: "{{ route('admin.all.ticket.list.datatable') }}",
+                        url: "{{ route('admin.ticket.all.list.datatable') }}",
                         type: "GET",
                         data: function(d) {
                             d._token = "{{ csrf_token() }}";

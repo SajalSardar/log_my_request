@@ -9,23 +9,20 @@ use Illuminate\Mail\Mailables\Content;
 use Illuminate\Mail\Mailables\Envelope;
 use Illuminate\Queue\SerializesModels;
 
-class ReplayMail extends Mailable
-{
+class ReplayMail extends Mailable implements ShouldQueue {
     use Queueable, SerializesModels;
 
     /**
      * Create a new message instance.
      */
-    public function __construct(public ?string $replay)
-    {
+    public function __construct(public ?string $replay) {
         //
     }
 
     /**
      * Get the message envelope.
      */
-    public function envelope(): Envelope
-    {
+    public function envelope(): Envelope {
         return new Envelope(
             subject: 'Replay Mail - ' . $this->replay,
         );
@@ -34,8 +31,7 @@ class ReplayMail extends Mailable
     /**
      * Get the message content definition.
      */
-    public function content(): Content
-    {
+    public function content(): Content {
         return new Content(
             view: 'emails.replay',
         );
@@ -46,8 +42,7 @@ class ReplayMail extends Mailable
      *
      * @return array<int, \Illuminate\Mail\Mailables\Attachment>
      */
-    public function attachments(): array
-    {
+    public function attachments(): array {
         return [];
     }
 }

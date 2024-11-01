@@ -4,7 +4,7 @@
     New Requester
     @endslot
     @slot('body')
-    <form action="{{ route('admin.ticket.ownerChange',['ticket' => $ticket->id]) }}" method="POST">
+    <form action="{{ route('admin.ticket.change.requester',['ticket' => $ticket->id]) }}" method="POST">
         @csrf
         <div>
             <div class="border border-slate-300 p-2 rounded">

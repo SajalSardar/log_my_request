@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Models\Category;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Gate;
 
@@ -41,14 +40,6 @@ class CategoryController extends Controller {
     }
 
     /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request) {
-        //
-        Gate::authorize('create', Category::class);
-    }
-
-    /**
      * Display the specified resource.
      */
     public function show(Category $category) {
@@ -64,13 +55,6 @@ class CategoryController extends Controller {
         Gate::authorize('update', $category);
         $parent_categories = Category::query()->get();
         return view('category.edit', compact('category', 'parent_categories'));
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, Category $category) {
-        Gate::authorize('update', $category);
     }
 
     /**

@@ -2,6 +2,7 @@
 
 namespace App\Services\Ticket;
 
+use App\Mail\LogUpdateMail;
 use App\Mail\TicketEmail;
 use App\Models\Ticket;
 use App\Models\TicketLog;
@@ -10,6 +11,7 @@ use App\Models\TicketOwnership;
 use App\Models\TicketStatus;
 use App\Models\User;
 use Carbon\Carbon;
+use Illuminate\Auth\Events\Registered;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -60,6 +62,8 @@ class TicketService {
                 'requester_id'      => $request?->requester_id,
             ]);
             $this->user->assignRole('requester');
+            event(new Registered($this->user));
+
         }
 
         $response = Ticket::create(
@@ -103,7 +107,7 @@ class TicketService {
             $response->owners()->attach($request->owner_id);
         }
 
-        Mail::to($request->requester_email)->send(new TicketEmail($request));
+        Mail::to($request->requester_email)->queue(new TicketEmail($request));
 
         return $response;
     }
@@ -116,9 +120,9 @@ class TicketService {
      */
     public function update(Model $model, $request) {
 
-        $ticket    = Ticket::with('owners')->where('id', $model->getKey())->first();
-        $requester = User::where('email', $request->requester_email)->first();
-
+        $ticket        = Ticket::with('owners')->where('id', $model->getKey())->first();
+        $requester     = User::where('email', $request->requester_email)->first();
+        $emailResponse = [];
         DB::beginTransaction();
         try {
             if (!empty($requester)) {
@@ -139,7 +143,7 @@ class TicketService {
                     [
                         'ticket_id'  => $ticket->id,
                         'note_type'  => 'owner_change',
-                        'note'       => 'Edit',
+                        'note'       => 'Owner changed',
                         'created_by' => Auth::id(),
                     ]
                 );
@@ -153,37 +157,41 @@ class TicketService {
                     ]);
                 }
 
-                $ticket_agents = $ticket->owners()->attach($request->owner_id);
+                $ticket_agents                 = $ticket->owners()->attach($request->owner_id);
+                $emailResponse['owner_change'] = 'Owner changed';
             }
             if ($ticket->team_id != $request->team_id) {
                 TicketNote::create(
                     [
                         'ticket_id'  => $ticket->id,
                         'note_type'  => 'team_change',
-                        'note'       => 'Edit',
+                        'note'       => 'Team changed',
                         'created_by' => Auth::id(),
                     ]
                 );
+                $emailResponse['team_change'] = 'Team changed';
             }
             if ($ticket->category_id != $request->category_id) {
                 TicketNote::create(
                     [
                         'ticket_id'  => $ticket->id,
                         'note_type'  => 'category_change',
-                        'note'       => 'Edit',
+                        'note'       => 'Category changed',
                         'created_by' => Auth::id(),
                     ]
                 );
+                $emailResponse['category_change'] = 'Category changed';
             }
             if ($ticket->priority != $request->priority) {
                 TicketNote::create(
                     [
                         'ticket_id'  => $ticket->id,
                         'note_type'  => 'priority_change',
-                        'note'       => 'Edit',
+                        'note'       => 'Priority changed',
                         'created_by' => Auth::id(),
                     ]
                 );
+                $emailResponse['priority'] = 'Priority changed';
             }
 
             $old_due_date = $ticket->due_date ? $ticket->due_date->format('Y-m-d') : '';
@@ -192,22 +200,38 @@ class TicketService {
                     [
                         'ticket_id'  => $ticket->id,
                         'note_type'  => 'due_date_change',
-                        'note'       => 'Edit',
+                        'note'       => 'Due Date Change',
                         'created_by' => Auth::id(),
                     ]
                 );
+                $emailResponse['due_date_change'] = 'Due date changed';
             }
             if ($ticket->ticket_status_id != $request->ticket_status_id) {
                 TicketNote::create(
                     [
                         'ticket_id'  => $ticket->id,
                         'note_type'  => 'status_change',
-                        'note'       => 'Edit',
+                        'note'       => 'Status change',
                         'old_status' => $ticket->ticket_status->name,
                         'new_status' => $ticket_status->name,
                         'created_by' => Auth::id(),
                     ]
                 );
+                $emailResponse['status_change'] = 'Status changed';
+            }
+
+            if ($ticket->department_id != $request->department_id) {
+                TicketNote::create(
+                    [
+                        'ticket_id'  => $ticket->id,
+                        'note_type'  => 'department_change',
+                        'note'       => 'department change',
+                        'old_status' => $ticket_status->name,
+                        'new_status' => $ticket_status->name,
+                        'created_by' => Auth::id(),
+                    ]
+                );
+                $emailResponse['department_change'] = 'Department changed';
             }
 
             $ticket->update(
@@ -249,6 +273,10 @@ class TicketService {
                     'created_by'    => Auth::id(),
                 ]
             );
+        }
+
+        if (!empty($emailResponse)) {
+            Mail::to($ticket->user->email)->queue(new LogUpdateMail($emailResponse));
         }
 
         return $ticket;

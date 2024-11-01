@@ -4,7 +4,6 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Department;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Gate;
 
@@ -38,15 +37,6 @@ class DepartmentController extends Controller {
     }
 
     /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request) {
-        //
-        Gate::authorize('create', Department::class);
-
-    }
-
-    /**
      * Display the specified resource.
      */
     public function show(Department $department) {
@@ -61,13 +51,6 @@ class DepartmentController extends Controller {
     public function edit(Department $department) {
         Gate::authorize('update', $department);
         return view('department.edit', compact('department'));
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, Department $department) {
-        Gate::authorize('update', $department);
     }
 
     /**
