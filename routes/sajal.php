@@ -15,7 +15,7 @@ use App\Http\Controllers\ModuleController;
 use App\Http\Controllers\TeamController;
 use Illuminate\Support\Facades\Route;
 
-Route::middleware('auth')->prefix('dashboard')->name('admin.')->group(function () {
+Route::middleware('auth', 'verified')->prefix('dashboard')->name('admin.')->group(function () {
     Route::resource('module', ModuleController::class);
     Route::resource('menu', MenuController::class);
     Route::get('menu-list-datatable', [MenuController::class, 'displayListDatatable'])->name('menu.list.datatable');
@@ -48,7 +48,7 @@ Route::middleware('auth')->prefix('dashboard')->name('admin.')->group(function (
         Route::get('request-download/{file}', 'downloadFile')->name('downloadFile');
         Route::get('status-wise-request-list', 'ticketList')->name('status.wise.list');
         Route::get('status-wise-request-list-datatable', 'allListDataTable')->name('status.wise.list.datatable');
-        Route::post('request-owner-change/{ticket}', 'ownerChange')->name('ownerChange');
+        Route::post('requester-change/{ticket}', 'ticketRequesterChange')->name('change.requester');
         Route::post('request-partial-update/{ticket}', 'partialUpdate')->name('partialUpdate');
         Route::get('get-category-wise-subcategory', 'categoryWiseSubcategory')->name('category.wise.subcategory');
         Route::get('get-department-wise-team', 'departmentWiseTeam')->name('department.wise.team');

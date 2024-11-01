@@ -4,7 +4,7 @@ use App\Http\Controllers\Admin\AdminUserController;
 use App\Http\Controllers\Admin\ConversationController;
 use Illuminate\Support\Facades\Route;
 
-Route::middleware(['auth', 'locale'])->prefix('dashboard')->name('admin.')->group(function () {
+Route::middleware(['auth', 'locale', 'verified'])->prefix('dashboard')->name('admin.')->group(function () {
     Route::controller(AdminUserController::class)->prefix('user')->name('user.')->group(function () {
         Route::get('/', 'index')->name('index');
         Route::get('/user-list-datatable', 'displayListDatatable')->name('list.datatable');

@@ -61,7 +61,7 @@ class UpdateTicket extends Component {
      * Define public property $agents;
      * @var array|object
      */
-    public $teamAgent;
+    public $teamAgent = [];
 
     /**
      * Define public property $ticket
@@ -107,7 +107,7 @@ class UpdateTicket extends Component {
         $this->teams          = Team::where('department_id', $this->ticket->department_id)->get();
         $this->categories     = Category::where('parent_id', null)->get();
         $this->ticket_status  = TicketStatus::query()->get();
-        $this->teamAgent      = $teams->agents;
+        $this->teamAgent      = $teams->agents ?? [];
         $this->departments    = Department::where('status', true)->get();
         $this->subCategory    = Category::where('id', $this->ticket->sub_category_id)->get();
     }

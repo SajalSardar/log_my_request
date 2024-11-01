@@ -9,23 +9,20 @@ use Illuminate\Mail\Mailables\Content;
 use Illuminate\Mail\Mailables\Envelope;
 use Illuminate\Queue\SerializesModels;
 
-class UpdateInfoMail extends Mailable
-{
+class UpdateInfoMail extends Mailable implements ShouldQueue {
     use Queueable, SerializesModels;
 
     /**
      * Create a new message instance.
      */
-    public function __construct(public array|object $request)
-    {
+    public function __construct(public array | object $request) {
         //
     }
 
     /**
      * Get the message envelope.
      */
-    public function envelope(): Envelope
-    {
+    public function envelope(): Envelope {
         return new Envelope(
             subject: 'Update Info Mail',
         );
@@ -34,8 +31,7 @@ class UpdateInfoMail extends Mailable
     /**
      * Get the message content definition.
      */
-    public function content(): Content
-    {
+    public function content(): Content {
         return new Content(
             view: 'emails.update-info',
         );
@@ -46,8 +42,7 @@ class UpdateInfoMail extends Mailable
      *
      * @return array<int, \Illuminate\Mail\Mailables\Attachment>
      */
-    public function attachments(): array
-    {
+    public function attachments(): array {
         return [];
     }
 }

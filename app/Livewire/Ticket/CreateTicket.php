@@ -154,7 +154,7 @@ class CreateTicket extends Component {
             'updated_by'    => Auth::user()->id,
         ]);
 
-        Mail::to(Auth::user()->email)->send(new TicketEmail($response));
+        Mail::to(Auth::user()->email)->queue(new TicketEmail($response));
 
         flash()->success('Data has been Save successfully');
 

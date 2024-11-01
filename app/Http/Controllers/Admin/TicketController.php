@@ -5,7 +5,6 @@ namespace App\Http\Controllers\Admin;
 use App\Enums\Bucket;
 use App\Http\Controllers\Controller;
 use App\LocaleStorage\Fileupload;
-use App\Mail\ConversationMail;
 use App\Mail\LogUpdateMail;
 use App\Mail\TicketEmail;
 use App\Mail\UpdateInfoMail;
@@ -23,6 +22,7 @@ use App\Models\TicketOwnership;
 use App\Models\TicketStatus;
 use App\Models\User;
 use Carbon\Carbon;
+use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -555,6 +555,7 @@ class TicketController extends Controller {
             "comment"          => 'required',
             "department_id"    => 'required',
         ]);
+        $emailResponse = [];
         DB::beginTransaction();
         try {
             $ticket_status = TicketStatus::query()->where('id', $ticket->ticket_status_id)->first();
@@ -578,7 +579,8 @@ class TicketController extends Controller {
                     ]);
                 }
 
-                $ticket_agents = $ticket->owners()->attach($request->owner_id);
+                $ticket_agents                 = $ticket->owners()->attach($request->owner_id);
+                $emailResponse['owner_change'] = 'Owner changed';
             }
             if ($ticket->team_id != $request->team_id) {
                 TicketNote::create(
@@ -624,6 +626,7 @@ class TicketController extends Controller {
                         'created_by' => Auth::id(),
                     ]
                 );
+                $emailResponse['due_date_change'] = 'Due date changed';
             }
             if ($ticket->ticket_status_id != $request->ticket_status_id) {
                 TicketNote::create(
@@ -658,6 +661,7 @@ class TicketController extends Controller {
                     'due_date'         => $request->due_date,
                     'team_id'          => $request->team_id,
                     'category_id'      => $request->category_id,
+                    'sub_category_id'  => $request->sub_category_id,
                     'ticket_status_id' => $request->ticket_status_id,
                     'department_id'    => $request->department_id,
                     'updated_by'       => Auth::id(),
@@ -690,7 +694,7 @@ class TicketController extends Controller {
         }
 
         if (!empty($emailResponse)) {
-            Mail::to($ticket->user->email)->send(new LogUpdateMail($emailResponse));
+            Mail::to($ticket->user->email)->queue(new LogUpdateMail($emailResponse));
         }
         flash()->success('Data has been updated successfully');
         return back();
@@ -729,30 +733,12 @@ class TicketController extends Controller {
     }
 
     /**
-     * Define public method conversation() to store the conversation
-     * @param Request $request
-     * @param Ticket $ticket
-     */
-    public function conversation(Request $request, Ticket $ticket) {
-        $conversation = Conversation::create([
-            'ticket_id'         => $ticket->id,
-            'requester_id'      => $ticket->user_id,
-            'conversation_type' => 'customer',
-            'conversation'      => $request->conversation,
-            'status'            => 1,
-        ]);
-        Mail::to($ticket->user->email)->send(new ConversationMail($conversation));
-        flash()->success('Conversation has been added successfully');
-        return back();
-    }
-
-    /**
      * Method for change the owner of ticket
      * @param Request $request
      * @param Ticket $ticket
      * @return RedirectResponse
      */
-    public function ownerChange(Request $request, Ticket $ticket): RedirectResponse {
+    public function ticketRequesterChange(Request $request, Ticket $ticket): RedirectResponse {
         $checkUser = User::query()->where('email', $request->requester_email)->first();
         if (!empty($checkUser)) {
             $request->merge([
@@ -767,7 +753,15 @@ class TicketController extends Controller {
                     'requester_id'      => $request->requester_id,
                 ]
             );
+
+            $ticket->update(
+                [
+                    'user_id' => $checkUser->id,
+                ]
+            );
+
         } else {
+
             $password = rand(10000000, 99999999);
             $request->merge([
                 'credentials' => true,
@@ -784,49 +778,54 @@ class TicketController extends Controller {
             ]);
 
             $user->assignRole('requester');
-            $response = $ticket->update(
+
+            $ticket->update(
                 [
                     'user_id' => $user->getKey(),
                 ]
             );
-
-            try {
-                $ticket_note = TicketNote::create(
-                    [
-                        'ticket_id'  => $ticket->id,
-                        'note_type'  => 'owner_change',
-                        'old_status' => $ticket->ticket_note->old_status,
-                        'new_status' => $ticket->ticket_note->new_status,
-                        'note'       => $ticket->ticket_note->note,
-                        'created_by' => $request->user()->id,
-                        'updated_by' => $request->user()->id,
-                    ]
-                );
-
-                TicketLog::create(
-                    [
-                        'ticket_id'     => $ticket->getKey(),
-                        'ticket_status' => $ticket->ticket_status->name,
-                        'status'        => 'updated',
-                        'comment'       => json_encode($ticket_note),
-                        'updated_by'    => Auth::id(),
-                        'created_by'    => Auth::id(),
-                    ]
-                );
-            } catch (\Exception $e) {
-                TicketLog::create(
-                    [
-                        'ticket_id'     => $ticket->getKey(),
-                        'ticket_status' => $ticket->ticket_status->name,
-                        'status'        => 'update_fail',
-                        'comment'       => json_encode($e->getMessage()),
-                        'updated_by'    => Auth::id(),
-                        'created_by'    => Auth::id(),
-                    ]
-                );
-            }
         }
-        Mail::to($request->requester_email)->send(new TicketEmail($request));
+
+        try {
+            $ticket_note = TicketNote::create(
+                [
+                    'ticket_id'  => $ticket->id,
+                    'note_type'  => 'owner_change',
+                    'old_status' => $ticket->ticket_note->old_status,
+                    'new_status' => $ticket->ticket_note->new_status,
+                    'note'       => $ticket->ticket_note->note,
+                    'created_by' => $request->user()->id,
+                    'updated_by' => $request->user()->id,
+                ]
+            );
+
+            TicketLog::create(
+                [
+                    'ticket_id'     => $ticket->getKey(),
+                    'ticket_status' => $ticket->ticket_status->name,
+                    'status'        => 'updated',
+                    'comment'       => json_encode($ticket_note),
+                    'updated_by'    => Auth::id(),
+                    'created_by'    => Auth::id(),
+                ]
+            );
+
+            event(new Registered($user));
+
+        } catch (\Exception $e) {
+            TicketLog::create(
+                [
+                    'ticket_id'     => $ticket->getKey(),
+                    'ticket_status' => $ticket->ticket_status->name,
+                    'status'        => 'update_fail',
+                    'comment'       => json_encode($e->getMessage()),
+                    'updated_by'    => Auth::id(),
+                    'created_by'    => Auth::id(),
+                ]
+            );
+        }
+
+        Mail::to($request->requester_email)->queue(new TicketEmail($request));
         flash()->success('Requester Has been added');
         return back();
     }
@@ -871,7 +870,7 @@ class TicketController extends Controller {
         }
         $source          = Source::find($request->source_id);
         $request->source = $source->title;
-        Mail::to($ticket->user->email)->send(new UpdateInfoMail($request));
+        Mail::to($ticket->user->email)->queue(new UpdateInfoMail($request));
         flash()->success('Edit has been successfully done');
         return back();
     }

@@ -2,14 +2,14 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Models\Ticket;
+use App\Http\Controllers\Controller;
+use App\Mail\ConversationMail;
 use App\Mail\ReplayMail;
 use App\Models\Conversation;
-use Illuminate\Http\Request;
-use App\Mail\ConversationMail;
-use App\Http\Controllers\Controller;
-use Illuminate\Support\Facades\Mail;
+use App\Models\Ticket;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Mail;
 
 class ConversationController extends Controller {
 
@@ -26,7 +26,7 @@ class ConversationController extends Controller {
             'conversation'      => $request->conversation,
             'status'            => 1,
         ]);
-        Mail::to($ticket->user->email)->send(new ConversationMail($conversation));
+        Mail::to($ticket->user->email)->queue(new ConversationMail($conversation));
         flash()->success('Conversation has been added successfully');
         return back();
     }
@@ -49,7 +49,7 @@ class ConversationController extends Controller {
         ]);
 
         $ticket = Ticket::with('user')->where('id', $conversation->ticket_id)->first();
-        Mail::to($ticket->user->email)->send(new ReplayMail($request->conversation));
+        Mail::to($ticket->user->email)->queue(new ReplayMail($request->conversation));
         flash()->success('Replay has been added');
         return back();
     }
