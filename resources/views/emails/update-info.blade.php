@@ -34,9 +34,8 @@
                     <tr>
                         <td>
                             <div style="text-align: left; margin-bottom: 20px;">
-                                <p style="color: #333;">Title updated to : {!! $request->request_title !!}</p>
-                                <p style="color: #333;">Description updated to : {!! $request->request_description !!}</p>
-                                <p style="color: #333;">Description updated to : {!! $request->source !!}</p>
+                                <p style="color: #333;">Title: {{ @$ticket->title }}</p>
+                                <p style="color: #333;">Description: {!! @$ticket->description !!}</p>
                             </div>
                         </td>
                     </tr>

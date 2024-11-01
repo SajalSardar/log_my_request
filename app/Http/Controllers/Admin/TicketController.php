@@ -825,7 +825,7 @@ class TicketController extends Controller {
             );
         }
 
-        Mail::to($request->requester_email)->queue(new TicketEmail($request));
+        Mail::to($request->requester_email)->send(new TicketEmail($request));
         flash()->success('Requester Has been added');
         return back();
     }
@@ -868,9 +868,9 @@ class TicketController extends Controller {
                 ]
             );
         }
-        $source          = Source::find($request->source_id);
-        $request->source = $source->title;
-        Mail::to($ticket->user->email)->queue(new UpdateInfoMail($request));
+        $source = Source::find($request->source_id);
+
+        Mail::to($ticket->user->email)->queue(new UpdateInfoMail($ticket));
         flash()->success('Edit has been successfully done');
         return back();
     }
