@@ -155,7 +155,6 @@
             $(document).on('change', '#category_id', function() {
                 let category_id = $(this).val();
                 select_sub_category(category_id);
-                $('#sub_category_id').attr('required', true);
             });
 
             function select_sub_category(category_id) {
@@ -176,6 +175,7 @@
                             let sub_category_select = $('#sub_category_id');
 
                             if (response && response.length > 0) {
+                                $('#sub_category_id').attr('required', true);
                                 sub_category_div.removeClass('hidden');
 
                                 let options = '<option value>Select sub category</option>';
