@@ -5,8 +5,8 @@
 
     <ul class="mt-3 bg-white h-full">
         <li class="group pl-6 relative">
-            <a href="{{ route('dashboard') }}" class="flex text-sm font-inter text-[#333] py-4 items-center hover:bg-orange-100 hover:before:bg-primary-400 before:absolute before:rounded-r-2xl before:content-[''] before:w-[3px] before:h-[55px] before:top-0 {{ Route::is('dashboard') ? '!font-semibold bg-orange-100 before:bg-primary-400' : 'font-normal' }}">
-                <span class="pl-4 flex items-center text-sm font-inter font-semibold text-[#333]">
+            <a href="{{ route('dashboard') }}" class="flex py-4 items-center hover:bg-orange-100 hover:before:bg-primary-400 before:absolute before:rounded-r-2xl before:content-[''] before:w-[3px] before:h-[55px] before:top-0 {{ Route::is('dashboard') ? '!font-semibold bg-orange-100 before:bg-primary-400' : 'font-normal' }}">
+                <span class="pl-4 flex items-center text-sm font-inter font-semibold {{ Route::is('dashboard') ? 'text-[#333]' : 'text-[#5c5c5c]'}}">
                     <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <path d="M13.5 15.5C13.5 14.5572 13.5 14.0858 13.7929 13.7929C14.0858 13.5 14.5572 13.5 15.5 13.5H20C20.9428 13.5 21.4142 13.5 21.7071 13.7929C22 14.0858 22 14.5572 22 15.5V20C22 20.9428 22 21.4142 21.7071 21.7071C21.4142 22 20.9428 22 20 22H15.5C14.5572 22 14.0858 22 13.7929 21.7071C13.5 21.4142 13.5 20.9428 13.5 20V15.5Z" stroke="#5C5C5C" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
                         <path d="M2 4C2 3.05719 2 2.58579 2.29289 2.29289C2.58579 2 3.05719 2 4 2H8.5C9.44281 2 9.91421 2 10.2071 2.29289C10.5 2.58579 10.5 3.05719 10.5 4V8.5C10.5 9.44281 10.5 9.91421 10.2071 10.2071C9.91421 10.5 9.44281 10.5 8.5 10.5H4C3.05719 10.5 2.58579 10.5 2.29289 10.2071C2 9.91421 2 9.44281 2 8.5V4Z" stroke="#5C5C5C" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />

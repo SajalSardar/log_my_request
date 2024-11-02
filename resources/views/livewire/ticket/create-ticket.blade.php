@@ -14,7 +14,7 @@
                      </div>
                  </div>
 
-                 <div class="grid md:grid-cols-1 sm:grid-cols-1 sm:gap-1 md:gap-2 p-2 w-full ">
+                 <div class="grid md:grid-cols-1 sm:grid-cols-1 p-2 w-full">
                      <x-forms.label for="form.request_description">
                          {{ __('Request Description') }}
                      </x-forms.label>
@@ -88,13 +88,20 @@
                          <x-forms.label for="form.priority" required="yes">
                              {{ __('Requester Priority') }}
                          </x-forms.label>
-                         <div class="mt-3">
+                         <div class="mt-3 flex items-center">
+                             <div class="flex items-center">
+                                <x-forms.radio-input wire:model="form.priority" name="priority" class="ml-2"
+                                value="low" required /> 
+                                <p class="text-paragraph ml-2">Low</p>
+                             </div>
+                             <div class="flex items-center">
                              <x-forms.radio-input wire:model="form.priority" name="priority" class="ml-2"
-                                 value="low" required /> <span class="ml-2">Low</span>
-                             <x-forms.radio-input wire:model="form.priority" name="priority" class="ml-2"
-                                 value="medium" required /> <span class="ml-2">Medium</span>
-                             <x-forms.radio-input wire:model="form.priority" name="priority" class="ml-2"
-                                 value="high" required /> <span class="ml-2">High</span>
+                             value="medium" required /> <p class=" text-paragraph ml-2">Medium</p>
+                             </div>
+                            <div class="flex items-center">
+                            <x-forms.radio-input wire:model="form.priority" name="priority" class="ml-2"
+                            value="high" required /> <p class="text-paragraph ml-2">High</p>
+                            </div>
                          </div>
                          <x-input-error :messages="$errors->get('form.priority')" class="mt-2" />
                      </div>
@@ -234,7 +241,7 @@
                      </div>
 
                  </div>
-                 <div class="p-2">
+                 <div class="p-2 mt-[7px]">
                      <x-buttons.primary>
                          Create Ticket
                      </x-buttons.primary>
@@ -243,7 +250,6 @@
          </div>
      </div>
  </form>
-
 
  @section('style')
      <style>
