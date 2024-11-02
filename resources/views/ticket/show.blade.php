@@ -155,6 +155,7 @@
             $(document).on('change', '#category_id', function() {
                 let category_id = $(this).val();
                 select_sub_category(category_id);
+                $('#sub_category_id').attr('required', true);
             });
 
             function select_sub_category(category_id) {
