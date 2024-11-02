@@ -784,13 +784,15 @@ class TicketController extends Controller {
                     'user_id' => $user->getKey(),
                 ]
             );
+
+            event(new Registered($user));
         }
 
         try {
             $ticket_note = TicketNote::create(
                 [
                     'ticket_id'  => $ticket->id,
-                    'note_type'  => 'owner_change',
+                    'note_type'  => 'requester_change',
                     'old_status' => $ticket->ticket_note->old_status,
                     'new_status' => $ticket->ticket_note->new_status,
                     'note'       => $ticket->ticket_note->note,
@@ -810,8 +812,6 @@ class TicketController extends Controller {
                 ]
             );
 
-            event(new Registered($user));
-
         } catch (\Exception $e) {
             TicketLog::create(
                 [
@@ -825,7 +825,7 @@ class TicketController extends Controller {
             );
         }
 
-        Mail::to($request->requester_email)->queue(new TicketEmail($request));
+        Mail::to($request->requester_email)->send(new TicketEmail($request));
         flash()->success('Requester Has been added');
         return back();
     }
@@ -868,9 +868,9 @@ class TicketController extends Controller {
                 ]
             );
         }
-        $source          = Source::find($request->source_id);
-        $request->source = $source->title;
-        Mail::to($ticket->user->email)->queue(new UpdateInfoMail($request));
+        $source = Source::find($request->source_id);
+
+        Mail::to($ticket->user->email)->queue(new UpdateInfoMail($ticket));
         flash()->success('Edit has been successfully done');
         return back();
     }

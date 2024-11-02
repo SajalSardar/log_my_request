@@ -15,7 +15,7 @@ class UpdateInfoMail extends Mailable implements ShouldQueue {
     /**
      * Create a new message instance.
      */
-    public function __construct(public array | object $request) {
+    public function __construct(public array | object $ticket) {
         //
     }
 
