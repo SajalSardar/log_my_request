@@ -61,6 +61,9 @@ class Ticket extends Model {
     public function category(): BelongsTo {
         return $this->belongsTo(Category::class, 'category_id', 'id');
     }
+    public function sub_category(): BelongsTo {
+        return $this->belongsTo(Category::class, 'sub_category_id', 'id');
+    }
 
     /**
      * Define public method team() associate with Ticket
@@ -94,13 +97,11 @@ class Ticket extends Model {
         return $this->morphOne(Image::class, 'image', 'image_type', 'image_id');
     }
 
-
     /**
      * Define public method images()
      * @return MorphMany
      */
-    public function images(): MorphMany
-    {
+    public function images(): MorphMany {
         return $this->morphMany(Image::class, 'image', 'image_type', 'image_id');
     }
 

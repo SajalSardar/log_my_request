@@ -9,7 +9,7 @@
                     <span class="font-sm font-normal font-inter">#{{ $ticket?->user->id }}</span>
                 </li>
                 <li>
-                    <span class="font-sm font-semibold font-inter">Request: </span>
+                    <span class="font-sm font-semibold font-inter">Requester: </span>
                     <span class="font-sm font-normal font-inter">{{ $ticket?->user?->name }}</span>
                 </li>
                 <li>

@@ -236,7 +236,7 @@
                  </div>
                  <div class="p-2">
                      <x-buttons.primary>
-                         Create Ticket
+                         Create Request
                      </x-buttons.primary>
                  </div>
              </div>

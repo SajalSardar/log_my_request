@@ -53,11 +53,8 @@
                 </div>
 
                 <div class="p-2">
-                    <x-buttons.secondary type="button">
-                        Cancel
-                    </x-buttons.secondary>
                     <x-buttons.primary>
-                        Create Ticket
+                        Create Request
                     </x-buttons.primary>
                 </div>
             </div>

@@ -89,38 +89,29 @@
         <table class="display nowrap" id="data-table" style="width: 100%">
             <thead>
                 <tr>
-                    <th class="text-start p-2 text-heading-dark" style="width: 80px">
-                        <div class="flex items-center">
-                            <span>
-                                <svg width="20" height="20" viewBox="0 0 20 20" fill="none"
-                                    xmlns="http://www.w3.org/2000/svg">
-                                    <path d="M2.5 5H4.16667H17.5" stroke="#666666" stroke-width="2"
-                                        stroke-linecap="round" stroke-linejoin="round" />
-                                    <path
-                                        d="M15.8332 5.00008V16.6667C15.8332 17.1088 15.6576 17.5327 15.345 17.8453C15.0325 18.1578 14.6085 18.3334 14.1665 18.3334H5.83317C5.39114 18.3334 4.96722 18.1578 4.65466 17.8453C4.3421 17.5327 4.1665 17.1088 4.1665 16.6667V5.00008M6.6665 5.00008V3.33341C6.6665 2.89139 6.8421 2.46746 7.15466 2.1549C7.46722 1.84234 7.89114 1.66675 8.33317 1.66675H11.6665C12.1085 1.66675 12.5325 1.84234 12.845 2.1549C13.1576 2.46746 13.3332 2.89139 13.3332 3.33341V5.00008"
-                                        stroke="#666666" stroke-width="2" stroke-linecap="round"
-                                        stroke-linejoin="round" />
-                                    <path d="M8.3335 9.16675V14.1667" stroke="#666666" stroke-width="2"
-                                        stroke-linecap="round" stroke-linejoin="round" />
-                                    <path d="M11.6665 9.16675V14.1667" stroke="#666666" stroke-width="2"
-                                        stroke-linecap="round" stroke-linejoin="round" />
-                                </svg>
-                            </span>
-                            <span class="ms-1">Select</span>
-                        </div>
+                    <th class="text-heading-dark">
+                        <span>
+                            <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M2.5 5H4.16667H17.5" stroke="#666666" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                                <path d="M15.8332 5.00008V16.6667C15.8332 17.1088 15.6576 17.5327 15.345 17.8453C15.0325 18.1578 14.6085 18.3334 14.1665 18.3334H5.83317C5.39114 18.3334 4.96722 18.1578 4.65466 17.8453C4.3421 17.5327 4.1665 17.1088 4.1665 16.6667V5.00008M6.6665 5.00008V3.33341C6.6665 2.89139 6.8421 2.46746 7.15466 2.1549C7.46722 1.84234 7.89114 1.66675 8.33317 1.66675H11.6665C12.1085 1.66675 12.5325 1.84234 12.845 2.1549C13.1576 2.46746 13.3332 2.89139 13.3332 3.33341V5.00008" stroke="#666666" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                                <path d="M8.3335 9.16675V14.1667" stroke="#666666" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                                <path d="M11.6665 9.16675V14.1667" stroke="#666666" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                            </svg>
+                        </span>
                     </th>
                     <th class="text-heading-dark">ID</th>
                     <th class="text-heading-dark">Title</th>
                     <th class="text-heading-dark">Priority</th>
-                    <th class="text-heading-dark">Category</th>
                     <th class="text-heading-dark">Status</th>
-                    <th class="text-heading-dark">Requester Name</th>
+                    <th class="text-heading-dark">Category</th>
+                    <th class="text-heading-dark">sub Category</th>
+                    <th class="text-heading-dark">Requester</th>
                     <th class="text-heading-dark">Department</th>
                     <th class="text-heading-dark">Assigned Team</th>
                     <th class="text-heading-dark">Assigned Agent</th>
-                    <th class="text-heading-dark">Created Date</th>
-                    <th class="text-heading-dark">Request Age</th>
-                    <th class="text-heading-dark">Due Date</th>
+                    <th class="text-heading-dark">Created</th>
+                    <th class="text-heading-dark">Age</th>
+                    <th class="text-heading-dark">Due</th>
                     <th class="text-heading-dark"></th>
                 </tr>
             </thead>
@@ -175,12 +166,16 @@
                             name: 'priority'
                         },
                         {
+                            data: 'status',
+                            name: 'status'
+                        },
+                        {
                             data: 'category_id',
                             name: 'category_id'
                         },
                         {
-                            data: 'status',
-                            name: 'status'
+                            data: 'sub_category_id',
+                            name: 'sub_category_id'
                         },
                         {
                             data: 'user_id',
