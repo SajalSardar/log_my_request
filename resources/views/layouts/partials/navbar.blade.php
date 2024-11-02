@@ -17,7 +17,7 @@
         </div>
 
         <div class="search-input">
-            <form class="w-full">
+            {{-- <form class="w-full">
                 <x-forms.text-input-icon type="text" placeholder="Search events" dir="end"
                     style="border:1px solid #dad7d7 !important">
                     <svg width="24" height="24" class="sm:w-4 sm:h-4 md:w-6 md:h-6" viewBox="0 0 24 24"
@@ -29,7 +29,7 @@
                             stroke="#666666" stroke-width="1.5" stroke-linejoin="round" />
                     </svg>
                 </x-forms.text-input-icon>
-            </form>
+            </form> --}}
         </div>
 
         <div class="user-type">

@@ -14,7 +14,7 @@ class CategoryController extends Controller {
         Gate::authorize('viewAny', Category::class);
 
         $collections = Cache::remember('category_list', 60 * 60, function () {
-            return Category::query()->with('image')->get();
+            return Category::query()->with('image', 'parent')->get();
         });
         return view("category.index", compact('collections'));
     }

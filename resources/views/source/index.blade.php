@@ -1,4 +1,10 @@
 <x-app-layout>
+    @section('title', 'Source List')
+    @section('breadcrumb')
+        <x-breadcrumb>
+            Source List
+        </x-breadcrumb>
+    @endsection
     <div class="flex justify-end pb-3">
         <a type="submit" class="px-8 py-2 bg-primary-400 text-white rounded" href="{{ route('admin.source.create') }}">
             Create Source

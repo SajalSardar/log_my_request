@@ -1,1 +1,0 @@
-<x-app-layout><livewire:ticketownership.create-ticketownership /></x-app-layout>

@@ -1,4 +1,10 @@
 <x-app-layout>
+    @section('title', 'Edit Role')
+    @section('breadcrumb')
+        <x-breadcrumb>
+            Edit Role
+        </x-breadcrumb>
+    @endsection
 
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">

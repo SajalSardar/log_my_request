@@ -1,4 +1,13 @@
 <x-app-layout>
+    @section('title')
+        {{ $ticket?->title }}
+    @endsection
+    @section('breadcrumb')
+        <x-breadcrumb>
+            {{ $ticket?->title }}
+        </x-breadcrumb>
+    @endsection
+
     <header class="mb-6">
         <span class="text-base font-bold font-inter">Request ID & Title: #{{ $ticket?->id }} ,
             {{ $ticket?->title }}</span>
