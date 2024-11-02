@@ -41,7 +41,7 @@
                             {{ __('Sub Category') }}
                         </x-forms.label>
 
-                        <x-forms.select-input name="sub_category_id" id="sub_category_id" required>
+                        <x-forms.select-input name="sub_category_id" id="sub_category_id">
 
                         </x-forms.select-input>
 
