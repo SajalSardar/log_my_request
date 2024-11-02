@@ -1,4 +1,5 @@
 <x-app-layout>
+    @section('title', 'Dashboard')
 
     @role('super-admin')
     <div class="mb-6">

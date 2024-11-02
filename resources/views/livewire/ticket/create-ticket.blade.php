@@ -243,7 +243,7 @@
                  </div>
                  <div class="p-2 mt-[7px]">
                      <x-buttons.primary>
-                         Create Ticket
+                         Create Request
                      </x-buttons.primary>
                  </div>
              </div>

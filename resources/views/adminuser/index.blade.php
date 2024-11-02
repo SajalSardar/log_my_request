@@ -1,4 +1,10 @@
 <x-app-layout>
+    @section('title', 'User List')
+    @section('breadcrumb')
+        <x-breadcrumb>
+            User List
+        </x-breadcrumb>
+    @endsection
     <div class="flex mb-8">
         <div class="flex-none  w-48">
             <p class="font-bold">User List</p>
@@ -13,7 +19,7 @@
                 </div>
 
                 <div>
-                    <x-actions.href href="{{ route('admin.user.create') }}" class="!px-2 !py-0.5 block">
+                    <x-actions.href href="{{ route('admin.user.create') }}" class="block">
                         Create User
                         <svg class="inline-block" fill="none" width="15" height="15" viewBox="0 0 24 24"
                             stroke-width="1.5" stroke="currentColor">

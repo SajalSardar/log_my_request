@@ -1,4 +1,11 @@
 <x-app-layout>
+    @section('title', 'Team List')
+    @section('breadcrumb')
+        <x-breadcrumb>
+            Team List
+        </x-breadcrumb>
+    @endsection
+
     <div class="flex justify-end pb-3">
         <x-actions.href href="{{ route('admin.team.create') }}">
             Create Team

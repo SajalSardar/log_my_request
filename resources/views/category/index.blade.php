@@ -1,4 +1,10 @@
 <x-app-layout>
+    @section('title', 'Category List')
+    @section('breadcrumb')
+        <x-breadcrumb>
+            Category List
+        </x-breadcrumb>
+    @endsection
     <div class="flex justify-end pb-3">
         <x-actions.href href="{{ route('admin.category.create') }}">
             Create Category
@@ -29,7 +35,7 @@
                                 <h5 class="font-medium text-slate-900">{{ $each?->name }}</h5>
                             </div>
                         </td>
-                        <td class="p-3 font-normal text-gray-400">{{ $each?->parent_id }}</td>
+                        <td class="p-3 font-normal text-gray-400">{{ @$each->parent->name }}</td>
                         <td class="p-3 font-normal text-gray-400">{!! Helper::status($each->status) !!}</td>
                         <td class="p-3 font-normal text-gray-400">{{ Helper::ISOdate($each?->updated_at) }}</td>
                         <td>

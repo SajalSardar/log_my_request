@@ -121,7 +121,7 @@ class TicketController extends Controller {
     public function allTicketListDataTable(Request $request) {
         Gate::authorize('viewAny', Ticket::class);
 
-        $tickets = Ticket::query()->with(['owners', 'source', 'user', 'team', 'category', 'ticket_status', 'department']);
+        $tickets = Ticket::query()->with(['owners', 'source', 'user', 'team', 'category', 'sub_category', 'ticket_status', 'department']);
         if (Auth::user()->hasRole('requester')) {
             $tickets->where('user_id', Auth::id());
         }
@@ -197,7 +197,10 @@ class TicketController extends Controller {
                 return '<span class="text-title w-40 block pr-3">' . Str::ucfirst(@$tickets->department->name) . '</span>';
             })
             ->editColumn('category_id', function ($tickets) {
-                return '<span class="text-title w-44 block pr-4">' . Str::ucfirst($tickets->category->name) . '</span>';
+                return '<span class="text-title w-44 block pr-4">' . Str::ucfirst(@$tickets->category->name) . '</span>';
+            })
+            ->editColumn('sub_category_id', function ($tickets) {
+                return '<span class="text-title w-44 block pr-4">' . Str::ucfirst(@$tickets->sub_category->name) . '</span>';
             })
             ->editColumn('ticket_status_id', function ($tickets) {
                 $data = "";
@@ -233,7 +236,7 @@ class TicketController extends Controller {
                 return $data;
             })
             ->addColumn('request_age', function ($tickets) {
-                $data = '<span class="text-title">' . dayMonthYearHourMininteSecond($tickets?->created_at, true, true, true, true, true, true) . '</span>';
+                $data = '<span class="text-title">' . dayMonthYearHourMininteSecond($tickets?->created_at, true, true, true, true) . '</span>';
                 return $data;
             })
             ->editColumn('due_date', function ($tickets) {
@@ -382,7 +385,7 @@ class TicketController extends Controller {
             $ticketStatus = TicketStatus::where('slug', $request->query_status)->first();
         }
 
-        $tickets = Ticket::query()->with(['owners', 'source', 'user', 'team', 'category', 'ticket_status', 'department']);
+        $tickets = Ticket::query()->with(['owners', 'source', 'user', 'team', 'category', 'sub_category', 'ticket_status', 'department']);
 
         if (Auth::user()->hasRole('requester')) {
             $tickets->where('user_id', Auth::id());
@@ -462,6 +465,9 @@ class TicketController extends Controller {
             ->editColumn('category_id', function ($tickets) {
                 return '<span class="text-title">' . Str::ucfirst($tickets->category->name) . '</span>';
             })
+            ->editColumn('sub_category_id', function ($tickets) {
+                return '<span class="text-title w-44 block pr-4">' . Str::ucfirst(@$tickets->sub_category->name) . '</span>';
+            })
             ->editColumn('department_id', function ($tickets) {
                 return '<span class="text-title">' . Str::ucfirst(@$tickets->department->name) . '</span>';
             })
@@ -496,7 +502,7 @@ class TicketController extends Controller {
                 return $data;
             })
             ->addColumn('request_age', function ($tickets) {
-                $data = '<span class="text-title">' . dayMonthYearHourMininteSecond($tickets?->created_at, true, true, true, true, true, true) . '</span>';
+                $data = '<span class="text-title">' . dayMonthYearHourMininteSecond($tickets?->created_at, true, true, true, true) . '</span>';
                 return $data;
             })
             ->editColumn('due_date', function ($tickets) {
@@ -629,6 +635,19 @@ class TicketController extends Controller {
                 $emailResponse['due_date_change'] = 'Due date changed';
             }
             if ($ticket->ticket_status_id != $request->ticket_status_id) {
+
+                $checkTicketStatus = TicketStatus::where('id', $request->ticket_status_id)->first();
+
+                if ($checkTicketStatus->slug == 'resolved') {
+                    $resolution_now        = Carbon::now();
+                    $resolution_in_seconds = $ticket->created_at->diffInSeconds($resolution_now);
+                    $ticket->update([
+                        'resolution_time' => (int) $resolution_in_seconds,
+                        'resolved_at'     => now(),
+                        'resolved_by'     => Auth::id(),
+                    ]);
+                }
+
                 TicketNote::create(
                     [
                         'ticket_id'  => $ticket->id,

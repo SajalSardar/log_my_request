@@ -237,7 +237,7 @@
                 </div>
                 <div class="p-2">
                     <x-buttons.primary>
-                        Update Ticket
+                        Update Request
                     </x-buttons.primary>
                 </div>
             </div>

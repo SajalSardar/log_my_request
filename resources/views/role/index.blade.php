@@ -1,4 +1,11 @@
  <x-app-layout>
+    @section('title', 'Role List')
+    @section('breadcrumb')
+        <x-breadcrumb>
+            Role List
+        </x-breadcrumb>
+    @endsection
+
      <div class="flex justify-end pb-3">
          <x-actions.href href="{{ route('admin.role.create') }}">
              Create Role

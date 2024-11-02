@@ -1,4 +1,11 @@
 <x-app-layout>
+    @section('title', 'Request Type List')
+    @section('breadcrumb')
+        <x-breadcrumb>
+            Request Type List
+        </x-breadcrumb>
+    @endsection
+
     <div class="flex justify-end pb-3">
         <a type="submit" class="px-8 py-2 bg-primary-400 text-white rounded"
             href="{{ route('admin.requestertype.create') }}">

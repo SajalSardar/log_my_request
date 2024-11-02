@@ -13,14 +13,19 @@
         </div>
 
         <div class="search-input">
-            <form class="w-full">
-                <x-forms.text-input-icon type="text" placeholder="Search events" dir="end" style="border:1px solid #dad7d7 !important">
-                    <svg width="24" height="24" class="sm:w-4 sm:h-4 md:w-6 md:h-6" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M17.5 17.5L22 22" stroke="#666666" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
-                        <path d="M20 11C20 6.02944 15.9706 2 11 2C6.02944 2 2 6.02944 2 11C2 15.9706 6.02944 20 11 20C15.9706 20 20 15.9706 20 11Z" stroke="#666666" stroke-width="1.5" stroke-linejoin="round" />
+            {{-- <form class="w-full">
+                <x-forms.text-input-icon type="text" placeholder="Search events" dir="end"
+                    style="border:1px solid #dad7d7 !important">
+                    <svg width="24" height="24" class="sm:w-4 sm:h-4 md:w-6 md:h-6" viewBox="0 0 24 24"
+                        fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M17.5 17.5L22 22" stroke="#666666" stroke-width="1.5" stroke-linecap="round"
+                            stroke-linejoin="round" />
+                        <path
+                            d="M20 11C20 6.02944 15.9706 2 11 2C6.02944 2 2 6.02944 2 11C2 15.9706 6.02944 20 11 20C15.9706 20 20 15.9706 20 11Z"
+                            stroke="#666666" stroke-width="1.5" stroke-linejoin="round" />
                     </svg>
                 </x-forms.text-input-icon>
-            </form>
+            </form> --}}
         </div>
 
         <div class="user-type">

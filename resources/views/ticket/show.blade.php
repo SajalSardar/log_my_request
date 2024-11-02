@@ -1,4 +1,13 @@
 <x-app-layout>
+    @section('title')
+        {{ $ticket?->title }}
+    @endsection
+    @section('breadcrumb')
+        <x-breadcrumb>
+            {{ $ticket?->title }}
+        </x-breadcrumb>
+    @endsection
+
     <header class="mb-6">
         <span class="text-base font-bold font-inter">Request ID & Title: #{{ $ticket?->id }} ,
             {{ $ticket?->title }}</span>
@@ -175,6 +184,7 @@
                             let sub_category_select = $('#sub_category_id');
 
                             if (response && response.length > 0) {
+                                $('#sub_category_id').attr('required', true);
                                 sub_category_div.removeClass('hidden');
 
                                 let options = '<option value>Select sub category</option>';
