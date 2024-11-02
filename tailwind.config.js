@@ -49,6 +49,8 @@ export default {
                 navbar: {
                     bg: "#F8FAFF",
                 },
+                paragraph : "#5c5c5c",
+                title : "#333333"
             },
             fontFamily: {
                 sans: ["Figtree", ...defaultTheme.fontFamily.sans],
