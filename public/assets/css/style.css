@@ -1,3 +1,9 @@
+ * {
+     margin: 0;
+     padding: 0;
+     outline: 0;
+ }
+
  *,
 
  ::before,
@@ -355,6 +361,6 @@
      height: 52px;
  }
 
- .title-width{
-    width: 325px;
+ .title-width {
+     width: 325px;
  }
