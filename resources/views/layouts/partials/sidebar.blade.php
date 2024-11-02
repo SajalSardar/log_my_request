@@ -33,7 +33,7 @@
                     @if ($menu->route !== 'logout')
                         <a href=" {{ $menu->route == '#' ? '#' : ($menu->url ? url($menu->url) : route($menu->route)) }}" class="block py-4 text-sm font-inter text-[#333] hover:bg-orange-100 hover:before:bg-primary-400 before:absolute before:rounded-r-2xl before:content-[''] before:w-[3px] before:h-[55px] before:top-0 {{ Route::is($menu->route) || Route::is($sbMenu) || url($menu->url) == Request::fullUrl() ? '!font-semibold bg-orange-100 before:bg-primary-400' : '' }} {{ count($menu->submneus) > 0 ? 'sidebar-dropdown-toggle' : '' }}">
 
-                            <span class="flex items-center text-sm font-inter font-semibold text-[#333]">
+                            <span class="flex items-center text-sm font-inter font-semibold {{ Route::is($menu->route) || Route::is($sbMenu) || url($menu->url) == Request::fullUrl() ? 'text-[#333]' : 'text-[#5c5c5c]'}}">
                                 <span class="pl-4">{!! $menu->icon !!}</span>
                                 <span class="font-inter  ml-2">{{ $menu->name }}</span>
                             </span>
@@ -42,7 +42,7 @@
                     @if ($menu->route == 'logout')
                         <form action="{{ route('logout') }}" method="POST" class="block py-4 text-sm font-inter text-[#333] hover:bg-orange-100 hover:before:bg-primary-400 before:absolute before:rounded-r-2xl before:content-[''] before:w-[3px] before:h-[55px] before:top-0 {{ Route::is($menu->route) || Route::is($sbMenu) || url($menu->url) == Request::fullUrl() ? '!font-semibold bg-orange-100 before:bg-primary-400' : '' }} {{ count($menu->submneus) > 0 ? 'sidebar-dropdown-toggle' : '' }} ">
                             @csrf
-                            <button type="submit" class="flex items-center text-sm font-inter font-semibold text-[#333]">
+                            <button type="submit" class="flex items-center text-sm font-inter font-semibold {{ Route::is($menu->route) || Route::is($sbMenu) || url($menu->url) == Request::fullUrl() ? 'text-[#333]' : 'text-[#5c5c5c]' }}">
                                 <span class="pl-4">{!! $menu->icon !!}</span>
                                 <span class="font-inter  ml-2">{{ $menu->name }}</span>
                             </button>
@@ -55,7 +55,7 @@
                                 <li class="relative">
                                     <a href="{{ $submenu->route == '#' && $submenu->url ? url($submenu->url) : route($submenu->route) }}" class="pl-2 px-2 text-[#333] py-4 font-inter text-sm flex items-center block hover:bg-orange-100 hover:before:bg-primary-400 before:absolute before:rounded-r-2xl before:content-[''] before:w-[3px] before:h-full before:top-0 before:left-0 {{ Route::is($submenu->route) || url($submenu->url) == Request::fullUrl() ? 'font-semibold bg-orange-100 before:bg-primary-400' : '' }}">
 
-                                        <span class="flex items-center text-sm font-inter font-semibold text-[#333]">
+                                        <span class="flex items-center text-sm font-inter font-semibold {{ Route::is($submenu->route) || url($submenu->url) == Request::fullUrl() ? 'text-[#333]' : 'text-[#5c5c5c]' }} ">
                                             <span class="pl-4"> {!! $submenu->icon !!}</span>
                                             <span class="font-inter ml-2">{{ $submenu->name }}</span>
                                         </span>
