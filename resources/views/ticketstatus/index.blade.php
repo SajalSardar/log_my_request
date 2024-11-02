@@ -1,4 +1,11 @@
 <x-app-layout>
+    @section('title', 'Request Status List')
+    @section('breadcrumb')
+        <x-breadcrumb>
+            Request Status List
+        </x-breadcrumb>
+    @endsection
+
     <div class="flex justify-end pb-3">
         <a type="submit" class="px-8 py-2 bg-primary-400 text-white rounded"
             href="{{ route('admin.ticketstatus.create') }}">

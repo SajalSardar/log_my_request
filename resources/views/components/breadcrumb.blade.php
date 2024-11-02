@@ -8,7 +8,7 @@
                 /
             </a>
             <a href="javascript:;" class="inline-flex items-center text-sm font-normal font-inter text-black-400">
-                Create request Submission form
+                {{ $slot }}
             </a>
         </li>
     </ol>

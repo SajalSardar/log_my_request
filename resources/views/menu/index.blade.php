@@ -1,4 +1,10 @@
 <x-app-layout>
+    @section('title', 'Menu List')
+    @section('breadcrumb')
+        <x-breadcrumb>
+            Menu List
+        </x-breadcrumb>
+    @endsection
 
     <div class="flex mb-8">
         <div class="flex-none  w-48">

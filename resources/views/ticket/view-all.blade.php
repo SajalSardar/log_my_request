@@ -1,4 +1,13 @@
 <x-app-layout>
+    @section('title')
+    {{ Str::ucfirst(request()->get('request_status')) }} Request List
+    @endsection
+    @section('breadcrumb')
+        <x-breadcrumb>
+            {{ Str::ucfirst(request()->get('request_status')) }} Request List
+        </x-breadcrumb>
+    @endsection
+
     <div class="grid lg:grid-cols-8 lg:gap-2 md:grid-cols-4 md:gap-2 sm:grid-cols-2 sm:gap-2 mb-5">
         <div class="flex-none  w-48">
             <p class="text-heading-dark">{{ Str::ucfirst(request()->get('request_status')) }} request</p>

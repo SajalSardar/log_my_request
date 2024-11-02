@@ -1,4 +1,10 @@
 <x-app-layout>
+    @section('title', 'Depatment List')
+    @section('breadcrumb')
+        <x-breadcrumb>
+            Depatment List
+        </x-breadcrumb>
+    @endsection
     <div class="flex justify-end pb-3 top-24 right-10">
         <a type="submit" class="px-8 py-2 bg-primary-400 text-white rounded block"
             href="{{ route('admin.department.create') }}">

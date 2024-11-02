@@ -1,8 +1,29 @@
 <x-app-layout>
+    
+    @if (Route::is('admin.ticket.list.active.memode'))
+        @section('title', 'My Request List')
+        @section('breadcrumb')
+            <x-breadcrumb>
+                Assigned To Me
+            </x-breadcrumb>
+        @endsection
+    @else
+        @section('title', 'All Request List')
+        @section('breadcrumb')
+            <x-breadcrumb>
+                All Request List
+            </x-breadcrumb>
+        @endsection
+    @endif
+    
+
     <div class="grid lg:grid-cols-8 lg:gap-2 md:grid-cols-4 md:gap-2 sm:grid-cols-2 sm:gap-2 mb-5">
         <div class="">
-            <p class="text-heading-dark">All request</p>
-            <span class="text-caption">(Showing 19 of 120 requests)</span>
+            @if (Route::is('admin.ticket.list.active.memode'))
+                <p class="text-heading-dark">My Request List</p>
+            @else
+                <p class="text-heading-dark">All request</p>
+            @endif
         </div>
         <div>
             <input type="hidden" id="me_mode_search" value="{{ Route::is('admin.ticket.list.active.memode') ? 'me_mode' : '' }}">

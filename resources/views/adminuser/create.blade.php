@@ -1,4 +1,10 @@
 <x-app-layout>
+    @section('title', 'Create User')
+    @section('breadcrumb')
+        <x-breadcrumb>
+            Create User
+        </x-breadcrumb>
+    @endsection
     <div class="p-5 rounded-lg shadow-lg">
         <header class="py-5 px-2 grid md:grid-cols-2 sm:grid-cols-1 md:gap-1 sm:gap-1">
             <div class="infos">

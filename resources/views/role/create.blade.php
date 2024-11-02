@@ -1,4 +1,10 @@
 <x-app-layout>
+    @section('title', 'Create Role')
+    @section('breadcrumb')
+        <x-breadcrumb>
+            Create Role
+        </x-breadcrumb>
+    @endsection
 
     <form wire:submit="saveMenu" method="POST">
         <div class="grid md:grid-cols-1 sm:grid-cols-1 sm:gap-1 md:gap-4">
