@@ -207,6 +207,17 @@ class TicketService {
                 $emailResponse['due_date_change'] = 'Due date changed';
             }
             if ($ticket->ticket_status_id != $request->ticket_status_id) {
+                $checkTicketStatus = TicketStatus::where('id', $request->ticket_status_id)->first();
+
+                if ($checkTicketStatus->slug == 'resolved') {
+                    $resolution_now        = Carbon::now();
+                    $resolution_in_seconds = $ticket->created_at->diffInSeconds($resolution_now);
+                    $ticket->update([
+                        'resolution_time' => (int) $resolution_in_seconds,
+                        'resolved_at'     => now(),
+                        'resolved_by'     => Auth::id(),
+                    ]);
+                }
                 TicketNote::create(
                     [
                         'ticket_id'  => $ticket->id,
