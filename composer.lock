@@ -1200,16 +1200,16 @@
         },
         {
             "name": "laravel/framework",
-            "version": "v11.28.1",
+            "version": "v11.29.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laravel/framework.git",
-                "reference": "3ef5c8a85b4c598d5ffaf98afd72f6a5d6a0be2c"
+                "reference": "425054512c362835ba9c0307561973c8eeac7385"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laravel/framework/zipball/3ef5c8a85b4c598d5ffaf98afd72f6a5d6a0be2c",
-                "reference": "3ef5c8a85b4c598d5ffaf98afd72f6a5d6a0be2c",
+                "url": "https://api.github.com/repos/laravel/framework/zipball/425054512c362835ba9c0307561973c8eeac7385",
+                "reference": "425054512c362835ba9c0307561973c8eeac7385",
                 "shasum": ""
             },
             "require": {
@@ -1405,7 +1405,7 @@
                 "issues": "https://github.com/laravel/framework/issues",
                 "source": "https://github.com/laravel/framework"
             },
-            "time": "2024-10-16T16:32:21+00:00"
+            "time": "2024-10-22T14:13:31+00:00"
         },
         {
             "name": "laravel/prompts",
@@ -2958,16 +2958,16 @@
         },
         {
             "name": "php-flasher/flasher",
-            "version": "v2.0.4",
+            "version": "v2.1.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/php-flasher/flasher.git",
-                "reference": "fdf7e8d09b96c2c2e136d30257c433748468dd7c"
+                "reference": "edf57294f0511a4f2e185a70b369b7d3bdb0f806"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/php-flasher/flasher/zipball/fdf7e8d09b96c2c2e136d30257c433748468dd7c",
-                "reference": "fdf7e8d09b96c2c2e136d30257c433748468dd7c",
+                "url": "https://api.github.com/repos/php-flasher/flasher/zipball/edf57294f0511a4f2e185a70b369b7d3bdb0f806",
+                "reference": "edf57294f0511a4f2e185a70b369b7d3bdb0f806",
                 "shasum": ""
             },
             "require": {
@@ -3038,26 +3038,26 @@
                     "type": "patreon"
                 }
             ],
-            "time": "2024-09-21T22:26:23+00:00"
+            "time": "2024-10-20T14:11:19+00:00"
         },
         {
             "name": "php-flasher/flasher-laravel",
-            "version": "v2.0.4",
+            "version": "v2.1.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/php-flasher/flasher-laravel.git",
-                "reference": "366e2b0fdd1698ff54cec5b667da229eab7024e6"
+                "reference": "8cfe006ded9064bb4457126451ad2bfe57f8f8cd"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/php-flasher/flasher-laravel/zipball/366e2b0fdd1698ff54cec5b667da229eab7024e6",
-                "reference": "366e2b0fdd1698ff54cec5b667da229eab7024e6",
+                "url": "https://api.github.com/repos/php-flasher/flasher-laravel/zipball/8cfe006ded9064bb4457126451ad2bfe57f8f8cd",
+                "reference": "8cfe006ded9064bb4457126451ad2bfe57f8f8cd",
                 "shasum": ""
             },
             "require": {
                 "illuminate/support": "^11.0",
                 "php": ">=8.2",
-                "php-flasher/flasher": "^2.0.1"
+                "php-flasher/flasher": "^2.1.1"
             },
             "type": "library",
             "extra": {
@@ -3128,25 +3128,25 @@
                     "type": "patreon"
                 }
             ],
-            "time": "2024-09-22T14:26:49+00:00"
+            "time": "2024-10-20T14:11:19+00:00"
         },
         {
             "name": "php-flasher/flasher-sweetalert",
-            "version": "v2.0.4",
+            "version": "v2.1.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/php-flasher/flasher-sweetalert.git",
-                "reference": "f99af4b4a01d6d828ff46ed3afde86a8b2328555"
+                "reference": "f54b9a701888bb2235675158c8b54c27d36c6812"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/php-flasher/flasher-sweetalert/zipball/f99af4b4a01d6d828ff46ed3afde86a8b2328555",
-                "reference": "f99af4b4a01d6d828ff46ed3afde86a8b2328555",
+                "url": "https://api.github.com/repos/php-flasher/flasher-sweetalert/zipball/f54b9a701888bb2235675158c8b54c27d36c6812",
+                "reference": "f54b9a701888bb2235675158c8b54c27d36c6812",
                 "shasum": ""
             },
             "require": {
                 "php": ">=8.2",
-                "php-flasher/flasher": "^2.0.1"
+                "php-flasher/flasher": "^2.1.1"
             },
             "type": "library",
             "autoload": {
@@ -3211,26 +3211,26 @@
                     "type": "patreon"
                 }
             ],
-            "time": "2024-09-21T18:14:36+00:00"
+            "time": "2024-10-20T14:11:19+00:00"
         },
         {
             "name": "php-flasher/flasher-sweetalert-laravel",
-            "version": "v2.0.4",
+            "version": "v2.1.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/php-flasher/flasher-sweetalert-laravel.git",
-                "reference": "28f29db0eb25f81ebd7983276320f0772de2f395"
+                "reference": "52b6e6c746759be36e48fc32f3ec4666e86df464"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/php-flasher/flasher-sweetalert-laravel/zipball/28f29db0eb25f81ebd7983276320f0772de2f395",
-                "reference": "28f29db0eb25f81ebd7983276320f0772de2f395",
+                "url": "https://api.github.com/repos/php-flasher/flasher-sweetalert-laravel/zipball/52b6e6c746759be36e48fc32f3ec4666e86df464",
+                "reference": "52b6e6c746759be36e48fc32f3ec4666e86df464",
                 "shasum": ""
             },
             "require": {
                 "php": ">=8.2",
-                "php-flasher/flasher-laravel": "^2.0.1",
-                "php-flasher/flasher-sweetalert": "^2.0.1"
+                "php-flasher/flasher-laravel": "^2.1.1",
+                "php-flasher/flasher-sweetalert": "^2.1.1"
             },
             "type": "library",
             "extra": {
@@ -3298,20 +3298,20 @@
                     "type": "patreon"
                 }
             ],
-            "time": "2024-09-21T18:14:36+00:00"
+            "time": "2024-10-20T14:11:19+00:00"
         },
         {
             "name": "phpoffice/phpspreadsheet",
-            "version": "2.2.1",
+            "version": "2.3.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/PHPOffice/PhpSpreadsheet.git",
-                "reference": "a3c5c9e7ce3a2a8577bfa9e69960fbccbd2d4a9e"
+                "reference": "c972c146ddd5e8350ea839355b9bb0ce6a8fa33e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/PHPOffice/PhpSpreadsheet/zipball/a3c5c9e7ce3a2a8577bfa9e69960fbccbd2d4a9e",
-                "reference": "a3c5c9e7ce3a2a8577bfa9e69960fbccbd2d4a9e",
+                "url": "https://api.github.com/repos/PHPOffice/PhpSpreadsheet/zipball/c972c146ddd5e8350ea839355b9bb0ce6a8fa33e",
+                "reference": "c972c146ddd5e8350ea839355b9bb0ce6a8fa33e",
                 "shasum": ""
             },
             "require": {
@@ -3400,9 +3400,9 @@
             ],
             "support": {
                 "issues": "https://github.com/PHPOffice/PhpSpreadsheet/issues",
-                "source": "https://github.com/PHPOffice/PhpSpreadsheet/tree/2.2.1"
+                "source": "https://github.com/PHPOffice/PhpSpreadsheet/tree/2.3.0"
             },
-            "time": "2024-07-29T07:56:06+00:00"
+            "time": "2024-09-29T07:06:02+00:00"
         },
         {
             "name": "phpoption/phpoption",
@@ -6999,16 +6999,16 @@
         },
         {
             "name": "yajra/laravel-datatables-export",
-            "version": "v11.2.0",
+            "version": "v11.3.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/yajra/laravel-datatables-export.git",
-                "reference": "84f59c6acb55f6263fccf3fe2db8021db342a952"
+                "reference": "fa5a09f89a061475b35252ef491fae2a42d8421c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/yajra/laravel-datatables-export/zipball/84f59c6acb55f6263fccf3fe2db8021db342a952",
-                "reference": "84f59c6acb55f6263fccf3fe2db8021db342a952",
+                "url": "https://api.github.com/repos/yajra/laravel-datatables-export/zipball/fa5a09f89a061475b35252ef491fae2a42d8421c",
+                "reference": "fa5a09f89a061475b35252ef491fae2a42d8421c",
                 "shasum": ""
             },
             "require": {
@@ -7016,7 +7016,7 @@
                 "livewire/livewire": "^2.11.2|^3.5.6",
                 "openspout/openspout": "^4.24.5",
                 "php": "^8.2",
-                "phpoffice/phpspreadsheet": "2.2.1",
+                "phpoffice/phpspreadsheet": "2.3.0",
                 "yajra/laravel-datatables-buttons": "^11.0"
             },
             "require-dev": {
@@ -7064,7 +7064,7 @@
             ],
             "support": {
                 "issues": "https://github.com/yajra/laravel-datatables-export/issues",
-                "source": "https://github.com/yajra/laravel-datatables-export/tree/v11.2.0"
+                "source": "https://github.com/yajra/laravel-datatables-export/tree/v11.3.0"
             },
             "funding": [
                 {
@@ -7072,7 +7072,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2024-09-02T05:54:29+00:00"
+            "time": "2024-10-09T13:26:22+00:00"
         },
         {
             "name": "yajra/laravel-datatables-fractal",
@@ -7842,16 +7842,16 @@
         },
         {
             "name": "laravel/breeze",
-            "version": "v2.2.2",
+            "version": "v2.2.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laravel/breeze.git",
-                "reference": "1dd612eb9e1c2632a39e6aa6df4e69cd45129dca"
+                "reference": "94981851d20837901552a250387280063eac83ac"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laravel/breeze/zipball/1dd612eb9e1c2632a39e6aa6df4e69cd45129dca",
-                "reference": "1dd612eb9e1c2632a39e6aa6df4e69cd45129dca",
+                "url": "https://api.github.com/repos/laravel/breeze/zipball/94981851d20837901552a250387280063eac83ac",
+                "reference": "94981851d20837901552a250387280063eac83ac",
                 "shasum": ""
             },
             "require": {
@@ -7898,7 +7898,7 @@
                 "issues": "https://github.com/laravel/breeze/issues",
                 "source": "https://github.com/laravel/breeze"
             },
-            "time": "2024-10-06T21:13:27+00:00"
+            "time": "2024-10-17T16:02:32+00:00"
         },
         {
             "name": "laravel/pint",
@@ -7968,16 +7968,16 @@
         },
         {
             "name": "laravel/sail",
-            "version": "v1.36.0",
+            "version": "v1.37.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laravel/sail.git",
-                "reference": "f184d3d687155d06bc8cb9ff6dc48596a138460c"
+                "reference": "5d385f2e698f0f774cdead82aff5d989fb95309b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laravel/sail/zipball/f184d3d687155d06bc8cb9ff6dc48596a138460c",
-                "reference": "f184d3d687155d06bc8cb9ff6dc48596a138460c",
+                "url": "https://api.github.com/repos/laravel/sail/zipball/5d385f2e698f0f774cdead82aff5d989fb95309b",
+                "reference": "5d385f2e698f0f774cdead82aff5d989fb95309b",
                 "shasum": ""
             },
             "require": {
@@ -8027,7 +8027,7 @@
                 "issues": "https://github.com/laravel/sail/issues",
                 "source": "https://github.com/laravel/sail"
             },
-            "time": "2024-10-10T13:26:02+00:00"
+            "time": "2024-10-21T17:13:38+00:00"
         },
         {
             "name": "maximebf/debugbar",
@@ -8339,16 +8339,16 @@
         },
         {
             "name": "pestphp/pest",
-            "version": "v3.4.2",
+            "version": "v3.5.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/pestphp/pest.git",
-                "reference": "2903a7e62100171d5faf4e50cda755ffeadedc57"
+                "reference": "eaeb133c77f3f5382620f0307c3b45b34961bcfc"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/pestphp/pest/zipball/2903a7e62100171d5faf4e50cda755ffeadedc57",
-                "reference": "2903a7e62100171d5faf4e50cda755ffeadedc57",
+                "url": "https://api.github.com/repos/pestphp/pest/zipball/eaeb133c77f3f5382620f0307c3b45b34961bcfc",
+                "reference": "eaeb133c77f3f5382620f0307c3b45b34961bcfc",
                 "shasum": ""
             },
             "require": {
@@ -8435,7 +8435,7 @@
             ],
             "support": {
                 "issues": "https://github.com/pestphp/pest/issues",
-                "source": "https://github.com/pestphp/pest/tree/v3.4.2"
+                "source": "https://github.com/pestphp/pest/tree/v3.5.0"
             },
             "funding": [
                 {
@@ -8447,7 +8447,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2024-10-20T11:47:25+00:00"
+            "time": "2024-10-22T14:33:27+00:00"
         },
         {
             "name": "pestphp/pest-plugin",

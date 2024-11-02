@@ -24,6 +24,7 @@
     </div>
     <script src="{{ asset('build/assets/app-DCrXoRMQ.js') }}"></script>
     @livewireScripts
+    @stack('script')
 </body>
 
 </html>
