@@ -1,9 +1,9 @@
  <form wire:submit="save">
-
+ <h3 class="font-inter font-semibold text-[#333] text-[20px] mb-[24px]">Request Form</h3>
      <div class="flex flex-row">
          <div style="width:651px !important">
-             <div class="border border-slate-300 p-5 rounded">
-
+             <div class="border border-base-500 p-5 rounded">
+                
                  <div class="grid lg:grid-cols-1 md:grid-cols-1 sm:grid-cols-1 sm:gap-1 md:gap-2">
                      <div class="p-2 w-full">
                          <x-forms.label for="form.request_title" required="yes">

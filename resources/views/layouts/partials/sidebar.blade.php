@@ -30,13 +30,25 @@
                     }
                 @endphp
                 <li class="group pl-6 relative {{ Route::is($sbMenu) ? 'selected' : '' }} ">
-                    <a href=" {{ $menu->route == '#' ? '#' : ($menu->url ? url($menu->url) : route($menu->route)) }}" class="block py-4 text-sm font-inter text-[#333] hover:bg-orange-100 hover:before:bg-primary-400 before:absolute before:rounded-r-2xl before:content-[''] before:w-[3px] before:h-[55px] before:top-0 {{ Route::is($menu->route) || Route::is($sbMenu) || url($menu->url) == Request::fullUrl() ? '!font-semibold bg-orange-100 before:bg-primary-400' : '' }} {{ count($menu->submneus) > 0 ? 'sidebar-dropdown-toggle' : '' }} ">
+                    @if ($menu->route !== 'logout')
+                        <a href=" {{ $menu->route == '#' ? '#' : ($menu->url ? url($menu->url) : route($menu->route)) }}" class="block py-4 text-sm font-inter text-[#333] hover:bg-orange-100 hover:before:bg-primary-400 before:absolute before:rounded-r-2xl before:content-[''] before:w-[3px] before:h-[55px] before:top-0 {{ Route::is($menu->route) || Route::is($sbMenu) || url($menu->url) == Request::fullUrl() ? '!font-semibold bg-orange-100 before:bg-primary-400' : '' }} {{ count($menu->submneus) > 0 ? 'sidebar-dropdown-toggle' : '' }}">
 
-                        <span class="flex items-center text-sm font-inter font-semibold text-[#333]">
-                            <span class="pl-4">{!! $menu->icon !!}</span>
-                            <span class="font-inter  ml-2">{{ $menu->name }}</span>
-                        </span>
+                            <span class="flex items-center text-sm font-inter font-semibold text-[#333]">
+                                <span class="pl-4">{!! $menu->icon !!}</span>
+                                <span class="font-inter  ml-2">{{ $menu->name }}</span>
+                            </span>
+                    @endif
                     </a>
+                    @if ($menu->route == 'logout')
+                        <form action="{{ route('logout') }}" method="POST" class="block py-4 text-sm font-inter text-[#333] hover:bg-orange-100 hover:before:bg-primary-400 before:absolute before:rounded-r-2xl before:content-[''] before:w-[3px] before:h-[55px] before:top-0 {{ Route::is($menu->route) || Route::is($sbMenu) || url($menu->url) == Request::fullUrl() ? '!font-semibold bg-orange-100 before:bg-primary-400' : '' }} {{ count($menu->submneus) > 0 ? 'sidebar-dropdown-toggle' : '' }} ">
+                            @csrf
+                            <button type="submit" class="flex items-center text-sm font-inter font-semibold text-[#333]">
+                                <span class="pl-4">{!! $menu->icon !!}</span>
+                                <span class="font-inter  ml-2">{{ $menu->name }}</span>
+                            </button>
+                        </form>
+                    @endif
+
                     @if (count($menu->submneus) > 0)
                         <ul class="ml-3 hidden group-[.selected]:block">
                             @foreach ($menu->submneus as $submenu)
@@ -50,7 +62,6 @@
                                     </a>
                                 </li>
                             @endforeach
-
                         </ul>
                     @endif
                 </li>
