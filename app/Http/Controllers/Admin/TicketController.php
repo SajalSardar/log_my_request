@@ -123,7 +123,7 @@ class TicketController extends Controller {
 
         $tickets = Ticket::query()
             ->with(['owners', 'source', 'user', 'team', 'category', 'sub_category', 'ticket_status', 'department']);
-        if (Auth::user()->hasRole('requester')) {
+        if (Auth::user()->hasRole(['requester', 'Requester'])) {
             $tickets->where('user_id', Auth::id());
         }
 
@@ -388,7 +388,7 @@ class TicketController extends Controller {
 
         $tickets = Ticket::query()->with(['owners', 'source', 'user', 'team', 'category', 'sub_category', 'ticket_status', 'department']);
 
-        if (Auth::user()->hasRole('requester')) {
+        if (Auth::user()->hasRole(['requester', 'Requester'])) {
             $tickets->where('user_id', Auth::id());
         }
 
