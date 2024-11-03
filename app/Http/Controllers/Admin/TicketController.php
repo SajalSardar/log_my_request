@@ -121,7 +121,8 @@ class TicketController extends Controller {
     public function allTicketListDataTable(Request $request) {
         Gate::authorize('viewAny', Ticket::class);
 
-        $tickets = Ticket::query()->with(['owners', 'source', 'user', 'team', 'category', 'sub_category', 'ticket_status', 'department']);
+        $tickets = Ticket::query()
+            ->with(['owners', 'source', 'user', 'team', 'category', 'sub_category', 'ticket_status', 'department']);
         if (Auth::user()->hasRole('requester')) {
             $tickets->where('user_id', Auth::id());
         }
