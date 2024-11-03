@@ -9,7 +9,6 @@ use Illuminate\Support\Facades\DB;
 
 class DashboardComposer
 {
-
     public array|object $responses;
 
     /**
@@ -17,14 +16,11 @@ class DashboardComposer
      */
     public function __construct()
     {
-        $this->responses = DB::table('ticket_statuses as status')
+        $this->responses['requests'] = DB::table('ticket_statuses as status')
             ->leftJoin('tickets as ticket', 'status.id', '=', 'ticket.ticket_status_id')
-            ->select(DB::raw('count(*) as count, name'))
-            ->groupBy('name')
+            ->select(DB::raw('count(ticket.id) as count, status.name'))
+            ->groupBy('status.name')
             ->get();
-
-
-        // dd($this->responses);
     }
 
     /**

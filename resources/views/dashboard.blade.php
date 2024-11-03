@@ -26,8 +26,11 @@
                         <path d="M19.875 31.2402V33H21.6351C22.2492 33 22.5562 33 22.8322 32.8857C23.1084 32.7712 23.3254 32.5542 23.7597 32.1201L30.9951 24.8841C31.4046 24.4746 31.6093 24.2698 31.7188 24.049C31.9272 23.6287 31.9272 23.1354 31.7188 22.7151C31.6093 22.4941 31.4046 22.2894 30.9951 21.8799C30.5855 21.4704 30.3807 21.2656 30.1598 21.1561C29.7395 20.948 29.246 20.948 28.8257 21.1561C28.6049 21.2656 28.3999 21.4704 27.9904 21.8799L20.755 29.1159C20.3208 29.55 20.1037 29.767 19.9894 30.043C19.875 30.3192 19.875 30.6261 19.875 31.2402Z" stroke="#F36D00" stroke-width="2" stroke-linejoin="round" />
                     </svg>
                 </div>
+                @php
+                    $allRequests = $responses->requests->pluck('count')->sum();
+                @endphp
                 <div class="mt-3">
-                    <h4 class="font-inter text-2xl font-semibold text-black-400">{{ $responses->pluck('count')[0] }}</h4>
+                    <h4 class="font-inter text-2xl font-semibold text-black-400">{{ $allRequests }}</h4>
                     <p class="text-base font-inter font-normal text-black-400">All Requests</p>
                 </div>
             </div>
@@ -41,8 +44,8 @@
                     </svg>
                 </div>
                 <div class="mt-3">
-                    <h4 class="font-inter text-2xl font-semibold text-black-400">{{ $responses->pluck('count')[0] }}</h4>
-                    <p class="text-base font-inter font-normal text-black-400">{{ ucfirst($responses->pluck('name')[0]) }} Requests</p>
+                    <h4 class="font-inter text-2xl font-semibold text-black-400">{{ $responses->requests->pluck('count')[0] }}</h4>
+                    <p class="text-base font-inter font-normal text-black-400">{{ ucfirst($responses->requests->pluck('name')[0]) }} Requests</p>
                 </div>
             </div>
         </div>
@@ -57,8 +60,8 @@
                     </svg>
                 </div>
                 <div class="mt-3">
-                    <h4 class="font-inter text-2xl font-semibold text-black-400">{{ $responses->pluck('count')[1] }}</h4>
-                    <p class="text-base font-inter font-normal text-black-400">{{ ucfirst($responses->pluck('name')[1]) }} Requests</p>
+                    <h4 class="font-inter text-2xl font-semibold text-black-400">{{ $responses->requests->pluck('count')[1] }}</h4>
+                    <p class="text-base font-inter font-normal text-black-400">{{ ucfirst($responses->requests->pluck('name')[1]) }} Requests</p>
                 </div>
             </div>
         </div>
@@ -94,8 +97,8 @@
                     </svg>
                 </div>
                 <div class="mt-3">
-                    <h4 class="font-inter text-2xl font-semibold text-black-400">{{ $responses->pluck('count')[2] }}</h4>
-                    <p class="text-base font-inter font-normal text-black-400">{{ ucfirst($responses->pluck('name')[2]) }} Requests</p>
+                    <h4 class="font-inter text-2xl font-semibold text-black-400">{{ $responses->requests->pluck('count')[2] }}</h4>
+                    <p class="text-base font-inter font-normal text-black-400">{{ ucfirst($responses->requests->pluck('name')[2]) }} Requests</p>
                 </div>
             </div>
         </div>
@@ -109,8 +112,8 @@
                     </svg>
                 </div>
                 <div class="mt-3">
-                    <h4 class="font-inter text-2xl font-semibold text-black-400">{{ $responses->pluck('count')[3] }}</h4>
-                    <p class="text-base font-inter font-normal text-black-400">{{ ucfirst($responses->pluck('name')[3]) }} Requests</p>
+                    <h4 class="font-inter text-2xl font-semibold text-black-400">{{ $responses->requests->pluck('count')[3] }}</h4>
+                    <p class="text-base font-inter font-normal text-black-400">{{ ucfirst($responses->requests->pluck('name')[3]) }} Requests</p>
                 </div>
             </div>
         </div>
@@ -123,8 +126,8 @@
                     </svg>
                 </div>
                 <div class="mt-3">
-                    <h4 class="font-inter text-2xl font-semibold text-black-400">{{ $responses->pluck('count')[4] }}</h4>
-                    <p class="text-base font-inter font-normal text-black-400">{{ ucfirst($responses->pluck('name')[4]) }} Requests</p>
+                    <h4 class="font-inter text-2xl font-semibold text-black-400">{{ $responses->requests->pluck('count')[4] }}</h4>
+                    <p class="text-base font-inter font-normal text-black-400">{{ ucfirst($responses->requests->pluck('name')[4]) }} Requests</p>
                 </div>
             </div>
         </div>

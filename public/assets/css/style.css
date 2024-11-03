@@ -372,3 +372,22 @@
  select>option {
      background-color: #b8e1ba;
  }
+
+ .dt-length,
+ .dt-info,
+ .dt-input,
+ .pagination {
+     font-family: "Inter", "sans-serif";
+     font-weight: 400;
+     font-size: 14px;
+     color: #5c5c5c !important;
+ }
+
+ .dt-layout-row {
+     margin-bottom: 6px p !important;
+ }
+
+ .dt-column-order {
+     color: black;
+     right: 4px;
+ }
