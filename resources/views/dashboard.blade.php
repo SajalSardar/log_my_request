@@ -2,9 +2,19 @@
     @section('title', 'Dashboard')
 
     @role('super-admin')
-    <div class="mb-6">
-        <h1 class="text-3xl font-inter font-bold text-[#333333]">Hello {{ auth()->user()->name }}!</h1>
-        <p class="font-inter text-base font-normal text-[#5c5c5c]">Welcome to explore your dashboard here.</p>
+    <div class="mb-6 flex justify-between">
+        <div>
+            <h1 class="text-3xl font-inter font-bold text-[#333333]">Hello {{ auth()->user()->name }}!</h1>
+            <p class="font-inter text-base font-normal text-[#5c5c5c]">Welcome to explore your dashboard here.</p>
+        </div>
+        <div>
+            <x-actions.href href="{{ route('admin.ticket.create') }}" class="flex items-center gap-1 text-heading-light">
+                <span>Create A Request</span>
+                <svg fill="none" width="24" height="24" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v6m3-3H9m12 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
+                </svg>
+            </x-actions.href>
+        </div>
     </div>
     <div class="grid sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
         <div class="border border-base-500 rounded px-11 py-10">
