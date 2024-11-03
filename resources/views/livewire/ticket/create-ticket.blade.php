@@ -152,12 +152,11 @@
                              <x-input-error :messages="$errors->get('form.category_id')" class="mt-2" />
 
                              @if ($subCategory && $subCategory->count() > 0)
-                                 <div class="mt-2">
+                                 <div class="mt-3">
                                      <x-forms.label for="sub_category_id" required="yes">
                                          {{ __('Sub Category') }}
                                      </x-forms.label>
-                                     <x-forms.select-input wire:model="form.sub_category_id" id="sub_category_id"
-                                         required>
+                                     <x-forms.select-input wire:model="form.sub_category_id" id="sub_category_id">
                                          <option value="">Select Sub Category</option>
                                          @foreach ($subCategory as $each)
                                              <option value="{{ $each?->id }}" :key="{{ $each->id }}">
