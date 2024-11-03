@@ -327,7 +327,11 @@
  }
 
  div.dt-container select.dt-input {
-     width: 100px;
+     width: 65px;
+ }
+
+ .dt-length label{
+    text-transform: capitalize;
  }
 
  div.dt-container .dt-paging .dt-paging-button {

@@ -41,7 +41,7 @@ Route::middleware('auth', 'verified')->prefix('dashboard')->name('admin.')->grou
         Route::delete('delete-request/{ticket}', 'destroy')->name('delete');
 
         Route::get('request-list', 'allTicketList')->name('all.list');
-        Route::get('request-active-memode', 'allTicketList')->name('list.active.memode');
+        Route::get('my-request-list', 'allTicketList')->name('list.active.memode');
         Route::get('request-list-datatable', 'allTicketListDataTable')->name('all.list.datatable');
         Route::post('request-log-update/{ticket}', 'logUpdate')->name('logUpdate');
         Route::post('request-internal-note-update/{ticket}', 'interNoteStore')->name('interNoteStore');
