@@ -163,7 +163,7 @@ class CreateTicket extends Component {
     }
 
     public function render() {
-        if (Auth::user()->hasRole('requester')) {
+        if (Auth::user()->hasRole(['requester', 'Requester'])) {
             return view('livewire.ticket.create-requester');
         } else {
             return view('livewire.ticket.create-ticket');

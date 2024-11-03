@@ -184,7 +184,7 @@ class UpdateTicket extends Component {
     }
 
     public function render() {
-        if (Auth::user()->hasRole('requester')) {
+        if (Auth::user()->hasRole(['requester', 'Requester'])) {
             return view('livewire.ticket.update-requester');
         } else {
             return view('livewire.ticket.update-ticket');
