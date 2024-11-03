@@ -32,13 +32,16 @@
                 <li class="group pl-6 relative {{ Route::is($sbMenu) ? 'selected' : '' }} ">
                     @if ($menu->route !== 'logout')
                         <a href=" {{ $menu->route == '#' ? '#' : ($menu->url ? url($menu->url) : route($menu->route)) }}" class="block py-4 text-sm font-inter text-[#333] hover:bg-orange-100 hover:before:bg-primary-400 before:absolute before:rounded-r-2xl before:content-[''] before:w-[3px] before:h-[55px] before:top-0 {{ Route::is($menu->route) || Route::is($sbMenu) || url($menu->url) == Request::fullUrl() ? '!font-semibold bg-orange-100 before:bg-primary-400' : '' }} {{ count($menu->submneus) > 0 ? 'sidebar-dropdown-toggle' : '' }}">
-
                             <span class="flex items-center text-sm font-inter font-semibold {{ Route::is($menu->route) || Route::is($sbMenu) || url($menu->url) == Request::fullUrl() ? 'text-[#333]' : 'text-[#5c5c5c]'}}">
                                 <span class="pl-4">{!! $menu->icon !!}</span>
                                 <span class="font-inter  ml-2">{{ $menu->name }}</span>
+                                <svg class="text-[#5c5c5c] ri-arrow-right-s-line ml-auto group-[.selected]:rotate-90 mr-[24px]" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M9 18L15 12L9 6" stroke="#5C5C5C" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+                                </svg>
                             </span>
+                        </a>
                     @endif
-                    </a>
+
                     @if ($menu->route == 'logout')
                         <form action="{{ route('logout') }}" method="POST" class="block py-4 text-sm font-inter text-[#333] hover:bg-orange-100 hover:before:bg-primary-400 before:absolute before:rounded-r-2xl before:content-[''] before:w-[3px] before:h-[55px] before:top-0 {{ Route::is($menu->route) || Route::is($sbMenu) || url($menu->url) == Request::fullUrl() ? '!font-semibold bg-orange-100 before:bg-primary-400' : '' }} {{ count($menu->submneus) > 0 ? 'sidebar-dropdown-toggle' : '' }} ">
                             @csrf

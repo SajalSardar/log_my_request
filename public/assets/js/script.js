@@ -1,4 +1,5 @@
 // start: Sidebar
+const hamberger = document.querySelector('.hamberger button');
 const sidebarToggle = document.querySelector(".sidebar-toggle");
 const sidebarOverlay = document.querySelector(".sidebar-overlay");
 const sidebarMenu = document.querySelector(".sidebar-menu");
@@ -8,7 +9,13 @@ sidebarToggle.addEventListener("click", function (e) {
     main.classList.toggle("active");
     sidebarOverlay.classList.toggle("hidden");
     sidebarMenu.classList.toggle("-translate-x-full");
+    // if (hamberger.classList.contains("active")) {
+    //     hamberger.style.marginRight = '65px';
+    // } else {
+    //     hamberger.style.marginRight = '100px';
+    // }
 });
+
 sidebarOverlay.addEventListener("click", function (e) {
     e.preventDefault();
     main.classList.add("active");

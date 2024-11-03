@@ -187,20 +187,20 @@ class TicketController extends Controller {
                 </div>';
             })
             ->editColumn('title', function ($tickets) {
-                return '<a href="' . route('admin.ticket.show', ['ticket' => $tickets?->id]) . '" class="pr-4 text-title hover:text-orange-300 hover:underline block" style="width: 325px; display: inline-block; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">' . Str::limit(ucfirst($tickets->title), 50, '...') . '</a>';
+                return '<a href="' . route('admin.ticket.show', ['ticket' => $tickets?->id]) . '" class="pr-4 text-paragraph hover:text-orange-300 hover:underline block" style="width: 325px; display: inline-block; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">' . Str::limit(ucfirst($tickets->title), 50, '...') . '</a>';
             })
 
             ->editColumn('priority', function ($tickets) {
-                return '<span class="text-title w-20 pr-3 block" style="width: 80px; display: inline-block; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">' . Str::ucfirst($tickets->priority) . '</span>';
+                return '<span class="text-paragraph w-20 pr-3 block" style="width: 80px; display: inline-block; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">' . Str::ucfirst($tickets->priority) . '</span>';
             })
             ->editColumn('department_id', function ($tickets) {
-                return '<span class="text-title w-40 block pr-3">' . Str::ucfirst(@$tickets->department->name) . '</span>';
+                return '<span class="text-paragraph w-40 block pr-3">' . Str::ucfirst(@$tickets->department->name) . '</span>';
             })
             ->editColumn('category_id', function ($tickets) {
-                return '<span class="text-title w-44 block pr-4">' . Str::ucfirst(@$tickets->category->name) . '</span>';
+                return '<span class="text-paragraph w-44 block pr-4">' . Str::ucfirst(@$tickets->category->name) . '</span>';
             })
             ->editColumn('sub_category_id', function ($tickets) {
-                return '<span class="text-title w-44 block pr-4">' . Str::ucfirst(@$tickets->sub_category->name) . '</span>';
+                return '<span class="text-paragraph w-44 block pr-4">' . Str::ucfirst(@$tickets->sub_category->name) . '</span>';
             })
             ->editColumn('ticket_status_id', function ($tickets) {
                 $data = "";
@@ -217,30 +217,30 @@ class TicketController extends Controller {
             })
 
             ->editColumn('user_id', function ($tickets) {
-                $data = "<div style='width:163px' class='text-title flex items-center'>
+                $data = "<div style='width:163px' class='text-paragraph flex items-center'>
             <img src='" . asset('assets/images/profile.jpg') . "' width='40' height='40' style='border-radius: 50%;border:1px solid #eee' alt='profile'>
             <span class='ml-2'>" . $tickets->user->name . "</span>
          </div>";
                 return $data;
             })
             ->editColumn('team_id', function ($tickets) {
-                $data = '<span class="text-title">' . @$tickets->team->name . '</span>';
+                $data = '<span class="text-paragraph">' . @$tickets->team->name . '</span>';
                 return $data;
             })
             ->addColumn('agent', function ($tickets) {
-                $data = '<span class="text-title" style="width:138px">' . @$tickets->owners->last()->name . '</span>';
+                $data = '<span class="text-paragraph" style="width:138px">' . @$tickets->owners->last()->name . '</span>';
                 return $data;
             })
             ->editColumn('created_at', function ($tickets) {
-                $data = '<span class="text-title" style="width:120px">' . ISODate($tickets?->created_at) . '</span>';
+                $data = '<span class="text-paragraph" style="width:120px">' . ISODate($tickets?->created_at) . '</span>';
                 return $data;
             })
             ->addColumn('request_age', function ($tickets) {
-                $data = '<span class="text-title">' . dayMonthYearHourMininteSecond($tickets?->created_at, true, true, true, true) . '</span>';
+                $data = '<span class="text-paragraph">' . dayMonthYearHourMininteSecond($tickets?->created_at, true, true, true, true) . '</span>';
                 return $data;
             })
             ->editColumn('due_date', function ($tickets) {
-                $data = '<span class="text-title" style="width:103px">' . ISOdate($tickets->due_date) . '</span>';
+                $data = '<span class="text-paragraph" style="width:103px">' . ISOdate($tickets->due_date) . '</span>';
                 return $data;
             })
 
@@ -457,19 +457,19 @@ class TicketController extends Controller {
             </div>';
             })
             ->editColumn('title', function ($tickets) {
-                return '<a href="' . route('admin.ticket.show', ['ticket' => $tickets?->id]) . '" class="text-title hover:text-amber-500 hover:underline" style="width: 325px; display: inline-block; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">' . Str::limit(ucfirst($tickets->title), 30, '...') . '</a>';
+                return '<a href="' . route('admin.ticket.show', ['ticket' => $tickets?->id]) . '" class="text-paragraph hover:text-amber-500 hover:underline" style="width: 325px; display: inline-block; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">' . Str::limit(ucfirst($tickets->title), 30, '...') . '</a>';
             })
             ->editColumn('priority', function ($tickets) {
-                return '<span class="text-title" style="width: 80px;">' . Str::ucfirst($tickets->priority) . '</span>';
+                return '<span class="text-paragraph" style="width: 80px;">' . Str::ucfirst($tickets->priority) . '</span>';
             })
             ->editColumn('category_id', function ($tickets) {
-                return '<span class="text-title">' . Str::ucfirst($tickets->category->name) . '</span>';
+                return '<span class="text-paragraph">' . Str::ucfirst($tickets->category->name) . '</span>';
             })
             ->editColumn('sub_category_id', function ($tickets) {
-                return '<span class="text-title w-44 block pr-4">' . Str::ucfirst(@$tickets->sub_category->name) . '</span>';
+                return '<span class="text-paragraph w-44 block pr-4">' . Str::ucfirst(@$tickets->sub_category->name) . '</span>';
             })
             ->editColumn('department_id', function ($tickets) {
-                return '<span class="text-title">' . Str::ucfirst(@$tickets->department->name) . '</span>';
+                return '<span class="text-paragraph">' . Str::ucfirst(@$tickets->department->name) . '</span>';
             })
             ->editColumn('status', function ($tickets) {
                 $data = "";
@@ -485,28 +485,28 @@ class TicketController extends Controller {
                 return $data;
             })
             ->editColumn('user_id', function ($tickets) {
-                $data = '<div style="width:163px" class="text-title flex items-center"><img src="https://i.pravatar.cc/300/5" alt="img" width="25" height="25"
+                $data = '<div style="width:163px" class="text-paragraph flex items-center"><img src="https://i.pravatar.cc/300/5" alt="img" width="25" height="25"
                                 style="border-radius: 50%"><span class="ml-2">' . $tickets->user->name . '</span></div>';
                 return $data;
             })
             ->editColumn('team_id', function ($tickets) {
-                $data = '<span class="text-title">' . @$tickets->team->name . '</span>';
+                $data = '<span class="text-paragraph">' . @$tickets->team->name . '</span>';
                 return $data;
             })
             ->addColumn('agent', function ($tickets) {
-                $data = '<span class="text-title" style="width:138px">' . @$tickets->owners->last()->name . '</span>';
+                $data = '<span class="text-paragraph" style="width:138px">' . @$tickets->owners->last()->name . '</span>';
                 return $data;
             })
             ->editColumn('created_at', function ($tickets) {
-                $data = '<span class="text-title" style="width:120px">' . ISODate($tickets?->created_at) . '</span>';
+                $data = '<span class="text-paragraph" style="width:120px">' . ISODate($tickets?->created_at) . '</span>';
                 return $data;
             })
             ->addColumn('request_age', function ($tickets) {
-                $data = '<span class="text-title">' . dayMonthYearHourMininteSecond($tickets?->created_at, true, true, true, true) . '</span>';
+                $data = '<span class="text-paragraph">' . dayMonthYearHourMininteSecond($tickets?->created_at, true, true, true, true) . '</span>';
                 return $data;
             })
             ->editColumn('due_date', function ($tickets) {
-                $data = '<span class="text-title" style="width:103px">' . ISOdate($tickets->due_date) . '</span>';
+                $data = '<span class="text-paragraph" style="width:103px">' . ISOdate($tickets->due_date) . '</span>';
                 return $data;
             })
 

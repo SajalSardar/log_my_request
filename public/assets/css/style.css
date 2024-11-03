@@ -78,7 +78,7 @@
 
  .navbar {
      padding: 8px 0;
-     background: #F8FAFF;
+     background: #fff;
      left: 0;
      top: 0;
  }
@@ -93,6 +93,10 @@
      display: flex;
      justify-content: center;
      align-items: center;
+ }
+
+ .hamberger button {
+     margin-right: 65px;
  }
 
  .search-input {
@@ -142,7 +146,6 @@
      display: flex;
      justify-content: center;
      align-items: center;
-     border-left: 1px solid #e0e0e0;
  }
 
  .lang select {
@@ -153,18 +156,17 @@
  }
 
  .notification {
-     width: 10%;
+     width: 12%;
      display: flex;
-     justify-content: center;
+     justify-content: end;
      align-items: center;
-     border-right: 1px solid #e0e0e0;
-     border-left: 1px solid #e0e0e0;
  }
 
  .profile {
-     width: 10%;
+     width: 8%;
      display: flex;
-     justify-content: center;
+     justify-content: end;
+     padding-right: 24px;
      align-items: center;
  }
 
@@ -365,3 +367,27 @@
      width: 325px;
  }
 
+ /* ==== select box option design ==== */
+
+ select>option {
+     background-color: #b8e1ba;
+ }
+
+ .dt-length,
+ .dt-info,
+ .dt-input,
+ .pagination {
+     font-family: "Inter", "sans-serif";
+     font-weight: 400;
+     font-size: 14px;
+     color: #5c5c5c !important;
+ }
+
+ .dt-layout-row {
+     margin-bottom: 6px p !important;
+ }
+
+ .dt-column-order {
+     color: black;
+     right: 4px;
+ }
