@@ -22,7 +22,7 @@
         </div>
 
         <div class="user-type">
-             {{-- <form action="{{ route('admin.role.swotch') }}" method="POST" x-data @change="submitSwitchAccount($event)">
+             <form action="{{ route('admin.role.swotch') }}" method="POST" x-data @change="submitSwitchAccount($event)">
                 @csrf
                 <select class="user-type-select border border-slate-200 rounded bg-transparent text-sm font-normal text-center" onchange="accountSwitch()" id="accountSelect" name="role">
                     @foreach (Helper::getLoggedInUserRoles() as $role)
@@ -31,7 +31,7 @@
                         </option>
                     @endforeach
                 </select>
-            </form>  --}}
+            </form> 
         </div>
 
         <div class="lang">

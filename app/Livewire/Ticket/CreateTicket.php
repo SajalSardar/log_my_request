@@ -81,12 +81,6 @@ class CreateTicket extends Component {
         $this->teamAgent      = [];
         $this->departments    = Department::where('status', true)->get();
         $this->subCategory    = [];
-
-        if (Auth::user()->hasRole('requester')) {
-            dd('role');
-        } else {
-            dd('no role');
-        }
     }
 
     /**
