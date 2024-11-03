@@ -1,5 +1,5 @@
 // start: Sidebar
-const hamberger = document.querySelector('.hamberger button');
+const hamberger = document.querySelector(".hamberger button");
 const sidebarToggle = document.querySelector(".sidebar-toggle");
 const sidebarOverlay = document.querySelector(".sidebar-overlay");
 const sidebarMenu = document.querySelector(".sidebar-menu");
@@ -187,10 +187,10 @@ let toggleEmailNotificationBox = document.querySelector(
     ".toggle-email-notification-box"
 );
 
-toggleEmailNotificationButton.addEventListener("click", function (e) {
-    if (toggleEmailNotificationBox.style.display == "none") {
-        toggleEmailNotificationBox.style.display = "block";
-    } else {
-        toggleEmailNotificationBox.style.display = "none";
-    }
-});
+// toggleEmailNotificationButton.addEventListener("click", function (e) {
+//     if (toggleEmailNotificationBox.style.display == "none") {
+//         toggleEmailNotificationBox.style.display = "block";
+//     } else {
+//         toggleEmailNotificationBox.style.display = "none";
+//     }
+// });
