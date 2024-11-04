@@ -49,6 +49,12 @@ export default {
                 navbar: {
                     bg: "#F8FAFF",
                 },
+                red: {
+                    bg: "#ef4444"
+                },
+                background: {
+                    gray: "#f3f4f6"
+                },
                 paragraph: "#5c5c5c",
                 title: "#333333"
             },

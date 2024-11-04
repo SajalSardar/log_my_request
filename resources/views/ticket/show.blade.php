@@ -8,18 +8,16 @@
         </x-breadcrumb>
     @endsection
 
-    <header class="mb-6">
-        <span class="text-base font-bold font-inter">Request ID & Title: #{{ $ticket?->id }} ,
+    <header class="mb-7">
+        <span class="text-detail-heading">Request ID & Title: #{{ $ticket?->id }} ,
             {{ $ticket?->title }}</span>
     </header>
-
 
     <div class="flex flex-wrap" id="tabs-id">
         <div class="w-full">
             @include('ticket/partials/tab_menu')
-
-            <div class="relative flex flex-col min-w-0 break-words bg-white w-full my-6">
-                <div class="px-4 py-5 flex-auto">
+            <div class="relative flex flex-col min-w-0 break-words bg-white w-full">
+                <div class="py-5 flex-auto">
                     <div class="tab-content tab-space">
                         <div class="block" id="tab-detail">
                             <div class="grid lg:grid-cols-3 md:grid-cols-3 sm:grid-cols-1 sm:gap-1 md:gap-5">

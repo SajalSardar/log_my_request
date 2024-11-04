@@ -189,20 +189,21 @@ class TicketController extends Controller
 
         return DataTables::of($tickets)
             ->addColumn('select', function () {
-                return '<div class="flex items-center justify-center"><input type="checkbox" class ="border text-center border-slate-200 rounded focus:ring-transparent p-1" style="background-color: #ddd; accent-color: !important #5C5C5C;">
+                return '<div class="flex items-center justify-center"><input type="checkbox" class ="border text-center border-slate-200 rounded focus:ring-transparent p-1" style="background-color: #9b9b9b; accent-color: !important #5C5C5C;">
                 </div>';
+            })
+            ->editColumn('id', function ($tickets) {
+                return '<span class="text-paragraph">' . '#' . $tickets->id . '</span>';
             })
             ->editColumn('title', function ($tickets) {
                 return '<a href="' . route('admin.ticket.show', ['ticket' => $tickets?->id]) . '" class="pr-4 text-paragraph hover:text-orange-300 hover:underline block" style="width: 325px; display: inline-block; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">' . Str::limit(ucfirst($tickets->title), 50, '...') . '</a>';
             })
-
             ->editColumn('priority', function ($tickets) {
                 $priorityColor = match ($tickets->priority) {
                     'high' => '#EF4444',
                     'low' => '#10B981',
                     'medium' => '#3B82F6',
                 };
-
                 return '<span style="color: ' . $priorityColor . '; padding: 5px; border-radius: 4px;" class="text-paragraph !font-semibold w-20 pr-3 block">' . Str::ucfirst($tickets->priority) . '</span>';
             })
             ->editColumn('department_id', function ($tickets) {
@@ -217,23 +218,20 @@ class TicketController extends Controller
             ->editColumn('ticket_status_id', function ($tickets) {
                 $data = "";
                 if ($tickets->ticket_status->name === 'Resolved') {
-                    $data .= '<span style=";display:inline-block;text-align:center" class="py-2 !bg-resolved-400 text-paragraph !font-semibold rounded px-3 font-inter text-sm block">' . $tickets->ticket_status->name . '</span>';
+                    $data .= '<div style="width: 156px;"><span class="py-2 !bg-resolved-400 text-paragraph !font-semibold rounded px-3">' . $tickets->ticket_status->name . '</span></div>';
                 } elseif ($tickets->ticket_status->name === 'Closed') {
-                    $data .= '<span style=";display:inline-block;text-align:center" class="bg-closed-400 text-center text-header-light text-paragraph !font-semibold rounded px-3 py-2 font-inter text-sm">' . $tickets->ticket_status->name . '</span>';
+                    $data .= '<div style="width: 156px;"><span class="bg-closed-400 text-left text-header-light text-paragraph !font-semibold rounded px-3 py-2">' . $tickets->ticket_status->name . '</span></div>';
                 } elseif ($tickets->ticket_status->name === 'Open') {
-                    $data .= '<span style=";display:inline-block;text-align:center" class="py-2 !bg-open-400 text-paragraph !font-semibold rounded px-3 font-inter text-sm">' . $tickets->ticket_status->name . '</span>';
-
+                    $data .= '<div style="width: 156px;"><span class="py-2 !bg-open-400 text-paragraph !font-semibold rounded px-3">' . $tickets->ticket_status->name . '</span></div>';
                 } elseif ($tickets->ticket_status->name === 'In Progress') {
-                    $data .= '<span style=";display:inline-block;text-align:center" class="py-2 !bg-inProgress-400 text-paragraph !font-semibold rounded px-3 font-inter text-sm">' . $tickets->ticket_status->name . '</span>';
-
+                    $data .= '<div style="width: 156px;"><span class="py-2 !bg-inProgress-400 text-paragraph !font-semibold rounded px-3">' . $tickets->ticket_status->name . '</span></div>';
                 } elseif ($tickets->ticket_status->name === 'On Hold') {
-                    $data .= '<span style=";display:inline-block;text-align:center" class="py-2 !bg-hold-400 text-paragraph !font-semibold rounded px-3 font-inter text-sm">' . $tickets->ticket_status->name . '</span>';
+                    $data .= '<div style="width: 156px;"><span class="py-2 !bg-hold-400 text-paragraph !font-semibold rounded px-3">' . $tickets->ticket_status->name . '</span></div>';
                 } else {
-                    $data .= '<span style=";display:inline-block;text-align:center" class="py-2 !bg-gray-400 text-paragraph !font-semibold rounded px-3 font-inter text-sm">' . $tickets->ticket_status->name . '</span>';
+                    $data .= '<div style="width: 156px;"><span class="py-2 !bg-gray-400 text-paragraph !font-semibold rounded px-3">' . $tickets->ticket_status->name . '</span></div>';
                 }
                 return $data;
             })
-
             ->editColumn('user_id', function ($tickets) {
                 $data = "<div style='width:163px' class='text-paragraph flex items-center'>
             <img src='" . asset('assets/images/profile.jpg') . "' width='40' height='40' style='border-radius: 50%;border:1px solid #eee' alt='profile'>
@@ -478,14 +476,22 @@ class TicketController extends Controller
 
         return DataTables::of(source: $tickets)
             ->addColumn('select', function () {
-                return '<div class="flex items-center justify-center"><input type="checkbox" class ="border text-center border-slate-200 rounded focus:ring-transparent p-1" style="background-color: #ddd; accent-color: !important #5C5C5C;">
+                return '<div class="flex items-center justify-center"><input type="checkbox" class ="border text-center border-slate-200 rounded focus:ring-transparent p-1" style="background-color: #9b9b9b; accent-color: #5C5C5C !important;">
             </div>';
+            })
+            ->editColumn('id', function ($tickets) {
+                return '<span class="text-paragraph">' . '#' . $tickets->id . '</span>';
             })
             ->editColumn('title', function ($tickets) {
                 return '<a href="' . route('admin.ticket.show', ['ticket' => $tickets?->id]) . '" class="text-paragraph hover:text-amber-500 hover:underline" style="width: 325px; display: inline-block; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">' . Str::limit(ucfirst($tickets->title), 30, '...') . '</a>';
             })
             ->editColumn('priority', function ($tickets) {
-                return '<span class="text-paragraph" style="width: 80px;">' . Str::ucfirst($tickets->priority) . '</span>';
+                $priorityColor = match ($tickets->priority) {
+                    'high' => '#EF4444',
+                    'low' => '#10B981',
+                    'medium' => '#3B82F6',
+                };
+                return '<span style="color: ' . $priorityColor . '; padding: 5px; border-radius: 4px;" class="text-paragraph !font-semibold w-20 pr-3 block">' . Str::ucfirst($tickets->priority) . '</span>';
             })
             ->editColumn('category_id', function ($tickets) {
                 return '<span class="text-paragraph">' . Str::ucfirst($tickets->category->name) . '</span>';
@@ -499,25 +505,25 @@ class TicketController extends Controller
             ->editColumn('status', function ($tickets) {
                 $data = "";
                 if ($tickets->ticket_status->name === 'Resolved') {
-                    $data .= '<span style=";display:inline-block;text-align:center" class="py-2 !bg-resolved-400 text-paragraph !font-semibold rounded px-3 font-inter text-sm block">' . $tickets->ticket_status->name . '</span>';
+                    $data .= '<div style="width: 156px;"><span class="py-2 !bg-resolved-400 text-paragraph !font-semibold rounded px-3">' . $tickets->ticket_status->name . '</span></div>';
                 } elseif ($tickets->ticket_status->name === 'Closed') {
-                    $data .= '<span style=";display:inline-block;text-align:center" class="bg-closed-400 text-center text-header-light text-paragraph !font-semibold rounded px-3 py-2 font-inter text-sm">' . $tickets->ticket_status->name . '</span>';
+                    $data .= '<div style="width: 156px;"><span class="bg-closed-400 text-left text-header-light text-paragraph !font-semibold rounded px-3 py-2">' . $tickets->ticket_status->name . '</span></div>';
                 } elseif ($tickets->ticket_status->name === 'Open') {
-                    $data .= '<span style=";display:inline-block;text-align:center" class="py-2 !bg-open-400 text-paragraph !font-semibold rounded px-3 font-inter text-sm">' . $tickets->ticket_status->name . '</span>';
-
+                    $data .= '<div style="width: 156px;"><span class="py-2 !bg-open-400 text-paragraph !font-semibold rounded px-3">' . $tickets->ticket_status->name . '</span></div>';
                 } elseif ($tickets->ticket_status->name === 'In Progress') {
-                    $data .= '<span style=";display:inline-block;text-align:center" class="py-2 !bg-inProgress-400 text-paragraph !font-semibold rounded px-3 font-inter text-sm">' . $tickets->ticket_status->name . '</span>';
-
+                    $data .= '<div style="width: 156px;"><span class="py-2 !bg-inProgress-400 text-paragraph !font-semibold rounded px-3">' . $tickets->ticket_status->name . '</span></div>';
                 } elseif ($tickets->ticket_status->name === 'On Hold') {
-                    $data .= '<span style=";display:inline-block;text-align:center" class="py-2 !bg-hold-400 text-paragraph !font-semibold rounded px-3 font-inter text-sm">' . $tickets->ticket_status->name . '</span>';
+                    $data .= '<div style="width: 156px;"><span class="py-2 !bg-hold-400 text-paragraph !font-semibold rounded px-3">' . $tickets->ticket_status->name . '</span></div>';
                 } else {
-                    $data .= '<span style=";display:inline-block;text-align:center" class="py-2 !bg-gray-400 text-paragraph !font-semibold rounded px-3 font-inter text-sm">' . $tickets->ticket_status->name . '</span>';
+                    $data .= '<div style="width: 156px;"><span class="py-2 !bg-gray-400 text-paragraph !font-semibold rounded px-3">' . $tickets->ticket_status->name . '</span></div>';
                 }
                 return $data;
             })
             ->editColumn('user_id', function ($tickets) {
-                $data = '<div style="width:163px" class="text-paragraph flex items-center"><img src="https://i.pravatar.cc/300/5" alt="img" width="25" height="25"
-                                style="border-radius: 50%"><span class="ml-2">' . $tickets->user->name . '</span></div>';
+                $data = "<div style='width:163px' class='text-paragraph flex items-center'>
+                <img src='" . asset('assets/images/profile.jpg') . "' width='40' height='40' style='border-radius: 50%;border:1px solid #eee' alt='profile'>
+                <span class='ml-2'>" . $tickets->user->name . "</span>
+            </div>";
                 return $data;
             })
             ->editColumn('team_id', function ($tickets) {

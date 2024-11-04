@@ -21,3 +21,7 @@
 .text-caption {
     @apply text-xs font-normal font-inter dark:text-[#5C5C5C];
 }
+
+.text-detail-heading {
+    @apply text-base font-semibold font-inter text-[#333];
+}
