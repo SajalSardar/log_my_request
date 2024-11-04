@@ -153,10 +153,11 @@ class UpdateTicket extends Component {
 
         $this->ticket->update(
             [
-                'category_id' => $this->form->category_id,
-                'title'       => $this->form->request_title,
-                'description' => $this->form->request_description,
-                'updated_by'  => Auth::id(),
+                'category_id'     => $this->form->category_id,
+                'sub_category_id' => $this->form->sub_category_id,
+                'title'           => $this->form->request_title,
+                'description'     => $this->form->request_description,
+                'updated_by'      => Auth::id(),
             ]
         );
         $isUpload = $this->form->request_attachment ? Fileupload::uploadFile($this->form, Bucket::TICKET, $this->ticket->getKey(), Ticket::class) : '';
@@ -183,9 +184,11 @@ class UpdateTicket extends Component {
     }
 
     public function render() {
-        if (Auth::user()->hasRole('requester')) {
+        if (Auth::user()->hasRole(['requester', 'Requester'])) {
             return view('livewire.ticket.update-requester');
+        } else {
+            return view('livewire.ticket.update-ticket');
         }
-        return view('livewire.ticket.update-ticket');
+
     }
 }

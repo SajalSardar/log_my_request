@@ -34,7 +34,7 @@
                              </div>
                          </td>
 
-                         <td class="p-3 font-normal text-gray-400">{{ $each?->name }}</td>
+                         <td class="p-3 font-normal text-gray-400">{{ Str::ucfirst($each?->name) }}</td>
                          <td class="p-3 font-normal text-gray-400">
                              @foreach ($each?->permissions as $permission)
                                  <span class="bg-green-200 px-1 rounded text-gray-500">{{ $permission->name }}</span>

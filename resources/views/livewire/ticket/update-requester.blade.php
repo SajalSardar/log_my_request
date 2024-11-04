@@ -39,7 +39,7 @@
                             {{ __('Category') }}
                         </x-forms.label>
 
-                        <x-forms.select-input wire:model="form.category_id">
+                        <x-forms.select-input wire:model="form.category_id" wire:change="selectChildeCategory">
                             <option value="">Select Category</option>
                             @foreach ($categories as $each)
                                 <option value="{{ $each?->id }}" :key="{{ $each->id }}">{{ $each?->name }}
@@ -48,6 +48,24 @@
                         </x-forms.select-input>
 
                         <x-input-error :messages="$errors->get('form.category_id')" class="mt-2" />
+                        
+                        @if ($subCategory && $subCategory->count() > 0)
+                            <div class="mt-3">
+                                <x-forms.label for="sub_category_id" required="yes">
+                                    {{ __('Sub Category') }}
+                                </x-forms.label>
+                                <x-forms.select-input wire:model="form.sub_category_id" id="sub_category_id">
+                                    <option value="">Select Sub Category</option>
+                                    @foreach ($subCategory as $each)
+                                        <option value="{{ $each?->id }}" :key="{{ $each->id }}">
+                                            {{ $each?->name }}
+                                        </option>
+                                    @endforeach
+                                </x-forms.select-input>
+
+                                <x-input-error :messages="$errors->get('form.sub_category_id')" class="mt-2" />
+                            </div>
+                        @endif
                     </div>
 
                 </div>

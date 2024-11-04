@@ -126,6 +126,7 @@ class CreateTicket extends Component {
             [
                 'user_id'          => Auth::id(),
                 'category_id'      => $this->form->category_id,
+                'sub_category_id'  => $this->form->sub_category_id,
                 'ticket_status_id' => 1,
                 'source_id'        => 1,
                 'title'            => $this->form->request_title,
@@ -162,10 +163,11 @@ class CreateTicket extends Component {
     }
 
     public function render() {
-        if (Auth::user()->hasRole('requester')) {
+        if (Auth::user()->hasRole(['requester', 'Requester'])) {
             return view('livewire.ticket.create-requester');
+        } else {
+            return view('livewire.ticket.create-ticket');
         }
 
-        return view('livewire.ticket.create-ticket');
     }
 }

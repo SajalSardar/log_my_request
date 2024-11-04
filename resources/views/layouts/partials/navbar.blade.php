@@ -22,7 +22,7 @@
         </div>
 
         <div class="user-type">
-            <!-- <form action="{{ route('admin.role.swotch') }}" method="POST" x-data @change="submitSwitchAccount($event)">
+             {{-- <form action="{{ route('admin.role.swotch') }}" method="POST" x-data @change="submitSwitchAccount($event)">
                 @csrf
                 <select class="user-type-select border border-slate-200 rounded bg-transparent text-sm font-normal text-center" onchange="accountSwitch()" id="accountSelect" name="role">
                     @foreach (Helper::getLoggedInUserRoles() as $role)
@@ -31,16 +31,16 @@
                         </option>
                     @endforeach
                 </select>
-            </form> -->
+            </form>  --}}
         </div>
 
         <div class="lang">
-            <!-- <img class="sm:hidden md:block" src="{{ asset('assets/icons/eng.png') }}" alt="country">
+            {{-- <img class="sm:hidden md:block" src="{{ asset('assets/icons/eng.png') }}" alt="country">
 
             <select onchange="changeLanguage(this.value)" class="border-none bg-transparent text-center font-normal text-sm">
                 <option {{ session()->has('locale') && session()->get('locale') == 'en' ? 'selected' : '' }} value="en">ENG</option>
                 <option {{ session()->has('locale') && session()->get('locale') == 'bn' ? 'selected' : '' }} value="bn">BN</option>
-            </select> -->
+            </select>  --}}
         </div>
 
         <div class="notification">
@@ -109,7 +109,7 @@
 
         <div class="profile relative">
             <div class="toggle-menu-button flex justify-center items-center">
-                <img src="{{ asset('assets/images/profile-2.png') }}" alt="profile" width="48" width="48" style="border-radius: 50%">
+                <img src="{{ asset('assets/images/profile-2.png') }}" alt="profile" width="38" width="38" style="border-radius: 50%">
                 <svg class="ml-2" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <path d="M6 9L12 15L18 9" stroke="#5C5C5C" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
                 </svg>

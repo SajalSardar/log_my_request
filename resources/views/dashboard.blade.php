@@ -17,8 +17,8 @@
         </div>
     </div>
     <div class="grid sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-        <div class="border border-base-500 rounded px-11 py-10">
-            <div class="flex justify-between items-center">
+        <div class="border border-base-500 rounded py-10">
+            <div class="flex justify-center items-center gap-6">
                 <div class="w-[80px] h-[80px] rounded-full bg-primary-600 border border-base-500 flex justify-center items-center">
                     <svg width="36" height="36" viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <path d="M29.6249 16.5V15C29.6249 9.34314 29.6249 6.51473 27.8675 4.75736C26.1101 3 23.2817 3 17.6249 3H16.1251C10.4682 3 7.63983 3 5.88248 4.75734C4.12512 6.51468 4.12509 9.34308 4.12505 14.9999L4.125 21C4.12494 26.6568 4.12493 29.4852 5.88222 31.2426C7.63958 32.9998 10.4681 33 16.1249 33" stroke="#F36D00" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
@@ -35,8 +35,8 @@
                 </div>
             </div>
         </div>
-        <div class="border border-base-500 rounded px-11 py-10">
-            <div class="flex justify-between items-center">
+        <div class="border border-base-500 rounded py-10">
+            <div class="flex justify-center items-center gap-6">
                 <div class="w-[80px] h-[80px] rounded-full bg-primary-600 border border-base-500 flex justify-center items-center">
                     <svg width="36" height="36" viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <path d="M22.5 3.75H18C11.2825 3.75 7.92373 3.75 5.83686 5.83686C3.75 7.92373 3.75 11.2825 3.75 18C3.75 24.7175 3.75 28.0763 5.83686 30.1632C7.92373 32.25 11.2825 32.25 18 32.25C24.7175 32.25 28.0763 32.25 30.1632 30.1632C32.25 28.0763 32.25 24.7175 32.25 18V15" stroke="#F36D00" stroke-width="2" stroke-linecap="round" />
@@ -49,8 +49,8 @@
                 </div>
             </div>
         </div>
-        <div class="border border-base-500 rounded px-11 py-10">
-            <div class="flex justify-between items-center">
+        <div class="border border-base-500 rounded py-10">
+            <div class="flex justify-center items-center gap-6">
                 <div class="w-[80px] h-[80px] rounded-full bg-primary-600 border border-base-500 flex justify-center items-center">
                     <svg width="36" height="36" viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <path d="M18.75 33H14.25C9.30026 33 6.82538 33 5.2877 31.3814C3.75 29.7627 3.75 27.1577 3.75 21.9474V14.0526C3.75 8.84236 3.75 6.23724 5.2877 4.61862C6.82538 3 9.30026 3 14.25 3H18.75C23.6997 3 26.1745 3 27.7123 4.61862C29.25 6.23724 29.25 8.84236 29.25 14.0526V18.75" stroke="#F36D00" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
@@ -88,8 +88,8 @@
 
             </div>
         </div>
-        <div class="border border-base-500 rounded px-11 py-10">
-            <div class="flex justify-between items-center">
+        <div class="border border-base-500 rounded  py-10">
+            <div class="flex justify-center items-center gap-6">
                 <div class="w-[80px] h-[80px] rounded-full bg-primary-600 border border-base-500 flex justify-center items-center">
                     <svg width="36" height="36" viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <path d="M16.6498 4.50293C11.1765 4.51277 8.3103 4.64714 6.47864 6.47878C4.50195 8.4554 4.50195 11.6367 4.50195 17.9994C4.50195 24.3621 4.50195 27.5434 6.47864 29.52C8.45531 31.4967 11.6367 31.4967 17.9997 31.4967C24.3624 31.4967 27.5439 31.4967 29.5206 29.52C31.3522 27.6885 31.4866 24.8224 31.4965 19.3492" stroke="#F36D00" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
@@ -102,8 +102,8 @@
                 </div>
             </div>
         </div>
-        <div class="border border-base-500 rounded px-11 py-10">
-            <div class="flex justify-between items-center">
+        <div class="border border-base-500 rounded  py-10">
+            <div class="flex justify-center gap-6 items-center">
                 <div class="w-[80px] h-[80px] rounded-full bg-primary-600 border border-base-500 flex justify-center items-center">
                     <svg width="36" height="36" viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <path d="M3 18C3 26.2842 9.71572 33 18 33C26.2842 33 33 26.2842 33 18C33 9.71572 26.2842 3 18 3" stroke="#F36D00" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
@@ -117,8 +117,8 @@
                 </div>
             </div>
         </div>
-        <div class="border border-base-500 rounded px-11 py-10">
-            <div class="flex justify-between items-center">
+        <div class="border border-base-500 rounded py-10">
+            <div class="flex justify-center gap-6 items-center">
                 <div class="w-[80px] h-[80px] rounded-full bg-primary-600 border border-base-500 flex justify-center items-center">
                     <svg width="36" height="36" viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <path d="M15 4.98057C10.1258 4.23495 5.51042 4.28408 4.14716 5.64716C0.889292 8.90543 5.13734 30.741 9.80246 30.2868C12.3619 30.0284 14.1484 25.9181 16.2513 24.6342C17.0798 24.1284 17.8142 24.6422 18.333 25.3176L23.3535 31.8522C24.2282 32.9909 24.8442 33.3297 26.1632 32.6544C28.1909 31.6162 30.1178 29.6867 31.1544 27.6627C31.8297 26.3442 31.4909 25.728 30.3525 24.8535L27 22.2779" stroke="#F36D00" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
