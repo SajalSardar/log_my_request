@@ -330,8 +330,8 @@
      width: 65px;
  }
 
- .dt-length label{
-    text-transform: capitalize;
+ .dt-length label {
+     text-transform: capitalize;
  }
 
  div.dt-container .dt-paging .dt-paging-button {
@@ -394,4 +394,16 @@
  .dt-column-order {
      color: black;
      right: 4px;
+ }
+
+ table.dataTable thead>tr>th.dt-orderable-asc span.dt-column-order,
+ table.dataTable thead>tr>th.dt-orderable-desc span.dt-column-order,
+ table.dataTable thead>tr>th.dt-ordering-asc span.dt-column-order,
+ table.dataTable thead>tr>th.dt-ordering-desc span.dt-column-order,
+ table.dataTable thead>tr>td.dt-orderable-asc span.dt-column-order,
+ table.dataTable thead>tr>td.dt-orderable-desc span.dt-column-order,
+ table.dataTable thead>tr>td.dt-ordering-asc span.dt-column-order,
+ table.dataTable thead>tr>td.dt-ordering-desc span.dt-column-order {
+     right: auto;
+     margin-left: 10px !important;
  }

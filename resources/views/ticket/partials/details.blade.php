@@ -4,55 +4,61 @@
         <div class="basis-full sm:basis-full md:basis-1/2" style="border-right:2px solid #ddd">
             <ul>
                 <li>
-                    <span class="font-sm font-semibold font-inter">Requester ID:
+                    <span class="text-heading-dark">Requester ID:
                     </span>
-                    <span class="font-sm font-normal font-inter">#{{ $ticket?->user->id }}</span>
+                    <span class="text-title">#{{ $ticket?->user->id }}</span>
                 </li>
                 <li>
-                    <span class="font-sm font-semibold font-inter">Requester: </span>
-                    <span class="font-sm font-normal font-inter">{{ $ticket?->user?->name }}</span>
+                    <span class="text-heading-dark">Requester: </span>
+                    <span class="text-title">{{ $ticket?->user?->name }}</span>
                 </li>
                 <li>
-                    <span class="font-sm font-semibold font-inter">Phone: </span>
-                    <span class="font-sm font-normal font-inter">{{ $ticket?->user?->phone }}</span>
+                    <span class="text-heading-dark">Phone: </span>
+                    <span class="text-title">{{ $ticket?->user?->phone }}</span>
                 </li>
                 <li>
-                    <span class="font-sm font-semibold font-inter">Email: </span>
-                    <span class="font-sm font-normal font-inter">{{ $ticket?->user?->email }}</span>
+                    <span class="text-heading-dark">Email: </span>
+                    <span class="text-title">{{ $ticket?->user?->email }}</span>
                 </li>
                 <li>
-                    <span class="font-sm font-semibold font-inter">Type: </span>
-                    <span class="font-sm font-normal font-inter">{{ $ticket?->user->requester_type?->name }}</span>
+                    <span class="text-heading-dark">Type: </span>
+                    <span class="text-title">{{ $ticket?->user->requester_type?->name }}</span>
                 </li>
             </ul>
         </div>
         <div class="basis-full sm:basis-full md:basis-1/2  sm:px-0 1 md:pl-10 lg:pl-6">
             <ul>
                 <li>
-                    <span class="font-sm font-semibold font-inter">Status: </span>
+                    <span class="text-heading-dark">Status: </span>
                     <span
-                        class="font-sm font-semibold font-inter text-red-600">{{ $ticket?->ticket_status->name }}</span>
-                </li>
-                <li>
-                    <span class="font-sm font-semibold font-inter">Priority:
+                        class="text-heading-dark">
+                        <span class="text-red-bg">
+                        {{ $ticket?->ticket_status->name }}
+                        </span>
                     </span>
-                    <span class="font-sm font-semibold font-inter text-red-600">{{ $ticket?->priority }}</span>
                 </li>
                 <li>
-                    <span class="font-sm font-semibold font-inter">Due Data:
+                    <span class="text-heading-dark">Priority:
                     </span>
-                    <span class="font-sm font-normal font-inter">{{ Helper::ISODate($ticket?->due_date) }}</span>
-                </li>
-                <li>
-                    <span class="font-sm font-semibold font-inter">Category:
+                    <span class="text-heading-dark">
+                        <span class="text-red-bg">{{ ucfirst($ticket?->priority) }}</span>
                     </span>
-                    <span class="font-sm font-normal font-inter">{{ $ticket?->category?->name }}</span>
                 </li>
                 <li>
-                    <span class="font-sm font-semibold font-inter">Request Age:
+                    <span class="text-heading-dark">Due Data:
+                    </span>
+                    <span class="text-title">{{ Helper::ISODate($ticket?->due_date) }}</span>
+                </li>
+                <li>
+                    <span class="text-heading-dark">Category:
+                    </span>
+                    <span class="text-title">{{ $ticket?->category?->name }}</span>
+                </li>
+                <li>
+                    <span class="text-heading-dark">Request Age:
                     </span>
                     <span
-                        class="font-sm font-normal font-inter">{{ dayMonthYearHourMininteSecond($ticket?->created_at, true, true, true, true, true, true, true) }}</span>
+                        class="text-title">{{ dayMonthYearHourMininteSecond($ticket?->created_at, true, true, true, true, true, true) }}</span>
                 </li>
             </ul>
         </div>
@@ -63,13 +69,13 @@
 
 <!-- Edit & Favorite Part Start !-->
 <div class="flex justify-between">
-    <p class="text-base font-bold font-inter">Request Description</p>
+    <p class="text-detail-heading">Request Description</p>
 </div>
 <!-- Edit & Favorite Part End !-->
 
 <!-- Description Part Start !-->
 <div class="mt-3 p-4 border border-slate-200 text-base-400 rounded">
-    <p class="text-sm font-inter font-normal text-justify">
+    <p class="text-title text-justify">
         {!! $ticket?->description !!}
     </p>
 </div>
@@ -78,7 +84,7 @@
 <!-- Attachment Part Start !-->
 <div class="flex items-center mt-3">
     <div class="flex items-center">
-        <p class="text-base font-bold font-inter me-2">Attached File:</p>
+        <p class="text-detail-heading me-2">Attached File:</p>
         <div class="custom_file flex flex-wrap gap-5">
             @if ($ticket->images && $ticket?->images->count() > 0)
                 @foreach ($ticket->images as $image)
@@ -88,7 +94,7 @@
                         $size = number_format(explode(' ', $image->size)[0] / (1024 * 1024), 2) . ' MB';
                     @endphp
                     <a href="{{ route('admin.ticket.downloadFile', ['file' => $image?->id]) }}" style="width: 200px;"
-                        class="flex justify-between px-1 py-1 border border-slate-300 rounded bg-gray-200">
+                        class="flex justify-between px-1 py-1 border border-base-500 rounded bg-background-gray">
                         <div class="flex items-center">
                             <span class="pr-1">
                                 @if ($extension == 'pdf')
@@ -104,16 +110,10 @@
                                             stroke-linejoin="round" />
                                     </svg>
                                 @elseif ($extension == 'docx')
-                                    <svg width="30" height="30" viewBox="0 0 24 24" fill="none"
-                                        xmlns="http://www.w3.org/2000/svg">
-                                        <path d="M8 17H16" stroke="#333333" stroke-width="1.5" stroke-linecap="round"
-                                            stroke-linejoin="round" />
-                                        <path d="M8 13H12" stroke="#333333" stroke-width="1.5" stroke-linecap="round"
-                                            stroke-linejoin="round" />
-                                        <path
-                                            d="M13 2.5V3C13 5.82843 13 7.24264 13.8787 8.12132C14.7574 9 16.1716 9 19 9H19.5M20 10.6569V14C20 17.7712 20 19.6569 18.8284 20.8284C17.6569 22 15.7712 22 12 22C8.22876 22 6.34315 22 5.17157 20.8284C4 19.6569 4 17.7712 4 14V9.45584C4 6.21082 4 4.58831 4.88607 3.48933C5.06508 3.26731 5.26731 3.06508 5.48933 2.88607C6.58831 2 8.21082 2 11.4558 2C12.1614 2 12.5141 2 12.8372 2.11401C12.9044 2.13772 12.9702 2.165 13.0345 2.19575C13.3436 2.34355 13.593 2.593 14.0919 3.09188L18.8284 7.82843C19.4065 8.40649 19.6955 8.69552 19.8478 9.06306C20 9.4306 20 9.83935 20 10.6569Z"
-                                            stroke="#333333" stroke-width="1.5" stroke-linecap="round"
-                                            stroke-linejoin="round" />
+                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M8 17H16" stroke="#5C5C5C" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                                    <path d="M8 13H12" stroke="#5C5C5C" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                                    <path d="M13 2.5V3C13 5.82843 13 7.24264 13.8787 8.12132C14.7574 9 16.1716 9 19 9H19.5M20 10.6569V14C20 17.7712 20 19.6569 18.8284 20.8284C17.6569 22 15.7712 22 12 22C8.22876 22 6.34315 22 5.17157 20.8284C4 19.6569 4 17.7712 4 14V9.45584C4 6.21082 4 4.58831 4.88607 3.48933C5.06508 3.26731 5.26731 3.06508 5.48933 2.88607C6.58831 2 8.21082 2 11.4558 2C12.1614 2 12.5141 2 12.8372 2.11401C12.9044 2.13772 12.9702 2.165 13.0345 2.19575C13.3436 2.34355 13.593 2.593 14.0919 3.09188L18.8284 7.82843C19.4065 8.40649 19.6955 8.69552 19.8478 9.06306C20 9.4306 20 9.83935 20 10.6569Z" stroke="#5C5C5C" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
                                     </svg>
                                 @elseif ($extension == 'jpg' || $extension == 'jpeg' || $extension == 'png')
                                     <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
@@ -131,9 +131,9 @@
                                 @endif
                             </span>
                             <div class="info">
-                                <p class="text-sm font-inter font-normal">
+                                <p class="text-paragraph">
                                     {{ Str::limit($image->filename, '10', '..') }}</p>
-                                <p class="text-sm font-inter font-normal">{{ $size }}</p>
+                                <p class="text-paragraph">{{ $size }}</p>
                             </div>
                         </div>
 

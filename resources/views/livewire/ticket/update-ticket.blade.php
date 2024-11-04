@@ -1,8 +1,8 @@
 <form wire:submit="update">
+<h3 class="font-inter font-semibold text-[#333] text-[20px] mb-[24px]">Edit Form</h3>
     <div class="flex flex-row">
-        <div class="md:basis-2/3 sm:basis-full">
+        <div style="width:651px !important">
             <div class="border border-slate-300 p-5 rounded">
-
                 <div class="grid lg:grid-cols-1 md:grid-cols-1 sm:grid-cols-1 sm:gap-1 md:gap-4">
                     <div class="p-2 w-full">
                         <x-forms.label for="form.request_title" required="yes">
@@ -20,7 +20,7 @@
                     </x-forms.label>
                     <div wire:ignore>
                         <textarea wire:ignore cols="30" id="editor" rows="10" wire:model.lazy='form.request_description'
-                            class="w-full py-3 text-base font-normal font-inter border border-slate-400 rounded"
+                            class="w-full py-3 !text-paragraph border border-slate-400 rounded"
                             placeholder="Add description here..">{!! $ticket->description !!}</textarea>
                         <x-input-error :messages="$errors->get('form.request_description')" class="mt-2" />
                     </div>
@@ -93,11 +93,11 @@
                         </x-forms.label>
                         <div class="mt-3">
                             <x-forms.radio-input wire:model="form.priority" name="priority" class="ml-2"
-                                value="low" /> <span class="ml-2">Low</span>
+                                value="low" /> <span class="ml-2 text-paragraph">Low</span>
                             <x-forms.radio-input wire:model="form.priority" name="priority" class="ml-2"
-                                value="medium" /> <span class="ml-2">Medium</span>
+                                value="medium" /> <span class="ml-2 text-paragraph">Medium</span>
                             <x-forms.radio-input wire:model="form.priority" name="priority" class="ml-2"
-                                value="high" /> <span class="ml-2">High</span>
+                                value="high" /> <span class="ml-2 text-paragraph">High</span>
                         </div>
                         <x-input-error :messages="$errors->get('form.priority')" class="mt-2" />
                     </div>
