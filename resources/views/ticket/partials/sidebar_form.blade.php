@@ -2,8 +2,7 @@
     @csrf
     <div class="flex flex-row">
         <div class="md:basis-full sm:basis-full">
-            <div class="border border-slate-300 p-4 rounded">
-
+            <div class="border border-base-500 p-4 rounded">
                 <div class="grid">
                     <div>
                         <x-forms.label for="due_date">
@@ -40,11 +39,8 @@
                         <x-forms.label for="sub_category_id" required="yes">
                             {{ __('Sub Category') }}
                         </x-forms.label>
-
                         <x-forms.select-input name="sub_category_id" id="sub_category_id">
-
                         </x-forms.select-input>
-
                         <x-input-error :messages="$errors->get('sub_category_id')" class="mt-2" />
                     </div>
                 </div>
@@ -134,13 +130,13 @@
                         </x-forms.label>
                         <div class="mt-2">
                             <x-forms.radio-input name="priority" :checked="$ticket->priority === 'low'" value="low" />
-                            <span class="ml-2">Low</span>
+                            <span class="ml-2 text-title">Low</span>
 
                             <x-forms.radio-input name="priority" class="ml-2" value="medium" :checked="$ticket->priority === 'medium'" />
-                            <span class="ml-2">Medium</span>
+                            <span class="ml-2 text-title">Medium</span>
 
                             <x-forms.radio-input name="priority" class="ml-2" value="high" :checked="$ticket->priority === 'high'" />
-                            <span class="ml-2">High</span>
+                            <span class="ml-2 text-title">High</span>
                         </div>
                         <x-input-error :messages="$errors->get('priority')" class="mt-2" />
                     </div>
