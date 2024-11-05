@@ -9,24 +9,24 @@ use Illuminate\Support\Facades\Gate;
 use Spatie\Permission\Models\Role;
 use Yajra\DataTables\Facades\DataTables;
 
-class MenuController extends Controller {
+class MenuController extends Controller
+{
     /**
      * Display a listing of the resource.
      */
-    public function index() {
+    public function index()
+    {
         Gate::authorize('viewAny', Menu::class);
         return view('menu.index');
     }
 
     /**
      * Display a listing of the data table resource.
+     * @param Request $request
      */
-    public function displayListDatatable(Request $request) {
+    public function displayListDatatable(Request $request)
+    {
         Gate::authorize('viewAny', Menu::class);
-
-        // $menu = Cache::remember('menu_list', 60 * 60, function () {
-        //     return Menu::get();
-        // });
         $menus = Menu::query();
 
         if ($request->all()) {
@@ -38,22 +38,37 @@ class MenuController extends Controller {
         }
 
         return DataTables::of($menus)
+            ->addColumn('select', function () {
+                return '<div class="flex items-center justify-center"><input type="checkbox" class ="border text-center border-slate-200 rounded focus:ring-transparent p-1" style="background-color: #9b9b9b; accent-color: #5C5C5C !important;"></div>';
+            })
+            ->editColumn('id', function ($menus) {
+                return '<span class="text-paragraph text-end">' . '#' . $menus->id . '</span>';
+            })
+            ->editColumn('order', function ($menus) {
+                return '<span class="text-paragraph text-end">' . $menus->order . '</span>';
+            })
+            ->editColumn('route', function ($menus) {
+                return '<span class="text-paragraph text-end">' . $menus->route . '</span>';
+            })
+            ->editColumn('url', function ($menus) {
+                return '<span class="text-paragraph text-end">' . $menus->url . '</span>';
+            })
             ->editColumn('name', function ($menus) {
-                return '<div class="flex"><div class="profile">
+                return '<div class="flex gap-2">
+                            <div>
                                 ' . $menus->icon . '
                             </div>
-                            <div class="infos ps-3">
-                                <h5 class="font-medium text-slate-900">' . $menus->name . '</h5>
-                            </div></div>';
+                            <h5 class="text-paragraph">' . $menus->name . '</h5>
+                        </div>';
             })
             ->editColumn('created_at', function ($menus) {
-                return ISODate($menus?->created_at);
+                return '<span class="text-paragraph text-end">' . ISODate(date: $menus?->created_at) . '</span>';
             })
             ->addColumn('role', function ($menus) {
                 $rolesHtml = '';
-                $roles     = json_decode($menus->roles, true);
+                $roles = json_decode($menus->roles, true);
                 foreach ($roles as $role) {
-                    $rolesHtml .= '<span class="inline-flex items-center bg-green-100 text-gray-800 text-xs font-normal px-2.5 py-0.5 rounded-full dark:bg-green-600 dark:text-green-300">' . $role . '</span>';
+                    $rolesHtml .= '<span class="inline-flex px-3 py-1 bg-inProgress-400 items-center text-paragraph ml-1 rounded">' . $role . '</span>';
                 }
                 return $rolesHtml;
             })
@@ -94,9 +109,10 @@ class MenuController extends Controller {
     /**
      * Show the form for creating a new resource.
      */
-    public function create() {
+    public function create()
+    {
         Gate::authorize('create', Menu::class);
-        $roles        = Role::where('name', '!=', 'super-admin')->get();
+        $roles = Role::where('name', '!=', 'super-admin')->get();
         $parent_menus = Menu::where('parent_id', null)->get();
         return view('menu.create', compact('roles', 'parent_menus'));
     }
@@ -104,7 +120,8 @@ class MenuController extends Controller {
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request) {
+    public function store(Request $request)
+    {
         //
         Gate::authorize('create', Menu::class);
     }
@@ -112,7 +129,8 @@ class MenuController extends Controller {
     /**
      * Display the specified resource.
      */
-    public function show(Menu $menu) {
+    public function show(Menu $menu)
+    {
         //
         Gate::authorize('view', $menu);
         return view('menu.show');
@@ -121,9 +139,10 @@ class MenuController extends Controller {
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Menu $menu) {
+    public function edit(Menu $menu)
+    {
         Gate::authorize('update', $menu);
-        $roles        = Role::where('name', '!=', 'super-admin')->get();
+        $roles = Role::where('name', '!=', 'super-admin')->get();
         $parent_menus = Menu::where('parent_id', null)->get();
         return view('menu.edit', compact('roles', 'parent_menus', 'menu'));
     }
@@ -131,14 +150,16 @@ class MenuController extends Controller {
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Menu $menu) {
+    public function update(Request $request, Menu $menu)
+    {
         Gate::authorize('update', $menu);
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Menu $menu) {
+    public function destroy(Menu $menu)
+    {
         Gate::authorize('delete', $menu);
         $menu->delete();
         flash()->success('Menu has been deleted');
