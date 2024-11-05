@@ -6,7 +6,8 @@
         </x-breadcrumb>
     @endsection
 
-    <form wire:submit="saveMenu" method="POST">
+    <form  method="POST" action="{{ route('admin.role.store') }}">
+        @csrf
         <div class="grid md:grid-cols-1 sm:grid-cols-1 sm:gap-1 md:gap-4">
             <div class="p-2">
                 <x-forms.text-input type="text" name="role" placeholder="Role name" />
