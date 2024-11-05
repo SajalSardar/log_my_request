@@ -16,7 +16,7 @@ class TicketStatusController extends Controller {
         $ticketStatuses = Cache::remember('ticketStatus_list', 60 * 60, function () {
             return TicketStatus::get();
         });
-        return view("ticketStatus.index", compact('ticketStatuses'));
+        return view("ticketstatus.index", compact('ticketStatuses'));
     }
 
     /**
@@ -35,7 +35,7 @@ class TicketStatusController extends Controller {
      */
     public function create() {
         Gate::authorize('create', TicketStatus::class);
-        return view('ticketStatus.create');
+        return view('ticketstatus.create');
     }
 
     /**
@@ -44,7 +44,7 @@ class TicketStatusController extends Controller {
     public function show(TicketStatus $ticketstatus) {
         //
         Gate::authorize('view', $ticketstatus);
-        return view('ticketStatus.show', compact('ticketstatus'));
+        return view('ticketstatus.show', compact('ticketstatus'));
     }
 
     /**
@@ -52,7 +52,7 @@ class TicketStatusController extends Controller {
      */
     public function edit(TicketStatus $ticketstatus) {
         Gate::authorize('update', $ticketstatus);
-        return view('ticketStatus.edit', compact('ticketstatus'));
+        return view('ticketstatus.edit', compact('ticketstatus'));
     }
 
     /**
