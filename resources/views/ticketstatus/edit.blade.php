@@ -5,5 +5,5 @@
             Edit Request Status
         </x-breadcrumb>
     @endsection
-    <livewire:ticketstatus.update-ticketstatus :ticketstatus="$ticketstatus" />
+    <livewire:ticket-status.update-ticketstatus :ticketstatus="$ticketstatus" />
 </x-app-layout>
