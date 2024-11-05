@@ -431,12 +431,7 @@
  }
 
  /* Customize the close (cross) icon */
+
  .select2-selection__clear {
-     position: absolute;
-     top: 30%;
-     transform: translateY(-50%);
-     right: 10px;
-     /* Adjust as needed to position the icon properly */
-     color: #5c5c5c !important;
-     font-size: 14px !important;
+     display: none;
  }
