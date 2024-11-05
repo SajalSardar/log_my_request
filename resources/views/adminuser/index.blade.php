@@ -5,12 +5,12 @@
         User List
     </x-breadcrumb>
     @endsection
-    <div class="flex mb-8">
-        <div class="flex-none  w-48">
+    <div class="flex justify-between items-center !mt-3">
+        <div>
             <p class="text-detail-heading">User List</p>
         </div>
-        <div class="flex-1">
-            <div class="flex justify-end gap-2">
+        <div class="flex-1 mt-1">
+            <div class="flex justify-end gap-3">
                 <div>
                     <x-forms.text-input placeholder="search by name" id="unser_name_search" class="text-sm" />
                 </div>
