@@ -31,6 +31,7 @@ Route::middleware('auth', 'verified')->prefix('dashboard')->name('admin.')->grou
         Route::get('request-show/{ticketstatus}', 'show')->name('show');
         Route::get('request-edit/{ticketstatus}', 'edit')->name('edit');
         Route::delete('request-delete/{ticketstatus}', 'destroy')->name('delete');
+        Route::get('status-list-datatable', 'displayListDatatable')->name('status.list.datatable');
     });
 
     Route::controller(TicketController::class)->name('ticket.')->group(function () {

@@ -20,10 +20,8 @@ class CategoryController extends Controller
         $collections = Cache::remember('category_list', 60 * 60, function () {
             return Category::query()->with('image', 'parent')->get();
         });
-        // return $collections;
         return view("category.index", compact('collections'));
     }
-
 
     /**
      * Define public method displayListDatatable to display the datatable resources
