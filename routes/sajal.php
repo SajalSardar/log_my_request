@@ -39,7 +39,6 @@ Route::middleware('auth', 'verified')->prefix('dashboard')->name('admin.')->grou
         Route::get('show-request/{ticket}', 'show')->name('show');
         Route::get('edit-request/{ticket}', 'edit')->name('edit');
         Route::delete('delete-request/{ticket}', 'destroy')->name('delete');
-
         Route::get('request-list', 'allTicketList')->name('all.list');
         Route::get('my-request-list', 'allTicketList')->name('list.active.memode');
         Route::get('request-list-datatable', 'allTicketListDataTable')->name('all.list.datatable');
@@ -73,6 +72,11 @@ Route::middleware('auth', 'verified')->prefix('dashboard')->name('admin.')->grou
     // Category
     Route::controller(CategoryController::class)->name('category.')->group(function () {
         Route::get('/category-list-datatable', 'displayListDatatable')->name('list.datatable');
+    });
+
+    // Source
+    Route::controller(SourceController::class)->name('source.')->group(function () {
+        Route::get('/source-list-datatable', 'displayListDatatable')->name('list.datatable');
     });
 
     //user
