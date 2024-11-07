@@ -79,6 +79,11 @@ Route::middleware('auth', 'verified')->prefix('dashboard')->name('admin.')->grou
         Route::get('/source-list-datatable', 'displayListDatatable')->name('list.datatable');
     });
 
+    // requesterType
+    Route::controller(RequesterTypeController::class)->name('requesterType.')->group(function () {
+        Route::get('/requester-type-list-datatable', 'displayListDatatable')->name('list.datatable');
+    });
+
     //user
     Route::get('get-user-by-id', [AdminUserController::class, 'getUserById'])->name('get.user.by.id');
     // change role in header option

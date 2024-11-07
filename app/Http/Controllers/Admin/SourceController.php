@@ -45,7 +45,7 @@ class SourceController extends Controller
             })
             ->editColumn('status', function ($source) {
                 $status = $source->status == "1" ? 'Active' : 'Inactive';
-                $class = $source->status == '1' ? 'bg-inProgress-400' : 'bg-open-400';
+                $class = $source->status == '1' ? 'bg-resolved-400' : 'bg-closed-400';
                 return '<span class="inline-flex px-3 py-1 ' . $class . ' items-center text-paragraph ml-1 rounded">' . $status . '</span>';
             })
 

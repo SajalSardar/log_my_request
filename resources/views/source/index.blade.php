@@ -52,6 +52,7 @@
             </tbody>
         </table>
     </div>
+    
     @section('script')
         <script>
             $(function() {
