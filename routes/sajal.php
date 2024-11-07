@@ -58,6 +58,7 @@ Route::middleware('auth', 'verified')->prefix('dashboard')->name('admin.')->grou
     // role
     Route::controller(RoleController::class)->name('role.')->group(function () {
         Route::get('role-list', 'index')->name('index');
+        Route::get('/user-list-datatable', 'displayListDatatable')->name('list.datatable');
         Route::get('create-user-role', 'create')->name('create');
         Route::post('create-user-role', 'store')->name('store');
         Route::get('edit-user-role/{id}', 'edit')->name('edit');
