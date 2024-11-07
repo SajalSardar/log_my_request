@@ -70,6 +70,11 @@ Route::middleware('auth', 'verified')->prefix('dashboard')->name('admin.')->grou
         Route::get('/module-list-datatable', 'displayListDatatable')->name('list.datatable');
     });
 
+    // Category
+    Route::controller(CategoryController::class)->name('category.')->group(function () {
+        Route::get('/category-list-datatable', 'displayListDatatable')->name('list.datatable');
+    });
+
     //user
     Route::get('get-user-by-id', [AdminUserController::class, 'getUserById'])->name('get.user.by.id');
     // change role in header option

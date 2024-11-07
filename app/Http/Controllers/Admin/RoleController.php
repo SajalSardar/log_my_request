@@ -2,9 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Models\User;
 use App\Models\Module;
-use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use Spatie\Permission\Models\Role;
 use App\Http\Controllers\Controller;
@@ -78,14 +76,11 @@ class RoleController extends Controller
                             <ul>
                                 <li class="px-5 py-1 text-center" style="background: #FFF4EC;color:#F36D00">
                                     <a
-                                        href="' . route('admin.user.edit', ['user' => $roles->id]) . '">Edit</a>
+                                        href="' . route('admin.role.edit', ['id' => $roles->id]) . '">Edit</a>
                                 </li>
                                 <li class="px-5 py-1 text-center bg-white">
                                     <a
                                         href="#">View</a>
-                                </li>
-                                <li class="px-5 py-1 text-center bg-red-600 text-white">
-                                    <a href="' . route('admin.user.delete', ['user' => $roles->id]) . '">Delete</a>
                                 </li>
                             </ul>
                         </div></div>';

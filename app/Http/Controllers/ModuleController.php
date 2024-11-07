@@ -27,7 +27,6 @@ class ModuleController extends Controller
      */
     public function displayListDatatable(Request $request)
     {
-
         Gate::authorize('viewAny', Module::class);
         $modules = Module::all();
 
@@ -86,14 +85,14 @@ class ModuleController extends Controller
                             <ul>
                                 <li class="px-5 py-1 text-center" style="background: #FFF4EC;color:#F36D00">
                                     <a
-                                        href="' . route('admin.user.edit', ['user' => $modules->id]) . '">Edit</a>
+                                        href="' . route('admin.module.edit', ['module' => $modules->id]) . '">Edit</a>
                                 </li>
                                 <li class="px-5 py-1 text-center bg-white">
                                     <a
                                         href="#">View</a>
                                 </li>
                                 <li class="px-5 py-1 text-center bg-red-600 text-white">
-                                    <a href="' . route('admin.user.delete', ['user' => $modules->id]) . '">Delete</a>
+                                    <a href="' . route('admin.module.destroy', ['module' => $modules->id]) . '">Delete</a>
                                 </li>
                             </ul>
                         </div></div>';
