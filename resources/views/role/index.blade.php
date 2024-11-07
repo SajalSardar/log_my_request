@@ -7,25 +7,25 @@
      @endsection
 
      <div class="flex justify-between items-center !mt-3">
-        <div>
-            <p class="text-detail-heading">Role List</p>
-        </div>
-        <div class="flex-1 mt-1">
-            <div class="flex justify-end gap-3">
-                <div>
-                    <x-actions.href href="{{ route('admin.role.create') }}" class="block">
-                        Create Role
-                        <svg class="inline-block" width="25" height="24" viewBox="0 0 25 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M12.5 8V16M16.5 12H8.5" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
-                            <path d="M12.5 22C18.0228 22 22.5 17.5228 22.5 12C22.5 6.47715 18.0228 2 12.5 2C6.97715 2 2.5 6.47715 2.5 12C2.5 17.5228 6.97715 22 12.5 22Z" stroke="white" stroke-width="1.5" />
-                        </svg>
-                    </x-actions.href>
-                </div>
-            </div>
-        </div>
-    </div>
+         <div>
+             <p class="text-detail-heading">Role List</p>
+         </div>
+         <div class="flex-1 mt-1">
+             <div class="flex justify-end gap-3">
+                 <div>
+                     <x-actions.href href="{{ route('admin.role.create') }}" class="block">
+                         Create Role
+                         <svg class="inline-block" width="25" height="24" viewBox="0 0 25 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                             <path d="M12.5 8V16M16.5 12H8.5" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+                             <path d="M12.5 22C18.0228 22 22.5 17.5228 22.5 12C22.5 6.47715 18.0228 2 12.5 2C6.97715 2 2.5 6.47715 2.5 12C2.5 17.5228 6.97715 22 12.5 22Z" stroke="white" stroke-width="1.5" />
+                         </svg>
+                     </x-actions.href>
+                 </div>
+             </div>
+         </div>
+     </div>
 
-     <div class="relative overflow-x-auto bg-white">
+     <div class="relative">
          <table class="display nowrap" id="data-table" style="width: 100%;border:1px solid #ddd">
              <thead style="background:#F3F4F6;">
                  <tr>

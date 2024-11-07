@@ -22,10 +22,14 @@ class RoleController extends Controller
         return view('role.index', compact('roles'));
     }
 
+    /**
+     * Define public method displayListDatatable to display the datatable resources
+     * @param Request $request
+     */
     public function displayListDatatable(Request $request)
     {
 
-        Gate::authorize('viewAny', User::class);
+        Gate::authorize('viewAny', Role::class);
         $roles = Role::with('permissions')->orderBy('id', 'desc')->get();
 
         return DataTables::of($roles)

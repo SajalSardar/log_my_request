@@ -52,18 +52,22 @@ Route::middleware('auth', 'verified')->prefix('dashboard')->name('admin.')->grou
         Route::post('request-partial-update/{ticket}', 'partialUpdate')->name('partialUpdate');
         Route::get('get-category-wise-subcategory', 'categoryWiseSubcategory')->name('category.wise.subcategory');
         Route::get('get-department-wise-team', 'departmentWiseTeam')->name('department.wise.team');
-
     });
 
     // role
     Route::controller(RoleController::class)->name('role.')->group(function () {
         Route::get('role-list', 'index')->name('index');
-        Route::get('/user-list-datatable', 'displayListDatatable')->name('list.datatable');
+        Route::get('/role-list-datatable', 'displayListDatatable')->name('list.datatable');
         Route::get('create-user-role', 'create')->name('create');
         Route::post('create-user-role', 'store')->name('store');
         Route::get('edit-user-role/{id}', 'edit')->name('edit');
         Route::put('update-user-role/{id}', 'update')->name('update');
         Route::post('switch-accont', 'switchAccount')->name('swotch');
+    });
+
+    // modules
+    Route::controller(ModuleController::class)->name('module.')->group(function () {
+        Route::get('/module-list-datatable', 'displayListDatatable')->name('list.datatable');
     });
 
     //user
