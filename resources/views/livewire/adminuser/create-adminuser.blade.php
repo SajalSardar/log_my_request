@@ -11,6 +11,7 @@
             </a>
         </div>
     </div>
+    
     <div class="flex flex-row">
         <div style="width:651px !important">
             <div class="border border-base-500 p-5 rounded">

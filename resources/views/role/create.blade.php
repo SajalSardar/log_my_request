@@ -53,6 +53,5 @@
                 Create
             </x-buttons.primary>
         </div>
-
     </form>
 </x-app-layout>

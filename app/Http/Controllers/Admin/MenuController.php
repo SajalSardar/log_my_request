@@ -2,11 +2,12 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Http\Controllers\Controller;
 use App\Models\Menu;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Gate;
 use Spatie\Permission\Models\Role;
+use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Gate;
+use Illuminate\Support\Facades\Route;
 use Yajra\DataTables\Facades\DataTables;
 
 class MenuController extends Controller
@@ -114,7 +115,10 @@ class MenuController extends Controller
         Gate::authorize('create', Menu::class);
         $roles = Role::where('name', '!=', 'super-admin')->get();
         $parent_menus = Menu::where('parent_id', null)->get();
-        return view('menu.create', compact('roles', 'parent_menus'));
+        $routes = collect(Route::getRoutes())->map(function ($route) {
+            return $route->getName();
+        });
+        return view('menu.create', compact('routes', 'roles', 'parent_menus'));
     }
 
     /**
