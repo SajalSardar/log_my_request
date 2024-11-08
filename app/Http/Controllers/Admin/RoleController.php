@@ -49,7 +49,8 @@ class RoleController extends Controller
             ->editColumn('permission', function ($roles) {
                 $permissionsHtml = '';
                 foreach ($roles->permissions as $permission) {
-                    $permissionsHtml .= '<span class="inline-flex px-3 py-1 bg-inProgress-400 items-center text-paragraph ml-1 rounded">' . $permission->name . '</span>';;
+                    $permissionsHtml .= '<span class="inline-flex px-3 py-1 bg-inProgress-400 items-center text-paragraph ml-1 rounded">' . $permission->name . '</span>';
+                    ;
                 }
 
                 return $permissionsHtml;
@@ -125,7 +126,7 @@ class RoleController extends Controller
     {
         Gate::authorize('update', Role::class);
 
-        $role    = Role::with('permissions')->find($id);
+        $role = Role::with('permissions')->find($id);
         $modules = Module::with('permissions')->get();
         if ($role->id) {
             $rolePermmission = @$role->permissions->pluck("id")->toArray();
@@ -135,6 +136,11 @@ class RoleController extends Controller
         return view('role.edit', compact('modules', 'role', 'rolePermmission'));
     }
 
+    /**
+     * Define method for update the resources
+     * @param Request $request
+     * @param ?string $id
+     */
     public function update(Request $request, $id)
     {
         Gate::authorize('update', Role::class);

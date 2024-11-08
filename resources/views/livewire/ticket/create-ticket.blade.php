@@ -253,7 +253,6 @@
      <style>
          .ck-editor__editable_inline {
              min-height: 200px;
-             /* Adjust the height to your preference */
          }
      </style>
  @endsection

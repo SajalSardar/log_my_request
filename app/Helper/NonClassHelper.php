@@ -10,9 +10,9 @@ function ISOdate($date)
 function dayMonthYearHourMininteSecond($date, $year = false, $month = false, $day = false, $hour = false, $minute = false, $second = false)
 {
     $startDate = Carbon::create($date);
-    $endDate   = Carbon::now();
+    $endDate = Carbon::now();
 
-    $y   = (int) $startDate->diffInYears($endDate);
+    $y = (int) $startDate->diffInYears($endDate);
     $mon = (int) $startDate
         ->copy()
         ->addYears($y)
@@ -67,3 +67,25 @@ function dayMonthYearHourMininteSecond($date, $year = false, $month = false, $da
     $output = rtrim($output, ', ');
     return $output;
 }
+
+/**
+ * Define method for get a string to camelCase
+ * @param string $string
+ * @return string
+ */
+function camelCase($string): string
+{
+    $string = str_replace(
+        ' ',
+        ' ',
+        ucwords(str_replace(
+            ['-', '_'],
+            ' ',
+            $string
+        ))
+    );
+
+    return $string;
+}
+
+
