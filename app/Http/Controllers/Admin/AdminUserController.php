@@ -51,7 +51,7 @@ class AdminUserController extends Controller
             })
             ->editColumn('name', function ($users) {
                 return '
-                    <div class="px-2 flex items-center">
+                    <div class="flex items-center">
                             <img src="' . asset('assets/images/profile.jpg') . '" width="40" height="40" style="border-radius: 50%;border:1px solid #eee" alt="profile">
                         <div class="infos ps-5">
                             <h5 class="text-paragraph">' . $users->name . '</h5>

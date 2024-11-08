@@ -11,10 +11,7 @@ Route::get('/', function () {
 });
 
 Route::get('/dashboard', function () {
-
-    $uers = User::with('roles')->where('id', Auth::id())->first();
-    // return $uers;
-
+    $users = User::with('roles')->where('id', Auth::id())->first();
     return view('dashboard');
 })->middleware(['auth', 'verified', 'locale'])->name('dashboard');
 
