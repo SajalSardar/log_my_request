@@ -645,7 +645,7 @@ class TicketController extends Controller {
                         'created_by' => Auth::id(),
                     ]
                 );
-                $emailResponse['priority'] = 'Priority changed';   
+                $emailResponse['priority'] = 'Priority changed';
             }
 
             $old_due_date = $ticket->due_date ? $ticket->due_date->format('Y-m-d') : '';
@@ -686,7 +686,7 @@ class TicketController extends Controller {
                         'note_type'  => 'status_change',
                         'note'       => $request->comment,
                         'old_status' => $ticket->ticket_status->name,
-                        'new_status' => $ticket_status->name,
+                        'new_status' => $checkTicketStatus->name,
                         'created_by' => Auth::id(),
                     ]
                 );
@@ -757,7 +757,7 @@ class TicketController extends Controller {
      * @return RedirectResponse
      */
     public function interNoteStore(Request $request, Ticket $ticket): RedirectResponse {
-        $ticket_status = TicketStatus::query()->where('id', $ticket->ticket_status_id)->firstOr();
+        $ticket_status = TicketStatus::query()->where('id', $ticket->ticket_status_id)->first();
         $internal_note = TicketNote::create(
             [
                 'ticket_id'  => $ticket->id,

@@ -230,7 +230,7 @@ class TicketService {
                         'note_type'  => 'status_change',
                         'note'       => 'Status change',
                         'old_status' => $ticket->ticket_status->name,
-                        'new_status' => $ticket_status->name,
+                        'new_status' => $checkTicketStatus->name,
                         'created_by' => Auth::id(),
                     ]
                 );
