@@ -103,7 +103,7 @@
                 </div>
                 <div class="pt-6">
                     <x-buttons.primary>
-                        Create Menu
+                        Create
                     </x-buttons.primary>
                 </div>
             </div>

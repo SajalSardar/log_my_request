@@ -16,10 +16,10 @@ class CategoryController extends Controller
     public function index()
     {
         Gate::authorize('viewAny', Category::class);
-
         $collections = Cache::remember('category_list', 60 * 60, function () {
             return Category::query()->with('image', 'parent')->get();
         });
+
         return view("category.index", compact('collections'));
     }
 
@@ -33,7 +33,6 @@ class CategoryController extends Controller
         $category = Cache::remember('category_list', 60 * 60, function () {
             return Category::get();
         });
-
         return DataTables::of($category)
             ->addColumn('select', function () {
                 return '<div class="flex items-center justify-center"><input type="checkbox" class ="border text-center border-slate-200 rounded focus:ring-transparent p-1" style="background-color: #9b9b9b; accent-color: #5C5C5C !important;"></div>';
@@ -58,12 +57,7 @@ class CategoryController extends Controller
                     </div>';
             })
             ->editColumn('parent_id', function ($category) {
-                return '
-                    <div class="flex items-center" style="width: 200px">
-                        <div class="infos ps-5">
-                            <h5 class="text-paragraph">' . $category->parent ?? 'None' . '</h5>
-                        </div>
-                    </div>';
+                return '<h5 class="text-paragraph">' . $category?->parent?->name ?? 'None' . '</h5>';
             })
 
             ->editColumn('created_at', function ($category) {
@@ -119,16 +113,17 @@ class CategoryController extends Controller
 
     /**
      * Display the specified resource.
+     * @param Category $category
      */
     public function show(Category $category)
     {
-        //
         Gate::authorize('view', $category);
         return view('category.show');
     }
 
     /**
      * Show the form for editing the specified resource.
+     * @param Category $category
      */
     public function edit(Category $category)
     {
@@ -139,6 +134,7 @@ class CategoryController extends Controller
 
     /**
      * Remove the specified resource from storage.
+     * @param Category $category
      */
     public function destroy(Category $category)
     {

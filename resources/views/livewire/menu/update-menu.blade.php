@@ -16,7 +16,7 @@
         <div style="width:651px !important">
             <div class="border border-base-500 p-5 rounded">
                 <div class="grid lg:grid-cols-1 md:grid-cols-1 sm:grid-cols-1 sm:gap-1 md:gap-2">
-                    <div class="p-2 w-full">
+                    <div class="pb-2 w-full">
                         <x-forms.label for="name" required='yes'>
                             {{ __('Menu Name') }}
                         </x-forms.label>
@@ -26,7 +26,7 @@
                 </div>
 
                 <div class="grid lg:grid-cols-1 md:grid-cols-1 sm:grid-cols-1 sm:gap-1 md:gap-2">
-                    <div class="p-2 w-full">
+                    <div class="pt-2 w-full">
                         <x-forms.label for="parent_id">
                             {{ __('Parent Menu') }}
                         </x-forms.label>
@@ -41,7 +41,7 @@
                 </div>
 
                 <div class="grid lg:grid-cols-1 md:grid-cols-1 sm:grid-cols-1 sm:gap-1 md:gap-2">
-                    <div class="p-2 w-full">
+                    <div class="pt-2 w-full">
                         <x-forms.select-input wire:model.blur="route" placeholder="Route name">
                             <option selected disabled>Route Name</option>
                             @if (is_object($routes) && $routes->count() > 0)
@@ -57,7 +57,7 @@
                 </div>
 
                 <div class="grid lg:grid-cols-1 md:grid-cols-1 sm:grid-cols-1 sm:gap-1 md:gap-2">
-                    <div class="p-2 w-full">
+                    <div class="pt-2 w-full">
                         <x-forms.label for="url">
                             {{ __('Url') }}
                         </x-forms.label>
@@ -66,7 +66,7 @@
                     </div>
                 </div>
                 <div class="grid lg:grid-cols-1 md:grid-cols-1 sm:grid-cols-1 sm:gap-1 md:gap-2">
-                    <div class="p-2 w-full">
+                    <div class="pt-2 w-full">
                         <x-forms.label for="role">
                             {{ __('Role') }}
                         </x-forms.label>
@@ -82,7 +82,7 @@
                     </div>
                 </div>
                 <div class="grid lg:grid-cols-1 md:grid-cols-1 sm:grid-cols-1 sm:gap-1 md:gap-2">
-                    <div class="p-2 w-full">
+                    <div class="pt-2 w-full">
                         <x-forms.label for="status" required='yes'>
                             {{ __('Status') }}
                         </x-forms.label>
@@ -94,7 +94,7 @@
                     </div>
                 </div>
                 <div class="grid lg:grid-cols-1 md:grid-cols-1 sm:grid-cols-1 sm:gap-1 md:gap-2">
-                    <div class="p-2 w-full">
+                    <div class="pt-2 w-full">
                         <x-forms.label for="icon">
                             {{ __('SVG icon') }}
                         </x-forms.label>
@@ -103,7 +103,7 @@
                 </div>
 
                 <div class="grid lg:grid-cols-1 md:grid-cols-1 sm:grid-cols-1 sm:gap-1 md:gap-2">
-                    <div class="p-2 w-full">
+                    <div class="pt-2 w-full">
                         <x-forms.label for="order">
                             {{ __('Order') }}
                         </x-forms.label>
