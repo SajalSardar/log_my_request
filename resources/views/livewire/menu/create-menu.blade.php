@@ -1,5 +1,3 @@
-
-
 <form wire:submit="saveMenu" method="POST">
     <div class="flex justify-between" style="width:651px !important">
         <h3 class="font-inter font-semibold text-[#333] text-[20px] mb-[24px]">Create Menu</h3>
@@ -43,8 +41,11 @@
 
                 <div class="grid lg:grid-cols-1 md:grid-cols-1 sm:grid-cols-1 sm:gap-1 md:gap-2">
                     <div class="pt-2 w-full">
+                        <x-forms.label for="route" required="yes">
+                            {{ __('Route Name') }}
+                        </x-forms.label>
                         <x-forms.select-input wire:model.blur="route" placeholder="Route name">
-                            <option selected disabled>User Role</option>
+                            <option selected disabled>Route Name</option>
                             @forelse ($routes as $each)
                                 <option value="{{ $each }}">{{ ucfirst($each) }}</option>
                             @empty
@@ -97,7 +98,7 @@
                         <x-forms.label for="icon">
                             {{ __('SVG Icon') }}
                         </x-forms.label>
-                        <textarea wire:model="icon" rows="1" class="w-full py-2 text-paragraph border border-base-500 rounded" placeholder="svg icon"></textarea>
+                        <textarea wire:model="icon" rows="1" class="w-full py-2 text-paragraph focus:ring-primary-400 focus:border-primary-400 dark:focus:ring-primary-400 dark:focus:border-primary-400 border border-base-500 rounded" placeholder="svg icon"></textarea>
                     </div>
                 </div>
                 <div class="pt-6">
