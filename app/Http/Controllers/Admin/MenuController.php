@@ -117,7 +117,7 @@ class MenuController extends Controller
         $parent_menus = Menu::where('parent_id', null)->get();
         $routes = collect(Route::getRoutes())->map(function ($route) {
             return $route->getName();
-        });
+        })->push('#');
         return view('menu.create', compact('routes', 'roles', 'parent_menus'));
     }
 
@@ -148,7 +148,10 @@ class MenuController extends Controller
         Gate::authorize('update', $menu);
         $roles = Role::where('name', '!=', 'super-admin')->get();
         $parent_menus = Menu::where('parent_id', null)->get();
-        return view('menu.edit', compact('roles', 'parent_menus', 'menu'));
+        $routes = collect(Route::getRoutes())->map(function ($route) {
+            return $route->getName();
+        })->push('#');
+        return view('menu.edit', compact('roles', 'parent_menus', 'menu', 'routes'));
     }
 
     /**

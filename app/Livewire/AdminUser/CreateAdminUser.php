@@ -16,13 +16,13 @@ class CreateAdminUser extends Component
     public AdminUserCreateRequest $form;
 
     /**
-     * Define publlic property $roles
+     * Define public property $roles
      * @var array|object
      */
     public array|object $roles;
 
     /**
-     * Define public metho save() to store the resourses
+     * Define public method save() to store the resources
      * @param AdminUserService $service
      * @return void
      */
@@ -30,7 +30,7 @@ class CreateAdminUser extends Component
     {
         $this->form->validate();
         $isCreate = $service->store($this->form);
-        $response = $isCreate ? 'Data has been submit sccessfully !' : 'Something went wrong !';
+        $response = $isCreate ? 'Data has been submit successfully !' : 'Something went wrong !';
         flash()->success($response);
         $this->form->reset();
     }
