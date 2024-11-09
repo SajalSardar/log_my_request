@@ -41,13 +41,12 @@ Route::middleware('auth', 'verified')->prefix('dashboard')->name('admin.')->grou
         Route::get('edit-request/{ticket}', 'edit')->name('edit');
         Route::delete('delete-request/{ticket}', 'destroy')->name('delete');
         Route::get('request-list', 'allTicketList')->name('all.list');
+        Route::get('status-wise-request-list', 'allTicketList')->name('status.wise.list');
         Route::get('my-request-list', 'allTicketList')->name('list.active.memode');
         Route::get('request-list-datatable', 'allTicketListDataTable')->name('all.list.datatable');
         Route::post('request-log-update/{ticket}', 'logUpdate')->name('logUpdate');
         Route::post('request-internal-note-update/{ticket}', 'interNoteStore')->name('interNoteStore');
         Route::get('request-download/{file}', 'downloadFile')->name('downloadFile');
-        Route::get('status-wise-request-list', 'ticketList')->name('status.wise.list');
-        Route::get('status-wise-request-list-datatable', 'allListDataTable')->name('status.wise.list.datatable');
         Route::post('requester-change/{ticket}', 'ticketRequesterChange')->name('change.requester');
         Route::post('request-partial-update/{ticket}', 'partialUpdate')->name('partialUpdate');
         Route::get('get-category-wise-subcategory', 'categoryWiseSubcategory')->name('category.wise.subcategory');

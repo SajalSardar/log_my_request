@@ -7,6 +7,15 @@
             Assigned To Me
         </x-breadcrumb>
         @endsection
+    @elseIf(request()->has('request_status'))
+        @section('title')
+        {{ Str::ucfirst(request()->get('request_status')) }} request
+        @endsection
+        @section('breadcrumb')
+        <x-breadcrumb>
+            {{ Str::ucfirst(request()->get('request_status')) }} request
+        </x-breadcrumb>
+        @endsection
     @else
         @section('title', 'All Request List')
         @section('breadcrumb')
@@ -20,6 +29,8 @@
         <div>
             @if (Route::is('admin.ticket.list.active.memode'))
                 <h2 class="text-heading-dark !text-lg">My Request List</h2>
+            @elseIf(request()->has('request_status'))
+                <h2 class="text-heading-dark !text-lg">{{ Str::ucfirst(request()->get('request_status')) }} request</h2>
             @else
                 <h2 class="text-heading-dark !text-lg">All Requests</h2>
             @endif
@@ -169,6 +180,7 @@
                     type: "GET",
                     data: function (d) {
                         d._token = "{{ csrf_token() }}";
+                        d.query_status = "{{ $queryStatus }}";
                         d.me_mode_search = $('#me_mode_search').val();
                         d.ticket_id_search = $('#ticket_id_search').val();
                         d.priority_search = $('#priority_search').val();
