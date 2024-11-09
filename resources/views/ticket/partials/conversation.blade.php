@@ -17,68 +17,68 @@
 
             <div class="col-span-2 border border-base-500 p-6 rounded mt-6">
                 @foreach ($conversations as $key => $chat)
-                                @php
-                                    $dateString = $key;
-                                    $formattedDate = \Carbon\Carbon::createFromFormat('Y m d', $dateString)->format('d M, Y');
-                                @endphp
-                                <div class="mb-4">
-                                    <p class="mb-3 text-paragraph">{{ $formattedDate }}</p>
-                                    @foreach ($chat as $each)
-                                        <div class="flex items-center gap-2">
-                                            <img src="{{ asset('assets/images/profile.jpg') }}" width="40" height="40" style="border-radius: 50%;border:1px solid #eee" alt="profile">
-                                            <p class="text-heading-dark">{{ $ticket->user->name }}</p>
-                                        </div>
-                                        <div class="-mt-2">
-                                            <div class="pl-10 flex items-center gap-10 mb-3">
+                    @php
+                        $dateString = $key;
+                        $formattedDate = \Carbon\Carbon::createFromFormat('Y m d', $dateString)->format('d M, Y');
+                    @endphp
+                    <div class="mb-4">
+                        <p class="mb-3 text-paragraph">{{ $formattedDate }}</p>
+                        @foreach ($chat as $each)
+                            <div class="flex items-center gap-2">
+                                <img src="{{ asset('assets/images/profile.jpg') }}" width="40" height="40" style="border-radius: 50%;border:1px solid #eee" alt="profile">
+                                <p class="text-heading-dark">{{ @$each->creator->name }}</p>
+                            </div>
+                            <div class="-mt-2">
+                                <div class="pl-10 flex items-center gap-10 mb-3">
+                                    <p class="text-paragraph">
+                                        {!! $each->conversation !!}
+                                    </p>
+
+                                    <span class="flex gap-x-2">
+                                        <p class="text-paragraph">{{ date('h:i:a', strtotime($each->created_at)) }}</p>
+                                        <button type="button" onclick="toggleReplay('{{ $each->id }}')">
+                                            <svg class="me-2" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                <path d="M4.80823 9.44118L6.77353 7.46899C8.18956 6.04799 8.74462 5.28357 9.51139 5.55381C10.4675 5.89077 10.1528 8.01692 10.1528 8.73471C11.6393 8.73471 13.1848 8.60259 14.6502 8.87787C19.4874 9.78664 21 13.7153 21 18C19.6309 17.0302 18.2632 15.997 16.6177 15.5476C14.5636 14.9865 12.2696 15.2542 10.1528 15.2542C10.1528 15.972 10.4675 18.0982 9.51139 18.4351C8.64251 18.7413 8.18956 17.9409 6.77353 16.5199L4.80823 14.5477C3.60275 13.338 3 12.7332 3 11.9945C3 11.2558 3.60275 10.6509 4.80823 9.44118Z" stroke="#666666" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+                                            </svg>
+                                        </button>
+                                    </span>
+                                </div>
+
+                                <div class="replay-{{ $each->id }} mb-3 reply-box" style="opacity: 0; max-height: 0; overflow: hidden; transition: opacity 0.3s ease, max-height 0.3s ease;">
+                                    <form action="{{ route('admin.conversation.replay', ['conversation' => $each->id]) }}" method="post">
+                                        @csrf
+                                        <textarea class="w-full rounded border border-slate-200" name="conversation" rows="3" cols="30" placeholder="reply..."></textarea>
+                                        <x-buttons.primary class="mt-2 ml-auto">
+                                            Replay
+                                        </x-buttons.primary>
+                                    </form>
+                                </div>
+
+                                @if (is_object($each->replay) && $each->replay->count() > 0)
+                                    @foreach ($each->replay as $replay)
+                                        <div class="pl-14">
+                                            <div class="flex items-center gap-2">
+                                                <img src="{{ asset('assets/images/profile.jpg') }}" width="40" height="40" style="border-radius: 50%;border:1px solid #eee" alt="profile">
+                                                <p class="text-heading-dark">{{ @$replay->creator->name }}
+                                                </p>
+                                            </div>
+                                            <div class="pl-10 flex items-center gap-4 mb-3">
                                                 <p class="text-paragraph">
-                                                    {!! $each->conversation !!}
+                                                    {!! $replay->conversation !!}
                                                 </p>
 
-                                                <span class="flex gap-x-2">
-                                                    <p class="text-paragraph">{{ date('h:i:a', strtotime($each->created_at)) }}</p>
-                                                    <button type="button" onclick="toggleReplay('{{ $each->id }}')">
-                                                        <svg class="me-2" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                                            <path d="M4.80823 9.44118L6.77353 7.46899C8.18956 6.04799 8.74462 5.28357 9.51139 5.55381C10.4675 5.89077 10.1528 8.01692 10.1528 8.73471C11.6393 8.73471 13.1848 8.60259 14.6502 8.87787C19.4874 9.78664 21 13.7153 21 18C19.6309 17.0302 18.2632 15.997 16.6177 15.5476C14.5636 14.9865 12.2696 15.2542 10.1528 15.2542C10.1528 15.972 10.4675 18.0982 9.51139 18.4351C8.64251 18.7413 8.18956 17.9409 6.77353 16.5199L4.80823 14.5477C3.60275 13.338 3 12.7332 3 11.9945C3 11.2558 3.60275 10.6509 4.80823 9.44118Z" stroke="#666666" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
-                                                        </svg>
-                                                    </button>
+                                                <span class="flex">
+                                                    <p class="text-paragraph">
+                                                        {{ date('h:i:a', strtotime($replay?->created_at)) }}
+                                                    </p>
                                                 </span>
                                             </div>
-
-                                            <div class="replay-{{ $each->id }} mb-3 reply-box" style="opacity: 0; max-height: 0; overflow: hidden; transition: opacity 0.3s ease, max-height 0.3s ease;">
-                                                <form action="{{ route('admin.conversation.replay', ['conversation' => $each->id]) }}" method="post">
-                                                    @csrf
-                                                    <textarea class="w-full rounded border border-slate-200" name="conversation" rows="3" cols="30" placeholder="reply..."></textarea>
-                                                    <x-buttons.primary class="mt-2 ml-auto">
-                                                        Replay
-                                                    </x-buttons.primary>
-                                                </form>
-                                            </div>
-
-                                            @if (is_object($each->replay) && $each->replay->count() > 0)
-                                                @foreach ($each->replay as $replay)
-                                                    <div class="pl-14">
-                                                        <div class="flex items-center gap-2">
-                                                            <img src="{{ asset('assets/images/profile.jpg') }}" width="40" height="40" style="border-radius: 50%;border:1px solid #eee" alt="profile">
-                                                            <p class="text-heading-dark">{{ $ticket->user->name }}
-                                                            </p>
-                                                        </div>
-                                                        <div class="pl-10 flex items-center gap-4 mb-3">
-                                                            <p class="text-paragraph">
-                                                                {!! $replay->conversation !!}
-                                                            </p>
-
-                                                            <span class="flex">
-                                                                <p class="text-paragraph">
-                                                                    {{ date('h:i:a', strtotime($replay?->created_at)) }}
-                                                                </p>
-                                                            </span>
-                                                        </div>
-                                                    </div>
-                                                @endforeach
-                                            @endif
                                         </div>
                                     @endforeach
-                                </div>
+                                @endif
+                            </div>
+                        @endforeach
+                    </div>
                 @endforeach
             </div>
         </div>

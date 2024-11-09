@@ -19,7 +19,7 @@
 
                     <div class="details" style="width:556px;height:80px">
                         <div class="border border-base-500 p-3 rounded">
-                            <h3 class="text-heading-dark">Marvin McKinney</h3>
+                            <h3 class="text-heading-dark">{{ $item->creator->name }} - {{ $item->note_type }}</h3>
                             <span class="text-paragraph">{!! $item?->note !!}</span>
                         </div>
                     </div>

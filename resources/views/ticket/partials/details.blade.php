@@ -56,7 +56,7 @@
                 <li>
                     <span class="text-heading-dark">Request Age:
                     </span>
-                    <span class="text-title">{{ dayMonthYearHourMininteSecond($ticket?->created_at, true, true, true, true, true, true) }}</span>
+                    <span class="text-title">{{ dayMonthYearHourMininteSecond($ticket?->created_at, $ticket?->resolved_at, true, true, true, true, true, true) }}</span>
                 </li>
             </ul>
         </div>

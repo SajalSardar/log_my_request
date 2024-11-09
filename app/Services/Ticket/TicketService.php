@@ -217,6 +217,12 @@ class TicketService {
                         'resolved_at'     => now(),
                         'resolved_by'     => Auth::id(),
                     ]);
+                } else {
+                    $ticket->update([
+                        'resolution_time' => null,
+                        'resolved_at'     => null,
+                        'resolved_by'     => null,
+                    ]);
                 }
                 TicketNote::create(
                     [

@@ -248,7 +248,7 @@ class TicketController extends Controller {
                 return $data;
             })
             ->addColumn('request_age', function ($tickets) {
-                $data = '<span class="text-paragraph">' . dayMonthYearHourMininteSecond($tickets?->created_at, true, true, true, true) . '</span>';
+                $data = '<span class="text-paragraph">' . dayMonthYearHourMininteSecond($tickets?->created_at, $tickets?->resolved_at, true, true, true, true) . '</span>';
                 return $data;
             })
             ->editColumn('due_date', function ($tickets) {
@@ -321,7 +321,7 @@ class TicketController extends Controller {
             return response()->json($agents);
         }
         Gate::authorize('view', $ticket);
-        $ticket         = Ticket::query()->where('id', $ticket->id)->with('ticket_notes', 'images', 'conversation')->first();
+
         $requester_type = RequesterType::query()->get();
         $sources        = Source::query()->get();
         $teams          = Team::query()->get();
@@ -329,37 +329,38 @@ class TicketController extends Controller {
         $ticket_status  = TicketStatus::query()->get();
         $agents         = Team::query()->with('agents')->where('id', $ticket?->team_id)->get();
         $users          = User::whereNotIn('id', [1])->select('id', 'name', 'email')->get();
-        $histories      = TicketNote::query()->where('ticket_id', $ticket->id)->select('id', 'note', 'created_at')->get();
-        $conversations  = Conversation::orderBy('created_at')->where('parent_id', null)->with('replay')->where('ticket_id', $ticket->id)->get()->groupBy(function ($query) {
+        $departments    = Department::where('status', true)->get();
+
+        $ticket = Ticket::where('id', $ticket->id)
+            ->with(['ticket_notes' => function ($q) {
+                $q->orderBy('id', 'desc');
+            }, 'conversation' => function ($q) {
+                $q->orderBy('created_at', 'desc');
+            }, 'conversation.creator', 'conversation.replay', 'ticket_notes.creator', 'images'])
+            ->first();
+
+        $conversations = $ticket->conversation->where('parent_id', null)->groupBy(function ($query) {
             return date('Y m d', strtotime($query->created_at));
         });
 
-        $ticketStatusWiseList = Ticket::query()
-            ->where('ticket_status_id', $ticket->ticket_status_id)
-            ->whereNot('id', $ticket->id)
-            ->whereNotNull('team_id')
-            ->orderBy('id', 'desc');
-        if (!Auth::user()->hasRole('super-admin')) {
-            $ticketStatusWiseList->whereHas('owners', function ($query) {
-                $query->where('owner_id', Auth::id());
-            });
-        }
-        $ticketStatusWise = $ticketStatusWiseList->take(5)->get();
+        $histories     = $ticket->ticket_notes->whereNotIn('note_type', ['internal_note']);
+        $internalNotes = $ticket->ticket_notes->where('note_type', 'internal_note');
 
-        return view('ticket.show', [
-            'ticket'           => $ticket,
-            'requester_type'   => $requester_type,
-            'sources'          => $sources,
-            'teams'            => $teams,
-            'categories'       => $categories,
-            'ticket_status'    => $ticket_status,
-            'agents'           => $agents,
-            'ticketStatusWise' => $ticketStatusWise,
-            'users'            => $users,
-            'conversations'    => $conversations,
-            'histories'        => $histories,
-            'departments'      => Department::where('status', true)->get(),
-        ]);
+        $data = [
+            'ticket'         => $ticket,
+            'requester_type' => $requester_type,
+            'sources'        => $sources,
+            'teams'          => $teams,
+            'categories'     => $categories,
+            'ticket_status'  => $ticket_status,
+            'agents'         => $agents,
+            'users'          => $users,
+            'conversations'  => $conversations,
+            'histories'      => $histories,
+            'departments'    => $departments,
+            'internalNotes'  => $internalNotes,
+        ];
+        return view('ticket.show', $data);
     }
 
     /**
@@ -527,7 +528,7 @@ class TicketController extends Controller {
                 return $data;
             })
             ->addColumn('request_age', function ($tickets) {
-                $data = '<span class="text-paragraph">' . dayMonthYearHourMininteSecond($tickets?->created_at, true, true, true, true) . '</span>';
+                $data = '<span class="text-paragraph">' . dayMonthYearHourMininteSecond($tickets?->created_at, $tickets?->resolved_at, true, true, true, true) . '</span>';
                 return $data;
             })
             ->editColumn('due_date', function ($tickets) {
@@ -644,7 +645,7 @@ class TicketController extends Controller {
                         'created_by' => Auth::id(),
                     ]
                 );
-                $emailResponse['priority'] = 'Priority changed';
+                $emailResponse['priority'] = 'Priority changed';   
             }
 
             $old_due_date = $ticket->due_date ? $ticket->due_date->format('Y-m-d') : '';
@@ -670,6 +671,12 @@ class TicketController extends Controller {
                         'resolution_time' => (int) $resolution_in_seconds,
                         'resolved_at'     => now(),
                         'resolved_by'     => Auth::id(),
+                    ]);
+                } else {
+                    $ticket->update([
+                        'resolution_time' => null,
+                        'resolved_at'     => null,
+                        'resolved_by'     => null,
                     ]);
                 }
 

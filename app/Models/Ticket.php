@@ -17,7 +17,8 @@ use Illuminate\Support\Facades\Cache;
 class Ticket extends Model {
     use HasFactory, SoftDeletes;
     protected $casts = [
-        'due_date' => 'date',
+        'due_date'    => 'date',
+        'resolved_at' => 'datetime',
     ];
 
     protected $guarded = ['id'];
