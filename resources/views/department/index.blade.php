@@ -1,9 +1,9 @@
 <x-app-layout>
-    @section('title', 'Depatment List')
+    @section('title', 'Department List')
     @section('breadcrumb')
-        <x-breadcrumb>
-            Depatment List
-        </x-breadcrumb>
+    <x-breadcrumb>
+        Department List
+    </x-breadcrumb>
     @endsection
 
     <div class="flex justify-between items-center !mt-3">
@@ -13,7 +13,7 @@
         <div class="flex-1 mt-1">
             <div class="flex justify-end gap-3">
                 <div>
-                    <x-actions.href href="{{ route('admin.ticketstatus.create') }}" class="block">
+                    <x-actions.href href="{{ route('admin.department.create') }}" class="block">
                         Create Department
                         <svg class="inline-block" width="25" height="24" viewBox="0 0 25 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <path d="M12.5 8V16M16.5 12H8.5" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
@@ -55,48 +55,48 @@
     </div>
 
     @section('script')
-        <script>
-            $(function() {
-                var dTable = $('#data-table').DataTable({
-                    processing: true,
-                    serverSide: true,
-                    responsive: true,
-                    searching: false,
-                    scrollX: true,
-                    order: [
-                        0, 'desc'
-                    ],
-                    ajax: {
-                        url: "{{ route('admin.department.list.datatable') }}",
-                        type: "GET",
-                    },
-                    columns: [{
-                            data: 'select',
-                            name: 'select'
-                        },
-                        {
-                            data: 'id',
-                            name: 'id'
-                        },
-                        {
-                            data: 'name',
-                            name: 'name'
-                        },
-                        {
-                            data: 'status',
-                            name: 'status'
-                        },
-                        {
-                            data: 'created_at',
-                            name: 'created_at'
-                        },
-                        {
-                            data: 'action_column',
-                            name: 'action_column'
-                        }
-                    ]
-                });
+    <script>
+        $(function () {
+            var dTable = $('#data-table').DataTable({
+                processing: true,
+                serverSide: true,
+                responsive: true,
+                searching: false,
+                scrollX: true,
+                order: [
+                    0, 'desc'
+                ],
+                ajax: {
+                    url: "{{ route('admin.department.list.datatable') }}",
+                    type: "GET",
+                },
+                columns: [{
+                    data: 'select',
+                    name: 'select'
+                },
+                {
+                    data: 'id',
+                    name: 'id'
+                },
+                {
+                    data: 'name',
+                    name: 'name'
+                },
+                {
+                    data: 'status',
+                    name: 'status'
+                },
+                {
+                    data: 'created_at',
+                    name: 'created_at'
+                },
+                {
+                    data: 'action_column',
+                    name: 'action_column'
+                }
+                ]
             });
-        </script>
+        });
+    </script>
     @endsection
 </x-app-layout>

@@ -31,7 +31,7 @@ class CategoryController extends Controller
     {
         Gate::authorize('viewAny', Category::class);
         $category = Cache::remember('category_list', 60 * 60, function () {
-            return Category::get();
+            return Category::query()->get();
         });
         return DataTables::of($category)
             ->addColumn('select', function () {

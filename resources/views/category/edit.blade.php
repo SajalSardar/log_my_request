@@ -1,5 +1,5 @@
 <x-app-layout>
-    @section('title', 'Edit Category')
+    @section('title', 'Update Category')
     @section('breadcrumb')
     <x-breadcrumb>
         Update Category
