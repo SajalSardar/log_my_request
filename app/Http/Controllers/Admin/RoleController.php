@@ -2,18 +2,16 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Http\Controllers\Controller;
 use App\Models\Module;
 use Illuminate\Http\Request;
-use Spatie\Permission\Models\Role;
-use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Gate;
+use Spatie\Permission\Models\Role;
 use Yajra\DataTables\Facades\DataTables;
 
-class RoleController extends Controller
-{
+class RoleController extends Controller {
 
-    public function index()
-    {
+    public function index() {
         Gate::authorize('viewAny', Role::class);
 
         $roles = Role::with('permissions')->orderBy('id', 'desc')->get();
@@ -24,8 +22,7 @@ class RoleController extends Controller
      * Define public method displayListDatatable to display the datatable resources
      * @param Request $request
      */
-    public function displayListDatatable(Request $request)
-    {
+    public function displayListDatatable(Request $request) {
 
         Gate::authorize('viewAny', Role::class);
         $roles = Role::with('permissions')->orderBy('id', 'desc')->get();
@@ -49,7 +46,8 @@ class RoleController extends Controller
             ->editColumn('permission', function ($roles) {
                 $permissionsHtml = '';
                 foreach ($roles->permissions as $permission) {
-                    $permissionsHtml .= '<span class="inline-flex px-3 py-1 bg-inProgress-400 items-center text-paragraph ml-1 rounded">' . $permission->name . '</span>';;
+                    $permissionsHtml .= '<span class="inline-flex px-3 py-1 bg-inProgress-400 items-center text-paragraph ml-1 rounded">' . $permission->name . '</span>';
+                    ;
                 }
 
                 return $permissionsHtml;
@@ -92,20 +90,18 @@ class RoleController extends Controller
             ->make(true);
     }
 
-    public function create()
-    {
+    public function create() {
         Gate::authorize('create', Role::class);
 
         $modules = Module::with('permissions')->get();
         return view('role.create', compact('modules'));
     }
 
-    public function store(Request $request)
-    {
+    public function store(Request $request) {
         Gate::authorize('create', Role::class);
 
         $request->validate([
-            'role' => 'required',
+            'role' => 'required|unique:roles,name',
         ]);
 
         $role = Role::create([
@@ -121,8 +117,7 @@ class RoleController extends Controller
      * Define public method edit()
      * @param $id;
      */
-    public function edit($id)
-    {
+    public function edit($id) {
         Gate::authorize('update', Role::class);
 
         $role    = Role::with('permissions')->find($id);
@@ -135,14 +130,19 @@ class RoleController extends Controller
         return view('role.edit', compact('modules', 'role', 'rolePermmission'));
     }
 
-    public function update(Request $request, $id)
-    {
+    /**
+     * Define method for update the resources
+     * @param Request $request
+     * @param ?string $id
+     */
+    public function update(Request $request, $id) {
         Gate::authorize('update', Role::class);
 
         $request->validate([
-            'role' => 'required',
+            'role' => 'required|unique:roles,name,' . $id,
         ]);
         $role = Role::with('permissions')->find($id);
+
         $role->update([
             'name' => $request->role,
         ]);
@@ -153,8 +153,7 @@ class RoleController extends Controller
         return back();
     }
 
-    public function switchAccount(Request $request)
-    {
+    public function switchAccount(Request $request) {
 
         $request->session()->put('login_role', $request->role);
         return back();

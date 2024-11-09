@@ -14,7 +14,7 @@ function dayMonthYearHourMininteSecond($date, $endDate = null, $year = false, $m
         $endDate = Carbon::now();
     }
 
-    $y   = (int) $startDate->diffInYears($endDate);
+    $y = (int) $startDate->diffInYears($endDate);
     $mon = (int) $startDate
         ->copy()
         ->addYears($y)
@@ -69,3 +69,25 @@ function dayMonthYearHourMininteSecond($date, $endDate = null, $year = false, $m
     $output = rtrim($output, ', ');
     return $output;
 }
+
+/**
+ * Define method for get a string to camelCase
+ * @param string $string
+ * @return string
+ */
+function camelCase($string): string
+{
+    $string = str_replace(
+        ' ',
+        ' ',
+        ucwords(str_replace(
+            ['-', '_'],
+            ' ',
+            $string
+        ))
+    );
+
+    return $string;
+}
+
+

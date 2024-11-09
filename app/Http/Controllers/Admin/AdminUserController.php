@@ -87,10 +87,6 @@ class AdminUserController extends Controller
                                     <a
                                         href="' . route('admin.user.edit', ['user' => $users->id]) . '">Edit</a>
                                 </li>
-                                <li class="px-5 py-1 text-center bg-white">
-                                    <a
-                                        href="#">View</a>
-                                </li>
                                 <li class="px-5 py-1 text-center bg-red-600 text-white">
                                     <a href="' . route('admin.user.delete', ['user' => $users->id]) . '">Delete</a>
                                 </li>

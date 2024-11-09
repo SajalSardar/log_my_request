@@ -11,6 +11,7 @@ use Livewire\Component;
 class CreateMenu extends Component {
 
     public $roles;
+    public $routes;
     public $parent_menus = null;
 
     #[Validate]
