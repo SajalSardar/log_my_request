@@ -9,6 +9,7 @@ use App\Models\Conversation;
 use App\Models\Ticket;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
 
 class ConversationController extends Controller {
@@ -25,6 +26,7 @@ class ConversationController extends Controller {
             'conversation_type' => 'customer',
             'conversation'      => $request->conversation,
             'status'            => 1,
+            'created_by'        => Auth::id(),
         ]);
         Mail::to($ticket->user->email)->queue(new ConversationMail($conversation));
         flash()->success('Conversation has been added successfully');
@@ -46,6 +48,7 @@ class ConversationController extends Controller {
             'conversation_type' => 'customer_type',
             'conversation'      => $request->conversation,
             'status'            => '1',
+            'created_by'        => Auth::id(),
         ]);
 
         $ticket = Ticket::with('user')->where('id', $conversation->ticket_id)->first();

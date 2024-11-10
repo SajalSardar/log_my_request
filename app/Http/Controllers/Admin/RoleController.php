@@ -7,6 +7,7 @@ use App\Models\Module;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
 use Spatie\Permission\Models\Role;
+use Yajra\DataTables\Facades\DataTables;
 
 class RoleController extends Controller {
 
@@ -15,6 +16,78 @@ class RoleController extends Controller {
 
         $roles = Role::with('permissions')->orderBy('id', 'desc')->get();
         return view('role.index', compact('roles'));
+    }
+
+    /**
+     * Define public method displayListDatatable to display the datatable resources
+     * @param Request $request
+     */
+    public function displayListDatatable(Request $request) {
+
+        Gate::authorize('viewAny', Role::class);
+        $roles = Role::with('permissions')->orderBy('id', 'desc')->get();
+
+        return DataTables::of($roles)
+            ->addColumn('select', function () {
+                return '<div class="flex items-center justify-center"><input type="checkbox" class ="border text-center border-slate-200 rounded focus:ring-transparent p-1" style="background-color: #9b9b9b; accent-color: #5C5C5C !important;"></div>';
+            })
+            ->editColumn('id', function ($roles) {
+                return '<span class="text-paragraph text-end">' . '#' . $roles->id . '</span>';
+            })
+            ->editColumn('name', function ($roles) {
+                return '
+                    <div class="flex items-center">
+                            <img src="' . asset('assets/images/profile.jpg') . '" width="40" height="40" style="border-radius: 50%;border:1px solid #eee" alt="profile">
+                        <div class="infos ps-5">
+                            <h5 class="text-paragraph">' . $roles->name . '</h5>
+                        </div>
+                    </div>';
+            })
+            ->editColumn('permission', function ($roles) {
+                $permissionsHtml = '';
+                foreach ($roles->permissions as $permission) {
+                    $permissionsHtml .= '<span class="inline-flex px-3 py-1 bg-inProgress-400 items-center text-paragraph ml-1 rounded">' . $permission->name . '</span>';
+                    ;
+                }
+
+                return $permissionsHtml;
+            })
+            ->editColumn('created_at', function ($roles) {
+                return '<span class="text-paragraph text-end">' . ISODate(date: $roles?->created_at) . '</span>';
+            })
+
+            ->addColumn('action_column', function ($roles) {
+                $links = '<div class="relative"><button onclick="toggleAction(' . $roles->id . ')"
+                            class="p-3 hover:bg-slate-100 rounded-full">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
+                                xmlns="http://www.w3.org/2000/svg">
+                                <path d="M11.9922 12H12.0012" stroke="#666666" stroke-width="2.5"
+                                    stroke-linecap="round" stroke-linejoin="round" />
+                                <path d="M11.9844 18H11.9934" stroke="#666666" stroke-width="2.5"
+                                    stroke-linecap="round" stroke-linejoin="round" />
+                                <path d="M12 6H12.009" stroke="#666666" stroke-width="2.5"
+                                    stroke-linecap="round" stroke-linejoin="round" />
+                            </svg>
+                        </button>
+                        <div id="action-' . $roles->id . '" class="shadow-lg z-30 absolute top-5 right-10"
+                            style="display: none">
+                            <ul>
+                                <li class="px-5 py-1 text-center" style="background: #FFF4EC;color:#F36D00">
+                                    <a
+                                        href="' . route('admin.role.edit', ['id' => $roles->id]) . '">Edit</a>
+                                </li>
+                                <li class="px-5 py-1 text-center bg-white">
+                                    <a
+                                        href="#">View</a>
+                                </li>
+                            </ul>
+                        </div></div>';
+
+                return $links;
+            })
+            ->addIndexColumn()
+            ->escapeColumns([])
+            ->make(true);
     }
 
     public function create() {
@@ -28,7 +101,7 @@ class RoleController extends Controller {
         Gate::authorize('create', Role::class);
 
         $request->validate([
-            'role' => 'required',
+            'role' => 'required|unique:roles,name',
         ]);
 
         $role = Role::create([
@@ -57,13 +130,19 @@ class RoleController extends Controller {
         return view('role.edit', compact('modules', 'role', 'rolePermmission'));
     }
 
+    /**
+     * Define method for update the resources
+     * @param Request $request
+     * @param ?string $id
+     */
     public function update(Request $request, $id) {
         Gate::authorize('update', Role::class);
 
         $request->validate([
-            'role' => 'required',
+            'role' => 'required|unique:roles,name,' . $id,
         ]);
         $role = Role::with('permissions')->find($id);
+
         $role->update([
             'name' => $request->role,
         ]);

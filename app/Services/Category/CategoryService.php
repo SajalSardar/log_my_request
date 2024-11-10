@@ -9,7 +9,7 @@ use Illuminate\Support\Str;
 class CategoryService
 {
     /**
-     * Define public method store to save the resourses
+     * Define public method store to save the resources
      * @param $form
      * @return array|object
      */
@@ -26,7 +26,7 @@ class CategoryService
     }
 
     /**
-     * Define public method update to update the resourses
+     * Define public method update to update the resources
      * @param Model $model
      * @param $request
      * @return array|object|bool

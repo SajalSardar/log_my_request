@@ -21,6 +21,35 @@ class DashboardComposer
             ->select(DB::raw('count(ticket.id) as count, status.name'))
             ->groupBy('status.name')
             ->get();
+
+        $totalTickets = DB::table('tickets')->count();
+        $this->responses['charts'] = DB::table('tickets')
+            ->select('priority', DB::raw('count(*) as count'))
+            ->groupBy('priority')
+            // ->orderBy('priority')
+            ->get()
+            ->map(function ($item) use ($totalTickets) {
+                $color = '';
+                switch ($item->priority) {
+                    case 'low':
+                        $color = '#10B981';
+                        break;
+                    case 'medium':
+                        $color = '#3B82F6';
+                        break;
+                    case 'high':
+                        $color = '#EF4444';
+                        break;
+                    default:
+                        $color = 'orange';
+                }
+
+                return [
+                    'value' => (int) number_format(round($item->count / $totalTickets * 100), 2),
+                    'color' => $color,
+                    'priority' => ucfirst($item->priority),
+                ];
+            });
     }
 
     /**

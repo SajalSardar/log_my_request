@@ -11,7 +11,8 @@ use Illuminate\Support\Facades\Gate;
 use Livewire\Component;
 use Livewire\WithFileUploads;
 
-class CreateCategory extends Component {
+class CreateCategory extends Component
+{
     use WithFileUploads;
 
     /**
@@ -26,19 +27,22 @@ class CreateCategory extends Component {
     public CategoryCreateRequest $form;
 
     /**
-     * Define public method save() to save the resourses
+     * Define public method save() to save the resources
+     * @param CategoryService $service
      */
-    public function save(CategoryService $service) {
+    public function save(CategoryService $service)
+    {
         Gate::authorize('create', Category::class);
         $this->form->validate();
         $isCreate = $service->store($this->form);
         $isUpload = $this->form->image ? Fileupload::upload($this->form, Bucket::CATEGORY, $isCreate->getKey(), Category::class, 300, 300) : '';
-        $response = $isCreate ? 'Data has been update successfuly' : 'Something went wrong';
+        $response = $isCreate ? 'Data has been update successfully' : 'Something went wrong';
         flash()->success($response);
         return redirect()->to('/dashboard/category');
     }
 
-    public function render() {
+    public function render()
+    {
         Gate::authorize('create', Category::class);
         return view('livewire.category.create-category');
     }

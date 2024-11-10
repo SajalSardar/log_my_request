@@ -1,4 +1,6 @@
 <x-guest-layout>
+    @section('title', 'Registers')
+    
     <div class="flex h-full sm:justify-center lg:justify-center md:justify-center items-center">
         <div class="grid sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-2">
             <div class="flex h-full justify-center items-center sm:px-5 sm:py-12 md:px-10 md:py-24 lg:px-20 lg:-mr-14">

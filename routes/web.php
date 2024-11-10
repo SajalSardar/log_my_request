@@ -2,8 +2,6 @@
 
 use App\Http\Controllers\LocalizationController;
 use App\Http\Controllers\ProfileController;
-use App\Models\User;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -11,10 +9,6 @@ Route::get('/', function () {
 });
 
 Route::get('/dashboard', function () {
-
-    $uers = User::with('roles')->where('id', Auth::id())->first();
-    // return $uers;
-
     return view('dashboard');
 })->middleware(['auth', 'verified', 'locale'])->name('dashboard');
 

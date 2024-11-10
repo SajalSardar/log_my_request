@@ -1,9 +1,9 @@
 <x-app-layout>
     @section('title', 'Request List')
     @section('breadcrumb')
-        <x-breadcrumb>
-            Request List
-        </x-breadcrumb>
+    <x-breadcrumb>
+        Request List
+    </x-breadcrumb>
     @endsection
     <div class="relative">
         @forelse ($tickets as $each)

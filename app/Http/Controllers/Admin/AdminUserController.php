@@ -51,7 +51,7 @@ class AdminUserController extends Controller
             })
             ->editColumn('name', function ($users) {
                 return '
-                    <div class="px-2 flex items-center">
+                    <div class="flex items-center">
                             <img src="' . asset('assets/images/profile.jpg') . '" width="40" height="40" style="border-radius: 50%;border:1px solid #eee" alt="profile">
                         <div class="infos ps-5">
                             <h5 class="text-paragraph">' . $users->name . '</h5>
@@ -86,10 +86,6 @@ class AdminUserController extends Controller
                                 <li class="px-5 py-1 text-center" style="background: #FFF4EC;color:#F36D00">
                                     <a
                                         href="' . route('admin.user.edit', ['user' => $users->id]) . '">Edit</a>
-                                </li>
-                                <li class="px-5 py-1 text-center bg-white">
-                                    <a
-                                        href="#">View</a>
                                 </li>
                                 <li class="px-5 py-1 text-center bg-red-600 text-white">
                                     <a href="' . route('admin.user.delete', ['user' => $users->id]) . '">Delete</a>

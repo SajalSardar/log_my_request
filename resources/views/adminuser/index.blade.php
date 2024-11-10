@@ -1,9 +1,9 @@
 <x-app-layout>
     @section('title', 'User List')
     @section('breadcrumb')
-    <x-breadcrumb>
-        User List
-    </x-breadcrumb>
+        <x-breadcrumb>
+            User List
+        </x-breadcrumb>
     @endsection
     <div class="flex justify-between items-center !mt-3">
         <div>
@@ -60,64 +60,63 @@
     </div>
 
     @section('script')
-    <script>
-        $(function () {
-            var dTable = $('#data-table').DataTable({
-                processing: true,
-                serverSide: true,
-                responsive: true,
-                searching: false,
-                scrollX: true,
-                order: [
-                    0, 'desc'
-                ],
-                ajax: {
-                    url: "{{ route('admin.user.list.datatable') }}",
-                    type: "GET",
-                    data: function (d) {
-                        d._token = "{{ csrf_token() }}";
-                        d.unser_name_search = $('#unser_name_search').val();
-                        d.unser_email_search = $('#unser_email_search').val();
-                    }
-                },
-                columns: [
-                    {
-                        data: 'select',
-                        name: 'select'
+        <script>
+            $(function() {
+                var dTable = $('#data-table').DataTable({
+                    processing: true,
+                    serverSide: true,
+                    responsive: true,
+                    searching: false,
+                    scrollX: true,
+                    order: [
+                        0, 'desc'
+                    ],
+                    ajax: {
+                        url: "{{ route('admin.user.list.datatable') }}",
+                        type: "GET",
+                        data: function(d) {
+                            d._token = "{{ csrf_token() }}";
+                            d.unser_name_search = $('#unser_name_search').val();
+                            d.unser_email_search = $('#unser_email_search').val();
+                        }
                     },
-                    {
-                        data: 'id',
-                        name: 'id'
-                    },
-                    {
-                        data: 'name',
-                        name: 'name'
-                    },
-                    {
-                        data: 'email',
-                        name: 'email'
-                    },
-                    {
-                        data: 'role',
-                        name: 'role'
-                    },
-                    {
-                        data: 'created_at',
-                        name: 'created_at'
-                    },
-                    {
-                        data: 'action_column',
-                        name: 'action_column'
-                    }
-                ]
-            });
-            $(document).on('change keyup',
-                '#unser_name_search, #unser_email_search',
-                function (e) {
-                    dTable.draw();
-                    e.preventDefault();
+                    columns: [{
+                            data: 'select',
+                            name: 'select'
+                        },
+                        {
+                            data: 'id',
+                            name: 'id'
+                        },
+                        {
+                            data: 'name',
+                            name: 'name'
+                        },
+                        {
+                            data: 'email',
+                            name: 'email'
+                        },
+                        {
+                            data: 'role',
+                            name: 'role'
+                        },
+                        {
+                            data: 'created_at',
+                            name: 'created_at'
+                        },
+                        {
+                            data: 'action_column',
+                            name: 'action_column'
+                        }
+                    ]
                 });
-        });
-    </script>
+                $(document).on('change keyup',
+                    '#unser_name_search, #unser_email_search',
+                    function(e) {
+                        dTable.draw();
+                        e.preventDefault();
+                    });
+            });
+        </script>
     @endsection
 </x-app-layout>

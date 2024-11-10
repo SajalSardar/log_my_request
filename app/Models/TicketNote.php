@@ -7,22 +7,24 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Facades\Cache;
 
-class TicketNote extends Model
-{
+class TicketNote extends Model {
     use HasFactory, SoftDeletes;
-    
+
     protected $guarded = ['id'];
 
-    protected static function boot()
-    {
+    protected static function boot() {
         parent::boot();
-    
+
         static::created(function () {
             Cache::forget("name_list");
         });
-    
+
         static::updated(function () {
             Cache::forget("name_list");
         });
+    }
+
+    public function creator() {
+        return $this->belongsTo(User::class, 'created_by', 'id');
     }
 }

@@ -31,6 +31,7 @@ Route::middleware('auth', 'verified')->prefix('dashboard')->name('admin.')->grou
         Route::get('request-show/{ticketstatus}', 'show')->name('show');
         Route::get('request-edit/{ticketstatus}', 'edit')->name('edit');
         Route::delete('request-delete/{ticketstatus}', 'destroy')->name('delete');
+        Route::get('status-list-datatable', 'displayListDatatable')->name('status.list.datatable');
     });
 
     Route::controller(TicketController::class)->name('ticket.')->group(function () {
@@ -39,30 +40,53 @@ Route::middleware('auth', 'verified')->prefix('dashboard')->name('admin.')->grou
         Route::get('show-request/{ticket}', 'show')->name('show');
         Route::get('edit-request/{ticket}', 'edit')->name('edit');
         Route::delete('delete-request/{ticket}', 'destroy')->name('delete');
-
         Route::get('request-list', 'allTicketList')->name('all.list');
+        Route::get('status-wise-request-list', 'allTicketList')->name('status.wise.list');
         Route::get('my-request-list', 'allTicketList')->name('list.active.memode');
         Route::get('request-list-datatable', 'allTicketListDataTable')->name('all.list.datatable');
         Route::post('request-log-update/{ticket}', 'logUpdate')->name('logUpdate');
         Route::post('request-internal-note-update/{ticket}', 'interNoteStore')->name('interNoteStore');
         Route::get('request-download/{file}', 'downloadFile')->name('downloadFile');
-        Route::get('status-wise-request-list', 'ticketList')->name('status.wise.list');
-        Route::get('status-wise-request-list-datatable', 'allListDataTable')->name('status.wise.list.datatable');
         Route::post('requester-change/{ticket}', 'ticketRequesterChange')->name('change.requester');
         Route::post('request-partial-update/{ticket}', 'partialUpdate')->name('partialUpdate');
         Route::get('get-category-wise-subcategory', 'categoryWiseSubcategory')->name('category.wise.subcategory');
         Route::get('get-department-wise-team', 'departmentWiseTeam')->name('department.wise.team');
-
     });
 
     // role
     Route::controller(RoleController::class)->name('role.')->group(function () {
         Route::get('role-list', 'index')->name('index');
+        Route::get('/role-list-datatable', 'displayListDatatable')->name('list.datatable');
         Route::get('create-user-role', 'create')->name('create');
         Route::post('create-user-role', 'store')->name('store');
         Route::get('edit-user-role/{id}', 'edit')->name('edit');
         Route::put('update-user-role/{id}', 'update')->name('update');
         Route::post('switch-accont', 'switchAccount')->name('swotch');
+    });
+
+    // modules
+    Route::controller(ModuleController::class)->name('module.')->group(function () {
+        Route::get('/module-list-datatable', 'displayListDatatable')->name('list.datatable');
+    });
+
+    // Category
+    Route::controller(CategoryController::class)->name('category.')->group(function () {
+        Route::get('/category-list-datatable', 'displayListDatatable')->name('list.datatable');
+    });
+
+    // Source
+    Route::controller(SourceController::class)->name('source.')->group(function () {
+        Route::get('/source-list-datatable', 'displayListDatatable')->name('list.datatable');
+    });
+
+    // requesterType
+    Route::controller(RequesterTypeController::class)->name('requesterType.')->group(function () {
+        Route::get('/requester-type-list-datatable', 'displayListDatatable')->name('list.datatable');
+    });
+
+    // requesterType
+    Route::controller(DepartmentController::class)->name('department.')->group(function () {
+        Route::get('/department-list-datatable', 'displayListDatatable')->name('list.datatable');
     });
 
     //user

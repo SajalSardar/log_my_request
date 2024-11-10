@@ -7,6 +7,15 @@
             Assigned To Me
         </x-breadcrumb>
         @endsection
+        @elseIf(request()->has('request_status'))
+        @section('title')
+        {{ Str::ucfirst(request()->get('request_status')) }} Request
+        @endsection
+        @section('breadcrumb')
+        <x-breadcrumb>
+            {{ Str::ucfirst(request()->get('request_status')) }} Request
+        </x-breadcrumb>
+        @endsection
     @else
         @section('title', 'All Request List')
         @section('breadcrumb')
@@ -20,11 +29,88 @@
         <div>
             @if (Route::is('admin.ticket.list.active.memode'))
                 <h2 class="text-heading-dark !text-lg">My Request List</h2>
+                @elseIf(request()->has('request_status'))
+                <h2 class="text-heading-dark !text-lg">{{ camelCase(request()->get('request_status')) }} Request</h2>
             @else
                 <h2 class="text-heading-dark !text-lg">All Requests</h2>
             @endif
         </div>
-        <div>
+        <div class="flex gap-3 justify-end">
+            <div style="width: 246px;">
+                <input type="hidden" id="me_mode_search" value="{{ Route::is('admin.ticket.list.active.memode') ? 'me_mode' : '' }}">
+                <x-forms.text-input-icon dir="start" id="ticket_id_search" class="text-paragraph" placeholder="Search ID or Name">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M11 19C15.4183 19 19 15.4183 19 11C19 6.58172 15.4183 3 11 3C6.58172 3 3 6.58172 3 11C3 15.4183 6.58172 19 11 19Z" stroke="#666666" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                        <path d="M21.0004 20.9999L16.6504 16.6499" stroke="#666666" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                    </svg>
+                </x-forms.text-input-icon>
+            </div>
+            <div style="width:106px" class="relative" x-data="{ priority: '' }">
+                <div>
+                    <x-forms.select-input x-model="Priority" name='priority_search' id="priority_search">
+                        <option value="">Priority</option>
+                        <option value="low">Low</option>
+                        <option value="medium">Medium</option>
+                        <option value="high">High</option>
+                    </x-forms.select-input>
+                    <span x-show="priority" class="absolute top-1 end-9 text-surface cursor-pointer focus:text-primary outline-none dark:text-white text-base" tabindex="0" style="display: block;" @click="priority = '';$nextTick(() => $('#priority_search').trigger('change'))">✕</span>
+                </div>
+            </div>
+            <div style="width:110px" class="relative" x-data="{ status: '' }">
+                <x-forms.select-input x-model="status" class="text-paragraph" id="status_search">
+                    <option value="">Status</option>
+                    @foreach ($ticketStatus as $item)
+                        <option value="{{ $item->id }}">{{ $item->name }}</option>
+                    @endforeach
+                </x-forms.select-input>
+                <span x-show="status" class="absolute top-1 end-9 text-surface cursor-pointer focus:text-primary outline-none dark:text-white text-base" tabindex="0" style="display: block;" @click="status = '';$nextTick(() => $('#status_search').trigger('change'))">✕</span>
+            </div>
+            <div style="width:122px" class="relative" x-data="{ category: '' }">
+                <x-forms.select-input x-model="category" class="text-paragraph" id="category_search">
+                    <option value="">Category</option>
+                    @foreach ($categories as $category)
+                        <option value="{{ $category->id }}">{{ $category->name }}</option>
+                    @endforeach
+                </x-forms.select-input>
+                <span x-show="category" class="absolute top-1 end-9 text-surface cursor-pointer focus:text-primary outline-none dark:text-white text-base" tabindex="0" style="display: block;" @click="category = '';$nextTick(() => $('#category_search').trigger('change'))">✕</span>
+            </div>
+            {{-- <div style="width:150px" class="relative" x-data="{ category: '' }">
+                <x-forms.select-input x-model="category" class="text-paragraph" id="category_search">
+                    <option value="">Sub-Category</option>
+                    @foreach ($categories as $category)
+                    <option value="{{ $category->id }}">{{ $category->name }}</option>
+                    @endforeach
+                </x-forms.select-input>
+                <span x-show="category" class="absolute top-1 end-9 text-surface cursor-pointer focus:text-primary outline-none dark:text-white text-base" tabindex="0" style="display: block;" @click="category = '';$nextTick(() => $('#category_search').trigger('change'))">✕</span>
+            </div> --}}
+            <div style="width:136px" class="relative" x-data="{ team: '' }">
+                <x-forms.select-input class="text-paragraph" x-model="team" id="team_search">
+                    <option value="">Department</option>
+                    @foreach ($teams as $team)
+                        <option value="{{ $team->id }}">{{ $team->name }}</option>
+                    @endforeach
+                </x-forms.select-input>
+                <span x-show="team" class="absolute top-1 end-9 text-surface cursor-pointer focus:text-primary outline-none dark:text-white text-base" tabindex="0" style="display: block;" @click="team = '';$nextTick(() => $('#team_search').trigger('change'))">✕</span>
+            </div>
+            <div style="width:96px" class="relative" x-data="{ team: '' }">
+                <x-forms.select-input class="text-paragraph" x-model="team" id="team_search">
+                    <option value="">Team</option>
+                    @foreach ($teams as $team)
+                        <option value="{{ $team->id }}">{{ $team->name }}</option>
+                    @endforeach
+                </x-forms.select-input>
+                <span x-show="team" class="absolute top-1 end-9 text-surface cursor-pointer focus:text-primary outline-none dark:text-white text-base" tabindex="0" style="display: block;" @click="team = '';$nextTick(() => $('#team_search').trigger('change'))">✕</span>
+            </div>
+            <div style="width:128px" class="relative" x-data="{ due_date_x: '' }">
+                <x-forms.select-input class="text-paragraph" x-model="due_date_x" id="due_date_search">
+                    <option value="">Due Date</option>
+                    <option value="today">Today</option>
+                    <option value="tomorrow">Tomorrow</option>
+                    <option value="this_week">This Week</option>
+                    <option value="this_month">This Month</option>
+                </x-forms.select-input>
+                <span x-show="due_date_x" class="absolute top-1 end-9 text-surface cursor-pointer focus:text-primary outline-none dark:text-white text-base" tabindex="0" style="display: block;" @click="due_date_x = '';$nextTick(() => $('#due_date_search').trigger('change'))">✕</span>
+            </div>
             <div>
                 <x-actions.href href="{{ route('admin.ticket.create') }}" class="flex items-center gap-1 text-heading-light">
                     <span>Create A Request</span>
@@ -33,84 +119,6 @@
                     </svg>
                 </x-actions.href>
             </div>
-        </div>
-    </div>
-
-    <div class="flex gap-3 justify-end mt-[18px]">
-        <div style="width: 246px;">
-            <input type="hidden" id="me_mode_search" value="{{ Route::is('admin.ticket.list.active.memode') ? 'me_mode' : '' }}">
-            <x-forms.text-input-icon dir="start" id="ticket_id_search" class="text-paragraph" placeholder="Search ID or Name">
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M11 19C15.4183 19 19 15.4183 19 11C19 6.58172 15.4183 3 11 3C6.58172 3 3 6.58172 3 11C3 15.4183 6.58172 19 11 19Z" stroke="#666666" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-                    <path d="M21.0004 20.9999L16.6504 16.6499" stroke="#666666" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-                </svg>
-            </x-forms.text-input-icon>
-        </div>
-        <div style="width:106px" class="relative" x-data="{ priority: '' }">
-            <div>
-                <x-forms.select-input x-model="Priority" name='priority_search' id="priority_search">
-                    <option value="">Priority</option>
-                    <option value="low">Low</option>
-                    <option value="medium">Medium</option>
-                    <option value="high">High</option>
-                </x-forms.select-input>
-                <span x-show="priority" class="absolute top-1 end-9 text-surface cursor-pointer focus:text-primary outline-none dark:text-white text-base" tabindex="0" style="display: block;" @click="priority = '';$nextTick(() => $('#priority_search').trigger('change'))">✕</span>
-            </div>
-        </div>
-        <div style="width:110px" class="relative" x-data="{ status: '' }">
-            <x-forms.select-input x-model="status" class="text-paragraph" id="status_search">
-                <option value="">Status</option>
-                @foreach ($ticketStatus as $item)
-                    <option value="{{ $item->id }}">{{ $item->name }}</option>
-                @endforeach
-            </x-forms.select-input>
-            <span x-show="status" class="absolute top-1 end-9 text-surface cursor-pointer focus:text-primary outline-none dark:text-white text-base" tabindex="0" style="display: block;" @click="status = '';$nextTick(() => $('#status_search').trigger('change'))">✕</span>
-        </div>
-        <div style="width:122px" class="relative" x-data="{ category: '' }">
-            <x-forms.select-input x-model="category" class="text-paragraph" id="category_search">
-                <option value="">Category</option>
-                @foreach ($categories as $category)
-                    <option value="{{ $category->id }}">{{ $category->name }}</option>
-                @endforeach
-            </x-forms.select-input>
-            <span x-show="category" class="absolute top-1 end-9 text-surface cursor-pointer focus:text-primary outline-none dark:text-white text-base" tabindex="0" style="display: block;" @click="category = '';$nextTick(() => $('#category_search').trigger('change'))">✕</span>
-        </div>
-        {{-- <div style="width:150px" class="relative" x-data="{ category: '' }">
-            <x-forms.select-input x-model="category" class="text-paragraph" id="category_search">
-                <option value="">Sub-Category</option>
-                @foreach ($categories as $category)
-                <option value="{{ $category->id }}">{{ $category->name }}</option>
-                @endforeach
-            </x-forms.select-input>
-            <span x-show="category" class="absolute top-1 end-9 text-surface cursor-pointer focus:text-primary outline-none dark:text-white text-base" tabindex="0" style="display: block;" @click="category = '';$nextTick(() => $('#category_search').trigger('change'))">✕</span>
-        </div> --}}
-        <div style="width:136px" class="relative" x-data="{ team: '' }">
-            <x-forms.select-input class="text-paragraph" x-model="team" id="team_search">
-                <option value="">Department</option>
-                @foreach ($teams as $team)
-                    <option value="{{ $team->id }}">{{ $team->name }}</option>
-                @endforeach
-            </x-forms.select-input>
-            <span x-show="team" class="absolute top-1 end-9 text-surface cursor-pointer focus:text-primary outline-none dark:text-white text-base" tabindex="0" style="display: block;" @click="team = '';$nextTick(() => $('#team_search').trigger('change'))">✕</span>
-        </div>
-        <div style="width:96px" class="relative" x-data="{ team: '' }">
-            <x-forms.select-input class="text-paragraph" x-model="team" id="team_search">
-                <option value="">Team</option>
-                @foreach ($teams as $team)
-                    <option value="{{ $team->id }}">{{ $team->name }}</option>
-                @endforeach
-            </x-forms.select-input>
-            <span x-show="team" class="absolute top-1 end-9 text-surface cursor-pointer focus:text-primary outline-none dark:text-white text-base" tabindex="0" style="display: block;" @click="team = '';$nextTick(() => $('#team_search').trigger('change'))">✕</span>
-        </div>
-        <div style="width:128px" class="relative" x-data="{ due_date_x: '' }">
-            <x-forms.select-input class="text-paragraph" x-model="due_date_x" id="due_date_search">
-                <option value="">Due Date</option>
-                <option value="today">Today</option>
-                <option value="tomorrow">Tomorrow</option>
-                <option value="this_week">This Week</option>
-                <option value="this_month">This Month</option>
-            </x-forms.select-input>
-            <span x-show="due_date_x" class="absolute top-1 end-9 text-surface cursor-pointer focus:text-primary outline-none dark:text-white text-base" tabindex="0" style="display: block;" @click="due_date_x = '';$nextTick(() => $('#due_date_search').trigger('change'))">✕</span>
         </div>
     </div>
 
@@ -169,6 +177,7 @@
                     type: "GET",
                     data: function (d) {
                         d._token = "{{ csrf_token() }}";
+                        d.query_status = "{{ $queryStatus }}";
                         d.me_mode_search = $('#me_mode_search').val();
                         d.ticket_id_search = $('#ticket_id_search').val();
                         d.priority_search = $('#priority_search').val();

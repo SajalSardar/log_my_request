@@ -1,26 +1,9 @@
- <x-app-layout>
-    @section('title', 'Edit User')
+<x-app-layout>
+    @section('title', 'Update User')
     @section('breadcrumb')
-        <x-breadcrumb>
-            Edit User
-        </x-breadcrumb>
+    <x-breadcrumb>
+        Update User
+    </x-breadcrumb>
     @endsection
-     <div class="p-5 rounded-lg shadow-lg">
-         <header class="py-5 px-2 grid md:grid-cols-2 sm:grid-cols-1 md:gap-1 sm:gap-1">
-             <div class="infos">
-                 <h3 class="font-bold text-xl">Update Users By Admin</h3>
-                 <p>Please fill the input field where sign <span class="text-red-500">(*) </span> have.</p>
-             </div>
-
-             <div class="flex md:flex-row-reverse sm:flex-row">
-                 <div>
-                     <x-actions.href href="{{ route('admin.user.index') }}">
-                         {{ __('Users') }}
-                     </x-actions.href>
-                 </div>
-             </div>
-         </header>
-         <hr>
-         @livewire('admin-user.update-admin-user', ['user' => $user])
-     </div>
- </x-app-layout>
+    @livewire('admin-user.update-admin-user', ['user' => $user])
+</x-app-layout>
