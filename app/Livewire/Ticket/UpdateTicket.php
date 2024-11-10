@@ -11,8 +11,6 @@ use App\Models\RequesterType;
 use App\Models\Source;
 use App\Models\Team;
 use App\Models\Ticket;
-use App\Models\TicketLog;
-use App\Models\TicketNote;
 use App\Models\TicketStatus;
 use App\Services\Ticket\TicketService;
 use Illuminate\Support\Facades\Auth;
@@ -79,7 +77,7 @@ class UpdateTicket extends Component {
         /**
          * Old value set to the input field
          */
-        $this->ticket                    = Ticket::query()->with('user', 'source', 'image', 'owners')->where('id', $this->ticket->id)->first();
+        $this->ticket                    = Ticket::query()->with('user', 'source', 'image', 'owners', 'ticket_status')->where('id', $this->ticket->id)->first();
         $this->form->request_title       = $this->ticket?->title;
         $this->form->request_description = $this->ticket?->description;
         $this->form->requester_name      = $this->ticket->user->name;
@@ -162,21 +160,9 @@ class UpdateTicket extends Component {
         );
         $isUpload = $this->form->request_attachment ? Fileupload::uploadFile($this->form, Bucket::TICKET, $this->ticket->getKey(), Ticket::class) : '';
 
-        TicketNote::create([
-            'ticket_id'  => $this->ticket->getKey(),
-            'note_type'  => 'title_desc_updated',
-            'note'       => 'Update title or description!',
-            'created_by' => Auth::user()->id,
-        ]);
+        TicketService::createTicketNote($this->ticket->getKey(), $this->ticket->ticket_status->name, $this->ticket->ticket_status->name, 'title_desc_updated', 'Update title or description!');
 
-        TicketLog::create([
-            'ticket_id'     => $this->ticket->getKey(),
-            'ticket_status' => 'open',
-            'comment'       => json_encode($this->ticket),
-            'status'        => 'title_desc_updated',
-            'created_by'    => Auth::user()->id,
-            'updated_by'    => Auth::user()->id,
-        ]);
+        TicketService::createTicketLog($this->ticket->getKey(), $this->ticket->ticket_status->name, 'title_desc_updated', json_encode($this->ticket));
 
         flash()->success('Data has been Save successfully');
 
