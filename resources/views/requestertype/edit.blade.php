@@ -6,5 +6,5 @@
         </x-breadcrumb>
     @endsection
 
-    <livewire:requester-type.update-requester-type :requestertype="$requestertype" />
+    <livewire:requestertype.update-requestertype :requestertype="$requestertype" />
 </x-app-layout>
