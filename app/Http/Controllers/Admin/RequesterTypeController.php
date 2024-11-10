@@ -2,33 +2,30 @@
 
 namespace App\Http\Controllers\Admin;
 
-use Illuminate\Http\Request;
-use App\Models\RequesterType;
 use App\Http\Controllers\Controller;
-use Illuminate\Support\Facades\Gate;
+use App\Models\RequesterType;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\Gate;
 use Yajra\DataTables\Facades\DataTables;
 
-class RequesterTypeController extends Controller
-{
+class RequesterTypeController extends Controller {
     /**
      * Display a listing of the resource.
      */
-    public function index()
-    {
+    public function index() {
         Gate::authorize('viewAny', RequesterType::class);
         $requesterTypes = Cache::remember('requesterType_list', 60 * 60, function () {
             return RequesterType::get();
         });
-        return view("requesterType.index", compact('requesterTypes'));
+        return view("requestertype.index", compact('requesterTypes'));
     }
 
     /**
      * Define public method displayListDatatable to display the datatable resources
      * @param Request $request
      */
-    public function displayListDatatable(Request $request)
-    {
+    public function displayListDatatable(Request $request) {
         Gate::authorize('viewAny', RequesterType::class);
         $requesterType = Cache::remember('requesterType_list', 60 * 60, function () {
             return RequesterType::get();
@@ -43,7 +40,7 @@ class RequesterTypeController extends Controller
             })
             ->editColumn('status', function ($requesterType) {
                 $status = $requesterType->status == "1" ? 'Active' : 'Inactive';
-                $class = $requesterType->status == '1' ? 'bg-resolved-400' : 'bg-closed-400';
+                $class  = $requesterType->status == '1' ? 'bg-resolved-400' : 'bg-closed-400';
                 return '<span class="inline-flex px-3 py-1 ' . $class . ' items-center text-paragraph ml-1 rounded">' . $status . '</span>';
             })
 
@@ -94,36 +91,32 @@ class RequesterTypeController extends Controller
     /**
      * Show the form for creating a new resource.
      */
-    public function create()
-    {
+    public function create() {
         Gate::authorize('create', RequesterType::class);
-        return view('requesterType.create');
+        return view('requestertype.create');
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(RequesterType $requesterType)
-    {
+    public function show(RequesterType $requesterType) {
         //
         Gate::authorize('view', $requesterType);
-        return view('requesterType.show');
+        return view('requestertype.show');
     }
 
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(RequesterType $requestertype)
-    {
+    public function edit(RequesterType $requestertype) {
         Gate::authorize('update', $requestertype);
-        return view('requesterType.edit', compact('requestertype'));
+        return view('requestertype.edit', compact('requestertype'));
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(RequesterType $requesterType)
-    {
+    public function destroy(RequesterType $requesterType) {
         Gate::authorize('delete', $requesterType);
     }
 }
