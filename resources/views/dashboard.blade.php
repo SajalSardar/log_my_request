@@ -93,7 +93,7 @@
 
                 <div class="chart-container">
                     <svg id="circularChart" width="152" height="152" viewBox="0 0 36 36" class="circular-chart">
-                        <text x="18" y="20.35" text-anchor="middle" font-size="3" fill="#333">Requests</text>
+                        <text x="18" y="20.35" text-anchor="middle" font-size="4" fill="#333">Requests</text>
                     </svg>
                 </div>
             </div>
