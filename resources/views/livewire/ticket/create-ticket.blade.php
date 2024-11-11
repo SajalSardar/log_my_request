@@ -1,7 +1,7 @@
  <form wire:submit="save">
  <h3 class="font-inter font-semibold text-[#333] text-[20px] mb-[24px]">Request Form</h3>
      <div class="flex flex-row">
-         <div style="width:651px !important">
+         <div style="width:786px !important">
              <div class="border border-base-500 p-5 rounded">
                  <div class="grid lg:grid-cols-1 md:grid-cols-1 sm:grid-cols-1 sm:gap-1 md:gap-2">
                      <div class="p-2 w-full">
@@ -106,7 +106,7 @@
                      </div>
                  </div>
 
-                 <div class="grid md:grid-cols-2 sm:grid-cols-1">
+                 <div class="grid md:grid-cols-2 sm:grid-cols-1 sm:gap-1 md:gap-2">
                      <div class="p-2">
                          <x-forms.label for="form.due_date">
                              {{ __('Due Date') }}
@@ -132,7 +132,7 @@
                      </div>
                  </div>
 
-                 <div class="grid md:grid-cols-2 sm:grid-cols-1">
+                 <div class="grid md:grid-cols-2 sm:grid-cols-1 sm:gap-1 md:gap-2">
                      <div class="p-2">
                          <x-forms.label for="category_id" required="yes">
                              {{ __('Category') }}
@@ -187,7 +187,7 @@
                      </div>
                  </div>
 
-                 <div class="grid md:grid-cols-3 sm:grid-cols-1">
+                 <div class="grid md:grid-cols-3 sm:grid-cols-1 sm:gap-1 md:gap-2">
                      <div class="p-2">
                          <x-forms.label for="department_id_select">
                              {{ __('Department') }}
