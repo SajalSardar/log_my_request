@@ -132,7 +132,6 @@
                     @endforeach
             @endif
         </div>
-
     </div>
 </div>
 <!-- Attachment Part End !-->

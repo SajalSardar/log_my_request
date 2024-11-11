@@ -20,7 +20,7 @@
                 <div class="py-5 flex-auto">
                     <div class="tab-content tab-space">
                         <div class="block" id="tab-detail">
-                            <div class="grid lg:grid-cols-3 md:grid-cols-3 sm:grid-cols-1 sm:gap-3 md:gap-56 lg:gap-56">
+                            <div class="grid lg:grid-cols-3 md:grid-cols-3 sm:grid-cols-1 sm:gap-3 md:gap-32 lg:gap-32">
                                 <div class="col-span-2">
                                     @include('ticket/partials/details')
                                     @if (!Auth::user()->hasRole('requester'))
