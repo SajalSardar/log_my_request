@@ -95,81 +95,6 @@
      align-items: center;
  }
 
- .hamberger button {
-     margin-right: 65px;
- }
-
- .search-input {
-     height: 100%;
-     width: 40%;
-     display: flex;
-     justify-content: center;
-     align-items: center;
-     padding: 0px 10px;
-
- }
-
- .search-input input {
-     width: 100%;
-     padding: 8px;
-     border: none;
-     background: white;
-     border-radius: 10px;
-     -webkit-border-radius: 10px;
-     -moz-border-radius: 10px;
-     -ms-border-radius: 10px;
-     -o-border-radius: 10px;
- }
-
- .user-type {
-     width: 20%;
-     padding: 0 20px;
-     display: flex;
-     justify-content: center;
-     align-items: center;
- }
-
- .user-type-select {
-     width: 100%;
-     padding: 8px;
-     background: transparent;
-     border-radius: 10px;
-     -webkit-border-radius: 10px;
-     -moz-border-radius: 10px;
-     -ms-border-radius: 10px;
-     -o-border-radius: 10px;
- }
-
- .lang {
-     width: 10%;
-     height: 100%;
-     display: flex;
-     justify-content: center;
-     align-items: center;
- }
-
- .lang select {
-     width: 50%;
-     padding: 5px;
-     border: none;
-     background: transparent;
- }
-
- .notification {
-     width: 12%;
-     display: flex;
-     justify-content: end;
-     align-items: center;
- }
-
- .profile {
-     width: 8%;
-     display: flex;
-     justify-content: end;
-     padding-right: 24px;
-     align-items: center;
- }
-
  /* media query */
  @media screen and (max-width:480px) {
      .sidebar {
@@ -179,15 +104,6 @@
      .navbar {
          width: 100%;
          margin-left: 0;
-     }
-
-     .search-input {
-         width: 30%;
-         padding: 0;
-     }
-
-     .search-input input {
-         padding: 10px;
      }
 
      .user-type {
@@ -212,25 +128,6 @@
          width: 100%;
          padding: 0;
      }
-
-     .notification {
-         width: 15%;
-         padding: 0 10px;
-     }
-
-     .profile {
-         width: 15%;
-     }
-
-     .profile img {
-         width: 60%;
-     }
-
-     .arrow {
-         display: none;
-     }
-
-
  }
 
  @media screen and (max-width:768px) {

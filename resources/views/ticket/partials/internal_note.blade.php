@@ -19,9 +19,7 @@
 </form>
 
 <div class="mt-4 p-4 rounded border border-base-500">
-
     @if ( $internalNotes->count() > 0)
-
         @foreach ($internalNotes as $note)
             <div class="mb-5">
                 <div class="flex items-center gap-2">
