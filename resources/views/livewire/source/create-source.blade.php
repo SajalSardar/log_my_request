@@ -1,7 +1,7 @@
 <form wire:submit="save">
-    <div class="flex justify-between" style="width:651px !important">
-        <h3 class="font-inter font-semibold text-[#333] text-[20px] mb-[24px]">Create Source</h3>
-        <div>
+    <div class="grid lg:grid-cols-3 md:grid-cols-3 sm:grid-cols-1">
+        <div class="flex justify-between mb-[24px]">
+            <h3 class="font-inter font-semibold text-[#333] text-[20px]">Create Source</h3>
             <a href="{{ route('admin.source.index') }}" class="flex items-center px-0 bg-transparent gap-1 text-heading-light text-paragraph hover:text-primary-400 transition-colors">
                 Go to Source Lists
                 <svg class="w-6 h-6" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -12,37 +12,35 @@
         </div>
     </div>
 
-    <div class="flex flex-row">
-        <div style="width:651px !important">
-            <div class="border border-base-500 p-5 rounded">
-                <div class="grid lg:grid-cols-1 md:grid-cols-1 sm:grid-cols-1 sm:gap-1 md:gap-2">
-                    <div class="pb-2 w-full">
-                        <x-forms.label for="status" required='yes'>
-                            {{ __('Source Name') }}
-                        </x-forms.label>
-                        <x-forms.text-input type="text" placeholder="source name" wire:model.blur="title" />
-                        <x-input-error :messages="$errors->get('title')" class="mt-2" />
-                    </div>
+    <div class="grid lg:grid-cols-3 md:grid-cols-3 sm:grid-cols-1">
+        <div class="border border-base-500 p-5 rounded">
+            <div class="grid lg:grid-cols-1 md:grid-cols-1 sm:grid-cols-1 sm:gap-1 md:gap-2">
+                <div class="pb-2 w-full">
+                    <x-forms.label for="status" required='yes'>
+                        {{ __('Source Name') }}
+                    </x-forms.label>
+                    <x-forms.text-input type="text" placeholder="source name" wire:model.blur="title" />
+                    <x-input-error :messages="$errors->get('title')" class="mt-2" />
                 </div>
-                <div class="grid lg:grid-cols-1 md:grid-cols-1 sm:grid-cols-1 sm:gap-1 md:gap-2">
-                    <div class="pt-2 w-full">
-                        <x-forms.label for="status" required='yes'>
-                            {{ __('Status') }}
-                        </x-forms.label>
-                        <x-forms.select-input wire:model.blur="status">
-                            <option selected>--select status--</option>
-                            <option value="1">Active</option>
-                            <option value="0">Inactive</option>
-                        </x-forms.select-input>
+            </div>
+            <div class="grid lg:grid-cols-1 md:grid-cols-1 sm:grid-cols-1 sm:gap-1 md:gap-2">
+                <div class="pt-2 w-full">
+                    <x-forms.label for="status" required='yes'>
+                        {{ __('Status') }}
+                    </x-forms.label>
+                    <x-forms.select-input wire:model.blur="status">
+                        <option selected>--select status--</option>
+                        <option value="1">Active</option>
+                        <option value="0">Inactive</option>
+                    </x-forms.select-input>
 
-                        <x-input-error :messages="$errors->get('form.status')" class="mt-2" />
-                    </div>
+                    <x-input-error :messages="$errors->get('form.status')" class="mt-2" />
                 </div>
-                <div class="pt-6">
-                    <x-buttons.primary>
-                        Create
-                    </x-buttons.primary>
-                </div>
+            </div>
+            <div class="pt-6">
+                <x-buttons.primary>
+                    Create
+                </x-buttons.primary>
             </div>
         </div>
     </div>
