@@ -25,7 +25,7 @@ class RoleController extends Controller {
     public function displayListDatatable(Request $request) {
 
         Gate::authorize('viewAny', Role::class);
-        $roles = Role::with('permissions')->orderBy('id', 'desc')->get();
+        $roles = Role::with('permissions')->whereNotIn('name', ['super-admin'])->orderBy('id', 'desc')->get();
 
         return DataTables::of($roles)
             ->addColumn('select', function () {
