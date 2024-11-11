@@ -101,6 +101,7 @@ class TicketUpdateRequest extends Form {
 
     public $department_id   = null;
     public $sub_category_id = null;
+    public $comment         = null;
 
     /**
      * Define public method rules() to validation
@@ -123,6 +124,7 @@ class TicketUpdateRequest extends Form {
         $arr['form.owner_id']             = ['nullable', Rule::exists(User::class, 'id')];
         $arr['form.department_id']        = ['nullable'];
         $arr['form.sub_category_id']      = ['nullable'];
+        $arr['form.comment']              = ['nullable'];
         return $arr;
     }
 
@@ -146,6 +148,7 @@ class TicketUpdateRequest extends Form {
         $arr['form.owner_id']            = 'owner';
         $arr['form.department_id']       = 'Department';
         $arr['form.sub_category_id']     = 'Sub Category';
+        $arr['form.comment']             = 'Note';
         return $arr;
     }
 }

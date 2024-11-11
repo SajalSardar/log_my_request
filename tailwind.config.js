@@ -8,6 +8,7 @@ export default {
         "./storage/framework/views/*.php",
         "./resources/views/**/*.blade.php",
         "./app/Http/Controllers/**/*.php",
+        "./app/Services/**/*.php",
     ],
 
     theme: {
@@ -16,7 +17,7 @@ export default {
                 primary: {
                     400: "#F36D00",
                     500: "rgb(109,77,266,4%)",
-                    600: '#FFF4EC'
+                    600: "#FFF4EC",
                 },
                 high: {
                     400: "#10B982",
@@ -41,22 +42,22 @@ export default {
                 },
                 base: {
                     400: "#666666",
-                    500: "#ddd"
+                    500: "#ddd",
                 },
                 black: {
-                    400: "#333333"
+                    400: "#333333",
                 },
                 navbar: {
                     bg: "#F8FAFF",
                 },
                 red: {
-                    bg: "#ef4444"
+                    bg: "#ef4444",
                 },
                 background: {
-                    gray: "#f3f4f6"
+                    gray: "#f3f4f6",
                 },
                 paragraph: "#5c5c5c",
-                title: "#333333"
+                title: "#333333",
             },
             fontFamily: {
                 sans: ["Figtree", ...defaultTheme.fontFamily.sans],

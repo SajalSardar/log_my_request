@@ -5,5 +5,5 @@
         Create Request type
     </x-breadcrumb>
     @endsection
-    <livewire:requester-type.create-requester-type />
+    <livewire:requestertype.create-requestertype />
 </x-app-layout>

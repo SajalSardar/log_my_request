@@ -89,17 +89,17 @@
                          </x-forms.label>
                          <div class="mt-3 flex items-center">
                              <div class="flex items-center">
-                                <x-forms.radio-input wire:model="form.priority" name="priority" class="ml-2"
-                                value="low" required /> 
-                                <p class="text-paragraph ml-2">Low</p>
+                                <label><x-forms.radio-input wire:model="form.priority" name="priority" class="ml-2"
+                                    value="low" required /> 
+                                    <span class="text-paragraph ml-2">Low</span></label>
                              </div>
                              <div class="flex items-center">
-                             <x-forms.radio-input wire:model="form.priority" name="priority" class="ml-2"
-                             value="medium" required /> <p class=" text-paragraph ml-2">Medium</p>
+                                <label><x-forms.radio-input wire:model="form.priority" name="priority" class="ml-2"
+                                    value="medium" required /> <span class=" text-paragraph ml-2">Medium</span></label>
                              </div>
                             <div class="flex items-center">
-                            <x-forms.radio-input wire:model="form.priority" name="priority" class="ml-2"
-                            value="high" required /> <p class="text-paragraph ml-2">High</p>
+                                <label><x-forms.radio-input wire:model="form.priority" name="priority" class="ml-2"
+                                    value="high" required /> <span class="text-paragraph ml-2">High</span></label>
                             </div>
                          </div>
                          <x-input-error :messages="$errors->get('form.priority')" class="mt-2" />
