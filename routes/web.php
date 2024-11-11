@@ -2,7 +2,13 @@
 
 use App\Http\Controllers\LocalizationController;
 use App\Http\Controllers\ProfileController;
+use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Route;
+
+Route::get('/storag-link', function () {
+    Artisan::call('php artisan storage:link');
+    return 'ok';
+});
 
 Route::get('/', function () {
     return redirect()->route('login');
