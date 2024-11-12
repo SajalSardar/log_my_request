@@ -2,9 +2,12 @@
 
 namespace App\View\Composers;
 
+use App\Models\Category;
+use App\Models\Team;
 use App\Models\Ticket;
 use Illuminate\View\View;
 use App\Models\TicketStatus;
+use App\Models\User;
 use Illuminate\Support\Facades\DB;
 
 class DashboardComposer
@@ -50,6 +53,56 @@ class DashboardComposer
                     'priority' => ucfirst($item->priority),
                 ];
             });
+
+        $this->responses['requesters'] = User::query()
+            ->withCount('requester_tickets')
+            ->orderBy('requester_tickets_count', 'desc')
+            ->limit(5)
+            ->get()
+            ->map(function ($user) {
+                return [
+                    'name' => $user->name,
+                    'total' => $user->requester_tickets_count,
+                ];
+            });
+
+        $this->responses['agents'] = User::query()
+            ->withCount('tickets')
+            ->orderBy('tickets_count', 'desc')
+            ->limit(5)
+            ->get()
+            ->map(function ($user) {
+                return [
+                    'name' => $user->name,
+                    'total' => $user->tickets_count,
+                ];
+            });
+
+        $this->responses['categories'] = Category::query()
+            ->withCount('ticket')
+            ->orderBy('ticket_count', 'desc')
+            ->limit(5)
+            ->get()
+            ->map(function ($user) {
+                return [
+                    'name' => $user->name,
+                    'total' => $user->ticket_count,
+                ];
+            });
+
+        $this->responses['teams'] = Team::query()
+            ->withCount('ticket')
+            ->orderBy('ticket_count', 'desc')
+            ->limit(5)
+            ->get()
+            ->map(function ($user) {
+                return [
+                    'name' => $user->name,
+                    'total' => $user->ticket_count,
+                ];
+            });
+
+        // dd($this->responses);
     }
 
     /**
