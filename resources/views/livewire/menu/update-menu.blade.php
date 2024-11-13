@@ -71,7 +71,7 @@
                     </x-forms.label>
                     <div wire:ignore>
                         <x-forms.select2-select wire:model.defer="role" id="role" multiple>
-                            <option selected disabled>Select Role</option>
+                            <option disabled>Select Role</option>
                             @foreach ($roles as $role)
                             <option {{ in_array($role->name, json_decode($menu->roles, true)) ? 'selected' : '' }} value="{{ $role->name }}">{{ Str::ucfirst($role->name) }}</option>
                             @endforeach

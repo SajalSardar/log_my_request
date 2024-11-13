@@ -305,11 +305,12 @@ class TicketService {
         }
 
         if ($request->all()) {
-            $tickets->where(function ($query) use ($request) {
+            $tickets->where(function ($query) use ($request, $tickets) {
                 if ($request->me_mode_search) {
                     $query->whereHas('owners', function ($query) {
                         $query->where('owner_id', Auth::id());
                     });
+
                 }
                 if ($request->ticket_id_search) {
                     $query->where('id', 'like', '%' . $request->ticket_id_search . '%')
@@ -425,7 +426,7 @@ class TicketService {
                 return $data;
             })
             ->addColumn('request_age', function ($tickets) {
-                $data = '<span class="text-paragraph">' . dayMonthYearHourMininteSecond($tickets?->created_at, $tickets?->resolved_at, true, true, true, true) . '</span>';
+                $data = '<span class="text-paragraph">' . dayMonthYearHourMininteSecond($tickets?->created_at, $tickets?->resolved_at, true, true, true, true, true, true) . '</span>';
                 return $data;
             })
             ->editColumn('due_date', function ($tickets) {

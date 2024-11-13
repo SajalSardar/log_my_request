@@ -5,17 +5,14 @@ namespace App\Policies;
 use App\Models\Ticket;
 use App\Models\User;
 use Illuminate\Auth\Access\HandlesAuthorization;
-use Illuminate\Auth\Access\Response;
 
-class TicketPolicy
-{
+class TicketPolicy {
     use HandlesAuthorization;
     /**
      * Determine whether the user can view any models.
      */
-    public function viewAny(User $user): bool
-    {
-         if ($user->can('ticket view list')) {
+    public function viewAny(User $user): bool {
+        if ($user->can('request view list')) {
             return true;
         }
         return false;
@@ -24,9 +21,8 @@ class TicketPolicy
     /**
      * Determine whether the user can view the model.
      */
-    public function view(User $user, Ticket $ticket): bool
-    {
-        if ($user->can('ticket view list')) {
+    public function view(User $user, Ticket $ticket): bool {
+        if ($user->can('request view list')) {
             return true;
         }
         return false;
@@ -35,18 +31,16 @@ class TicketPolicy
     /**
      * Determine whether the user can create models.
      */
-    public function create(User $user): bool
-    {
+    public function create(User $user): bool {
         //
-        return ($user->can('ticket create'));
+        return ($user->can('request create'));
     }
 
     /**
      * Determine whether the user can update the model.
      */
-    public function update(User $user, Ticket $ticket): bool
-    {
-        if ($user->can('ticket update')) {
+    public function update(User $user, Ticket $ticket): bool {
+        if ($user->can('request update')) {
             return true;
         }
         return false;
@@ -55,9 +49,8 @@ class TicketPolicy
     /**
      * Determine whether the user can delete the model.
      */
-    public function delete(User $user, Ticket $ticket): bool
-    {
-        if ($user->can('ticket delete')) {
+    public function delete(User $user, Ticket $ticket): bool {
+        if ($user->can('request delete')) {
             return true;
         }
         return false;
@@ -66,9 +59,8 @@ class TicketPolicy
     /**
      * Determine whether the user can restore the model.
      */
-    public function restore(User $user, Ticket $ticket): bool
-    {
-        if ($user->can('ticket restore')) {
+    public function restore(User $user, Ticket $ticket): bool {
+        if ($user->can('request restore')) {
             return true;
         }
         return false;
@@ -77,9 +69,8 @@ class TicketPolicy
     /**
      * Determine whether the user can permanently delete the model.
      */
-    public function forceDelete(User $user, Ticket $ticket): bool
-    {
-        if ($user->can('ticket force delete')) {
+    public function forceDelete(User $user, Ticket $ticket): bool {
+        if ($user->can('request force delete')) {
             return true;
         }
         return false;

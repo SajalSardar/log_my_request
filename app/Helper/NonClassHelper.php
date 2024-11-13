@@ -14,7 +14,7 @@ function dayMonthYearHourMininteSecond($date, $endDate = null, $year = false, $m
         $endDate = Carbon::now();
     }
 
-    $y = (int) $startDate->diffInYears($endDate);
+    $y   = (int) $startDate->diffInYears($endDate);
     $mon = (int) $startDate
         ->copy()
         ->addYears($y)
@@ -48,23 +48,23 @@ function dayMonthYearHourMininteSecond($date, $endDate = null, $year = false, $m
 
     $output = '';
 
-    if ($year) {
-        $output .= $y . ' y, ';
+    if ($year && $y != 0) {
+        $output .= $y . ' year, ';
     }
-    if ($month) {
-        $output .= $mon . ' m, ';
+    if ($month && $mon != 0) {
+        $output .= $mon . ' month, ';
     }
-    if ($day) {
-        $output .= $d . ' d, ';
+    if ($day && $d != 0) {
+        $output .= $d . ' day, ';
     }
-    if ($hour) {
-        $output .= $h . ' h, ';
+    if ($hour && $h != 0) {
+        $output .= $h . ' hour, ';
     }
-    if ($minute) {
-        $output .= $m . ' min and ';
+    if ($minute && $m != 0) {
+        $output .= $m . ' minute and ';
     }
-    if ($second) {
-        $output .= $s . ' sec.';
+    if ($second && $s != 0) {
+        $output .= $s . ' second.';
     }
     $output = rtrim($output, ', ');
     return $output;
@@ -75,8 +75,7 @@ function dayMonthYearHourMininteSecond($date, $endDate = null, $year = false, $m
  * @param string $string
  * @return string
  */
-function camelCase($string): string
-{
+function camelCase($string): string {
     $string = str_replace(
         ' ',
         ' ',
@@ -89,5 +88,3 @@ function camelCase($string): string
 
     return $string;
 }
-
-
