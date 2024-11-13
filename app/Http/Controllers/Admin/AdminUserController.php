@@ -12,11 +12,13 @@ use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Str;
 use Yajra\DataTables\Facades\DataTables;
 
-class AdminUserController extends Controller {
+class AdminUserController extends Controller
+{
     /**
      * Display a listing of the resource.
      */
-    public function index() {
+    public function index()
+    {
         Gate::authorize('viewAny', User::class);
         return view('adminuser.index');
     }
@@ -24,7 +26,8 @@ class AdminUserController extends Controller {
     /**
      * Display a listing of the data table resource.
      */
-    public function displayListDatatable(Request $request) {
+    public function displayListDatatable(Request $request)
+    {
         Gate::authorize('viewAny', User::class);
         $users = User::query()->with('roles')->whereNotIn('id', [1]);
 
@@ -66,8 +69,11 @@ class AdminUserController extends Controller {
                 return '<span class="text-paragraph text-end">' . Str::ucfirst($role) . '</span>';
             })
             ->addColumn('action_column', function ($users) {
-                $links = '<div class="relative"><button onclick="toggleAction(' . $users->id . ')"
-                            class="p-3 hover:bg-slate-100 rounded-full">
+                $editUrl = route('admin.user.edit', $users?->id);
+                $deleteUrl = route('admin.user.delete', $users?->id);
+                return '
+                    <div class="relative">
+                        <button onclick="toggleAction(' . $users->id . ')" class="p-3 hover:bg-slate-100 rounded-full">
                             <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
                                 xmlns="http://www.w3.org/2000/svg">
                                 <path d="M11.9922 12H12.0012" stroke="#666666" stroke-width="2.5"
@@ -78,20 +84,21 @@ class AdminUserController extends Controller {
                                     stroke-linecap="round" stroke-linejoin="round" />
                             </svg>
                         </button>
-                        <div id="action-' . $users->id . '" class="shadow-lg z-30 absolute top-5 right-10"
-                            style="display: none">
+                        <div id="action-' . $users->id . '" class="shadow-lg z-30 absolute top-5 right-10" style="display: none">
                             <ul>
-                                <li class="px-5 py-1 text-center" style="background: #FFF4EC;color:#F36D00">
-                                    <a
-                                        href="' . route('admin.user.edit', ['user' => $users->id]) . '">Edit</a>
+                                <li class="px-5 py-1 text-center" style="background: #FFF4EC; color:#F36D00">
+                                    <a href="' . $editUrl . '">Edit</a>
                                 </li>
                                 <li class="px-5 py-1 text-center bg-red-600 text-white">
-                                    <a href="' . route('admin.user.delete', ['user' => $users->id]) . '">Delete</a>
+                                    <form action="' . $deleteUrl . '" method="POST" onsubmit="return confirm(\'Are you sure?\');">
+                                        ' . csrf_field() . '
+                                        ' . method_field("DELETE") . '
+                                        <button type="submit" class="text-white">Delete</button>
+                                    </form>
                                 </li>
                             </ul>
-                        </div></div>';
-
-                return $links;
+                        </div>
+                    </div>';
             })
             ->addIndexColumn()
             ->escapeColumns([])
@@ -102,7 +109,8 @@ class AdminUserController extends Controller {
      * Show the form for creating a new resource.
      * @return Application|Factory|View
      */
-    public function create(): Application | Factory | View {
+    public function create(): Application | Factory | View
+    {
         Gate::authorize('create', User::class);
         return view('adminuser.create');
     }
@@ -110,7 +118,8 @@ class AdminUserController extends Controller {
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request) {
+    public function store(Request $request)
+    {
         //
         Gate::authorize('create', User::class);
     }
@@ -118,7 +127,8 @@ class AdminUserController extends Controller {
     /**
      * Display the specified resource.
      */
-    public function show(User $User) {
+    public function show(User $User)
+    {
         //
         Gate::authorize('view', User::class);
         return view('User.show');
@@ -127,7 +137,8 @@ class AdminUserController extends Controller {
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(User $user) {
+    public function edit(User $user)
+    {
         Gate::authorize('update', User::class);
         return view('adminuser.edit', compact('user'));
     }
@@ -135,7 +146,8 @@ class AdminUserController extends Controller {
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, User $User) {
+    public function update(Request $request, User $User)
+    {
         Gate::authorize('update', User::class);
     }
 
@@ -143,14 +155,16 @@ class AdminUserController extends Controller {
      * Remove the specified resource from storage.
      * @param User $user
      */
-    public function destroy(User $user) {
+    public function destroy(User $user)
+    {
         Gate::authorize('delete', User::class);
         $user->delete();
         flash()->success('User has been deleted');
         return back();
     }
 
-    public function getUserById(Request $request) {
+    public function getUserById(Request $request)
+    {
         return User::where('id', $request->user_id)->first();
     }
 }

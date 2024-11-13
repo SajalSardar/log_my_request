@@ -220,6 +220,22 @@ class TicketController extends Controller
     public function destroy(Ticket $ticket)
     {
         Gate::authorize('delete', $ticket);
+        $ticket->delete();
+        flash()->success('Ticket has been trashed');
+        return back();
+    }
+
+    /**
+     * Delete file of the model
+     * @param Ticket $ticket
+     * @return mixed
+     */
+    public function trashFile(string $id)
+    {
+        $response = Image::find($id);
+        $response->delete();
+        flash()->success('File has been deleted');
+        return back();
     }
 
     /**
@@ -325,7 +341,6 @@ class TicketController extends Controller
                     'user_id' => $checkUser->id,
                 ]
             );
-
         } else {
 
             $password = rand(10000000, 99999999);
@@ -359,7 +374,6 @@ class TicketController extends Controller
             TicketService::createTicketNote($ticket->id, $ticket->ticket_note->old_status, $ticket->ticket_note->new_status, 'requester_change', $ticket->ticket_note->note);
 
             TicketService::createTicketLog($ticket->getKey(), $ticket->ticket_status->name, 'updated', json_encode($ticket));
-
         } catch (\Exception $e) {
             TicketService::createTicketLog($ticket->getKey(), $ticket->ticket_status->name, 'update_fail', json_encode($e->getMessage()));
         }
@@ -389,7 +403,6 @@ class TicketController extends Controller
             TicketService::createTicketLog($ticket->getKey(), $ticket->ticket_status->name, 'updated', json_encode($ticketUpdate));
         } catch (\Exception $e) {
             TicketService::createTicketLog($ticket->getKey(), $ticket->ticket_status->name, 'update_fail', json_encode($e->getMessage()));
-
         }
         $source = Source::find($request->source_id);
 
