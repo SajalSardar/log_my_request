@@ -60,7 +60,6 @@
                     processing: true,
                     serverSide: true,
                     responsive: true,
-                    searching: false,
                     scrollX: true,
                     order: [
                         0, 'desc'
