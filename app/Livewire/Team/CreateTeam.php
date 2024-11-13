@@ -11,7 +11,8 @@ use Illuminate\Support\Facades\Gate;
 use Livewire\Component;
 use Livewire\Features\SupportFileUploads\WithFileUploads;
 
-class CreateTeam extends Component {
+class CreateTeam extends Component
+{
     use WithFileUploads;
 
     /**
@@ -38,21 +39,22 @@ class CreateTeam extends Component {
     public $departments;
 
     /**
-     * Define public method save() to store the resourses
+     * Define public method save() to store the resource
      */
-    public function save(TeamService $service) {
+    public function save(TeamService $service)
+    {
         Gate::authorize('create', Team::class);
         $this->form->validate();
         $isCreate = $service->store($this->form);
         $isUpload = $this->form->image ? Fileupload::upload($this->form, Bucket::TEAM, $isCreate->getKey(), Team::class, 300, 300) : '';
-        $response = $isCreate ? 'Data has been update successfuly' : 'Something went wrong';
+        $response = $isCreate ? 'Data has been update successfully' : 'Something went wrong';
         flash()->success($response);
         return redirect()->to('/dashboard/team');
     }
 
-    public function render() {
+    public function render()
+    {
         Gate::authorize('create', Team::class);
         return view('livewire.team.create-team');
     }
-
 }

@@ -62,11 +62,11 @@ class Helper {
     }
     public static function getLoggedInUserRoleSession() {
         $loginRole = Session::has('login_role') ? Session::get('login_role') : '';
-        return $loginRole;
+        return strtolower($loginRole);
     }
 
     public static function roleWiseAccess($role) {
-        if (auth()->user()->hasRole($role) && Helper::getLoggedInUserRoleSession() === $role) {
+        if (auth()->user()->hasRole(strtolower($role)) && Helper::getLoggedInUserRoleSession() === $role) {
             return true;
         }
         return false;

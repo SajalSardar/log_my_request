@@ -23,7 +23,6 @@ class TeamController extends Controller
         $collections = Team::query()
             ->with('image', 'agents', 'department', 'teamCategories')
             ->get();
-        // return $collections;
         return view("team.index", compact('collections'));
     }
 
@@ -76,8 +75,11 @@ class TeamController extends Controller
             })
 
             ->addColumn('action_column', function ($team) {
-                $links = '<div class="relative"><button onclick="toggleAction(' . $team->id . ')"
-                            class="p-3 hover:bg-slate-100 rounded-full">
+                $editUrl = route('admin.team.edit', $team?->id);
+                $deleteUrl = route('admin.team.destroy', $team?->id);
+                return '
+                    <div class="relative">
+                        <button onclick="toggleAction(' . $team->id . ')" class="p-3 hover:bg-slate-100 rounded-full">
                             <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
                                 xmlns="http://www.w3.org/2000/svg">
                                 <path d="M11.9922 12H12.0012" stroke="#666666" stroke-width="2.5"
@@ -88,24 +90,21 @@ class TeamController extends Controller
                                     stroke-linecap="round" stroke-linejoin="round" />
                             </svg>
                         </button>
-                        <div id="action-' . $team->id . '" class="shadow-lg z-30 absolute top-5 right-10"
-                            style="display: none">
+                        <div id="action-' . $team->id . '" class="shadow-lg z-30 absolute top-5 right-10" style="display: none">
                             <ul>
-                                <li class="px-5 py-1 text-center" style="background: #FFF4EC;color:#F36D00">
-                                    <a
-                                        href="' . route('admin.team.edit', ['team' => $team->id]) . '">Edit</a>
-                                </li>
-                                <li class="px-5 py-1 text-center bg-white">
-                                    <a
-                                        href="#">View</a>
+                                <li class="px-5 py-1 text-center" style="background: #FFF4EC; color:#F36D00">
+                                    <a href="' . $editUrl . '">Edit</a>
                                 </li>
                                 <li class="px-5 py-1 text-center bg-red-600 text-white">
-                                    <a href="' . route('admin.team.destroy', ['team' => $team->id]) . '">Delete</a>
+                                    <form action="' . $deleteUrl . '" method="POST" onsubmit="return confirm(\'Are you sure?\');">
+                                        ' . csrf_field() . '
+                                        ' . method_field("DELETE") . '
+                                        <button type="submit" class="text-white">Delete</button>
+                                    </form>
                                 </li>
                             </ul>
-                        </div></div>';
-
-                return $links;
+                        </div>
+                    </div>';
             })
             ->addIndexColumn()
             ->escapeColumns([])
@@ -131,13 +130,13 @@ class TeamController extends Controller
      */
     public function show(Team $team)
     {
-        //
         Gate::authorize('view', $team);
         return view('team.show');
     }
 
     /**
      * Show the form for editing the specified resource.
+     * @param Team $team
      */
     public function edit(Team $team)
     {
@@ -152,9 +151,13 @@ class TeamController extends Controller
 
     /**
      * Remove the specified resource from storage.
+     * @param Team $team
      */
     public function destroy(Team $team)
     {
-        Gate::authorize('delete', $team);
+        Gate::authorize('delete', Team::class);
+        $team->delete();
+        flash()->success('Team has been deleted');
+        return back();
     }
 }

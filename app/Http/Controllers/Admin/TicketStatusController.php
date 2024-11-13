@@ -72,33 +72,36 @@ class TicketStatusController extends Controller
             })
 
             ->addColumn('action_column', function ($ticketStatus) {
-                $editRoute = route('admin.ticketstatus.edit', ['ticketstatus' => $ticketStatus->id]);
-                $deleteRoute = route('admin.ticketstatus.delete', ['ticketstatus' => $ticketStatus->id]);
-                $links = '
+                $editUrl = route('admin.ticketstatus.edit', $ticketStatus?->id);
+                $deleteUrl = route('admin.ticketstatus.delete', $ticketStatus?->id);
+                return '
                     <div class="relative">
                         <button onclick="toggleAction(' . $ticketStatus->id . ')" class="p-3 hover:bg-slate-100 rounded-full">
-                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                <path d="M11.9922 12H12.0012" stroke="#666666" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" />
-                                <path d="M11.9844 18H11.9934" stroke="#666666" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" />
-                                <path d="M12 6H12.009" stroke="#666666" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" />
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
+                                xmlns="http://www.w3.org/2000/svg">
+                                <path d="M11.9922 12H12.0012" stroke="#666666" stroke-width="2.5"
+                                    stroke-linecap="round" stroke-linejoin="round" />
+                                <path d="M11.9844 18H11.9934" stroke="#666666" stroke-width="2.5"
+                                    stroke-linecap="round" stroke-linejoin="round" />
+                                <path d="M12 6H12.009" stroke="#666666" stroke-width="2.5"
+                                    stroke-linecap="round" stroke-linejoin="round" />
                             </svg>
                         </button>
                         <div id="action-' . $ticketStatus->id . '" class="shadow-lg z-30 absolute top-5 right-10" style="display: none">
                             <ul>
-                                <li class="px-5 py-1 text-center" style="background: #FFF4EC; color: #F36D00">
-                                    <a href="' . $editRoute . '">Edit</a>
+                                <li class="px-5 py-1 text-center" style="background: #FFF4EC; color:#F36D00">
+                                    <a href="' . $editUrl . '">Edit</a>
                                 </li>
                                 <li class="px-5 py-1 text-center bg-red-600 text-white">
-                                    <form action="' . $deleteRoute . '" method="POST" onsubmit="return confirm(\'Are you sure you want to delete this item?\');" style="display: inline;">
-                                        <input type="hidden" name="_token" value="' . csrf_token() . '">
-                                        <input type="hidden" name="_method" value="DELETE">
+                                    <form action="' . $deleteUrl . '" method="POST" onsubmit="return confirm(\'Are you sure?\');">
+                                        ' . csrf_field() . '
+                                        ' . method_field("DELETE") . '
                                         <button type="submit" class="text-white">Delete</button>
                                     </form>
                                 </li>
                             </ul>
                         </div>
                     </div>';
-                return $links;
             })
             ->addIndexColumn()
             ->escapeColumns([])
@@ -137,12 +140,12 @@ class TicketStatusController extends Controller
      * Remove the specified resource from storage.
      * @param TicketStatus $ticketStatus
      */
-    public function destroy(TicketStatus $ticketStatus)
+    public function destroy(TicketStatus $ticketstatus)
     {
-        Gate::authorize('delete', $ticketStatus);
-        $ticketStatus->delete();
+        Gate::authorize('delete', TicketStatus::class);
+        $ticketstatus->delete();
         Artisan::call('optimize:clear');
-        flash()->success('Ticket has been deleted');
+        flash()->success('Status has been deleted');
         return back();
     }
 }

@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Models\Department;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Cache;
 use Yajra\DataTables\Facades\DataTables;
@@ -65,10 +66,12 @@ class DepartmentController extends Controller
             ->editColumn('created_at', function ($department) {
                 return '<span class="text-paragraph text-end">' . ISODate(date: $department?->created_at) . '</span>';
             })
-
             ->addColumn('action_column', function ($department) {
-                $links = '<div class="relative"><button onclick="toggleAction(' . $department->id . ')"
-                            class="p-3 hover:bg-slate-100 rounded-full">
+                $editUrl = route('admin.department.edit', $department?->id);
+                $deleteUrl = route('admin.department.destroy', $department?->id);
+                return '
+                    <div class="relative">
+                        <button onclick="toggleAction(' . $department->id . ')" class="p-3 hover:bg-slate-100 rounded-full">
                             <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
                                 xmlns="http://www.w3.org/2000/svg">
                                 <path d="M11.9922 12H12.0012" stroke="#666666" stroke-width="2.5"
@@ -79,24 +82,21 @@ class DepartmentController extends Controller
                                     stroke-linecap="round" stroke-linejoin="round" />
                             </svg>
                         </button>
-                        <div id="action-' . $department->id . '" class="shadow-lg z-30 absolute top-5 right-10"
-                            style="display: none">
+                        <div id="action-' . $department->id . '" class="shadow-lg z-30 absolute top-5 right-10" style="display: none">
                             <ul>
-                                <li class="px-5 py-1 text-center" style="background: #FFF4EC;color:#F36D00">
-                                    <a
-                                        href="' . route('admin.department.edit', ['department' => $department->id]) . '">Edit</a>
-                                </li>
-                                <li class="px-5 py-1 text-center bg-white">
-                                    <a
-                                        href="#">View</a>
+                                <li class="px-5 py-1 text-center" style="background: #FFF4EC; color:#F36D00">
+                                    <a href="' . $editUrl . '">Edit</a>
                                 </li>
                                 <li class="px-5 py-1 text-center bg-red-600 text-white">
-                                    <a href="' . route('admin.department.destroy', ['department' => $department->id]) . '">Delete</a>
+                                    <form action="' . $deleteUrl . '" method="POST" onsubmit="return confirm(\'Are you sure?\');">
+                                        ' . csrf_field() . '
+                                        ' . method_field("DELETE") . '
+                                        <button type="submit" class="text-white">Delete</button>
+                                    </form>
                                 </li>
                             </ul>
-                        </div></div>';
-
-                return $links;
+                        </div>
+                    </div>';
             })
             ->addIndexColumn()
             ->escapeColumns([])
@@ -136,6 +136,10 @@ class DepartmentController extends Controller
      */
     public function destroy(Department $department)
     {
-        Gate::authorize('delete', $department);
+        Gate::authorize('delete', Department::class);
+        $department->delete();
+        Artisan::call('optimize:clear');
+        flash()->success('Department has been deleted');
+        return back();
     }
 }

@@ -9,12 +9,14 @@ use Illuminate\Database\Eloquent\Relations\MorphOne;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Facades\Cache;
 
-class Team extends Model {
+class Team extends Model
+{
     use HasFactory, SoftDeletes;
 
     protected $guarded = ['id'];
 
-    protected static function boot() {
+    protected static function boot()
+    {
         parent::boot();
 
         static::created(function () {
@@ -30,15 +32,25 @@ class Team extends Model {
      * Define public method teamCategories()
      * @return BelongsToMany
      */
-    public function teamCategories(): BelongsToMany {
+    public function teamCategories(): BelongsToMany
+    {
         return $this->belongsToMany(Category::class, 'team_categories');
+    }
+
+    /**
+     * Get ticket associate with this model
+     */
+    public function ticket()
+    {
+        return $this->hasMany(Ticket::class, 'category_id', 'id');
     }
 
     /**
      * Define public method image()
      * @return MorphOne
      */
-    public function image(): MorphOne {
+    public function image(): MorphOne
+    {
         return $this->morphOne(Image::class, 'image', 'image_type', 'image_id');
     }
 
@@ -46,11 +58,13 @@ class Team extends Model {
      * Define public method agents()
      * @return BelongsToMany
      */
-    public function agents(): BelongsToMany {
+    public function agents(): BelongsToMany
+    {
         return $this->belongsToMany(User::class);
     }
 
-    public function department() {
+    public function department()
+    {
         return $this->belongsTo(Department::class);
     }
 }
