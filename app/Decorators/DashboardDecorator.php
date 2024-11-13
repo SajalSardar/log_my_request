@@ -14,7 +14,7 @@ class DashboardDecorator
         $resource = DB::table('tickets')->select('priority', DB::raw('count(*) as total'))->groupBy('priority')->get();
         $ttlCount = $resource->map(fn($i) => $i->total)->sum();
         return $resource->map(function ($item) use ($ttlCount) {
-            $color = match (true) {
+            $color = match ($item->priority) {
                 'low'       => '#10B981',
                 'medium'    => '#3B82F6',
                 'high'      => '#EF4444',
@@ -60,7 +60,7 @@ class DashboardDecorator
             ->get();
         return $resource->map(fn($user) => [
             'name' => $user->name,
-            'total' => $user->tickets,
+            'total' => $user->tickets_count,
         ])->toBase();
     }
 

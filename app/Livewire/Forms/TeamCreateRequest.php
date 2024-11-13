@@ -5,7 +5,8 @@ namespace App\Livewire\Forms;
 use Livewire\Attributes\Validate;
 use Livewire\Form;
 
-class TeamCreateRequest extends Form {
+class TeamCreateRequest extends Form
+{
     #[Validate]
     public $name;
 
@@ -23,7 +24,8 @@ class TeamCreateRequest extends Form {
     #[Validate]
     public $department_id = null;
 
-    protected function rules() {
+    protected function rules()
+    {
         return [
             'name'          => 'required|min:3|unique:categories,name',
             'status'        => 'required|string:0,1',

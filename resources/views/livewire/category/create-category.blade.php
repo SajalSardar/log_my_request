@@ -53,20 +53,6 @@
                     <x-input-error :messages="$errors->get('form.status')" class="mt-2" />
                 </div>
             </div>
-            <div class="grid lg:grid-cols-1 md:grid-cols-1 sm:grid-cols-1 sm:gap-1 md:gap-2">
-                <div class="pt-2 w-full">
-                    <x-forms.label for="form.status" required='yes'>
-                        {{ __('Status') }}
-                    </x-forms.label>
-                    <x-forms.select-input wire:model.live="form.status">
-                        <option selected>--Select Status--</option>
-                        <option value="1">Active</option>
-                        <option value="0">Inactive</option>
-                    </x-forms.select-input>
-
-                    <x-input-error :messages="$errors->get('form.status')" class="mt-2" />
-                </div>
-            </div>
 
             <div class="grid lg:grid-cols-1 md:grid-cols-1 sm:grid-cols-1 sm:gap-1 md:gap-2">
                 <div class="pt-2 w-full">

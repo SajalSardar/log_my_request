@@ -25,7 +25,6 @@
                 </tr>
             </thead>
 
-
             @forelse ($collections as $each)
                 <tbody x-data="{ open: false }">
                     <tr class="rounded shadow">

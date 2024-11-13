@@ -25,7 +25,5 @@ class AppServiceProvider extends ServiceProvider
         Gate::before(function ($user, $ability) {
             return $user->hasRole('super-admin') ? true : null;
         });
-
-        View::composer(['dashboard'], DashboardComposer::class);
     }
 }

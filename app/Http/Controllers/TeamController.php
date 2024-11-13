@@ -23,7 +23,6 @@ class TeamController extends Controller
         $collections = Team::query()
             ->with('image', 'agents', 'department', 'teamCategories')
             ->get();
-        // return $collections;
         return view("team.index", compact('collections'));
     }
 
