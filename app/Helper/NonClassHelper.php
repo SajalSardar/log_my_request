@@ -108,8 +108,7 @@ function dayMonthYearHourMininteSecond($date, $endDate = null, $includeYear = fa
  * @param string $string
  * @return string
  */
-function camelCase($string): string
-{
+function camelCase($string): string {
     $string = str_replace(
         ' ',
         ' ',
@@ -122,5 +121,3 @@ function camelCase($string): string
 
     return $string;
 }
-
-

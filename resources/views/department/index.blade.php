@@ -61,7 +61,6 @@
                 processing: true,
                 serverSide: true,
                 responsive: true,
-                searching: false,
                 scrollX: true,
                 order: [
                     1, 'desc'

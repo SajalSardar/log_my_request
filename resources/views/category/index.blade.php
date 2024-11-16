@@ -73,7 +73,7 @@
                 columns: [{
                         data: 'select',
                         name: 'select',
-                        sortable :false
+                        sortable: false
                     },
                     {
                         data: 'id',
@@ -98,7 +98,7 @@
                     {
                         data: 'action_column',
                         name: 'action_column',
-                        sortable :false
+                        sortable: false
                     }
                 ]
             });

@@ -12,13 +12,11 @@ use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Str;
 use Yajra\DataTables\Facades\DataTables;
 
-class AdminUserController extends Controller
-{
+class AdminUserController extends Controller {
     /**
      * Display a listing of the resource.
      */
-    public function index()
-    {
+    public function index() {
         Gate::authorize('viewAny', User::class);
         return view('adminuser.index');
     }
@@ -26,8 +24,7 @@ class AdminUserController extends Controller
     /**
      * Display a listing of the data table resource.
      */
-    public function displayListDatatable(Request $request)
-    {
+    public function displayListDatatable(Request $request) {
         Gate::authorize('viewAny', User::class);
         $users = User::query()->with('roles')->whereNotIn('id', [1]);
 
@@ -118,8 +115,7 @@ class AdminUserController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
-    {
+    public function store(Request $request) {
         //
         Gate::authorize('create', User::class);
     }
@@ -127,8 +123,7 @@ class AdminUserController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(User $User)
-    {
+    public function show(User $User) {
         //
         Gate::authorize('view', User::class);
         return view('User.show');
@@ -137,8 +132,7 @@ class AdminUserController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(User $user)
-    {
+    public function edit(User $user) {
         Gate::authorize('update', User::class);
         return view('adminuser.edit', compact('user'));
     }
@@ -146,8 +140,7 @@ class AdminUserController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, User $User)
-    {
+    public function update(Request $request, User $User) {
         Gate::authorize('update', User::class);
     }
 
@@ -155,16 +148,14 @@ class AdminUserController extends Controller
      * Remove the specified resource from storage.
      * @param User $user
      */
-    public function destroy(User $user)
-    {
+    public function destroy(User $user) {
         Gate::authorize('delete', User::class);
         $user->delete();
         flash()->success('User has been deleted');
         return back();
     }
 
-    public function getUserById(Request $request)
-    {
+    public function getUserById(Request $request) {
         return User::where('id', $request->user_id)->first();
     }
 }
