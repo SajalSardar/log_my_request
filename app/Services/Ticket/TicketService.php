@@ -20,8 +20,7 @@ use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Str;
 use Yajra\DataTables\Facades\DataTables;
 
-class TicketService
-{
+class TicketService {
     /**
      * Define public property $user;
      * @var array|object
@@ -39,8 +38,7 @@ class TicketService
      * @param $form
      * @return array|object
      */
-    public function store(array | object $request): array | object
-    {
+    public function store(array | object $request): array | object {
 
         $checkUser = User::query()->where('email', $request->requester_email)->first();
         if (!empty($checkUser)) {
@@ -108,8 +106,7 @@ class TicketService
      * @param $request
      * @return array|object|bool
      */
-    public function update(Model $model, $request)
-    {
+    public function update(Model $model, $request) {
 
         $ticket        = Ticket::with('owners')->where('id', $model->getKey())->first();
         $requester     = User::where('email', $request->requester_email)->first();
@@ -162,8 +159,7 @@ class TicketService
         return $ticket;
     }
 
-    public static function createTicketNote($ticketId, $old_status = null, $new_status = null, $note_type, $note = null)
-    {
+    public static function createTicketNote($ticketId, $old_status = null, $new_status = null, $note_type, $note = null) {
         $note = TicketNote::create(
             [
                 'ticket_id'  => $ticketId,
@@ -177,8 +173,7 @@ class TicketService
 
         return $note;
     }
-    public static function createTicketLog($ticketId, $ticket_status, $status = null, $comment = null)
-    {
+    public static function createTicketLog($ticketId, $ticket_status, $status = null, $comment = null) {
         $log = TicketLog::create(
             [
                 'ticket_id'     => $ticketId,
@@ -193,8 +188,7 @@ class TicketService
         return $log;
     }
 
-    public static function getTicketStatusById($id)
-    {
+    public static function getTicketStatusById($id) {
         $ticketStatus = TicketStatus::where('id', $id)->first();
         if ($ticketStatus) {
 
@@ -203,8 +197,7 @@ class TicketService
         return "Status Not Found!";
     }
 
-    public static function ticketChangesNote($request, $ticket, $ticket_status)
-    {
+    public static function ticketChangesNote($request, $ticket, $ticket_status) {
 
         $emailResponse = [];
         if ($request->owner_id && ($ticket->owners->isEmpty() || $ticket->owners->last()->id != $request->owner_id)) {
@@ -253,7 +246,7 @@ class TicketService
 
             $checkTicketStatus = TicketService::getTicketStatusById($request->ticket_status_id);
 
-            if ($checkTicketStatus->slug == 'resolved') {
+            if ((ticketOpenProgressHoldPermission($request->ticket_status_id) == false) && $ticket->resolved_at == null) {
                 $resolution_now        = Carbon::now();
                 $resolution_in_seconds = $ticket->created_at->diffInSeconds($resolution_now);
                 $ticket->update([
@@ -261,7 +254,9 @@ class TicketService
                     'resolved_at'     => now(),
                     'resolved_by'     => Auth::id(),
                 ]);
-            } else {
+            }
+
+            if (ticketOpenProgressHoldPermission($request->ticket_status_id) == true) {
                 $ticket->update([
                     'resolution_time' => null,
                     'resolved_at'     => null,
@@ -284,8 +279,7 @@ class TicketService
         return $emailResponse;
     }
 
-    public static function allTicketListDataTable($request)
-    {
+    public static function allTicketListDataTable($request) {
 
         $ticketStatus = null;
 
@@ -339,30 +333,30 @@ class TicketService
                     $dueDate = '';
 
                     switch ($request->due_date_search) {
-                        case 'today':
-                            $todayDate = Carbon::today()->toDateString();
-                            $query->whereDate('due_date', '=', $todayDate);
-                            break;
+                    case 'today':
+                        $todayDate = Carbon::today()->toDateString();
+                        $query->whereDate('due_date', '=', $todayDate);
+                        break;
 
-                        case 'tomorrow':
-                            $tomorrowDate = Carbon::tomorrow()->toDateString();
-                            $query->whereDate('due_date', '=', $tomorrowDate);
-                            break;
+                    case 'tomorrow':
+                        $tomorrowDate = Carbon::tomorrow()->toDateString();
+                        $query->whereDate('due_date', '=', $tomorrowDate);
+                        break;
 
-                        case 'this_week':
-                            $startOfWeek = Carbon::now()->startOfWeek()->toDateString();
-                            $endOfWeek   = Carbon::now()->endOfWeek()->toDateString();
-                            $query->whereBetween('due_date', [$startOfWeek, $endOfWeek]);
-                            break;
+                    case 'this_week':
+                        $startOfWeek = Carbon::now()->startOfWeek()->toDateString();
+                        $endOfWeek   = Carbon::now()->endOfWeek()->toDateString();
+                        $query->whereBetween('due_date', [$startOfWeek, $endOfWeek]);
+                        break;
 
-                        case 'this_month':
-                            $startOfMonth = Carbon::now()->startOfMonth()->toDateString();
-                            $endOfMonth   = Carbon::now()->endOfMonth()->toDateString();
-                            $query->whereBetween('due_date', [$startOfMonth, $endOfMonth]);
-                            break;
+                    case 'this_month':
+                        $startOfMonth = Carbon::now()->startOfMonth()->toDateString();
+                        $endOfMonth   = Carbon::now()->endOfMonth()->toDateString();
+                        $query->whereBetween('due_date', [$startOfMonth, $endOfMonth]);
+                        break;
 
-                        default:
-                            break;
+                    default:
+                        break;
                     }
                 }
             });
@@ -442,8 +436,8 @@ class TicketService
             })
 
             ->addColumn('action_column', function ($tickets) {
-                $editUrl = route('admin.ticket.edit', $tickets?->id);
-                $viewUrl = route('admin.ticket.show', $tickets?->id);
+                $editUrl   = route('admin.ticket.edit', $tickets?->id);
+                $viewUrl   = route('admin.ticket.show', $tickets?->id);
                 $deleteUrl = route('admin.ticket.delete', $tickets?->id);
                 return '
                     <div class="relative">

@@ -23,11 +23,11 @@
                             <div class="grid lg:grid-cols-3 md:grid-cols-3 sm:grid-cols-1 sm:gap-3 md:gap-32 lg:gap-32">
                                 <div class="col-span-2">
                                     @include('ticket/partials/details')
-                                    @if (!Auth::user()->hasRole('requester'))
+                                    @if (!Auth::user()->hasRole(['requester', 'Requester']))
                                         @include('ticket/partials/internal_note')
                                     @endif
                                 </div>
-                                @if (!Auth::user()->hasRole('requester'))
+                                @if (!Auth::user()->hasRole(['requester', 'Requester']))
                                     <div>
                                         <!-- Edit Part Start !-->
                                         <div class="mt-3">
@@ -50,7 +50,7 @@
         </div>
     </div>
 
-    @if (!Auth::user()->hasRole('requester'))
+    @if (!Auth::user()->hasRole(['requester', 'Requester']))
         @include('ticket/partials/requester_offcanvas')
         @include('ticket/partials/request_offcanvas')
     @endif
@@ -173,7 +173,7 @@
                             $('#sub_category_id').attr('required', true);
                             sub_category_div.removeClass('hidden');
 
-                            let options = '<option value>Select sub category</option>';
+                            let options = '<option value>Select subcategory</option>';
                             response.forEach(function (subcategory) {
                                 let select = subcategory.id == sub_category_id ? "selected" :
                                     "";

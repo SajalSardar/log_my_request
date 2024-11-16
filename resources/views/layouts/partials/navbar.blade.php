@@ -17,22 +17,30 @@
                     <path d="M13.73 21C13.5542 21.3031 13.3019 21.5547 12.9982 21.7295C12.6946 21.9044 12.3504 21.9965 12 21.9965C11.6496 21.9965 11.3054 21.9044 11.0018 21.7295C10.6982 21.5547 10.4458 21.3031 10.27 21" stroke="#5c5c5c" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
                 </svg>
                 <div class="md:w-5 md:h-5 sm:w-4 sm:h-4 bg-[#ef4444] rounded-full text-center text-white text-xs absolute -top-2 -end-2">
-                    10
+                    {{ getTicketNotsNotify()->count() }}
                     <div class="absolute top-0 start-0 rounded-full -z-10 bg-[#ef4444] w-full h-full"></div>
                 </div>
 
                 <div class="toggle-notification-box absolute w-96 h-96 bg-white border border-slate-300 rounded shadow top-12 right-0 sm:-right-10 overflow-auto" style="display: none">
-                    @for ($i = 1; $i < 10; $i++)
-                        <a href="#">
-                        <div class="p-4 flex items-center hover:bg-slate-200">
-                            <img src="{{ asset('assets/images/user.png') }}" alt="profile">
-                            <div class="ml-4">
-                                <p class="text-sm text-gray-500">You have a event on today.</p>
-                                <p class="text-sm text-gray-500">11.00 PM, 2 Aug, 2025</p>
+                    @forelse (getTicketNotsNotify()->take(30) as $item)
+                        <a href="{{ route('admin.ticket.show',[$item->ticket_id, 'notify_id' =>$item->id ]) }}">
+                            <div class="p-4 flex items-center hover:bg-slate-200">
+                                <div class="ml-4">
+                                    @php
+                                        $replaceString = str_replace('_'," ", $item->note_type)
+                                    @endphp
+                                    <p class="text-sm text-gray-500">{{ Str::ucfirst($replaceString) }}</p>
+                                    <p class="text-sm text-gray-500">{{ date('l h:i:a d M, Y', strtotime($item->created_at)) }}</p>
+                                </div>
                             </div>
-                        </div>
                         </a>
-                        @endfor
+                    @empty
+                    <div class="p-4 flex items-center hover:bg-slate-200">
+                        <div class="ml-4">
+                            <p>Notification not found!</p>
+                        </div>
+                    </div>
+                    @endforelse 
                 </div>
             </div>
 
