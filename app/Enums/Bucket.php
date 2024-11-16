@@ -7,6 +7,7 @@ enum Bucket
     case CATEGORY;
     case TICKET;
     case TEAM;
+    case PROFILE;
 
     public function toString(): string
     {
@@ -14,6 +15,7 @@ enum Bucket
             self::CATEGORY    => 'categories',
             self::TICKET   => 'tickets',
             self::TEAM    => 'teams',
+            self::PROFILE => 'profiles',
         };
     }
 }

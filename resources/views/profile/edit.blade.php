@@ -12,30 +12,48 @@
         </div>
     </div>
 
-    <div class="grid lg:grid-cols-2 md:grid-cols-2 sm:grid-cols-1">
-        <div class="flex justify-evenly  py-6">
-            <div class="flex gap-3 items-center">
-                <img src="{{ asset('assets/images/pro.png') }}" alt="" class="w-[72px] h-[72px]">
-                <div>
-                    <h3 class="text-heading-dark">Marvin McKinney</h3>
-                    <p class="text-paragraph">Product Designer</p>
+    <form id="send-verification" method="post" action="{{ route('verification.send') }}">
+        @csrf
+    </form>
+
+    <form method="POST" action="{{ route('profile.update') }}" class="mt-6 space-y-6" enctype="multipart/form-data">
+        @csrf
+        @method('patch')
+        <div class="grid lg:grid-cols-2 md:grid-cols-2 sm:grid-cols-1">
+            <div class="flex justify-between  py-6">
+                <div class="flex gap-3 items-center">
+                    <img src="{{ $user->image?->url }}" alt="{{ $user->image?->url }}" class="w-[72px] h-[72px]">
+                    <div>
+                        <h3 class="text-heading-dark">{{ $user->name }}</h3>
+                        <p class="text-paragraph">Product Designer</p>
+                    </div>
                 </div>
-            </div>
-            <div>
-                <input id="changeImage" hidden type="file">
-                <x-buttons.secondary for="changeImage" type="button">
-                    Change Image
-                </x-buttons.secondary>
-                <div class="text-paragraph pt-1 text-center">
-                    <span>PNG,JPG Upto 10 MB</span>
+                <div>
+                    <input id="changeImage" name="image" hidden type="file">
+                    <label class="hover:bg-primary-400 hover:text-gray-100 border border-base-500 px-8 py-2 inline-block bg-background-gray text-paragraph rounded" for="changeImage">
+                        Change Image
+                    </label>
+                    <div class="text-paragraph pt-1 text-center">
+                        <span>PNG,JPG Upto 1 MB</span>
+                        <x-input-error class="mt-2" :messages="$errors->get('image')" />
+                    </div>
                 </div>
             </div>
         </div>
+        <div class="grid lg:grid-cols-2 md:grid-cols-2 sm:grid-cols-1">
+            <div class="w-full h-[2px] bg-[#ddd]"></div>
+        </div>
+
+        <div class="grid lg:grid-cols-2 md:grid-cols-2 sm:grid-cols-1">
+            @include('profile.partials.update-profile-information-form')
+        </div>
+    </form>
+    <div class="grid lg:grid-cols-2 md:grid-cols-2 sm:grid-cols-1">
+        <div class="w-full h-[2px] bg-[#ddd] mt-5"></div>
     </div>
     <div class="grid lg:grid-cols-2 md:grid-cols-2 sm:grid-cols-1">
-        <div class="w-full h-[2px] bg-[#ddd]"></div>
+        @include('profile.partials.update-password-form')
     </div>
-
 </x-app-layout>
 
 <!-- <div class="p-4 sm:p-8 bg-white shadow sm:rounded-lg">

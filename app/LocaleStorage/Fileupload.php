@@ -73,8 +73,12 @@ class Fileupload
             $final_image = $image->resize($width, $height);
             $isUpload = $final_image->save(storage_path('app/public/' . $bucket->toString() . '/' . $filename));
             $url = asset('storage/' . $bucket->toString() . '/' . $filename);
+            
             if ($isUpload) {
-                $imageDatabase = Image::where('image_type', $model)->where('image_id', $oldItem->id)->update(
+                $imageDatabase = Image::where('image_type', $model)->updateOrCreate(
+                    [
+                        'image_id' => $oldItem->id
+                    ],
                     [
                         'image_type' => $model,
                         'image_id' => $model_id,
@@ -204,5 +208,4 @@ class Fileupload
             return false;
         }
     }
-
 }
