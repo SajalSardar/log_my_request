@@ -25,7 +25,6 @@
                 </tr>
             </thead>
 
-
             @forelse ($collections as $each)
                 <tbody x-data="{ open: false }">
                     <tr class="rounded shadow">
@@ -50,7 +49,11 @@
                                 </span>
                             </div>
                             <div class="profile">
-                                <img src="{{ $each?->image?->url }}" alt="user_picture" height="25" width="25">
+                                @if ($each?->image)
+                                    <img src="{{ $each?->image?->url }}" alt="user_picture" height="25" width="25">
+                                @else
+                                    <img class="rounded-lg shadow-lg" width="30" height="30" style="border-radius: 50%; border:1px solid #eee" alt="profile" src="http://logmyrequest.test/assets/images/profile.jpg">
+                                @endif
                             </div>
                             <div class="infos ps-5 flex">
                                 <h5 class="font-medium text-slate-900">{{ $each?->name }}</h5>
@@ -113,5 +116,8 @@
             @endforelse
 
         </table>
+        <div class="mt-3">
+            {{ $collections->links() }}
+        </div>
     </div>
 </x-app-layout>

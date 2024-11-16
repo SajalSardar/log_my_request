@@ -65,7 +65,6 @@ class TicketService {
             ]);
             $this->user->assignRole('requester');
             event(new Registered($this->user));
-
         }
 
         $response = Ticket::create(
@@ -247,7 +246,7 @@ class TicketService {
 
             $checkTicketStatus = TicketService::getTicketStatusById($request->ticket_status_id);
 
-            if ($checkTicketStatus->slug == 'resolved') {
+            if ((ticketOpenProgressHoldPermission($request->ticket_status_id) == false) && $ticket->resolved_at == null) {
                 $resolution_now        = Carbon::now();
                 $resolution_in_seconds = $ticket->created_at->diffInSeconds($resolution_now);
                 $ticket->update([
@@ -255,7 +254,9 @@ class TicketService {
                     'resolved_at'     => now(),
                     'resolved_by'     => Auth::id(),
                 ]);
-            } else {
+            }
+
+            if (ticketOpenProgressHoldPermission($request->ticket_status_id) == true) {
                 $ticket->update([
                     'resolution_time' => null,
                     'resolved_at'     => null,
@@ -305,11 +306,12 @@ class TicketService {
         }
 
         if ($request->all()) {
-            $tickets->where(function ($query) use ($request) {
+            $tickets->where(function ($query) use ($request, $tickets) {
                 if ($request->me_mode_search) {
                     $query->whereHas('owners', function ($query) {
                         $query->where('owner_id', Auth::id());
                     });
+
                 }
                 if ($request->ticket_id_search) {
                     $query->where('id', 'like', '%' . $request->ticket_id_search . '%')
@@ -425,7 +427,7 @@ class TicketService {
                 return $data;
             })
             ->addColumn('request_age', function ($tickets) {
-                $data = '<span class="text-paragraph">' . dayMonthYearHourMininteSecond($tickets?->created_at, $tickets?->resolved_at, true, true, true, true) . '</span>';
+                $data = '<span class="text-paragraph">' . dayMonthYearHourMininteSecond($tickets?->created_at, $tickets?->resolved_at, true, true, true, true, true, true) . '</span>';
                 return $data;
             })
             ->editColumn('due_date', function ($tickets) {
@@ -434,8 +436,12 @@ class TicketService {
             })
 
             ->addColumn('action_column', function ($tickets) {
-                $links = '<div class="relative"><button onclick="toggleAction(' . $tickets->id . ')"
-                            class="p-3 hover:bg-slate-100 rounded-full">
+                $editUrl   = route('admin.ticket.edit', $tickets?->id);
+                $viewUrl   = route('admin.ticket.show', $tickets?->id);
+                $deleteUrl = route('admin.ticket.delete', $tickets?->id);
+                return '
+                    <div class="relative">
+                        <button onclick="toggleAction(' . $tickets->id . ')" class="p-3 hover:bg-slate-100 rounded-full">
                             <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
                                 xmlns="http://www.w3.org/2000/svg">
                                 <path d="M11.9922 12H12.0012" stroke="#666666" stroke-width="2.5"
@@ -446,25 +452,26 @@ class TicketService {
                                     stroke-linecap="round" stroke-linejoin="round" />
                             </svg>
                         </button>
-                        <div id="action-' . $tickets->id . '" class="shadow-lg z-30 absolute top-5 right-10"
-                            style="display: none">
+                        <div id="action-' . $tickets->id . '" class="shadow-lg z-30 absolute top-5 right-10" style="display: none">
                             <ul>
-                                <li class="px-5 py-1 text-center" style="background: #FFF4EC;color:#F36D00">
-                                    <a
-                                        href="' . route('admin.ticket.edit', $tickets?->id) . '">Edit</a>
+                                <li class="px-5 py-1 text-center" style="background: #FFF4EC; color:#F36D00">
+                                    <a href="' . $editUrl . '">Edit</a>
                                 </li>
                                 <li class="px-5 py-1 text-center bg-white">
-                                    <a
-                                        href="' . route('admin.ticket.show', $tickets?->id) . '">View</a>
+                                    <a href="' . $viewUrl . '">View</a>
                                 </li>
                                 <li class="px-5 py-1 text-center bg-red-600 text-white">
-                                    <a href="#">Delete</a>
+                                    <form action="' . $deleteUrl . '" method="POST" onsubmit="return confirm(\'Are you sure?\');">
+                                        ' . csrf_field() . '
+                                        ' . method_field("DELETE") . '
+                                        <button type="submit" class="text-white">Delete</button>
+                                    </form>
                                 </li>
                             </ul>
-                        </div></div>';
-
-                return $links;
+                        </div>
+                    </div>';
             })
+            ->rawColumns(['action_column'])
             ->addIndexColumn()
             ->escapeColumns([])
             ->make(true);

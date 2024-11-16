@@ -30,7 +30,7 @@ Route::middleware('auth', 'verified')->prefix('dashboard')->name('admin.')->grou
         Route::get('request-status-create', 'create')->name('create');
         Route::get('request-show/{ticketstatus}', 'show')->name('show');
         Route::get('request-edit/{ticketstatus}', 'edit')->name('edit');
-        Route::delete('request-delete/{ticketstatus}', 'destroy')->name('delete');
+        Route::delete('delete/{ticketstatus}', 'destroy')->name('delete');
         Route::get('status-list-datatable', 'displayListDatatable')->name('status.list.datatable');
     });
 
@@ -39,7 +39,8 @@ Route::middleware('auth', 'verified')->prefix('dashboard')->name('admin.')->grou
         Route::get('create-request', 'create')->name('create');
         Route::get('show-request/{ticket}', 'show')->name('show');
         Route::get('edit-request/{ticket}', 'edit')->name('edit');
-        Route::delete('delete-request/{ticket}', 'destroy')->name('delete');
+        Route::delete('delete/{ticket}', 'destroy')->name('delete');
+        Route::delete('file/{file}', 'trashFile')->name('trashFile');
         Route::get('request-list', 'allTicketList')->name('all.list');
         Route::get('status-wise-request-list', 'allTicketList')->name('status.wise.list');
         Route::get('my-request-list', 'allTicketList')->name('list.active.memode');

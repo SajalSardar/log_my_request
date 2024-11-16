@@ -65,8 +65,11 @@ class CategoryController extends Controller
             })
 
             ->addColumn('action_column', function ($category) {
-                $links = '<div class="relative"><button onclick="toggleAction(' . $category->id . ')"
-                            class="p-3 hover:bg-slate-100 rounded-full">
+                $editUrl = route('admin.category.edit', $category?->id);
+                $deleteUrl = route('admin.category.destroy', $category?->id);
+                return '
+                    <div class="relative">
+                        <button onclick="toggleAction(' . $category->id . ')" class="p-3 hover:bg-slate-100 rounded-full">
                             <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
                                 xmlns="http://www.w3.org/2000/svg">
                                 <path d="M11.9922 12H12.0012" stroke="#666666" stroke-width="2.5"
@@ -77,24 +80,21 @@ class CategoryController extends Controller
                                     stroke-linecap="round" stroke-linejoin="round" />
                             </svg>
                         </button>
-                        <div id="action-' . $category->id . '" class="shadow-lg z-30 absolute top-5 right-10"
-                            style="display: none">
+                        <div id="action-' . $category->id . '" class="shadow-lg z-30 absolute top-5 right-10" style="display: none">
                             <ul>
-                                <li class="px-5 py-1 text-center" style="background: #FFF4EC;color:#F36D00">
-                                    <a
-                                        href="' . route('admin.category.edit', ['category' => $category->id]) . '">Edit</a>
-                                </li>
-                                <li class="px-5 py-1 text-center bg-white">
-                                    <a
-                                        href="#">View</a>
+                                <li class="px-5 py-1 text-center" style="background: #FFF4EC; color:#F36D00">
+                                    <a href="' . $editUrl . '">Edit</a>
                                 </li>
                                 <li class="px-5 py-1 text-center bg-red-600 text-white">
-                                    <a href="' . route('admin.category.destroy', ['category' => $category->id]) . '">Delete</a>
+                                    <form action="' . $deleteUrl . '" method="POST" onsubmit="return confirm(\'Are you sure?\');">
+                                        ' . csrf_field() . '
+                                        ' . method_field("DELETE") . '
+                                        <button type="submit" class="text-white">Delete</button>
+                                    </form>
                                 </li>
                             </ul>
-                        </div></div>';
-
-                return $links;
+                        </div>
+                    </div>';
             })
             ->addIndexColumn()
             ->escapeColumns([])
@@ -138,6 +138,9 @@ class CategoryController extends Controller
      */
     public function destroy(Category $category)
     {
-        Gate::authorize('delete', $category);
+        Gate::authorize('delete', Category::class);
+        $category->delete();
+        flash()->success('Category has been deleted');
+        return back();
     }
 }

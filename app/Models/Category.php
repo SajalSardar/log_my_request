@@ -2,11 +2,12 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\MorphOne;
-use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Database\Eloquent\Relations\MorphTo;
+use Illuminate\Database\Eloquent\Relations\MorphOne;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Category extends Model {
     use HasFactory, SoftDeletes;
@@ -34,7 +35,7 @@ class Category extends Model {
     }
 
     /**
-     * Define public method ticket() associate with category
+     * Define public method ticket associate with category
      */
     public function ticket() {
         return $this->hasMany(Ticket::class, 'category_id', 'id');

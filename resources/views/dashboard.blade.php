@@ -33,7 +33,7 @@
                         </svg>
                     </div>
                     @php
-                        $allRequests = $responses->requests->pluck('count')->sum();
+                    $allRequests = $state->pluck('count')->sum();
                     @endphp
                     <div class="mt-3">
                         <h4 class="font-inter text-2xl font-semibold text-black-400">{{ $allRequests }}</h4>
@@ -53,8 +53,8 @@
                         </svg>
                     </div>
                     <div class="mt-3">
-                        <h4 class="font-inter text-2xl font-semibold text-black-400">{{ $responses->requests->pluck('count')[0] }}</h4>
-                        <p class="text-base font-inter font-normal text-black-400">{{ ucfirst($responses->requests->pluck('name')[0]) }} Requests</p>
+                        <h4 class="font-inter text-2xl font-semibold text-black-400">{{ $state->pluck('count')[0] }}</h4>
+                        <p class="text-base font-inter font-normal text-black-400">{{ ucfirst($state->pluck('name')[0]) }} Requests</p>
                     </div>
                 </div>
             </div>
@@ -71,8 +71,8 @@
                         </svg>
                     </div>
                     <div class="mt-3">
-                        <h4 class="font-inter text-2xl font-semibold text-black-400">{{ $responses->requests->pluck('count')[1] }}</h4>
-                        <p class="text-base font-inter font-normal text-black-400">{{ ucfirst($responses->requests->pluck('name')[1]) }} Requests</p>
+                        <h4 class="font-inter text-2xl font-semibold text-black-400">{{ $state->pluck('count')[1] }}</h4>
+                        <p class="text-base font-inter font-normal text-black-400">{{ ucfirst($state->pluck('name')[1]) }} Requests</p>
                     </div>
                 </div>
             </div>
@@ -82,12 +82,12 @@
             <h3 class="text-detail-heading">Priority Analytics</h3>
             <div class="mt-11 flex items-center justify-between">
                 <div class="value">
-                    @foreach ($responses->charts as $item)
-                        <p class="text-title pb-2">{{ $item['priority'] }} :
-                            <span class="text-sm font-semibold" style="color: {{$item['color'] }};">
-                                {{ $item['value'] }}%
-                            </span>
-                        </p>
+                    @foreach ($chart as $item)
+                    <p class="text-title pb-2">{{ $item->title }} :
+                        <span class="text-sm font-semibold" style="color: {{$item->color }};">
+                            {{ $item->value }}%
+                        </span>
+                    </p>
                     @endforeach
                 </div>
 
@@ -109,8 +109,8 @@
                         </svg>
                     </div>
                     <div class="mt-3">
-                        <h4 class="font-inter text-2xl font-semibold text-black-400">{{ $responses->requests->pluck('count')[2] }}</h4>
-                        <p class="text-base font-inter font-normal text-black-400">{{ ucfirst($responses->requests->pluck('name')[2]) }} Requests</p>
+                        <h4 class="font-inter text-2xl font-semibold text-black-400">{{ $state->pluck('count')[2] }}</h4>
+                        <p class="text-base font-inter font-normal text-black-400">{{ ucfirst($state->pluck('name')[2]) }} Requests</p>
                     </div>
                 </div>
             </div>
@@ -126,8 +126,8 @@
                         </svg>
                     </div>
                     <div class="mt-3">
-                        <h4 class="font-inter text-2xl font-semibold text-black-400">{{ $responses->requests->pluck('count')[3] }}</h4>
-                        <p class="text-base font-inter font-normal text-black-400">{{ ucfirst($responses->requests->pluck('name')[3]) }} Requests</p>
+                        <h4 class="font-inter text-2xl font-semibold text-black-400">{{ $state->pluck('count')[3] }}</h4>
+                        <p class="text-base font-inter font-normal text-black-400">{{ ucfirst($state->pluck('name')[3]) }} Requests</p>
                     </div>
                 </div>
             </div>
@@ -142,8 +142,8 @@
                         </svg>
                     </div>
                     <div class="mt-3">
-                        <h4 class="font-inter text-2xl font-semibold text-black-400">{{ $responses->requests->pluck('count')[4] }}</h4>
-                        <p class="text-base font-inter font-normal text-black-400">{{ ucfirst($responses->requests->pluck('name')[4]) }} Requests</p>
+                        <h4 class="font-inter text-2xl font-semibold text-black-400">{{ $state->pluck('count')[4] }}</h4>
+                        <p class="text-base font-inter font-normal text-black-400">{{ ucfirst($state->pluck('name')[4]) }} Requests</p>
                     </div>
                 </div>
             </div>
@@ -166,22 +166,12 @@
                     </thead>
 
                     <tbody>
+                        @foreach ($traffic as $each)
                         <tr style="border:1px solid #ddd">
-                            <td class="text-center text-paragraph">Requester Name</td>
-                            <td class="text-start text-paragraph">5</td>
+                            <td class="text-center text-paragraph">{{ ucfirst($each['name']) }}</td>
+                            <td class="text-start text-paragraph">{{ ucfirst($each['total']) }}</td>
                         </tr>
-                        <tr style="border:1px solid #ddd">
-                            <td class="text-center text-paragraph">Requester Name</td>
-                            <td class="text-start text-paragraph">5</td>
-                        </tr>
-                        <tr style="border:1px solid #ddd">
-                            <td class="text-center text-paragraph">Requester Name</td>
-                            <td class="text-start text-paragraph">5</td>
-                        </tr>
-                        <tr style="border:1px solid #ddd">
-                            <td class="text-center text-paragraph">Requester Name</td>
-                            <td class="text-start text-paragraph">5</td>
-                        </tr>
+                        @endforeach
                     </tbody>
                 </table>
             </div>
@@ -201,22 +191,12 @@
                     </thead>
 
                     <tbody>
+                        @foreach ($agents as $each)
                         <tr style="border:1px solid #ddd">
-                            <td class="text-center text-paragraph">Agent Name</td>
-                            <td class="text-start text-paragraph">5</td>
+                            <td class="text-center text-paragraph">{{ ucfirst($each['name']) }}</td>
+                            <td class="text-start text-paragraph">{{ ucfirst($each['total']) }}</td>
                         </tr>
-                        <tr style="border:1px solid #ddd">
-                            <td class="text-center text-paragraph">Agent Name</td>
-                            <td class="text-start text-paragraph">5</td>
-                        </tr>
-                        <tr style="border:1px solid #ddd">
-                            <td class="text-center text-paragraph">Agent Name</td>
-                            <td class="text-start text-paragraph">5</td>
-                        </tr>
-                        <tr style="border:1px solid #ddd">
-                            <td class="text-center text-paragraph">Agent Name</td>
-                            <td class="text-start text-paragraph">5</td>
-                        </tr>
+                        @endforeach
                     </tbody>
                 </table>
             </div>
@@ -236,22 +216,12 @@
                     </thead>
 
                     <tbody>
+                        @foreach ($categories as $each)
                         <tr style="border:1px solid #ddd">
-                            <td class="text-center text-paragraph">Category Name</td>
-                            <td class="text-start text-paragraph">5</td>
+                            <td class="text-center text-paragraph">{{ ucfirst($each['name']) }}</td>
+                            <td class="text-start text-paragraph">{{ ucfirst($each['total']) }}</td>
                         </tr>
-                        <tr style="border:1px solid #ddd">
-                            <td class="text-center text-paragraph">Category Name</td>
-                            <td class="text-start text-paragraph">5</td>
-                        </tr>
-                        <tr style="border:1px solid #ddd">
-                            <td class="text-center text-paragraph">Category Name</td>
-                            <td class="text-start text-paragraph">5</td>
-                        </tr>
-                        <tr style="border:1px solid #ddd">
-                            <td class="text-center text-paragraph">Category Name</td>
-                            <td class="text-start text-paragraph">5</td>
-                        </tr>
+                        @endforeach
                     </tbody>
                 </table>
             </div>
@@ -271,22 +241,12 @@
                     </thead>
 
                     <tbody>
+                        @foreach ($teams as $each)
                         <tr style="border:1px solid #ddd">
-                            <td class="text-center text-paragraph">Team Name</td>
-                            <td class="text-start text-paragraph">5</td>
+                            <td class="text-center text-paragraph">{{ ucfirst($each['name']) }}</td>
+                            <td class="text-start text-paragraph">{{ ucfirst($each['total']) }}</td>
                         </tr>
-                        <tr style="border:1px solid #ddd">
-                            <td class="text-center text-paragraph">Team Name</td>
-                            <td class="text-start text-paragraph">5</td>
-                        </tr>
-                        <tr style="border:1px solid #ddd">
-                            <td class="text-center text-paragraph">Team Name</td>
-                            <td class="text-start text-paragraph">5</td>
-                        </tr>
-                        <tr style="border:1px solid #ddd">
-                            <td class="text-center text-paragraph">Team Name</td>
-                            <td class="text-start text-paragraph">5</td>
-                        </tr>
+                        @endforeach
                     </tbody>
                 </table>
             </div>
@@ -295,10 +255,10 @@
     @endrole
 
     @if (Helper::roleWiseAccess('attendee'))
-        <p>attendee</p>
+    <p>attendee</p>
     @endif
     @if (Helper::roleWiseAccess('organizer'))
-        <p>organizer</p>
+    <p>organizer</p>
     @endif
 
     @section('style')
@@ -321,12 +281,12 @@
             stroke-linecap: round;
         }
     </style>
-
     @endsection
 
     @section('script')
     <script>
-        const data = @json($responses->charts);
+        const data = JSON.parse('<?= json_encode($chart); ?>');
+        
         function createCircularChart(data) {
             const total = data.reduce((sum, segment) => sum + segment.value, 0);
             let offset = 0;

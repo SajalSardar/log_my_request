@@ -8,26 +8,38 @@
                         <x-forms.label for="due_date">
                             {{ __('Due Date') }}
                         </x-forms.label>
-                        <x-forms.text-input type="date" name="due_date"
-                            value="{{ $ticket?->due_date ? date('Y-m-d', strtotime($ticket->due_date)) : '' }}" />
+                        @if (ticketOpenProgressHoldPermission($ticket->ticket_status_id) == false)
+                            <input type="hidden" name="due_date" value="{{ @$ticket?->due_date}}">
+                            <x-forms.text-input type="text" value="{{ $ticket?->due_date ? date('Y-m-d', strtotime($ticket->due_date)) : '' }}" readonly/>
+                        @else
+                            <x-forms.text-input type="date" name="due_date"
+                            value="{{ $ticket?->due_date ? date('Y-m-d', strtotime($ticket->due_date)) : '' }}"/>
+                        @endif
+                        
                         <x-input-error :messages="$errors->get('due_date')" class="mt-2" />
                     </div>
                 </div>
-
+               
                 <div class="grid md:grid-cols-1 sm:grid-cols-2 sm:gap-1 md:gap-3">
                     <div class="mt-3">
                         <x-forms.label for="category_id" required="yes">
                             {{ __('Category') }}
                         </x-forms.label>
 
-                        <x-forms.select-input name="category_id" id="category_id">
-                            <option value>Category</option>
-                            @foreach ($categories as $each)
-                                <option @selected(old('category_id', $ticket?->category_id) == $each?->id) value="{{ $each?->id }}">
-                                    {{ $each?->name }}
-                                </option>
-                            @endforeach
-                        </x-forms.select-input>
+                        @if (ticketOpenProgressHoldPermission($ticket->ticket_status_id) == false)
+                            <input type="hidden" name="category_id" value="{{ $ticket?->category_id}}">
+                            <x-forms.text-input type="text"
+                            value="{{ $ticket?->category->name }}" readonly/>
+                        @else
+                            <x-forms.select-input name="category_id" id="category_id">
+                                <option value>Category</option>
+                                @foreach ($categories as $each)
+                                    <option @selected(old('category_id', $ticket?->category_id) == $each?->id) value="{{ $each?->id }}">
+                                        {{ $each?->name }}
+                                    </option>
+                                @endforeach
+                            </x-forms.select-input>
+                        @endif
 
                         <x-input-error :messages="$errors->get('category_id')" class="mt-2" />
                     </div>
@@ -39,8 +51,15 @@
                         <x-forms.label for="sub_category_id" required="yes">
                             {{ __('Sub Category') }}
                         </x-forms.label>
-                        <x-forms.select-input name="sub_category_id" id="sub_category_id">
-                        </x-forms.select-input>
+                        @if (ticketOpenProgressHoldPermission($ticket->ticket_status_id) == false)
+                            <input type="hidden" name="sub_category_id" value="{{ @$ticket?->sub_category_id}}">
+                            <x-forms.text-input type="text"
+                            value="{{ @$ticket?->sub_category->name }}" readonly/>
+                        @else
+                            <x-forms.select-input name="sub_category_id" id="sub_category_id">
+                            </x-forms.select-input>
+                        @endif
+                        
                         <x-input-error :messages="$errors->get('sub_category_id')" class="mt-2" />
                     </div>
                 </div>
@@ -70,18 +89,21 @@
                 <div class="grid md:grid-cols-1 sm:grid-cols-2 sm:gap-1 md:gap-3">
 
                     <div class="mt-3">
-                        <x-forms.label for="sub_category_id" required="yes">
+                        <x-forms.label for="department_id" required="yes">
                             {{ __('Department') }}
                         </x-forms.label>
-
-                        <x-forms.select-input name="department_id" id="department">
-                            <option value="">Select department </option>
-                            @foreach ($departments as $department)
-                                <option value="{{ $department->id }}" @selected(old('department_id', $ticket?->department_id) == $department?->id)>
-                                    {{ $department->name }}</option>
-                            @endforeach
-                        </x-forms.select-input>
-
+                        @if (ticketOpenProgressHoldPermission($ticket->ticket_status_id) == false)
+                            <input type="hidden" name="department_id" value="{{ @$ticket?->department_id}}">
+                            <x-forms.text-input type="text" value="{{ @$ticket->department->name }}" readonly/>
+                        @else
+                            <x-forms.select-input name="department_id" id="department" >
+                                <option value="">Select department </option>
+                                @foreach ($departments as $department)
+                                    <option value="{{ $department->id }}" @selected(old('department_id', $ticket?->department_id) == $department?->id)>
+                                        {{ $department->name }}</option>
+                                @endforeach
+                            </x-forms.select-input>
+                        @endif
                         <x-input-error :messages="$errors->get('department_id')" class="mt-2" />
                     </div>
                 </div>
@@ -90,15 +112,20 @@
                         <x-forms.label for="team_id" required="yes">
                             {{ __('Assign Team') }}
                         </x-forms.label>
-
-                        <x-forms.select-input name="team_id" id="team">
-                            <option value="">Select a Team
-                            </option>
-                            @foreach ($teams as $each)
-                                <option value="{{ $each->id }}" @selected(old('team_id', $ticket?->team_id) == $each?->id)>
-                                    {{ $each->name }}</option>
-                            @endforeach
-                        </x-forms.select-input>
+                        @if (ticketOpenProgressHoldPermission($ticket->ticket_status_id) == false)
+                            <input type="hidden" name="team_id" value="{{ @$ticket?->team_id}}">
+                            <x-forms.text-input type="text" value="{{ @$ticket?->team->name }}" readonly/>
+                        @else
+                            <x-forms.select-input name="team_id" id="team" >
+                                <option value="">Select a Team
+                                </option>
+                                @foreach ($teams as $each)
+                                    <option value="{{ $each->id }}" @selected(old('team_id', $ticket?->team_id) == $each?->id)>
+                                        {{ $each->name }}</option>
+                                @endforeach
+                            </x-forms.select-input>
+                        @endif
+                        
 
                         <x-input-error :messages="$errors->get('team_id')" class="mt-2" />
                     </div>
@@ -106,19 +133,23 @@
                         <x-forms.label for="owner_id">
                             {{ __('Assign Agent') }}
                         </x-forms.label>
-
-                        <x-forms.select-input name="owner_id">
-                            <option value="">Select Agent</option>
-                            @foreach ($agents as $each)
-                                @foreach ($each->agents as $item)
-                                    <option
-                                        {{ in_array($item->id, $ticket?->owners?->pluck('id')->toArray()) ? 'selected' : '' }}
-                                        value="{{ $item?->id }}">
-                                        {{ $item?->name }}
-                                    </option>
+                        @if (ticketOpenProgressHoldPermission($ticket->ticket_status_id) == false)
+                            <input type="hidden" name="owner_id" value="{{ @$ticket?->owners->last()->id}}">
+                            <x-forms.text-input type="text" value="{{ @$ticket?->owners->last()->name }}" readonly/>
+                        @else
+                            <x-forms.select-input name="owner_id">
+                                <option value="">Select Agent</option>
+                                @foreach ($agents as $each)
+                                    @foreach ($each->agents as $item)
+                                        <option
+                                            {{ in_array($item->id, $ticket?->owners?->pluck('id')->toArray()) ? 'selected' : '' }}
+                                            value="{{ $item?->id }}">
+                                            {{ $item?->name }}
+                                        </option>
+                                    @endforeach
                                 @endforeach
-                            @endforeach
-                        </x-forms.select-input>
+                            </x-forms.select-input>
+                        @endif
 
                         <x-input-error :messages="$errors->get('owner_id')" class="mt-2" />
                     </div>
@@ -129,14 +160,19 @@
                             {{ __('Requester Priority') }}
                         </x-forms.label>
                         <div class="mt-2">
-                            <x-forms.radio-input name="priority" :checked="$ticket->priority === 'low'" value="low" />
-                            <span class="ml-2 text-title">Low</span>
-
-                            <x-forms.radio-input name="priority" class="ml-2" value="medium" :checked="$ticket->priority === 'medium'" />
-                            <span class="ml-2 text-title">Medium</span>
-
-                            <x-forms.radio-input name="priority" class="ml-2" value="high" :checked="$ticket->priority === 'high'" />
-                            <span class="ml-2 text-title">High</span>
+                            @if (ticketOpenProgressHoldPermission($ticket->ticket_status_id) == false)
+                                <x-forms.text-input type="text" name="priority"
+                                value="{{ $ticket?->priority }}" readonly/>
+                            @else
+                                <label><x-forms.radio-input name="priority" :checked="$ticket->priority === 'low'" value="low" />
+                                <span class="ml-2 text-title">Low</span></label>
+    
+                                <label><x-forms.radio-input name="priority" class="ml-2" value="medium" :checked="$ticket->priority === 'medium'" />
+                                <span class="ml-2 text-title">Medium</span></label>
+    
+                                <label><x-forms.radio-input name="priority" class="ml-2" value="high" :checked="$ticket->priority === 'high'" />
+                                <span class="ml-2 text-title">High</span></label>
+                            @endif
                         </div>
                         <x-input-error :messages="$errors->get('priority')" class="mt-2" />
                     </div>
