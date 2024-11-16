@@ -60,6 +60,7 @@
             var dTable = $('#data-table').DataTable({
                 processing: true,
                 serverSide: true,
+                searching: false,
                 responsive: true,
                 scrollX: true,
                 order: [
