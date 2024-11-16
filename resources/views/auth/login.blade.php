@@ -1,6 +1,6 @@
 <x-guest-layout>
     @section('title', 'Login')
-    
+
     <div class="flex h-full sm:justify-center lg:justify-center md:justify-center items-center">
         <div class="grid sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-2">
             <div class="flex justify-center sm:px-5 sm:py-12 md:px-10 md:py-24 lg:px-20 lg:py-32 items-center lg:-mr-14">
@@ -98,4 +98,24 @@
             </div>
         </div>
     </div>
+    @push('script')
+    <script>
+        document.addEventListener('keydown', function(event) {
+            if (event.key === 'Tab') {
+                const container = document.querySelector('form');
+                const focusableElements = container.querySelectorAll('input, select, textarea, a[href]');
+                const focusable = Array.from(focusableElements);
+                const currentIndex = focusable.indexOf(document.activeElement);
+                if (currentIndex !== -1) {
+                    event.preventDefault();
+                    const nextIndex = event.shiftKey ?
+                        (currentIndex - 1 + focusable.length) % focusable.length
+                        :
+                        (currentIndex + 1) % focusable.length;
+                    focusable[nextIndex].focus();
+                }
+            }
+        });
+    </script>
+    @endpush
 </x-guest-layout>

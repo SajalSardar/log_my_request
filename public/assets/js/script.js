@@ -194,3 +194,4 @@ let toggleEmailNotificationBox = document.querySelector(
 //         toggleEmailNotificationBox.style.display = "none";
 //     }
 // });
+

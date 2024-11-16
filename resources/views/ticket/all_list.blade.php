@@ -1,38 +1,38 @@
 <x-app-layout>
 
     @if (Route::is('admin.ticket.list.active.memode'))
-        @section('title', 'My Request List')
-        @section('breadcrumb')
-        <x-breadcrumb>
-            Assigned To Me
-        </x-breadcrumb>
-        @endsection
-        @elseIf(request()->has('request_status'))
-        @section('title')
+    @section('title', 'My Request List')
+    @section('breadcrumb')
+    <x-breadcrumb>
+        Assigned To Me
+    </x-breadcrumb>
+    @endsection
+    @elseIf(request()->has('request_status'))
+    @section('title')
+    {{ Str::ucfirst(request()->get('request_status')) }} Request
+    @endsection
+    @section('breadcrumb')
+    <x-breadcrumb>
         {{ Str::ucfirst(request()->get('request_status')) }} Request
-        @endsection
-        @section('breadcrumb')
-        <x-breadcrumb>
-            {{ Str::ucfirst(request()->get('request_status')) }} Request
-        </x-breadcrumb>
-        @endsection
+    </x-breadcrumb>
+    @endsection
     @else
-        @section('title', 'All Request List')
-        @section('breadcrumb')
-        <x-breadcrumb>
-            All Request List
-        </x-breadcrumb>
-        @endsection
+    @section('title', 'All Request List')
+    @section('breadcrumb')
+    <x-breadcrumb>
+        All Request List
+    </x-breadcrumb>
+    @endsection
     @endif
 
     <div class="flex justify-between items-center">
         <div>
             @if (Route::is('admin.ticket.list.active.memode'))
-                <h2 class="text-heading-dark !text-lg">My Request List</h2>
-                @elseIf(request()->has('request_status'))
-                <h2 class="text-heading-dark !text-lg">{{ camelCase(request()->get('request_status')) }} Request</h2>
+            <h2 class="text-heading-dark !text-lg">My Request List</h2>
+            @elseIf(request()->has('request_status'))
+            <h2 class="text-heading-dark !text-lg">{{ camelCase(request()->get('request_status')) }} Request</h2>
             @else
-                <h2 class="text-heading-dark !text-lg">All Requests</h2>
+            <h2 class="text-heading-dark !text-lg">All Requests</h2>
             @endif
         </div>
         <div class="flex gap-3 justify-end">
@@ -60,7 +60,7 @@
                 <x-forms.select-input x-model="status" class="text-paragraph" id="status_search">
                     <option value="">Status</option>
                     @foreach ($ticketStatus as $item)
-                        <option value="{{ $item->id }}">{{ $item->name }}</option>
+                    <option value="{{ $item->id }}">{{ $item->name }}</option>
                     @endforeach
                 </x-forms.select-input>
                 <span x-show="status" class="absolute top-1 end-9 text-surface cursor-pointer focus:text-primary outline-none dark:text-white text-base" tabindex="0" style="display: block;" @click="status = '';$nextTick(() => $('#status_search').trigger('change'))">✕</span>
@@ -69,25 +69,16 @@
                 <x-forms.select-input x-model="category" class="text-paragraph" id="category_search">
                     <option value="">Category</option>
                     @foreach ($categories as $category)
-                        <option value="{{ $category->id }}">{{ $category->name }}</option>
-                    @endforeach
-                </x-forms.select-input>
-                <span x-show="category" class="absolute top-1 end-9 text-surface cursor-pointer focus:text-primary outline-none dark:text-white text-base" tabindex="0" style="display: block;" @click="category = '';$nextTick(() => $('#category_search').trigger('change'))">✕</span>
-            </div>
-            {{-- <div style="width:150px" class="relative" x-data="{ category: '' }">
-                <x-forms.select-input x-model="category" class="text-paragraph" id="category_search">
-                    <option value="">Sub-Category</option>
-                    @foreach ($categories as $category)
                     <option value="{{ $category->id }}">{{ $category->name }}</option>
                     @endforeach
                 </x-forms.select-input>
                 <span x-show="category" class="absolute top-1 end-9 text-surface cursor-pointer focus:text-primary outline-none dark:text-white text-base" tabindex="0" style="display: block;" @click="category = '';$nextTick(() => $('#category_search').trigger('change'))">✕</span>
-            </div> --}}
+            </div>
             <div style="width:136px" class="relative" x-data="{ team: '' }">
                 <x-forms.select-input class="text-paragraph" x-model="team" id="team_search">
                     <option value="">Department</option>
                     @foreach ($teams as $team)
-                        <option value="{{ $team->id }}">{{ $team->name }}</option>
+                    <option value="{{ $team->id }}">{{ $team->name }}</option>
                     @endforeach
                 </x-forms.select-input>
                 <span x-show="team" class="absolute top-1 end-9 text-surface cursor-pointer focus:text-primary outline-none dark:text-white text-base" tabindex="0" style="display: block;" @click="team = '';$nextTick(() => $('#team_search').trigger('change'))">✕</span>
@@ -96,7 +87,7 @@
                 <x-forms.select-input class="text-paragraph" x-model="team" id="team_search">
                     <option value="">Team</option>
                     @foreach ($teams as $team)
-                        <option value="{{ $team->id }}">{{ $team->name }}</option>
+                    <option value="{{ $team->id }}">{{ $team->name }}</option>
                     @endforeach
                 </x-forms.select-input>
                 <span x-show="team" class="absolute top-1 end-9 text-surface cursor-pointer focus:text-primary outline-none dark:text-white text-base" tabindex="0" style="display: block;" @click="team = '';$nextTick(() => $('#team_search').trigger('change'))">✕</span>
@@ -126,18 +117,18 @@
         <table class="display nowrap" id="data-table" style="width: 100%;border:1px solid #ddd">
             <thead style="background:#F3F4F6;">
                 <tr>
-                    <th class="text-heading-dark !text-end">
-                        <span class="flex gap-1 !justify-center !items-center">
+                    <th class="text-heading-dark !text-end w-[50px]">
+                        <span class="flex gap-2 !justify-center !items-center">
                             <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                <path d="M2.5 5H4.16667H17.5" stroke="#666666" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-                                <path d="M15.8332 5.00008V16.6667C15.8332 17.1088 15.6576 17.5327 15.345 17.8453C15.0325 18.1578 14.6085 18.3334 14.1665 18.3334H5.83317C5.39114 18.3334 4.96722 18.1578 4.65466 17.8453C4.3421 17.5327 4.1665 17.1088 4.1665 16.6667V5.00008M6.6665 5.00008V3.33341C6.6665 2.89139 6.8421 2.46746 7.15466 2.1549C7.46722 1.84234 7.89114 1.66675 8.33317 1.66675H11.6665C12.1085 1.66675 12.5325 1.84234 12.845 2.1549C13.1576 2.46746 13.3332 2.89139 13.3332 3.33341V5.00008" stroke="#666666" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-                                <path d="M8.3335 9.16675V14.1667" stroke="#666666" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-                                <path d="M11.6665 9.16675V14.1667" stroke="#666666" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                                <path d="M2.5 5H4.16667H17.5" stroke="#5C5C5C" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+                                <path d="M15.8332 4.99984V16.6665C15.8332 17.1085 15.6576 17.5325 15.345 17.845C15.0325 18.1576 14.6085 18.3332 14.1665 18.3332H5.83317C5.39114 18.3332 4.96722 18.1576 4.65466 17.845C4.3421 17.5325 4.1665 17.1085 4.1665 16.6665V4.99984M6.6665 4.99984V3.33317C6.6665 2.89114 6.8421 2.46722 7.15466 2.15466C7.46722 1.8421 7.89114 1.6665 8.33317 1.6665H11.6665C12.1085 1.6665 12.5325 1.8421 12.845 2.15466C13.1576 2.46722 13.3332 2.89114 13.3332 3.33317V4.99984" stroke="#5C5C5C" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+                                <path d="M8.3335 9.1665V14.1665" stroke="#5C5C5C" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+                                <path d="M11.6665 9.1665V14.1665" stroke="#5C5C5C" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
                             </svg>
                             <input type="checkbox" class="border text-center border-slate-200 rounded focus:ring-transparent p-1" style="background-color: #9b9b9b; accent-color: #5C5C5C;">
                         </span>
                     </th>
-                    <th class="text-heading-dark">ID</th>
+                    <th class="text-heading-dark w-[50px]">ID</th>
                     <th class="text-heading-dark">Title</th>
                     <th class="text-heading-dark">Priority</th>
                     <th class="text-heading-dark">Status</th>
@@ -161,7 +152,7 @@
 
     @section('script')
     <script>
-        $(function () {
+        $(function() {
             var dTable = $('#data-table').DataTable({
                 stripeClasses: [],
                 processing: true,
@@ -175,7 +166,7 @@
                 ajax: {
                     url: "{{ route('admin.ticket.all.list.datatable') }}",
                     type: "GET",
-                    data: function (d) {
+                    data: function(d) {
                         d._token = "{{ csrf_token() }}";
                         d.query_status = "{{ $queryStatus }}";
                         d.me_mode_search = $('#me_mode_search').val();
@@ -188,74 +179,73 @@
                     }
                 },
                 columns: [{
-                    data: 'select',
-                    name: 'select',
-                    sortable :false,
-                },
-                {
-                    data: 'id',
-                    name: 'id'
-                },
-                {
-                    data: 'title',
-                    name: 'title'
-                },
-                {
-                    data: 'priority',
-                    name: 'priority'
-                },
-                {
-                    data: 'ticket_status_id',
-                    name: 'ticket_status_id'
-                },
-                {
-                    data: 'category_id',
-                    name: 'category_id'
-                },
-                {
-                    data: 'sub_category_id',
-                    name: 'sub_category_id'
-                },
-
-                {
-                    data: 'user_id',
-                    name: 'user_id'
-                },
-                {
-                    data: 'department_id',
-                    name: 'department_id'
-                },
-                {
-                    data: 'team_id',
-                    name: 'team_id'
-                },
-                {
-                    data: 'agent',
-                    name: 'agent'
-                },
-                {
-                    data: 'created_at',
-                    name: 'created_at'
-                },
-                {
-                    data: 'request_age',
-                    name: 'request_age'
-                },
-                {
-                    data: 'due_date',
-                    name: 'due_date'
-                },
-                {
-                    data: 'action_column',
-                    name: 'action_column',
-                    sortable :false
-                }
+                        data: 'select',
+                        name: 'select',
+                        sortable: false,
+                    },
+                    {
+                        data: 'id',
+                        name: 'id'
+                    },
+                    {
+                        data: 'title',
+                        name: 'title'
+                    },
+                    {
+                        data: 'priority',
+                        name: 'priority'
+                    },
+                    {
+                        data: 'ticket_status_id',
+                        name: 'ticket_status_id'
+                    },
+                    {
+                        data: 'category_id',
+                        name: 'category_id'
+                    },
+                    {
+                        data: 'sub_category_id',
+                        name: 'sub_category_id'
+                    },
+                    {
+                        data: 'user_id',
+                        name: 'user_id'
+                    },
+                    {
+                        data: 'department_id',
+                        name: 'department_id'
+                    },
+                    {
+                        data: 'team_id',
+                        name: 'team_id'
+                    },
+                    {
+                        data: 'agent',
+                        name: 'agent'
+                    },
+                    {
+                        data: 'created_at',
+                        name: 'created_at'
+                    },
+                    {
+                        data: 'request_age',
+                        name: 'request_age'
+                    },
+                    {
+                        data: 'due_date',
+                        name: 'due_date'
+                    },
+                    {
+                        data: 'action_column',
+                        name: 'action_column',
+                        sortable: false
+                    }
                 ]
             });
 
             $(document).on('change keyup',
                 '#priority_search, #category_search, #team_search, #status_search, #due_date_search, #ticket_id_search',
-                function (e) {
+                function(e) {
                     dTable.draw();
                     e.preventDefault();
                 });

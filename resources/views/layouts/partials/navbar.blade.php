@@ -45,26 +45,26 @@
             </div>
 
             <div class="relative">
-                <div class="toggle-menu-button flex gap-1 items-center">
+                <div class="toggle-menu-button flex gap-1 items-center cursor-pointer">
                     <img src="{{ asset('assets/images/profile-2.png') }}" alt="profile" width="38" width="38" style="border-radius: 50%">
                     <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <path d="M6 9L12 15L18 9" stroke="#5C5C5C" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
                     </svg>
                 </div>
-                <div class="toggle-menu absolute p-3 shadow-lg w-[200px] rounded bg-white sm:right-12 z-50" style="top: 46px;display:none">
+                <div class="toggle-menu absolute p-3 shadow w-[180px] rounded bg-white sm:right-12 z-50" style="top: 46px;display:none">
                     <ul>
-                        <li class="py-2">
-                            <p href="#" class="font-normal text-slate-700">
+                        <li class="py-2 cursor-pointer">
+                            <p href="#" class="text-title">
                                 {{ Auth::user()->name }}
                             </p>
                         </li>
-                        <li class="py-2">
-                            <a href="{{ route('profile.edit') }}" class="font-normal text-slate-700">Profile</a>
+                        <li class="py-2 cursor-pointer">
+                            <a href="{{ route('profile.edit') }}" class="text-title">Profile</a>
                         </li>
-                        <li class="py-2">
+                        <li class="py-2 cursor-pointer">
                             <form action="{{ route('logout') }}" method="POST">
                                 @csrf
-                                <button type="submit" class="bg-transparent font-normal text-slate-700">Logout</button>
+                                <button type="submit" class="bg-transparent text-title">Logout</button>
                             </form>
                         </li>
                     </ul>

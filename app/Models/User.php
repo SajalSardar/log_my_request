@@ -8,6 +8,8 @@ use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\MorphTo;
+use Illuminate\Database\Eloquent\Relations\MorphOne;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
@@ -97,5 +99,14 @@ class User extends Authenticatable implements MustVerifyEmail
     public function requester_type()
     {
         return $this->belongsTo(RequesterType::class, 'requester_type_id', 'id');
+    }
+
+    /**
+     * Get the image associate with this model
+     * @return MorphOne
+     */
+    public function image(): MorphOne
+    {
+        return $this->morphOne(Image::class, 'image', 'image_type', 'image_id');
     }
 }
