@@ -369,11 +369,11 @@ class TicketService
 
         return DataTables::of($tickets)
             ->addColumn('select', function () {
-                return '<div class="flex items-center justify-center"><input type="checkbox" class ="border text-center border-slate-200 rounded focus:ring-transparent p-1" style="background-color: #9b9b9b; accent-color: !important #5C5C5C;">
+                return '<div class="flex items-center justify-center ml-6 w-[50px]"><input type="checkbox" class ="border text-center border-slate-200 rounded focus:ring-transparent p-2" style="background-color: #9b9b9b; accent-color: !important #5C5C5C;">
                 </div>';
             })
             ->editColumn('id', function ($tickets) {
-                return '<span class="text-paragraph">' . '#' . $tickets->id . '</span>';
+                return '<div class="w-[50px]"><span class="text-paragraph">' . '#' . $tickets->id . '</span></div>';
             })
             ->editColumn('title', function ($tickets) {
                 return '<a href="' . route('admin.ticket.show', ['ticket' => $tickets?->id]) . '" class="pr-4 text-paragraph hover:text-orange-300 hover:underline block" style="width: 325px; display: inline-block; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">' . Str::limit(ucfirst($tickets->title), 50, '...') . '</a>';

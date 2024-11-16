@@ -1,6 +1,6 @@
 <x-guest-layout>
     @section('title', 'Registers')
-    
+
     <div class="flex h-full sm:justify-center lg:justify-center md:justify-center items-center">
         <div class="grid sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-2">
             <div class="flex h-full justify-center items-center sm:px-5 sm:py-12 md:px-10 md:py-24 lg:px-20 lg:-mr-14">
@@ -58,7 +58,7 @@
                             <x-forms.select-input name="role">
                                 <option class="text-paragraph" disabled selected>Select User Type</option>
                                 @foreach ($roles as $role)
-                                    <option value="{{ $role->name }}">{{ __(Str::ucfirst($role->name)) }}</option>
+                                <option value="{{ $role->name }}">{{ __(Str::ucfirst($role->name)) }}</option>
                                 @endforeach
                             </x-forms.select-input>
                             <x-input-error :messages="$errors->get('role')" class="mt-2" />
@@ -126,4 +126,23 @@
             </div>
         </div>
     </div>
+    @push('script')
+    <script>
+        document.addEventListener('keydown', function(event) {
+            if (event.key === 'Tab') {
+                const container = document.querySelector('form');
+                const focusableElements = container.querySelectorAll('input, select, textarea, a[href]');
+                const focusable = Array.from(focusableElements);
+                const currentIndex = focusable.indexOf(document.activeElement);
+                if (currentIndex !== -1) {
+                    event.preventDefault();
+                    const nextIndex = event.shiftKey ?
+                        (currentIndex - 1 + focusable.length) % focusable.length :
+                        (currentIndex + 1) % focusable.length;
+                    focusable[nextIndex].focus();
+                }
+            }
+        });
+    </script>
+    @endpush
 </x-guest-layout>

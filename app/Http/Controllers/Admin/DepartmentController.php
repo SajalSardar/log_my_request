@@ -33,10 +33,10 @@ class DepartmentController extends Controller
 
         return DataTables::of($department)
             ->addColumn('select', function () {
-                return '<div class="flex items-center justify-center"><input type="checkbox" class ="border text-center border-slate-200 rounded focus:ring-transparent p-1" style="background-color: #9b9b9b; accent-color: #5C5C5C !important;"></div>';
+                return '<div class="flex items-center justify-center ml-6 w-[50px]"><input type="checkbox" class ="border text-center border-slate-200 rounded focus:ring-transparent p-1" style="background-color: #9b9b9b; accent-color: #5C5C5C !important;"></div>';
             })
             ->editColumn('id', function ($department) {
-                return '<span class="text-paragraph text-end">' . '#' . $department->id . '</span>';
+                return '<div class="w-[50px]"><span class="text-paragraph">' . '#' . $department->id . '</span></div>';
             })
             ->editColumn('status', function ($department) {
                 $status = $department->status == "1" ? 'Active' : 'Inactive';
