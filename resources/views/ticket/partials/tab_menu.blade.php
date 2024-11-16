@@ -20,7 +20,7 @@
         </li>
 
     </ul>
-    @if (!Auth::user()->hasRole('requester'))
+    @if (!Auth::user()->hasRole('requester') && ticketOpenProgressHoldPermission($ticket->ticket_status_id))
         <ul class="flex mb-0 list-none">
             <li class="-mb-px last:mr-0 px-2 text-center" x-on:click="$dispatch('open-offcanvas-requester')">
                 <a

@@ -1,6 +1,11 @@
 <?php
 
+use App\Models\Ticket;
+use App\Models\TicketNote;
+use App\Models\TicketStatus;
+use App\Models\User;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Auth;
 
 function ISOdate($date) {
     return $date ? date('M d, Y', strtotime($date)) : '';
@@ -87,4 +92,35 @@ function camelCase($string): string {
     );
 
     return $string;
+}
+
+function getTicketStatusById($id) {
+    $ticketStatus = TicketStatus::where('id', $id)->first();
+    if ($ticketStatus) {
+
+        return $ticketStatus;
+    }
+    return false;
+}
+
+function ticketOpenProgressHoldPermission($ticket_status_id) {
+    $ticketStatus = TicketStatus::where('id', $ticket_status_id)->first();
+    return $ticketStatus->slug == 'open' || $ticketStatus->slug == 'in-progress' || $ticketStatus->slug == 'on-hold' ? true : false;
+}
+
+function getTicketNotsNotify() {
+
+    $query = TicketNote::query()->where('view_notification', 0)->whereNotIn('note_type', ['internal_note']);
+    if (Auth::user()->hasRole(['requester', 'Requester'])) {
+        $ticketId = Ticket::where('user_id', Auth::id())->pluck('id');
+        $query->whereIn('ticket_id', $ticketId);
+    }
+    if (Auth::user()->hasRole(['agent', 'Agent'])) {
+        $userTeamIds = User::find(Auth::id())->teams->pluck('id');
+        $ticketId    = Ticket::whereIn('team_id', $userTeamIds)->pluck('id');
+        $query->whereIn('ticket_id', $userTeamIds);
+    }
+    $ticketNotifyNotes = $query->orderBy('id', 'desc')->get();
+
+    return $ticketNotifyNotes;
 }
