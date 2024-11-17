@@ -23,30 +23,30 @@
 
                 <div class="toggle-notification-box absolute w-96 h-96 bg-white border border-slate-300 rounded shadow top-12 right-0 sm:-right-10 overflow-auto" style="display: none">
                     @forelse (getTicketNotsNotify()->take(30) as $item)
-                        <a href="{{ route('admin.ticket.show',[$item->ticket_id, 'notify_id' =>$item->id ]) }}">
-                            <div class="p-4 flex items-center hover:bg-slate-200">
-                                <div class="ml-4">
-                                    @php
-                                        $replaceString = str_replace('_'," ", $item->note_type)
-                                    @endphp
-                                    <p class="text-sm text-gray-500">{{ Str::ucfirst($replaceString) }}</p>
-                                    <p class="text-sm text-gray-500">{{ date('l h:i:a d M, Y', strtotime($item->created_at)) }}</p>
-                                </div>
+                    <a href="{{ route('admin.ticket.show',[$item->ticket_id, 'notify_id' =>$item->id ]) }}">
+                        <div class="p-4 flex items-center hover:bg-slate-200">
+                            <div class="ml-4">
+                                @php
+                                $replaceString = str_replace('_'," ", $item->note_type)
+                                @endphp
+                                <p class="text-sm text-gray-500">{{ Str::ucfirst($replaceString) }}</p>
+                                <p class="text-sm text-gray-500">{{ date('l h:i:a d M, Y', strtotime($item->created_at)) }}</p>
                             </div>
-                        </a>
+                        </div>
+                    </a>
                     @empty
                     <div class="p-4 flex items-center hover:bg-slate-200">
                         <div class="ml-4">
                             <p>Notification not found!</p>
                         </div>
                     </div>
-                    @endforelse 
+                    @endforelse
                 </div>
             </div>
 
             <div class="relative">
                 <div class="toggle-menu-button flex gap-1 items-center cursor-pointer">
-                    <img src="{{ asset('assets/images/profile-2.png') }}" alt="profile" width="38" width="38" style="border-radius: 50%">
+                    <img src="{{ Auth::user()->image?->url ? Auth::user()->image?->url : asset('assets/images/profile.png') }}" alt="profile" width="38" width="38" style="border-radius: 50%">
                     <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <path d="M6 9L12 15L18 9" stroke="#5C5C5C" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
                     </svg>

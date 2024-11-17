@@ -3,13 +3,14 @@
 namespace App\Livewire\Category;
 
 use App\Enums\Bucket;
-use App\Livewire\Forms\CategoryUpdateRequest;
-use App\LocaleStorage\Fileupload;
-use App\Models\Category;
-use App\Services\Category\CategoryService;
-use Illuminate\Support\Facades\Gate;
 use Livewire\Component;
+use App\Models\Category;
 use Livewire\WithFileUploads;
+use App\LocaleStorage\Fileupload;
+use Illuminate\Support\Facades\Gate;
+use Illuminate\Support\Facades\Artisan;
+use App\Services\Category\CategoryService;
+use App\Livewire\Forms\CategoryUpdateRequest;
 
 class UpdateCategory extends Component
 {
@@ -55,6 +56,7 @@ class UpdateCategory extends Component
         $isUpload = $isCreate ? Fileupload::update($this->form, Bucket::CATEGORY, $this->category, $isCreate->getKey(), Category::class, 300, 300) : false;
         $response = ($isUpload || $isCreate) ? 'Data has been update successfuly' : 'Something went wrong';
         flash()->success($response);
+        Artisan::call('optimize:clear');
         $this->form->reset();
     }
 

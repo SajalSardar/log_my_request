@@ -1,5 +1,5 @@
 <section>
-    <div class="grid md:grid-cols-2 sm:grid-cols-1 sm:gap-1 md:gap-2 mb-3">
+    <div class="grid md:grid-cols-2 sm:grid-cols-1 lg:gap-3 sm:gap-1 md:gap-2 mb-3">
         <div class="w-full">
             <x-input-label for="name" :value="__('Name')" />
             <x-text-input id="name" name="name" type="text" class="mt-1 block w-full" :value="old('name', $user->name)"
@@ -32,7 +32,7 @@
         </div>
     </div>
 
-    <div class="grid md:grid-cols-2 sm:grid-cols-1 sm:gap-1 md:gap-2 mb-3">
+    <div class="grid md:grid-cols-2 sm:grid-cols-1 lg:gap-3 sm:gap-1 md:gap-2 mb-3">
         <div class="w-full">
             <x-input-label for="requester_type_id" :value="__('Requester Type')" />
             <x-forms.select-input name="requester_type_id" id="requester_type_id" class="mt-1">
@@ -54,7 +54,7 @@
         </div>
     </div>
 
-    <div class="grid md:grid-cols-2 sm:grid-cols-1 sm:gap-1 md:gap-2 mb-3">
+    <div class="grid md:grid-cols-2 sm:grid-cols-1 lg:gap-3 sm:gap-1 md:gap-2 mb-3">
         <div class="w-full">
             <x-input-label for="phone" :value="__('Phone')" />
             <x-text-input id="phone" name="phone" type="number" class="mt-1 block w-full" :value="old('phone', $user->phone)"
