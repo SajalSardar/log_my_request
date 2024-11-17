@@ -20,7 +20,8 @@ use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Str;
 use Yajra\DataTables\Facades\DataTables;
 
-class TicketService {
+class TicketService
+{
     /**
      * Define public property $user;
      * @var array|object
@@ -38,7 +39,8 @@ class TicketService {
      * @param $form
      * @return array|object
      */
-    public function store(array | object $request): array | object {
+    public function store(array | object $request): array | object
+    {
 
         $checkUser = User::query()->where('email', $request->requester_email)->first();
         if (!empty($checkUser)) {
@@ -106,7 +108,8 @@ class TicketService {
      * @param $request
      * @return array|object|bool
      */
-    public function update(Model $model, $request) {
+    public function update(Model $model, $request)
+    {
 
         $ticket        = Ticket::with('owners')->where('id', $model->getKey())->first();
         $requester     = User::where('email', $request->requester_email)->first();
@@ -159,7 +162,8 @@ class TicketService {
         return $ticket;
     }
 
-    public static function createTicketNote($ticketId, $old_status = null, $new_status = null, $note_type, $note = null) {
+    public static function createTicketNote($ticketId, $old_status = null, $new_status = null, $note_type, $note = null)
+    {
         $note = TicketNote::create(
             [
                 'ticket_id'  => $ticketId,
@@ -173,7 +177,8 @@ class TicketService {
 
         return $note;
     }
-    public static function createTicketLog($ticketId, $ticket_status, $status = null, $comment = null) {
+    public static function createTicketLog($ticketId, $ticket_status, $status = null, $comment = null)
+    {
         $log = TicketLog::create(
             [
                 'ticket_id'     => $ticketId,
@@ -188,7 +193,8 @@ class TicketService {
         return $log;
     }
 
-    public static function getTicketStatusById($id) {
+    public static function getTicketStatusById($id)
+    {
         $ticketStatus = TicketStatus::where('id', $id)->first();
         if ($ticketStatus) {
 
@@ -197,7 +203,8 @@ class TicketService {
         return "Status Not Found!";
     }
 
-    public static function ticketChangesNote($request, $ticket, $ticket_status) {
+    public static function ticketChangesNote($request, $ticket, $ticket_status)
+    {
 
         $emailResponse = [];
         if ($request->owner_id && ($ticket->owners->isEmpty() || $ticket->owners->last()->id != $request->owner_id)) {
@@ -279,7 +286,8 @@ class TicketService {
         return $emailResponse;
     }
 
-    public static function allTicketListDataTable($request) {
+    public static function allTicketListDataTable($request)
+    {
 
         $ticketStatus = null;
 
@@ -311,7 +319,6 @@ class TicketService {
                     $query->whereHas('owners', function ($query) {
                         $query->where('owner_id', Auth::id());
                     });
-
                 }
                 if ($request->ticket_id_search) {
                     $query->where('id', 'like', '%' . $request->ticket_id_search . '%')
@@ -333,30 +340,30 @@ class TicketService {
                     $dueDate = '';
 
                     switch ($request->due_date_search) {
-                    case 'today':
-                        $todayDate = Carbon::today()->toDateString();
-                        $query->whereDate('due_date', '=', $todayDate);
-                        break;
+                        case 'today':
+                            $todayDate = Carbon::today()->toDateString();
+                            $query->whereDate('due_date', '=', $todayDate);
+                            break;
 
-                    case 'tomorrow':
-                        $tomorrowDate = Carbon::tomorrow()->toDateString();
-                        $query->whereDate('due_date', '=', $tomorrowDate);
-                        break;
+                        case 'tomorrow':
+                            $tomorrowDate = Carbon::tomorrow()->toDateString();
+                            $query->whereDate('due_date', '=', $tomorrowDate);
+                            break;
 
-                    case 'this_week':
-                        $startOfWeek = Carbon::now()->startOfWeek()->toDateString();
-                        $endOfWeek   = Carbon::now()->endOfWeek()->toDateString();
-                        $query->whereBetween('due_date', [$startOfWeek, $endOfWeek]);
-                        break;
+                        case 'this_week':
+                            $startOfWeek = Carbon::now()->startOfWeek()->toDateString();
+                            $endOfWeek   = Carbon::now()->endOfWeek()->toDateString();
+                            $query->whereBetween('due_date', [$startOfWeek, $endOfWeek]);
+                            break;
 
-                    case 'this_month':
-                        $startOfMonth = Carbon::now()->startOfMonth()->toDateString();
-                        $endOfMonth   = Carbon::now()->endOfMonth()->toDateString();
-                        $query->whereBetween('due_date', [$startOfMonth, $endOfMonth]);
-                        break;
+                        case 'this_month':
+                            $startOfMonth = Carbon::now()->startOfMonth()->toDateString();
+                            $endOfMonth   = Carbon::now()->endOfMonth()->toDateString();
+                            $query->whereBetween('due_date', [$startOfMonth, $endOfMonth]);
+                            break;
 
-                    default:
-                        break;
+                        default:
+                            break;
                     }
                 }
             });
@@ -408,12 +415,18 @@ class TicketService {
                 return $data;
             })
             ->editColumn('user_id', function ($tickets) {
-                $data = "<div style='width:163px' class='text-paragraph flex items-center'>
-                    <img src='" . asset('assets/images/profile.jpg') . "' width='40' height='40' style='border-radius: 50%;border:1px solid #eee' alt='profile'>
-                    <span class='ml-2'>" . $tickets->user->name . "</span>
-                </div>";
+                $imageUrl = $tickets->user->image?->url ?? asset('assets/images/profile.png');
+                $userName = $tickets->user->name ?? 'Unknown';
+
+                $data = "
+                    <div style='width:163px' class='text-paragraph flex items-center'>
+                        <img src='{$imageUrl}' width='40' height='40' style='border-radius: 50%; border: 1px solid #eee;' alt='profile'>
+                        <span class='ml-2'>{$userName}</span>
+                    </div>
+                ";
                 return $data;
             })
+
             ->editColumn('team_id', function ($tickets) {
                 $data = '<span class="text-paragraph">' . @$tickets->team->name . '</span>';
                 return $data;

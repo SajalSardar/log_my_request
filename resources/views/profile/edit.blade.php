@@ -6,7 +6,7 @@
     </x-breadcrumb>
 
     <div class="grid lg:grid-cols-2 md:grid-cols-2 sm:grid-cols-1">
-        <div>
+        <div class="mt-[13px]">
             <h3 class="text-heading-dark">Profile Settings</h3>
             <div class="w-full h-[2px] bg-[#ddd] mt-5"></div>
         </div>
@@ -20,18 +20,18 @@
         @csrf
         @method('patch')
         <div class="grid lg:grid-cols-2 md:grid-cols-2 sm:grid-cols-1">
-            <div class="flex justify-between  py-6">
+            <div class="flex justify-between items-center py-6">
                 <div class="flex gap-3 items-center">
-                    <img src="{{ $user->image?->url }}" alt="{{ $user->image?->url }}" class="w-[72px] h-[72px]">
+                    <img src="{{ Auth::user()->image?->url ? Auth::user()->image?->url : asset('assets/images/profile.png') }}" alt="{{ $user->image?->url }}" class="w-[72px] h-[72px] rounded-full">
                     <div>
                         <h3 class="text-heading-dark">{{ $user->name }}</h3>
-                        <p class="text-paragraph">Product Designer</p>
+                        <p class="text-paragraph">{{ $user?->designation }}</p>
                     </div>
                 </div>
                 <div>
                     <input id="changeImage" name="image" hidden type="file">
                     <label class="hover:bg-primary-400 hover:text-gray-100 border border-base-500 px-8 py-2 inline-block bg-background-gray text-paragraph rounded" for="changeImage">
-                        Change Image
+                        Add/Change Image
                     </label>
                     <div class="text-paragraph pt-1 text-center">
                         <span>PNG,JPG Upto 1 MB</span>
@@ -55,15 +55,3 @@
         @include('profile.partials.update-password-form')
     </div>
 </x-app-layout>
-
-<!-- <div class="p-4 sm:p-8 bg-white shadow sm:rounded-lg">
-    <div class="max-w-xl">
-        @include('profile.partials.update-profile-information-form')
-    </div>
-</div>
-
-<div class="p-4 sm:p-8 bg-white shadow sm:rounded-lg">
-    <div class="max-w-xl">
-        @include('profile.partials.update-password-form')
-    </div>
-</div> -->
