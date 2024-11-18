@@ -1,6 +1,5 @@
 <form wire:submit="requesterUpdate">
-
-    <div class="flex flex-row">
+<div class="flex flex-row">
         <div class="md:basis-2/3 sm:basis-full">
             <div class="border border-slate-300 p-5 rounded">
 
