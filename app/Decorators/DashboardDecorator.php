@@ -5,11 +5,16 @@ namespace App\Decorators;
 use App\Models\Team;
 use App\Models\User;
 use App\Models\Category;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
 
 class DashboardDecorator
 {
-    public static function chart()
+    /**
+     * Get all the chart collection
+     * @return Collection
+     */
+    public static function chart(): Collection
     {
         $resource = DB::table('tickets')->select('priority', DB::raw('count(*) as total'))->groupBy('priority')->get();
         $ttlCount = $resource->map(fn($i) => $i->total)->sum();
@@ -29,6 +34,10 @@ class DashboardDecorator
         })->toBase();
     }
 
+    /**
+     * Get all the state collection
+     * @return Collection
+     */
     public static function state()
     {
         return DB::table('ticket_statuses as status')
@@ -38,6 +47,10 @@ class DashboardDecorator
             ->get();
     }
 
+    /**
+     * Get all the traffic collection
+     * @return Collection
+     */
     public static function traffic()
     {
         $resource = User::query()
@@ -51,6 +64,10 @@ class DashboardDecorator
         ])->toBase();
     }
 
+    /**
+     * Get all the agents collection
+     * @return Collection
+     */
     public static function agents()
     {
         $resource = User::query()
@@ -64,6 +81,10 @@ class DashboardDecorator
         ])->toBase();
     }
 
+    /**
+     * Get all the categories collection
+     * @return Collection
+     */
     public static function categories()
     {
         $resource = Category::query()
@@ -78,6 +99,10 @@ class DashboardDecorator
         ])->toBase();
     }
 
+    /**
+     * Get all the teams collection
+     * @return Collection
+     */
     public static function teams()
     {
         $resource = Team::query()
@@ -92,23 +117,3 @@ class DashboardDecorator
         ])->toBase();
     }
 }
-
- 
-
-
- 
- 
-
- 
-
-// $this->responses['teams'] = Team::query()
-//     ->withCount('ticket')
-//     ->orderBy('ticket_count', 'desc')
-//     ->limit(5)
-//     ->get()
-//     ->map(function ($user) {
-//         return [
-//             'name' => $user->name,
-//             'total' => $user->ticket_count,
-//         ];
-//     });
