@@ -117,7 +117,6 @@ class TicketController extends Controller {
      */
     public function allTicketListDataTable(Request $request) {
         Gate::authorize('viewAny', Ticket::class);
-
         return TicketService::allTicketListDataTable($request);
     }
 

@@ -44,7 +44,7 @@
                             <div>
                                 <strong class="font-medium text-gray-500">
                                     model,controller,migration,policy,resource
-                                    route 
+                                    route
                                 </strong>
                             </div>
                         </label>

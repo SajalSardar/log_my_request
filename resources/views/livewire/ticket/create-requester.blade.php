@@ -67,7 +67,6 @@
                             </div>
                         @endif
                     </div>
-
                 </div>
 
                 <div class="p-2">

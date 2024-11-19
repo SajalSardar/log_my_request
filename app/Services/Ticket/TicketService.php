@@ -35,7 +35,7 @@ class TicketService
     public $password;
 
     /**
-     * Define public method store to save the resourses
+     * Define public method store to save the resource
      * @param $form
      * @return array|object
      */
@@ -103,7 +103,7 @@ class TicketService
     }
 
     /**
-     * Define public method update to update the resourses
+     * Define public method update to update the resource
      * @param Model $model
      * @param $request
      * @return array|object|bool
@@ -288,7 +288,6 @@ class TicketService
 
     public static function allTicketListDataTable($request)
     {
-
         $ticketStatus = null;
 
         if ($request->query_status != 'unassign') {
@@ -419,7 +418,7 @@ class TicketService
                 $userName = $tickets->user->name ?? 'Unknown';
 
                 $data = "
-                    <div style='width:163px' class='text-paragraph flex items-center'>
+                    <div style='width:180px' class='text-paragraph flex items-center'>
                         <img src='{$imageUrl}' width='40' height='40' style='border-radius: 50%; border: 1px solid #eee;' alt='profile'>
                         <span class='ml-2'>{$userName}</span>
                     </div>

@@ -9,7 +9,7 @@
     @role('super-admin')
     <div class="mb-8 flex justify-between">
         <div>
-            <h1 class="text-3xl font-inter font-bold text-[#333333]">Hello {{ auth()->user()->name }}!</h1>
+            <h1 class="text-2xl font-inter font-bold text-[#333333]">Hello {{ auth()->user()->name }}!</h1>
             <p class="font-inter text-base font-normal text-[#5c5c5c]">Welcome to explore your dashboard here.</p>
         </div>
         <div>
