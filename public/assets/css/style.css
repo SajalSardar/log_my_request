@@ -95,6 +95,10 @@
     align-items: center;
 }
 
+/* .hamberger{
+    padding-right:68px !important ;
+} */
+
 svg {
     pointer-events: none;
 }
