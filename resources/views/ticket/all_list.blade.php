@@ -47,7 +47,7 @@
             </div>
             <div style="width:106px" class="relative" x-data="{ priority: '' }">
                 <div>
-                    <x-forms.select-input x-model="Priority" name='priority_search' id="priority_search">
+                    <x-forms.select-input x-model="priority" name='priority_search' id="priority_search">
                         <option value="">Priority</option>
                         <option value="low">Low</option>
                         <option value="medium">Medium</option>
