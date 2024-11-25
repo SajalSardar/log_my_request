@@ -3,25 +3,25 @@
 @tailwind utilities;
 
 .text-heading-light {
-    @apply text-sm font-semibold font-inter text-[#fff];
+    @apply text-sm font-medium font-inter text-[#fff];
 }
 
 .text-heading-dark {
-    @apply text-sm font-semibold font-inter text-[#333];
+    @apply text-sm !font-medium font-inter text-[#27313b];
 }
 
 .text-title {
-    @apply text-sm font-normal font-inter text-[#333];
+    @apply text-sm font-inter text-[#27313b];
 }
 
 .text-paragraph {
-    @apply text-sm font-normal font-inter text-[#5c5c5c];
+    @apply text-sm font-inter text-[#5e666e];
 }
 
 .text-caption {
-    @apply text-xs font-normal font-inter dark:text-[#5C5C5C];
+    @apply text-xs font-inter text-[#5e666e];
 }
 
 .text-detail-heading {
-    @apply text-base font-semibold font-inter text-[#333];
+    @apply text-base font-medium font-inter text-[#27313b];
 }

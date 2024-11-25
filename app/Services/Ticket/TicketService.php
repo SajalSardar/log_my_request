@@ -2,22 +2,23 @@
 
 namespace App\Services\Ticket;
 
-use App\Mail\LogUpdateMail;
-use App\Mail\TicketEmail;
+use Carbon\Carbon;
+use App\Models\User;
 use App\Models\Ticket;
+use App\Mail\TicketEmail;
 use App\Models\TicketLog;
 use App\Models\TicketNote;
-use App\Models\TicketOwnership;
+use App\Mail\LogUpdateMail;
+use Illuminate\Support\Str;
+use Laravolt\Avatar\Avatar;
 use App\Models\TicketStatus;
-use App\Models\User;
-use Carbon\Carbon;
-use Illuminate\Auth\Events\Registered;
-use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Facades\Auth;
+use App\Models\TicketOwnership;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
-use Illuminate\Support\Str;
+use Illuminate\Auth\Events\Registered;
+use Illuminate\Database\Eloquent\Model;
 use Yajra\DataTables\Facades\DataTables;
 
 class TicketService {
@@ -362,14 +363,14 @@ class TicketService {
 
         return DataTables::of($tickets)
             ->addColumn('select', function () {
-                return '<div class="flex items-center justify-center ml-6 w-[50px]"><input type="checkbox" class ="border text-center border-slate-200 rounded focus:ring-transparent p-2" style="background-color: #9b9b9b; accent-color: !important #5C5C5C;">
+                return '<div class="flex items-center justify-center ml-6 w-[50px]"><input type="checkbox" class="child-checkbox w-4 h-4 mr-3 focus:ring-transparent text-primary-400" />
                 </div>';
             })
             ->editColumn('id', function ($tickets) {
                 return '<div class="w-[50px]"><span class="text-paragraph">' . '#' . $tickets->id . '</span></div>';
             })
             ->editColumn('title', function ($tickets) {
-                return '<a href="' . route('admin.ticket.show', ['ticket' => $tickets?->id]) . '" class="pr-4 text-paragraph hover:text-orange-300 hover:underline block" style="width: 325px; display: inline-block; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">' . Str::limit(ucfirst($tickets->title), 50, '...') . '</a>';
+                return '<a href="' . route('admin.ticket.show', ['ticket' => $tickets?->id]) . '" class="pr-4 text-paragraph hover:text-primary-400 block" style="width: 325px; display: inline-block; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">' . Str::limit(ucfirst($tickets->title), 50, '...') . '</a>';
             })
             ->editColumn('priority', function ($tickets) {
                 $priorityColor = match ($tickets->priority) {
@@ -377,7 +378,7 @@ class TicketService {
                     'low'    => '#10B981',
                     'medium' => '#3B82F6',
                 };
-                return '<span style="color: ' . $priorityColor . '; padding: 5px; border-radius: 4px;" class="text-paragraph !font-semibold w-20 pr-3 block">' . Str::ucfirst($tickets->priority) . '</span>';
+                return '<span style="color: ' . $priorityColor . '; padding: 5px; border-radius: 4px;" class="text-paragraph w-20 pr-3 block">' . Str::ucfirst($tickets->priority) . '</span>';
             })
             ->editColumn('department_id', function ($tickets) {
                 return '<span class="text-paragraph w-40 block pr-3">' . Str::ucfirst(@$tickets->department->name) . '</span>';
@@ -391,27 +392,54 @@ class TicketService {
             ->editColumn('ticket_status_id', function ($tickets) {
                 $data = "";
                 if ($tickets->ticket_status->slug === 'resolved') {
-                    $data .= '<div style="width: 156px;"><span class="py-2 !bg-resolved-400 text-paragraph !font-semibold rounded px-3">' . Str::ucfirst($tickets->ticket_status->name) . '</span></div>';
+                    $data .= '<div style="width: 156px;"><span class="py-1 bg-transparent border border-resolved-400 text-resolved-400 rounded px-2">' . Str::ucfirst($tickets->ticket_status->name) . '</span></div>';
                 } elseif ($tickets->ticket_status->slug === 'closed') {
-                    $data .= '<div style="width: 156px;"><span class="bg-closed-400 text-left text-header-light text-paragraph !font-semibold rounded px-3 py-2">' . Str::ucfirst($tickets->ticket_status->name) . '</span></div>';
+                    $data .= '<div style="width: 156px;"><span class="bg-transparent border border-closed-400 text-closed-400 text-left rounded px-2 py-1">' . Str::ucfirst($tickets->ticket_status->name) . '</span></div>';
                 } elseif ($tickets->ticket_status->slug === 'open') {
-                    $data .= '<div style="width: 156px;"><span class="py-2 !bg-open-400 text-paragraph !font-semibold rounded px-3">' . Str::ucfirst($tickets->ticket_status->name) . '</span></div>';
+                    $data .= '<div style="width: 156px;"><span class="py-1 bg-transparent border border-open-400 text-open-400 rounded px-2">' . Str::ucfirst($tickets->ticket_status->name) . '</span></div>';
                 } elseif ($tickets->ticket_status->slug === 'in-progress') {
-                    $data .= '<div style="width: 156px;"><span class="py-2 !bg-inProgress-400 text-paragraph !font-semibold rounded px-3">' . Str::ucfirst($tickets->ticket_status->name) . '</span></div>';
+                    $data .= '<div style="width: 156px;"><span class="py-1 bg-transparent border border-inProgress-400 text-inProgress-400 rounded px-2">' . Str::ucfirst($tickets->ticket_status->name) . '</span></div>';
                 } elseif ($tickets->ticket_status->slug === 'on-hold') {
-                    $data .= '<div style="width: 156px;"><span class="py-2 !bg-hold-400 text-paragraph !font-semibold rounded px-3">' . Str::ucfirst($tickets->ticket_status->name) . '</span></div>';
+                    $data .= '<div style="width: 156px;"><span class="py-1 bg-transparent border border-onHold-400 text-onHold-400 rounded px-2">' . Str::ucfirst($tickets->ticket_status->name) . '</span></div>';
                 } else {
-                    $data .= '<div style="width: 156px;"><span class="py-2 !bg-gray-400 text-paragraph !font-semibold rounded px-3">' . Str::ucfirst($tickets->ticket_status->name) . '</span></div>';
+                    $data .= '<div style="width: 156px;"><span class="py-1 !bg-gray-400 text-paragraph rounded px-2">' . Str::ucfirst($tickets->ticket_status->name) . '</span></div>';
                 }
                 return $data;
             })
             ->editColumn('user_id', function ($tickets) {
-                $imageUrl = $tickets->user->image?->url ?? asset('assets/images/profile.png');
                 $userName = $tickets->user->name ?? 'Unknown';
-
+                $imageUrl = $tickets->user->image?->url;
+                $config = [
+                    'chars' => 1,
+                    'fontSize' => 20,
+                    'uppercase' => true,
+                    'width' => 40,
+                    'height' => 40,
+                    'backgrounds' => [
+                        'rgba(142, 97, 120, 0.31)',
+                        '#E91E63',
+                        '#9C27B0',
+                        '#673AB7',
+                        '#3F51B5',
+                        '#2196F3',
+                        '#03A9F4',
+                        '#00BCD4',
+                        '#009688',
+                        '#4CAF50',
+                        '#8BC34A',
+                        '#CDDC39',
+                        '#FFC107',
+                        '#FF9800',
+                        '#FF5722',
+                    ],
+                ];
+                $avatar = new Avatar($config);
+                $avatar->create($userName)->toBase64();
                 $data = "
                     <div style='width:180px' class='text-paragraph flex items-center'>
-                        <img src='{$imageUrl}' width='40' height='40' style='border-radius: 50%; border: 1px solid #eee;' alt='profile'>
+                        " . ($imageUrl
+                    ? "<img src='{$imageUrl}' width='40' height='40' style='border-radius: 50%; border: 1px solid #eee;' alt='profile'>"
+                    : "<img src='" . $avatar . "' width='40' height='40' style='border-radius: 50%; border: 1px solid #eee;' alt='avatar'>") . "
                         <span class='ml-2'>{$userName}</span>
                     </div>
                 ";
