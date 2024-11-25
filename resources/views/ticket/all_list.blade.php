@@ -25,17 +25,17 @@
     @endsection
     @endif
 
-    <div class="flex justify-between items-center">
-        <div>
+    <div class="lg:flex md:flex lg:justify-between md:justify-between lg:items-center md:items-center">
+        <div class="sm:mb-3">
             @if (Route::is('admin.ticket.list.active.memode'))
-            <h2 class="text-heading-dark !text-lg">My Request List</h2>
+            <h2 class="text-detail-heading">My Request List</h2>
             @elseIf(request()->has('request_status'))
-            <h2 class="text-heading-dark !text-lg">{{ camelCase(request()->get('request_status')) }} Request</h2>
+            <h2 class="text-detail-heading">{{ camelCase(request()->get('request_status')) }} Request</h2>
             @else
-            <h2 class="text-heading-dark !text-lg">All Requests</h2>
+            <h2 class="text-detail-heading">All Requests</h2>
             @endif
         </div>
-        <div class="flex gap-3 justify-end">
+        <div class="flex flex-wrap lg:gap-3 md:gap-2 sm:gap-3 lg:justify-end md:justify-end sm:justify-start">
             <div style="width: 246px;">
                 <input type="hidden" id="me_mode_search" value="{{ Route::is('admin.ticket.list.active.memode') ? 'me_mode' : '' }}">
                 <x-forms.text-input-icon dir="start" id="ticket_id_search" class="text-paragraph" placeholder="Search ID or Name">
@@ -47,7 +47,7 @@
             </div>
             <div style="width:106px" class="relative" x-data="{ priority: '' }">
                 <div>
-                    <x-forms.select-input x-model="Priority" name='priority_search' id="priority_search">
+                    <x-forms.select-input x-model="priority" name='priority_search' id="priority_search">
                         <option value="">Priority</option>
                         <option value="low">Low</option>
                         <option value="medium">Medium</option>
@@ -125,7 +125,7 @@
                                 <path d="M8.3335 9.1665V14.1665" stroke="#5C5C5C" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
                                 <path d="M11.6665 9.1665V14.1665" stroke="#5C5C5C" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
                             </svg>
-                            <input type="checkbox" class="border text-center border-slate-200 rounded focus:ring-transparent p-1" style="background-color: #9b9b9b; accent-color: #5C5C5C;">
+                            <input id="checkbox1" type="checkbox" class="w-4 h-4 mr-3 focus:ring-transparent text-primary-400" />
                         </span>
                     </th>
                     <th class="text-heading-dark w-[50px]">ID</th>
@@ -160,6 +160,12 @@
                 responsive: true,
                 searching: false,
                 scrollX: true,
+                lengthChange: true,
+                pageLength: 50,
+                lengthMenu: [
+                    [20, 30, 50, 100, -1],
+                    [20, 30, 50, 100, 'All']
+                ],
                 order: [
                     1, 'desc'
                 ],
@@ -249,6 +255,26 @@
                     dTable.draw();
                     e.preventDefault();
                 });
+        });
+    </script>
+    <script>
+        const masterCheckbox = document.getElementById('checkbox1');
+        masterCheckbox.addEventListener('change', function() {
+            const childCheckboxes = document.querySelectorAll('.child-checkbox');
+            childCheckboxes.forEach(checkbox => {
+                checkbox.checked = masterCheckbox.checked;
+            });
+        });
+    </script>
+
+    <script>
+        document.querySelectorAll('table.dataTable tbody tr').forEach(row => {
+            row.addEventListener('mouseenter', function() {
+                this.style.backgroundColor = 'inherit';
+            });
+            row.addEventListener('mouseleave', function() {
+                this.style.backgroundColor = 'inherit';
+            });
         });
     </script>
     @endsection

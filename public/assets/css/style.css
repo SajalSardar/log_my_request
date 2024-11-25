@@ -2,6 +2,25 @@
     margin: 0;
     padding: 0;
     outline: 0;
+    box-sizing: border-box;
+}
+
+a,
+p,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+ol,
+ul,
+li,
+div,
+span {
+    margin: 0;
+    padding: 0;
+    line-height: 1;
 }
 
 *,
@@ -286,16 +305,21 @@ select > option {
     font-family: "Inter", "sans-serif";
     font-weight: 400;
     font-size: 14px;
-    color: #5c5c5c !important;
+    color: #5e666e !important;
 }
 
 .dt-layout-row {
-    margin-bottom: 6px p !important;
+    margin-bottom: 6px !important;
 }
 
 .dt-column-order {
     color: black;
     right: 4px;
+}
+
+/* Remove hover color for DataTables rows */
+.dataTable tbody tr:hover {
+    background-color: transparent !important;
 }
 
 table.dataTable thead > tr > th.dt-orderable-asc span.dt-column-order,
