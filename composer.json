@@ -13,7 +13,6 @@
         "laravel/framework": "^11.9",
         "laravel/sanctum": "^4.0",
         "laravel/tinker": "^2.9",
-        "laravolt/avatar": "^6.0",
         "livewire/livewire": "^3.5",
         "php-flasher/flasher-laravel": "^2.0",
         "php-flasher/flasher-sweetalert-laravel": "^2.0",

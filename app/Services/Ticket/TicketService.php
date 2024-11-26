@@ -287,6 +287,40 @@ class TicketService
         return $emailResponse;
     }
 
+    public function randomHexColor()
+    {
+        $colors = [
+            ['letter' => '#9D0009', 'bg' => 'rgba(157, 0, 9, 0.2)'],
+            ['letter' => '#E60029', 'bg' => 'rgba(230, 0, 41, 0.2)'],
+            ['letter' => '#F27700', 'bg' => 'rgba(242, 119, 0, 0.2)'],
+            ['letter' => '#FFA304', 'bg' => 'rgba(255, 163, 4, 0.2)'],
+            ['letter' => '#FEDA00', 'bg' => 'rgba(254, 218, 0, 0.2)'],
+            ['letter' => '#9AE100', 'bg' => 'rgba(154, 225, 0, 0.2)'],
+            ['letter' => '#36F601', 'bg' => 'rgba(54, 246, 1, 0.2)'],
+            ['letter' => '#00BB5A', 'bg' => 'rgba(0, 187, 90, 0.2)'],
+            ['letter' => '#00BF39', 'bg' => 'rgba(0, 191, 57, 0.2)'],
+            ['letter' => '#00EBCF', 'bg' => 'rgba(0, 235, 207, 0.2)'],
+            ['letter' => '#006FE5', 'bg' => 'rgba(0, 111, 229, 0.2)'],
+            ['letter' => '#0205F2', 'bg' => 'rgba(2, 5, 242, 0.2)'],
+            ['letter' => '#5700DB', 'bg' => 'rgba(87, 0, 219, 0.2)'],
+            ['letter' => '#704000', 'bg' => 'rgba(112, 64, 0, 0.2)'],
+            ['letter' => '#00556A', 'bg' => 'rgba(0, 85, 106, 0.2)'],
+            ['letter' => '#408300', 'bg' => 'rgba(64, 131, 0, 0.2)'],
+            ['letter' => '#88387F', 'bg' => 'rgba(136, 56, 127, 0.2)'],
+            ['letter' => '#DC01A2', 'bg' => 'rgba(220, 1, 162, 0.2)'],
+            ['letter' => '#8701DE', 'bg' => 'rgba(135, 1, 222, 0.2)'],
+            ['letter' => '#BDDB01', 'bg' => 'rgba(189, 219, 1, 0.2)'],
+            ['letter' => '#FF590D', 'bg' => 'rgba(255, 89, 13, 0.2)'],
+            ['letter' => '#74457F', 'bg' => 'rgba(116, 69, 127, 0.2)'],
+            ['letter' => '#62000D', 'bg' => 'rgba(98, 0, 13, 0.2)'],
+            ['letter' => '#99ADA0', 'bg' => 'rgba(153, 173, 160, 0.2)'],
+            ['letter' => '#BDB900', 'bg' => 'rgba(189, 185, 0, 0.2)'],
+            ['letter' => '#E4D900', 'bg' => 'rgba(228, 217, 0, 0.2)'],
+        ];
+
+        return $colors[array_rand($colors)];
+    }
+
     public static function allTicketListDataTable($request)
     {
         $ticketStatus = null;
@@ -400,57 +434,33 @@ class TicketService
             ->editColumn('ticket_status_id', function ($tickets) {
                 $data = "";
                 if ($tickets->ticket_status->slug === 'resolved') {
-                    $data .= '<div style="width: 156px;"><span class="py-1 bg-transparent border border-resolved-400 text-resolved-400 rounded px-2">' . Str::ucfirst($tickets->ticket_status->name) . '</span></div>';
+                    $data .= '<div style="width: 156px;"><span class="py-1 letter-transparent border border-resolved-400 text-resolved-400 rounded px-2">' . Str::ucfirst($tickets->ticket_status->name) . '</span></div>';
                 } elseif ($tickets->ticket_status->slug === 'closed') {
-                    $data .= '<div style="width: 156px;"><span class="bg-transparent border border-closed-400 text-closed-400 text-left rounded px-2 py-1">' . Str::ucfirst($tickets->ticket_status->name) . '</span></div>';
+                    $data .= '<div style="width: 156px;"><span class="letter-transparent border border-closed-400 text-closed-400 text-left rounded px-2 py-1">' . Str::ucfirst($tickets->ticket_status->name) . '</span></div>';
                 } elseif ($tickets->ticket_status->slug === 'open') {
-                    $data .= '<div style="width: 156px;"><span class="py-1 bg-transparent border border-open-400 text-open-400 rounded px-2">' . Str::ucfirst($tickets->ticket_status->name) . '</span></div>';
+                    $data .= '<div style="width: 156px;"><span class="py-1 letter-transparent border border-open-400 text-open-400 rounded px-2">' . Str::ucfirst($tickets->ticket_status->name) . '</span></div>';
                 } elseif ($tickets->ticket_status->slug === 'in-progress') {
-                    $data .= '<div style="width: 156px;"><span class="py-1 bg-transparent border border-inProgress-400 text-inProgress-400 rounded px-2">' . Str::ucfirst($tickets->ticket_status->name) . '</span></div>';
+                    $data .= '<div style="width: 156px;"><span class="py-1 letter-transparent border border-inProgress-400 text-inProgress-400 rounded px-2">' . Str::ucfirst($tickets->ticket_status->name) . '</span></div>';
                 } elseif ($tickets->ticket_status->slug === 'on-hold') {
-                    $data .= '<div style="width: 156px;"><span class="py-1 bg-transparent border border-onHold-400 text-onHold-400 rounded px-2">' . Str::ucfirst($tickets->ticket_status->name) . '</span></div>';
+                    $data .= '<div style="width: 156px;"><span class="py-1 letter-transparent border border-onHold-400 text-onHold-400 rounded px-2">' . Str::ucfirst($tickets->ticket_status->name) . '</span></div>';
                 } else {
-                    $data .= '<div style="width: 156px;"><span class="py-1 !bg-gray-400 text-paragraph rounded px-2">' . Str::ucfirst($tickets->ticket_status->name) . '</span></div>';
+                    $data .= '<div style="width: 156px;"><span class="py-1 !letter-gray-400 text-paragraph rounded px-2">' . Str::ucfirst($tickets->ticket_status->name) . '</span></div>';
                 }
                 return $data;
             })
             ->editColumn('user_id', function ($tickets) {
                 $userName = $tickets->user->name ?? 'Unknown';
                 $imageUrl = $tickets->user->image?->url;
-                $config = [
-                    'chars' => 1,
-                    'fontSize' => 20,
-                    'uppercase' => true,
-                    'width' => 40,
-                    'height' => 40,
-                    'backgrounds' => [
-                        'rgba(142, 97, 120, 0.31)',
-                        '#E91E63',
-                        '#9C27B0',
-                        '#673AB7',
-                        '#3F51B5',
-                        '#2196F3',
-                        '#03A9F4',
-                        '#00BCD4',
-                        '#009688',
-                        '#4CAF50',
-                        '#8BC34A',
-                        '#CDDC39',
-                        '#FFC107',
-                        '#FF9800',
-                        '#FF5722',
-                    ],
-                ];
-                $avatar = new Avatar($config);
-                $avatar->create($userName)->toBase64();
+                $instance = new self();
+                $color = $instance->randomHexColor();
+
                 $data = "
-                    <div style='width:180px' class='text-paragraph flex items-center'>
-                        " . ($imageUrl
+                <div style='width:180px' class='text-paragraph flex items-center'>
+                    " . ($imageUrl
                     ? "<img src='{$imageUrl}' width='40' height='40' style='border-radius: 50%; border: 1px solid #eee;' alt='profile'>"
-                    : "<img src='" . $avatar . "' width='40' height='40' style='border-radius: 50%; border: 1px solid #eee;' alt='avatar'>") . "
-                        <span class='ml-2'>{$userName}</span>
-                    </div>
-                ";
+                    : "<div class='flex justify-center items-center text-lg' style='width: 40px; height: 40px; border-radius: 50%; background: {$color['bg']}; color: {$color['letter']}; border: 1px solid #eee;'>" . ucfirst(substr($userName, 0, 1)) . "</div>") . "
+                    <span class='ml-2'>{$userName}</span>
+                </div>";
                 return $data;
             })
 
@@ -481,7 +491,7 @@ class TicketService
                 $deleteUrl = route('admin.ticket.delete', $tickets?->id);
                 return '
                     <div class="relative">
-                        <button onclick="toggleAction(' . $tickets->id . ')" class="p-3 hover:bg-slate-100 rounded-full">
+                        <button onclick="toggleAction(' . $tickets->id . ')" class="p-3 hover:letter-slate-100 rounded-full">
                             <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
                                 xmlns="http://www.w3.org/2000/svg">
                                 <path d="M11.9922 12H12.0012" stroke="#666666" stroke-width="2.5"
@@ -497,10 +507,10 @@ class TicketService
                                 <li class="px-5 py-1 text-center" style="background: #FFF4EC; color:#F36D00">
                                     <a href="' . $editUrl . '">Edit</a>
                                 </li>
-                                <li class="px-5 py-1 text-center bg-white">
+                                <li class="px-5 py-1 text-center letter-white">
                                     <a href="' . $viewUrl . '">View</a>
                                 </li>
-                                <li class="px-5 py-1 text-center bg-red-600 text-white">
+                                <li class="px-5 py-1 text-center letter-red-600 text-white">
                                     <form action="' . $deleteUrl . '" method="POST" onsubmit="return confirm(\'Are you sure?\');">
                                         ' . csrf_field() . '
                                         ' . method_field("DELETE") . '
