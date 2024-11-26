@@ -104,7 +104,7 @@ function dayMonthYearHourMininteSecond($date, $endDate = null)
         $output[] = $h . ' ' . ($h > 1 ? 'hours' : 'hour');
     }
     if ($m > 0) {
-        $output[] = $m . ' ' . ($m > 1 ? 'minutes' : 'minute');
+        $output[] = $m . ' ' . ($m > 1 ? 'mins' : 'min');
     }
     if ($s > 0) {
         $output[] = $s . ' ' . ($s > 1 ? 'seconds' : 'second');
