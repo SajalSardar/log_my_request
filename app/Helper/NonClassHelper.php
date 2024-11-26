@@ -7,7 +7,8 @@ use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 
-function ISOdate($date) {
+function ISOdate($date)
+{
     return $date ? date('M d, Y', strtotime($date)) : '';
 }
 
@@ -19,7 +20,7 @@ function ISOdate($date) {
 //         $endDate = Carbon::now();
 //     }
 
-//     $y = (int) $startDate->diffInYears($endDate);
+//     $y   = (int) $startDate->diffInYears($endDate);
 //     $mon = (int) $startDate
 //         ->copy()
 //         ->addYears($y)
@@ -53,100 +54,78 @@ function ISOdate($date) {
 
 //     $output = '';
 
-//     if ($year) {
-//         $output .= $y . ' y, ';
+//     if ($year && $y != 0) {
+//         $output .= $y . ' year, ';
 //     }
-//     if ($month) {
-//         $output .= $mon . ' m, ';
+//     if ($month && $mon != 0) {
+//         $output .= $mon . ' month, ';
 //     }
-//     if ($day) {
-//         $output .= $d . ' d, ';
+//     if ($day && $d != 0) {
+//         $output .= $d . ' day, ';
 //     }
-//     if ($hour) {
-//         $output .= $h . ' h, ';
+//     if ($hour && $h != 0) {
+//         $output .= $h . ' hour, ';
 //     }
-//     if ($minute) {
-//         $output .= $m . ' min and ';
+//     if ($minute && $m != 0) {
+//         $output .= $m . ' minute and ';
 //     }
-//     if ($second) {
-//         $output .= $s . ' sec.';
+//     if ($second && $s != 0) {
+//         $output .= $s . ' second.';
 //     }
 //     $output = rtrim($output, ', ');
 //     return $output;
 // }
 
 
-
-function dayMonthYearHourMininteSecond($date, $endDate = null, $year = false, $month = false, $day = false, $hour = false, $minute = false, $second = false) {
+function dayMonthYearHourMininteSecond($date, $endDate = null)
+{
     $startDate = Carbon::create($date);
-    if ($endDate) {
-        $endDate = $endDate;
-    } else {
-        $endDate = Carbon::now();
-    }
+    $endDate = $endDate ? Carbon::create($endDate) : Carbon::now();
 
     $y   = (int) $startDate->diffInYears($endDate);
-    $mon = (int) $startDate
-        ->copy()
-        ->addYears($y)
-        ->diffInMonths($endDate);
-    $d = (int) $startDate
-        ->copy()
-        ->addYears($y)
-        ->addMonths($mon)
-        ->diffInDays($endDate);
-    $h = (int) $startDate
-        ->copy()
-        ->addYears($y)
-        ->addMonths($mon)
-        ->addDays($d)
-        ->diffInHours($endDate);
-    $m = (int) $startDate
-        ->copy()
-        ->addYears($y)
-        ->addMonths($mon)
-        ->addDays($d)
-        ->addHours($h)
-        ->diffInMinutes($endDate);
-    $s = (int) $startDate
-        ->copy()
-        ->addYears($y)
-        ->addMonths($mon)
-        ->addDays($d)
-        ->addHours($h)
-        ->addMinutes($m)
-        ->diffInSeconds($endDate);
+    $mon = (int) $startDate->copy()->addYears($y)->diffInMonths($endDate);
+    $d   = (int) $startDate->copy()->addYears($y)->addMonths($mon)->diffInDays($endDate);
+    $h   = (int) $startDate->copy()->addYears($y)->addMonths($mon)->addDays($d)->diffInHours($endDate);
+    $m   = (int) $startDate->copy()->addYears($y)->addMonths($mon)->addDays($d)->addHours($h)->diffInMinutes($endDate);
+    $s   = (int) $startDate->copy()->addYears($y)->addMonths($mon)->addDays($d)->addHours($h)->addMinutes($m)->diffInSeconds($endDate);
 
-    $output = '';
+    $output = [];
 
-    if ($year && $y != 0) {
-        $output .= $y . ' year, ';
+    if ($y > 0) {
+        $output[] = $y . ' ' . ($y > 1 ? 'years' : 'year');
     }
-    if ($month && $mon != 0) {
-        $output .= $mon . ' month, ';
+    if ($mon > 0) {
+        $output[] = $mon . ' ' . ($mon > 1 ? 'months' : 'month');
     }
-    if ($day && $d != 0) {
-        $output .= $d . ' day, ';
+    if ($d > 0) {
+        $output[] = $d . ' ' . ($d > 1 ? 'days' : 'day');
     }
-    if ($hour && $h != 0) {
-        $output .= $h . ' hour, ';
+    if ($h > 0) {
+        $output[] = $h . ' ' . ($h > 1 ? 'hours' : 'hour');
     }
-    if ($minute && $m != 0) {
-        $output .= $m . ' minute and ';
+    if ($m > 0) {
+        $output[] = $m . ' ' . ($m > 1 ? 'minutes' : 'minute');
     }
-    if ($second && $s != 0) {
-        $output .= $s . ' second.';
+    if ($s > 0) {
+        $output[] = $s . ' ' . ($s > 1 ? 'seconds' : 'second');
     }
-    $output = rtrim($output, ', ');
-    return $output;
+
+    // Customize the level of detail:
+    if (count($output) > 3) {
+        $output = array_slice($output, 0, 3); // Limit to 3 components for simplicity.
+    }
+
+    return implode(', ', $output);
 }
+
 
 /**
  * Define method for get a string to camelCase
  * @param string $string
  * @return string
  */
-function camelCase($string): string {
+function camelCase($string): string
+{
     $string = str_replace(
         ' ',
         ' ',
@@ -160,7 +139,8 @@ function camelCase($string): string {
     return $string;
 }
 
-function getTicketStatusById($id) {
+function getTicketStatusById($id)
+{
     $ticketStatus = TicketStatus::where('id', $id)->first();
     if ($ticketStatus) {
 
@@ -169,12 +149,14 @@ function getTicketStatusById($id) {
     return false;
 }
 
-function ticketOpenProgressHoldPermission($ticket_status_id) {
+function ticketOpenProgressHoldPermission($ticket_status_id)
+{
     $ticketStatus = TicketStatus::where('id', $ticket_status_id)->first();
     return $ticketStatus->slug == 'open' || $ticketStatus->slug == 'in-progress' || $ticketStatus->slug == 'on-hold' ? true : false;
 }
 
-function getTicketNotsNotify() {
+function getTicketNotsNotify()
+{
 
     $query = TicketNote::query()->where('view_notification', 0)->whereNotIn('note_type', ['internal_note']);
     if (Auth::user()->hasRole(['requester', 'Requester'])) {

@@ -77,9 +77,7 @@ span {
 
 .-translate-x-full {
     --tw-translate-x: -100%;
-    transform: translate(var(--tw-translate-x), var(--tw-translate-y))
-        rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y))
-        scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
+    transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
 }
 
 @media (min-width: 768px) {
@@ -236,6 +234,7 @@ svg {
     font-size: 14px;
     text-align: left;
     padding: 0 8px;
+    border: none !important;
 }
 
 .menu_icon {
@@ -266,20 +265,20 @@ div.dt-container .dt-paging .dt-paging-button.current:hover {
     color: rgb(243 109 0) !important;
 }
 
-table.dataTable.stripe > tbody > tr:nth-child(odd) > *,
-table.dataTable.display > tbody > tr:nth-child(odd) > * {
+table.dataTable.stripe>tbody>tr:nth-child(odd)>*,
+table.dataTable.display>tbody>tr:nth-child(odd)>* {
     box-shadow: inset 0 0 0 9999px #ffffff;
     box-shadow: inset 0 0 0 9999px #ffffff;
 }
 
-table.dataTable.display > tbody > tr:nth-child(odd) > .sorting_1,
-table.dataTable.order-column.stripe > tbody > tr:nth-child(odd) > .sorting_1 {
+table.dataTable.display>tbody>tr:nth-child(odd)>.sorting_1,
+table.dataTable.order-column.stripe>tbody>tr:nth-child(odd)>.sorting_1 {
     box-shadow: inset 0 0 0 9999px #ffffff;
     box-shadow: inset 0 0 0 9999px #ffffff;
 }
 
-table.dataTable.display > tbody > tr:nth-child(even) > .sorting_1,
-table.dataTable.order-column.stripe > tbody > tr:nth-child(even) > .sorting_1 {
+table.dataTable.display>tbody>tr:nth-child(even)>.sorting_1,
+table.dataTable.order-column.stripe>tbody>tr:nth-child(even)>.sorting_1 {
     box-shadow: inset 0 0 0 9999px #ffffff;
     box-shadow: inset 0 0 0 9999px #ffffff;
 }
@@ -294,7 +293,7 @@ table tr {
 
 /* ==== select box option design ==== */
 
-select > option {
+select>option {
     background-color: #b8e1ba;
 }
 
@@ -322,17 +321,31 @@ select > option {
     background-color: transparent !important;
 }
 
-table.dataTable thead > tr > th.dt-orderable-asc span.dt-column-order,
-table.dataTable thead > tr > th.dt-orderable-desc span.dt-column-order,
-table.dataTable thead > tr > th.dt-ordering-asc span.dt-column-order,
-table.dataTable thead > tr > th.dt-ordering-desc span.dt-column-order,
-table.dataTable thead > tr > td.dt-orderable-asc span.dt-column-order,
-table.dataTable thead > tr > td.dt-orderable-desc span.dt-column-order,
-table.dataTable thead > tr > td.dt-ordering-asc span.dt-column-order,
-table.dataTable thead > tr > td.dt-ordering-desc span.dt-column-order {
+table.dataTable thead>tr>th.dt-orderable-asc span.dt-column-order,
+table.dataTable thead>tr>th.dt-orderable-desc span.dt-column-order,
+table.dataTable thead>tr>th.dt-ordering-asc span.dt-column-order,
+table.dataTable thead>tr>th.dt-ordering-desc span.dt-column-order,
+table.dataTable thead>tr>td.dt-orderable-asc span.dt-column-order,
+table.dataTable thead>tr>td.dt-orderable-desc span.dt-column-order,
+table.dataTable thead>tr>td.dt-ordering-asc span.dt-column-order,
+table.dataTable thead>tr>td.dt-ordering-desc span.dt-column-order {
     right: auto;
     margin-left: 10px !important;
 }
+
+/* Remove the horizontal line (border-bottom) from DataTable header */
+table.dataTable thead th,
+table.dataTable thead {
+    border: none !important;
+}
+
+table.dataTable>tbody>tr {
+    border: 1px solid #ddd;
+}
+
+/* table.dataTable>tbody>tr:hover{
+    border:1px solid #F36D00 !important;
+} */
 
 /* Set the height of the Select2 box, font styles, and colors */
 .select2-container .select2-selection--single {
@@ -376,9 +389,7 @@ table.dataTable thead > tr > td.dt-ordering-desc span.dt-column-order {
     position: relative;
 }
 
-.select2-container--default
-    .select2-selection--multiple
-    .select2-selection__choice {
+.select2-container--default .select2-selection--multiple .select2-selection__choice {
     height: 30px !important;
     border: 1px solid #ddd !important;
     background-color: #f3f4f6 !important;
@@ -386,9 +397,7 @@ table.dataTable thead > tr > td.dt-ordering-desc span.dt-column-order {
     left: 10px;
 }
 
-.select2-container--default
-    .select2-selection--multiple
-    .select2-selection__choice__remove {
+.select2-container--default .select2-selection--multiple .select2-selection__choice__remove {
     color: #5c5c5c !important;
     padding: 0 4px;
     position: absolute;
@@ -396,9 +405,7 @@ table.dataTable thead > tr > td.dt-ordering-desc span.dt-column-order {
     top: -6px !important;
 }
 
-.select2-container--default
-    .select2-selection--multiple
-    .select2-selection__choice__display {
+.select2-container--default .select2-selection--multiple .select2-selection__choice__display {
     position: relative;
     left: 0;
     top: -6px !important;
