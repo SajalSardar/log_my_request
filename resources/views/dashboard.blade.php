@@ -5,6 +5,10 @@
 
     </x-breadcrumb>
     @endsection
+{{-- 
+    @can('request create')
+        <p>Create Request permission</p>
+    @endcan --}}
 
     @role('super-admin')
     <div class="mb-8 flex justify-between">
