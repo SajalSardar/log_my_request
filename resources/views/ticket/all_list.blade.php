@@ -2,31 +2,17 @@
 
     @if (Route::is('admin.ticket.list.active.memode'))
     @section('title', 'My Request List')
-    @section('breadcrumb')
-    <x-breadcrumb>
-        Assigned To Me
-    </x-breadcrumb>
-    @endsection
-    @elseIf(request()->has('request_status'))
-    @section('title')
-    {{ Str::ucfirst(request()->get('request_status')) }} Request
-    @endsection
-    @section('breadcrumb')
-    <x-breadcrumb>
-        {{ Str::ucfirst(request()->get('request_status')) }} Request
-    </x-breadcrumb>
-    @endsection
+    @include('ticket.breadcrumb.index', ['value' => 'Assign to Me'])
+    @elseif(request()->has('request_status'))
+    @section('title', Str::ucfirst(request()->get('request_status')) . ' Request')
+    @include('ticket.breadcrumb.index', ['value' => Str::ucfirst(request()->get('request_status')) . ' Request'])
     @else
     @section('title', 'All Request List')
-    @section('breadcrumb')
-    <x-breadcrumb>
-        All Request List
-    </x-breadcrumb>
-    @endsection
+    @include('ticket.breadcrumb.index', ['value' => 'All Requests'])
     @endif
 
     <div class="lg:flex md:flex lg:justify-between md:justify-between lg:items-center md:items-center">
-        <div class="sm:mb-3">
+        <div class="lg:mb-0 sm:mb-3">
             @if (Route::is('admin.ticket.list.active.memode'))
             <h2 class="text-detail-heading">My Request List</h2>
             @elseIf(request()->has('request_status'))
@@ -40,8 +26,8 @@
                 <input type="hidden" id="me_mode_search" value="{{ Route::is('admin.ticket.list.active.memode') ? 'me_mode' : '' }}">
                 <x-forms.text-input-icon dir="start" id="ticket_id_search" class="text-paragraph" placeholder="Search ID or Name">
                     <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M11 19C15.4183 19 19 15.4183 19 11C19 6.58172 15.4183 3 11 3C6.58172 3 3 6.58172 3 11C3 15.4183 6.58172 19 11 19Z" stroke="#666666" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-                        <path d="M21.0004 20.9999L16.6504 16.6499" stroke="#666666" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                        <path d="M11 19C15.4183 19 19 15.4183 19 11C19 6.58172 15.4183 3 11 3C6.58172 3 3 6.58172 3 11C3 15.4183 6.58172 19 11 19Z" stroke="#5E666E" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+                        <path d="M20.9999 21.0004L16.6499 16.6504" stroke="#5E666E" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
                     </svg>
                 </x-forms.text-input-icon>
             </div>
@@ -103,7 +89,7 @@
                 <span x-show="due_date_x" class="absolute top-1 end-9 text-surface cursor-pointer focus:text-primary outline-none dark:text-white text-base" tabindex="0" style="display: block;" @click="due_date_x = '';$nextTick(() => $('#due_date_search').trigger('change'))">✕</span>
             </div>
             <div>
-                <x-actions.href href="{{ route('admin.ticket.create') }}" class="flex items-center gap-1 text-heading-light">
+                <x-actions.href href="{{ route('admin.ticket.create') }}" class="flex items-center gap-1">
                     <span>Create A Request</span>
                     <svg fill="none" width="24" height="24" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v6m3-3H9m12 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
@@ -114,16 +100,16 @@
     </div>
 
     <div class="relative">
-        <table class="display nowrap" id="data-table" style="width: 100%;border:1px solid #ddd">
-            <thead style="background:#F3F4F6;">
+        <table class="display nowrap" id="data-table" style="width: 100%;border:none;">
+            <thead style="background:#F3F4F6; border:none">
                 <tr>
                     <th class="text-heading-dark !text-end w-[50px]">
                         <span class="flex gap-2 !justify-center !items-center">
                             <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                <path d="M2.5 5H4.16667H17.5" stroke="#5C5C5C" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
-                                <path d="M15.8332 4.99984V16.6665C15.8332 17.1085 15.6576 17.5325 15.345 17.845C15.0325 18.1576 14.6085 18.3332 14.1665 18.3332H5.83317C5.39114 18.3332 4.96722 18.1576 4.65466 17.845C4.3421 17.5325 4.1665 17.1085 4.1665 16.6665V4.99984M6.6665 4.99984V3.33317C6.6665 2.89114 6.8421 2.46722 7.15466 2.15466C7.46722 1.8421 7.89114 1.6665 8.33317 1.6665H11.6665C12.1085 1.6665 12.5325 1.8421 12.845 2.15466C13.1576 2.46722 13.3332 2.89114 13.3332 3.33317V4.99984" stroke="#5C5C5C" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
-                                <path d="M8.3335 9.1665V14.1665" stroke="#5C5C5C" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
-                                <path d="M11.6665 9.1665V14.1665" stroke="#5C5C5C" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+                                <path d="M2.5 5H4.16667H17.5" stroke="#5e666e" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+                                <path d="M15.8332 4.99984V16.6665C15.8332 17.1085 15.6576 17.5325 15.345 17.845C15.0325 18.1576 14.6085 18.3332 14.1665 18.3332H5.83317C5.39114 18.3332 4.96722 18.1576 4.65466 17.845C4.3421 17.5325 4.1665 17.1085 4.1665 16.6665V4.99984M6.6665 4.99984V3.33317C6.6665 2.89114 6.8421 2.46722 7.15466 2.15466C7.46722 1.8421 7.89114 1.6665 8.33317 1.6665H11.6665C12.1085 1.6665 12.5325 1.8421 12.845 2.15466C13.1576 2.46722 13.3332 2.89114 13.3332 3.33317V4.99984" stroke="#5e666e" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+                                <path d="M8.3335 9.1665V14.1665" stroke="#5e666e" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+                                <path d="M11.6665 9.1665V14.1665" stroke="#5e666e" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
                             </svg>
                             <input id="checkbox1" type="checkbox" class="w-4 h-4 mr-3 focus:ring-transparent text-primary-400" />
                         </span>
