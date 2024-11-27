@@ -442,7 +442,7 @@ class TicketService
                 } elseif ($tickets->ticket_status->slug === 'in-progress') {
                     $data .= '<div style="width: 156px;"><span class="py-1 letter-transparent border border-inProgress-400 text-inProgress-400 rounded px-2">' . Str::ucfirst($tickets->ticket_status->name) . '</span></div>';
                 } elseif ($tickets->ticket_status->slug === 'on-hold') {
-                    $data .= '<div style="width: 156px;"><span class="py-1 letter-transparent border border-onHold-400 text-onHold-400 rounded px-2">' . Str::ucfirst($tickets->ticket_status->name) . '</span></div>';
+                    $data .= '<div style="width: 156px;"><span class="py-1 letter-transparent border border-hold-400 text-hold-400 rounded px-2">' . Str::ucfirst($tickets->ticket_status->name) . '</span></div>';
                 } else {
                     $data .= '<div style="width: 156px;"><span class="py-1 !letter-gray-400 text-paragraph rounded px-2">' . Str::ucfirst($tickets->ticket_status->name) . '</span></div>';
                 }
@@ -458,7 +458,7 @@ class TicketService
                 <div style='width:180px' class='text-paragraph flex items-center'>
                     " . ($imageUrl
                     ? "<img src='{$imageUrl}' width='40' height='40' style='border-radius: 50%; border: 1px solid #eee;' alt='profile'>"
-                    : "<div class='flex justify-center items-center text-lg' style='width: 40px; height: 40px; border-radius: 50%; background: {$color['bg']}; color: {$color['letter']}; border: 1px solid #eee;'>" . ucfirst(substr($userName, 0, 1)) . "</div>") . "
+                    : "<div class='flex justify-center items-center text-sm' style='width: 30px; height: 30px; border-radius: 50%; background: {$color['bg']}; color: {$color['letter']}; border: 1px solid #eee;'>" . ucfirst(substr($userName, 0, 1)) . "</div>") . "
                     <span class='ml-2'>{$userName}</span>
                 </div>";
                 return $data;
@@ -477,7 +477,7 @@ class TicketService
                 return $data;
             })
             ->addColumn('request_age', function ($tickets) {
-                $data = '<span class="text-paragraph">' . dayMonthYearHourMininteSecond($tickets?->created_at, $tickets?->resolved_at, true, true, true, true, true, true) . '</span>';
+                $data = '<span class="text-paragraph">' . dayMonthYearHourMininteSecond($tickets?->created_at, $tickets?->resolved_at) . '</span>';
                 return $data;
             })
             ->editColumn('due_date', function ($tickets) {
@@ -504,17 +504,17 @@ class TicketService
                         </button>
                         <div id="action-' . $tickets->id . '" class="shadow-lg z-30 absolute top-5 right-10" style="display: none">
                             <ul>
-                                <li class="px-5 py-1 text-center" style="background: #FFF4EC; color:#F36D00">
+                                <li class="px-5 py-2 text-center bg-white text-paragraph hover:bg-primary-600 hover:text-primary-400">
                                     <a href="' . $editUrl . '">Edit</a>
                                 </li>
-                                <li class="px-5 py-1 text-center letter-white">
+                                <li class="px-5 py-2 text-center bg-white text-paragraph hover:bg-primary-600 hover:text-primary-400">
                                     <a href="' . $viewUrl . '">View</a>
                                 </li>
-                                <li class="px-5 py-1 text-center letter-red-600 text-white">
+                                <li class="px-5 py-2 text-center bg-white text-paragraph hover:bg-primary-600 hover:text-primary-400">
                                     <form action="' . $deleteUrl . '" method="POST" onsubmit="return confirm(\'Are you sure?\');">
                                         ' . csrf_field() . '
                                         ' . method_field("DELETE") . '
-                                        <button type="submit" class="text-white">Delete</button>
+                                        <button type="submit" class="text-">Delete</button>
                                     </form>
                                 </li>
                             </ul>

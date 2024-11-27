@@ -3,7 +3,7 @@
 @tailwind utilities;
 
 .text-heading-light {
-    @apply text-sm font-medium font-inter text-[#fff];
+    @apply text-sm font-inter text-[#fff];
 }
 
 .text-heading-dark {
