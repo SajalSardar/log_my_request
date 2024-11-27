@@ -1,5 +1,5 @@
  <form wire:submit="save">
-     <h3 class="font-inter font-semibold text-[#333] text-[20px] mb-[24px]">Request Form</h3>
+     <h3 class="text-detail-heading mb-[20px]">Request Form</h3>
      <div class="grid lg:grid:cols-2 md:grid-cols-2 sm:grid-cols-1">
          <div class="border border-base-500 p-5 rounded">
              <div class="grid lg:grid-cols-1 md:grid-cols-1 sm:grid-cols-1 sm:gap-1 md:gap-2">

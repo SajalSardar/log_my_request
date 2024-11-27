@@ -5,6 +5,10 @@
 
     </x-breadcrumb>
     @endsection
+{{-- 
+    @can('request create')
+        <p>Create Request permission</p>
+    @endcan --}}
 
     @role('super-admin')
     <div class="mb-8 flex justify-between">
@@ -84,13 +88,12 @@
                 <div class="value">
                     @foreach ($chart as $item)
                     <p class="text-title pb-2">{{ $item->title }} :
-                        <span class="text-sm font-semibold" style="color: {{$item->color }};">
+                        <span class="text-sm font-semibold" style="color: {{ $item->color }};">
                             {{ $item->value }}%
                         </span>
                     </p>
                     @endforeach
                 </div>
-
                 <div class="chart-container">
                     <svg id="circularChart" width="152" height="152" viewBox="0 0 36 36" class="circular-chart">
                         <text x="18" y="20.35" text-anchor="middle" font-size="4" fill="#333">Requests</text>
@@ -161,14 +164,14 @@
                 </div>
                 <table class="w-full">
                     <thead class="w-full bg-[#F3F4F6]" style="border:1px solid #F3F4F6;border-radius:10px !important">
-                        <th class="text-center pr-9 font-inter font-semibold text-sm text-[#333]">Requesters</th>
+                        <th class="text-start ps-10 font-inter font-semibold text-sm text-[#333]">Requesters</th>
                         <th class="text-start font-inter font-semibold text-sm text-[#333]">Request</th>
                     </thead>
 
                     <tbody>
                         @foreach ($traffic as $each)
                         <tr style="border:1px solid #ddd">
-                            <td class="text-center text-paragraph">{{ ucfirst($each['name']) }}</td>
+                            <td class="text-start ps-10 text-paragraph">{{ ucfirst($each['name']) }}</td>
                             <td class="text-start text-paragraph">{{ ucfirst($each['total']) }}</td>
                         </tr>
                         @endforeach
@@ -186,14 +189,14 @@
                 </div>
                 <table class="w-full">
                     <thead class="w-full bg-[#F3F4F6]" style="border:1px solid #F3F4F6;border-radius:10px !important">
-                        <th class="text-center pr-9 font-inter font-semibold text-sm text-[#333]">Agents</th>
+                        <th class="text-start ps-12 font-inter font-semibold text-sm text-[#333]">Agents</th>
                         <th class="text-start font-inter font-semibold text-sm text-[#333]">Resolved</th>
                     </thead>
 
                     <tbody>
                         @foreach ($agents as $each)
                         <tr style="border:1px solid #ddd">
-                            <td class="text-center text-paragraph">{{ ucfirst($each['name']) }}</td>
+                            <td class="text-start ps-12 text-paragraph">{{ ucfirst($each['name']) }}</td>
                             <td class="text-start text-paragraph">{{ ucfirst($each['total']) }}</td>
                         </tr>
                         @endforeach
@@ -211,14 +214,14 @@
                 </div>
                 <table class="w-full">
                     <thead class="w-full bg-[#F3F4F6]" style="border:1px solid #F3F4F6;border-radius:10px !important">
-                        <th class="text-center pr-9 font-inter font-semibold text-sm text-[#333]">Categories</th>
+                        <th class="text-start ps-12 font-inter font-semibold text-sm text-[#333]">Categories</th>
                         <th class="text-start font-inter font-semibold text-sm text-[#333]">Request</th>
                     </thead>
 
                     <tbody>
                         @foreach ($categories as $each)
                         <tr style="border:1px solid #ddd">
-                            <td class="text-center text-paragraph">{{ ucfirst($each['name']) }}</td>
+                            <td class="text-start ps-12 text-paragraph">{{ ucfirst($each['name']) }}</td>
                             <td class="text-start text-paragraph">{{ ucfirst($each['total']) }}</td>
                         </tr>
                         @endforeach
@@ -236,14 +239,14 @@
                 </div>
                 <table class="w-full">
                     <thead class="w-full bg-[#F3F4F6]" style="border:1px solid #F3F4F6;border-radius:10px !important">
-                        <th class="text-center pr-9 font-inter font-semibold text-sm text-[#333]">Teams</th>
+                        <th class="text-start ps-10 font-inter font-semibold text-sm text-[#333]">Teams</th>
                         <th class="text-start font-inter font-semibold text-sm text-[#333]">Agents</th>
                     </thead>
 
                     <tbody>
                         @foreach ($teams as $each)
                         <tr style="border:1px solid #ddd">
-                            <td class="text-center text-paragraph">{{ ucfirst($each['name']) }}</td>
+                            <td class="text-start ps-10 text-paragraph">{{ ucfirst($each['name']) }}</td>
                             <td class="text-start text-paragraph">{{ ucfirst($each['total']) }}</td>
                         </tr>
                         @endforeach
@@ -286,7 +289,7 @@
     @section('script')
     <script>
         const data = JSON.parse('<?= json_encode($chart); ?>');
-        
+
         function createCircularChart(data) {
             const total = data.reduce((sum, segment) => sum + segment.value, 0);
             let offset = 0;
