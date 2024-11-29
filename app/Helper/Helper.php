@@ -87,12 +87,11 @@ class Helper {
     // }
     public static function getAllMenus() {
         $menus = Menu::with(['submneus' => function ($q) {
-            $q->orderBy('order', 'asc')->select('id', 'name', 'parent_id', 'roles', 'permissions', 'route', 'url')
+            $q->orderBy('order', 'asc')
                 ->where('status', 'active');
         }])
             ->where('parent_id', null)
             ->where('status', 'active')
-            ->select('id', 'name', 'parent_id', 'roles', 'permissions', 'route', 'url')
             ->orderBy('order', 'asc')
             ->get();
 
