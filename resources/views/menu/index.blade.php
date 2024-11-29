@@ -47,7 +47,8 @@
                     <th class="text-heading-dark">Name</th>
                     <th class="text-heading-dark">Order</th>
                     <th class="text-heading-dark">Route</th>
-                    <th class="text-heading-dark">Role</th>
+                    <th class="text-heading-dark">Roles</th>
+                    <th class="text-heading-dark">Permissions</th>
                     <th class="text-heading-dark">Url</th>
                     <th class="text-heading-dark">Created</th>
                 </tr>
@@ -101,6 +102,10 @@
                     {
                         data: 'role',
                         name: 'role'
+                    },
+                    {
+                        data: 'permission',
+                        name: 'permission'
                     },
                     {
                         data: 'url',

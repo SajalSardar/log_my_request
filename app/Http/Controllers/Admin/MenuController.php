@@ -2,21 +2,20 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Http\Controllers\Controller;
 use App\Models\Menu;
 use Illuminate\Http\Request;
-use Spatie\Permission\Models\Role;
-use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Route;
+use Spatie\Permission\Models\Permission;
+use Spatie\Permission\Models\Role;
 use Yajra\DataTables\Facades\DataTables;
 
-class MenuController extends Controller
-{
+class MenuController extends Controller {
     /**
      * Display a listing of the resource.
      */
-    public function index()
-    {
+    public function index() {
         Gate::authorize('viewAny', Menu::class);
         return view('menu.index');
     }
@@ -25,8 +24,7 @@ class MenuController extends Controller
      * Display a listing of the data table resource.
      * @param Request $request
      */
-    public function displayListDatatable(Request $request)
-    {
+    public function displayListDatatable(Request $request) {
         Gate::authorize('viewAny', Menu::class);
         $menus = Menu::query();
 
@@ -67,11 +65,19 @@ class MenuController extends Controller
             })
             ->addColumn('role', function ($menus) {
                 $rolesHtml = '';
-                $roles = json_decode($menus->roles, true);
+                $roles     = json_decode($menus->roles, true);
                 foreach ($roles as $role) {
                     $rolesHtml .= '<span class="inline-flex px-3 py-1 bg-inProgress-400 items-center text-paragraph ml-1 rounded">' . $role . '</span>';
                 }
                 return $rolesHtml;
+            })
+            ->addColumn('permission', function ($menus) {
+                $permissionsHtml = '';
+                $permissions     = $menus->permissions ? json_decode($menus->permissions, true) : [];
+                foreach ($permissions as $permission) {
+                    $permissionsHtml .= '<span class="inline-flex px-3 py-1 bg-gray-400 items-center text-paragraph ml-1 rounded">' . $permission . '</span>';
+                }
+                return $permissionsHtml;
             })
             ->addColumn('action_column', function ($menus) {
                 $links = '<div class="relative"><button onclick="toggleAction(' . $menus->id . ')"
@@ -110,22 +116,21 @@ class MenuController extends Controller
     /**
      * Show the form for creating a new resource.
      */
-    public function create()
-    {
+    public function create() {
         Gate::authorize('create', Menu::class);
-        $roles = Role::where('name', '!=', 'super-admin')->get();
+        $roles        = Role::where('name', '!=', 'super-admin')->get();
         $parent_menus = Menu::where('parent_id', null)->get();
-        $routes = collect(Route::getRoutes())->map(function ($route) {
+        $routes       = collect(Route::getRoutes())->map(function ($route) {
             return $route->getName();
         })->push('#');
-        return view('menu.create', compact('routes', 'roles', 'parent_menus'));
+        $permission_list = Permission::get();
+        return view('menu.create', compact('routes', 'roles', 'parent_menus', 'permission_list'));
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
-    {
+    public function store(Request $request) {
         //
         Gate::authorize('create', Menu::class);
     }
@@ -133,8 +138,7 @@ class MenuController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Menu $menu)
-    {
+    public function show(Menu $menu) {
         //
         Gate::authorize('view', $menu);
         return view('menu.show');
@@ -143,30 +147,28 @@ class MenuController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Menu $menu)
-    {
+    public function edit(Menu $menu) {
         Gate::authorize('update', $menu);
-        $roles = Role::where('name', '!=', 'super-admin')->get();
+        $roles        = Role::where('name', '!=', 'super-admin')->get();
         $parent_menus = Menu::where('parent_id', null)->get();
-        $routes = collect(Route::getRoutes())->map(function ($route) {
+        $routes       = collect(Route::getRoutes())->map(function ($route) {
             return $route->getName();
         })->push('#');
-        return view('menu.edit', compact('roles', 'parent_menus', 'menu', 'routes'));
+        $permission_list = Permission::get();
+        return view('menu.edit', compact('roles', 'parent_menus', 'menu', 'routes', 'permission_list'));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Menu $menu)
-    {
+    public function update(Request $request, Menu $menu) {
         Gate::authorize('update', $menu);
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Menu $menu)
-    {
+    public function destroy(Menu $menu) {
         Gate::authorize('delete', $menu);
         $menu->delete();
         flash()->success('Menu has been deleted');

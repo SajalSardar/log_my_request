@@ -12,7 +12,7 @@ class RequesterTypePolicy {
      * Determine whether the user can view any models.
      */
     public function viewAny(User $user): bool {
-        if ($user->can('requesterType view list')) {
+        if ($user->can('requestertype view list')) {
             return true;
         }
         return false;
@@ -22,7 +22,7 @@ class RequesterTypePolicy {
      * Determine whether the user can view the model.
      */
     public function view(User $user, RequesterType $requesterType): bool {
-        if ($user->can('requesterType view list')) {
+        if ($user->can('requestertype view list')) {
             return true;
         }
         return false;
@@ -33,14 +33,14 @@ class RequesterTypePolicy {
      */
     public function create(User $user): bool {
         //
-        return ($user->can('requesterType create'));
+        return ($user->can('requestertype create'));
     }
 
     /**
      * Determine whether the user can update the model.
      */
     public function update(User $user, RequesterType $requesterType): bool {
-        if ($user->can('requesterType update')) {
+        if ($user->can('requestertype update')) {
             return true;
         }
         return false;
@@ -51,7 +51,7 @@ class RequesterTypePolicy {
      * Determine whether the user can delete the model.
      */
     public function delete(User $user, RequesterType $requesterType): bool {
-        if ($user->can('requesterType delete')) {
+        if ($user->can('requestertype delete')) {
             return true;
         }
         return false;
@@ -61,7 +61,7 @@ class RequesterTypePolicy {
      * Determine whether the user can restore the model.
      */
     public function restore(User $user, RequesterType $requesterType): bool {
-        if ($user->can('requesterType restore')) {
+        if ($user->can('requestertype restore')) {
             return true;
         }
         return false;
@@ -71,7 +71,7 @@ class RequesterTypePolicy {
      * Determine whether the user can permanently delete the model.
      */
     public function forceDelete(User $user, RequesterType $requesterType): bool {
-        if ($user->can('requesterType force delete')) {
+        if ($user->can('requestertype force delete')) {
             return true;
         }
         return false;

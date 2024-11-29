@@ -5,15 +5,15 @@ namespace App\Http\Controllers;
 use App\Models\Module;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
+use Illuminate\Support\Str;
+use Spatie\Permission\Models\Permission;
 use Yajra\DataTables\Facades\DataTables;
 
-class ModuleController extends Controller
-{
+class ModuleController extends Controller {
     /**
      * Display a listing of the resource.
      */
-    public function index()
-    {
+    public function index() {
         Gate::authorize('viewAny', Module::class);
 
         $modules = Module::all();
@@ -25,8 +25,7 @@ class ModuleController extends Controller
      * Define public method displayListDatatable to display the datatable resources
      * @param Request $request
      */
-    public function displayListDatatable(Request $request)
-    {
+    public function displayListDatatable(Request $request) {
         Gate::authorize('viewAny', Module::class);
         $modules = Module::all();
 
@@ -49,19 +48,19 @@ class ModuleController extends Controller
             ->editColumn('permission', function ($modules) {
                 $isChecked = $modules->permission == '1' ? 'checked' : '';
                 return '<input type="checkbox" class="border border-base-500 rounded focus:ring-transparent p-1 text-primary-400" name="remember" ' . $isChecked . '>';
-            })    
+            })
             ->editColumn('view', function ($modules) {
                 $isChecked = $modules->view == '1' ? 'checked' : '';
                 return '<input type="checkbox" class="border border-base-500 rounded focus:ring-transparent p-1 text-primary-400" name="remember" ' . $isChecked . '>';
-            })                    
+            })
             ->editColumn('livewire_component', function ($modules) {
                 $isChecked = $modules->livewire_component == '1' ? 'checked' : '';
                 return '<input type="checkbox" class="border border-base-500 rounded focus:ring-transparent p-1 text-primary-400" name="remember" ' . $isChecked . '>';
-            })                    
+            })
             ->editColumn('mcrp', function ($modules) {
                 $isChecked = $modules->mcrp == '1' ? 'checked' : '';
                 return '<input type="checkbox" class="border border-base-500 rounded focus:ring-transparent p-1 text-primary-400" name="remember" ' . $isChecked . '>';
-            })                    
+            })
 
             ->editColumn('created_at', function ($modules) {
                 return '<span class="text-paragraph text-end">' . ISODate(date: $modules?->created_at) . '</span>';
@@ -107,49 +106,52 @@ class ModuleController extends Controller
     /**
      * Show the form for creating a new resource.
      */
-    public function create()
-    {
+    public function create() {
         Gate::authorize('create', Module::class);
-        return view('module.create');
+        $modules = Module::select('id', 'name', 'slug')->get();
+        return view('module.create', compact('modules'));
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
-    {
+    public function store(Request $request) {
         Gate::authorize('create', Module::class);
+        Permission::create(
+            [
+                'module_id' => $request->module_id,
+                'name'      => Str::lower($request->permission),
+            ]
+        );
+        flash()->success('Permission created!');
+        return back();
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(Module $module)
-    {
+    public function show(Module $module) {
         Gate::authorize('view', $module);
     }
 
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Module $module)
-    {
+    public function edit(Module $module) {
         Gate::authorize('update', $module);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Module $module)
-    {
+    public function update(Request $request, Module $module) {
         Gate::authorize('update', $module);
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Module $module)
-    {
+    public function destroy(Module $module) {
         Gate::authorize('delete', $module);
     }
 }

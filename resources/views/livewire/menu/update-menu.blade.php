@@ -82,6 +82,25 @@
             </div>
             <div class="grid lg:grid-cols-1 md:grid-cols-1 sm:grid-cols-1 sm:gap-1 md:gap-2">
                 <div class="pt-2 w-full">
+                    <x-forms.label for="permission">
+                        {{ __('Permission') }}
+                    </x-forms.label>
+                    <div wire:ignore>
+                        <x-forms.select2-select wire:model.defer="permission" id="permission" multiple>
+                            <option disabled>Select permission</option>
+                            @foreach ($permission_list as $list)
+                            @php
+                                $lists = $menu->permissions ? json_decode($menu->permissions, true): [];
+                            @endphp
+                            <option {{ in_array($list->name, $lists) ? 'selected' : '' }} value="{{ $list->name }}">{{ Str::ucfirst($list->name) }}</option>
+                            @endforeach
+                        </x-forms.select2-select>
+                        <x-input-error :messages="$errors->get('permission')" class="mt-2" />
+                    </div>
+                </div>
+            </div>
+            <div class="grid lg:grid-cols-1 md:grid-cols-1 sm:grid-cols-1 sm:gap-1 md:gap-2">
+                <div class="pt-2 w-full">
                     <x-forms.label for="status" required='yes'>
                         {{ __('Status') }}
                     </x-forms.label>

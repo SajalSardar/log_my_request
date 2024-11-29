@@ -18,19 +18,20 @@
             </a>
         </li>
         @foreach (Helper::getAllMenus() as $menu)
-                @php
-                    $subMenuRouts = $menu->submneus->pluck('route')->toArray();
+            @php
+                
+                $subMenuRouts = $menu->submneus->pluck('route')->toArray();
 
-                    $sbMenu = [];
-                    foreach ($subMenuRouts as $key => $subMenuRout) {
-                        $exMenu = explode('.', $subMenuRout);
-                        array_pop($exMenu);
-                        $exnew = join('.', $exMenu);
-                        $sbMenu[] = $exnew . '.*';
-                    }
-                @endphp
-                <li class="group pl-6 relative {{ Route::is($sbMenu) ? 'selected' : '' }} ">
-                    @if ($menu->route !== 'logout')
+                $sbMenu = [];
+                foreach ($subMenuRouts as $key => $subMenuRout) {
+                    $exMenu = explode('.', $subMenuRout);
+                    array_pop($exMenu);
+                    $exnew = join('.', $exMenu);
+                    $sbMenu[] = $exnew . '.*';
+                }
+            @endphp
+                    <li class="group pl-6 relative {{ Route::is($sbMenu) ? 'selected' : '' }} ">
+                     
                         <a href=" {{ $menu->route == '#' ? '#' : ($menu->url ? url($menu->url) : route($menu->route)) }}" class="block py-3 text-paragraph hover:bg-orange-100 hover:before:bg-primary-400 before:absolute before:rounded-r-2xl before:content-[''] before:w-[3px] before:h-[48px] before:top-0 {{ Route::is($menu->route) || Route::is($sbMenu) || url($menu->url) == Request::fullUrl() ? 'bg-orange-100 before:bg-primary-400' : '' }} {{ count($menu->submneus) > 0 ? 'sidebar-dropdown-toggle' : '' }}">
                             <span class="flex items-center text-paragraph">
                                 <span class="pl-4">{!! $menu->icon !!}</span>
@@ -40,21 +41,12 @@
                                 </svg>
                             </span>
                         </a>
-                    @endif
 
-                    @if ($menu->route == 'logout')
-                        <form action="{{ route('logout') }}" method="POST" class="block py-3 text-paragraph hover:bg-orange-100 hover:before:bg-primary-400 before:absolute before:rounded-r-2xl before:content-[''] before:w-[3px] before:h-[48px] before:top-0 {{ Route::is($menu->route) || Route::is($sbMenu) || url($menu->url) == Request::fullUrl() ? 'bg-orange-100 before:bg-primary-400' : '' }} {{ count($menu->submneus) > 0 ? 'sidebar-dropdown-toggle' : '' }} ">
-                            @csrf
-                            <button type="submit" class="flex items-center text-paragraph">
-                                <span class="pl-4">{!! $menu->icon !!}</span>
-                                <span class="text-paragraph ml-2">{{ $menu->name }}</span>
-                            </button>
-                        </form>
-                    @endif
 
-                    @if (count($menu->submneus) > 0)
+                        @if (count($menu->submneus) > 0)
                         <ul class="ml-3 hidden group-[.selected]:block">
                             @foreach ($menu->submneus as $submenu)
+                        
                                 <li class="relative">
                                     <a href="{{ $submenu->route == '#' && $submenu->url ? url($submenu->url) : route($submenu->route) }}" class="pl-2 px-2 text-[#333] py-3 font-inter text-sm flex items-center block hover:bg-orange-100 hover:before:bg-primary-400 before:absolute before:rounded-r-2xl before:content-[''] before:w-[3px] before:h-full before:top-0 before:left-0 {{ Route::is($submenu->route) || url($submenu->url) == Request::fullUrl() ? 'bg-orange-100 before:bg-primary-400' : '' }}">
 
@@ -63,12 +55,27 @@
                                             <span class="text-paragraph ml-2">{{ $submenu->name }}</span>
                                         </span>
                                     </a>
-                                </li>
+                                </li> 
+                                
                             @endforeach
                         </ul>
-                    @endif
-                </li>
+                        @endif
+                    </li>
+                    
         @endforeach
+        <li class="group pl-6 relative">
+            <form action="{{ route('logout') }}" method="POST" class="block py-3 text-paragraph hover:bg-orange-100 hover:before:bg-primary-400 before:absolute before:rounded-r-2xl before:content-[''] before:w-[3px] before:h-[48px] before:top-0 {{ Route::is($menu->route) || Route::is($sbMenu) || url($menu->url) == Request::fullUrl() ? 'bg-orange-100 before:bg-primary-400' : '' }} {{ count($menu->submneus) > 0 ? 'sidebar-dropdown-toggle' : '' }} ">
+                @csrf
+                <button type="submit" class="flex items-center text-paragraph">
+                    <span class="pl-4"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M9 21H5C4.46957 21 3.96086 20.7893 3.58579 20.4142C3.21071 20.0391 3 19.5304 3 19V5C3 4.46957 3.21071 3.96086 3.58579 3.58579C3.96086 3.21071 4.46957 3 5 3H9" stroke="#5C5C5C" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
+                        <path d="M16 17L21 12L16 7" stroke="#5e666e" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
+                        <path d="M21 12H9" stroke="#5e666e" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
+                        </svg></span>
+                    <span class="text-paragraph ml-2">Logout</span>
+                </button>
+            </form>
+        </li>
     </ul>
 </div>
 <div class="fixed top-0 left-0 w-full h-full bg-black/50 z-40 md:hidden sidebar-overlay"></div>
