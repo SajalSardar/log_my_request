@@ -21,8 +21,7 @@ use Illuminate\Support\Facades\Mail;
 use Livewire\Component;
 use Livewire\Features\SupportFileUploads\WithFileUploads;
 
-class CreateTicket extends Component
-{
+class CreateTicket extends Component {
     use WithFileUploads;
 
     /**
@@ -73,8 +72,7 @@ class CreateTicket extends Component
     /**
      * Define public method mount() to load the resources
      */
-    public function mount(): void
-    {
+    public function mount(): void {
         $this->requester_type = RequesterType::query()->get();
         $this->sources        = Source::query()->get();
         $this->teams          = [];
@@ -90,19 +88,16 @@ class CreateTicket extends Component
      * change of Team.
      * @return void
      */
-    public function selectTeamAgent(): void
-    {
+    public function selectTeamAgent(): void {
         $teams = Team::query()->with('agents')->where('id', $this->form?->team_id)->first();
 
         $this->teamAgent = $teams->agents;
     }
-    public function selectDepartemntTeam(): void
-    {
+    public function selectDepartemntTeam(): void {
         $this->teams = Team::where('department_id', $this->form?->department_id)->get();
     }
 
-    public function selectChildeCategory(): void
-    {
+    public function selectChildeCategory(): void {
 
         $this->subCategory = Category::where('parent_id', $this->form?->category_id)->get();
     }
@@ -112,8 +107,7 @@ class CreateTicket extends Component
      * @param TicketService $service
      * @return void
      */
-    public function save(TicketService $service)
-    {
+    public function save(TicketService $service) {
         $this->validate(rules: $this->form->rules(), attributes: $this->form->attributes());
         $isCreate = $service->store($this->form);
         $isUpload = $this->form->request_attachment ? Fileupload::uploadFiles($this->form, Bucket::TICKET, $isCreate->getKey(), Ticket::class) : '';
@@ -122,18 +116,18 @@ class CreateTicket extends Component
         return redirect()->to('dashboard/request-list');
     }
 
-    public function requesterSave()
-    {
+    public function requesterSave() {
         $this->validate([
             'form.request_title' => ['required'],
             'form.category_id'   => ['required'],
         ]);
+        $status   = TicketStatus::where('slug', 'open')->first();
         $response = Ticket::create(
             [
                 'user_id'          => Auth::id(),
                 'category_id'      => $this->form->category_id,
                 'sub_category_id'  => $this->form->sub_category_id,
-                'ticket_status_id' => 1,
+                'ticket_status_id' => $status->id,
                 'source_id'        => 1,
                 'title'            => $this->form->request_title,
                 'description'      => $this->form->request_description,
@@ -168,8 +162,7 @@ class CreateTicket extends Component
         return redirect()->to('dashboard/request-list');
     }
 
-    public function render()
-    {
+    public function render() {
         if (Auth::user()->hasRole(['requester', 'Requester'])) {
             return view('livewire.ticket.create-requester');
         } else {

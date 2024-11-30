@@ -88,14 +88,16 @@
                 </x-forms.select-input>
                 <span x-show="due_date_x" class="absolute top-1 end-9 text-surface cursor-pointer focus:text-primary outline-none dark:text-white text-base" tabindex="0" style="display: block;" @click="due_date_x = '';$nextTick(() => $('#due_date_search').trigger('change'))">✕</span>
             </div>
-            <div>
-                <x-actions.href href="{{ route('admin.ticket.create') }}" class="flex items-center gap-1">
-                    <span>Create A Request</span>
-                    <svg fill="none" width="24" height="24" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v6m3-3H9m12 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
-                    </svg>
-                </x-actions.href>
-            </div>
+            @can('request create')
+                <div>
+                    <x-actions.href href="{{ route('admin.ticket.create') }}" class="flex items-center gap-1">
+                        <span>Create A Request</span>
+                        <svg fill="none" width="24" height="24" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v6m3-3H9m12 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
+                        </svg>
+                    </x-actions.href>
+                </div>
+            @endcan
         </div>
     </div>
 

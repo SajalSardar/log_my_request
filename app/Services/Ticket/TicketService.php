@@ -2,23 +2,22 @@
 
 namespace App\Services\Ticket;
 
-use Carbon\Carbon;
-use App\Models\User;
-use App\Models\Ticket;
+use App\Mail\LogUpdateMail;
 use App\Mail\TicketEmail;
+use App\Models\Ticket;
 use App\Models\TicketLog;
 use App\Models\TicketNote;
-use App\Mail\LogUpdateMail;
-use Illuminate\Support\Str;
-use Laravolt\Avatar\Avatar;
-use App\Models\TicketStatus;
 use App\Models\TicketOwnership;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Mail;
+use App\Models\TicketStatus;
+use App\Models\User;
+use Carbon\Carbon;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Str;
 use Yajra\DataTables\Facades\DataTables;
 
 class TicketService {
@@ -280,8 +279,7 @@ class TicketService {
         return $emailResponse;
     }
 
-    public function randomHexColor()
-    {
+    public function randomHexColor() {
         $colors = [
             ['letter' => '#9D0009', 'bg' => 'rgba(157, 0, 9, 0.2)'],
             ['letter' => '#E60029', 'bg' => 'rgba(230, 0, 41, 0.2)'],
@@ -314,8 +312,7 @@ class TicketService {
         return $colors[array_rand($colors)];
     }
 
-    public static function allTicketListDataTable($request)
-    {
+    public static function allTicketListDataTable($request) {
         $ticketStatus = null;
 
         if ($request->query_status != 'unassign') {
@@ -445,7 +442,7 @@ class TicketService {
                 $userName = $tickets->user->name ?? 'Unknown';
                 $imageUrl = $tickets->user->image?->url;
                 $instance = new self();
-                $color = $instance->randomHexColor();
+                $color    = $instance->randomHexColor();
 
                 $data = "
                 <div style='width:180px' class='text-paragraph flex items-center'>
@@ -482,7 +479,32 @@ class TicketService {
                 $editUrl   = route('admin.ticket.edit', $tickets?->id);
                 $viewUrl   = route('admin.ticket.show', $tickets?->id);
                 $deleteUrl = route('admin.ticket.delete', $tickets?->id);
-                return '
+                $viewBtn   = null;
+                $editBtn   = null;
+                $deleteBtn = null;
+
+                if (Auth::user()->can("request view list")) {
+                    $viewBtn .= '<li class="px-5 py-2 text-center bg-white text-paragraph hover:bg-primary-600 hover:text-primary-400">
+                                    <a href="' . $viewUrl . '">View</a>
+                                </li>';
+                }
+                if (Auth::user()->can("request update") && ($tickets->ticket_status->slug != 'closed' && $tickets->ticket_status->slug != 'resolved')) {
+                    $editBtn .= '<li class="px-5 py-2 text-center bg-white text-paragraph hover:bg-primary-600 hover:text-primary-400">
+                                    <a href="' . $editUrl . '">Edit</a>
+                                </li>
+                                ';
+                }
+                if (Auth::user()->can("request delete") && ($tickets->ticket_status->slug != 'closed' && $tickets->ticket_status->slug != 'resolved')) {
+                    $deleteBtn .= '<li class="px-5 py-2 text-center bg-white text-paragraph hover:bg-primary-600 hover:text-primary-400">
+                        <form action="' . $deleteUrl . '" method="POST" onsubmit="return confirm(\'Are you sure?\');">
+                            ' . csrf_field() . '
+                            ' . method_field("DELETE") . '
+                            <button type="submit" class="text-">Delete</button>
+                        </form>
+                    </li>';
+                }
+
+                $action = '
                     <div class="relative">
                         <button onclick="toggleAction(' . $tickets->id . ')" class="p-3 hover:letter-slate-100 rounded-full">
                             <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
@@ -497,22 +519,11 @@ class TicketService {
                         </button>
                         <div id="action-' . $tickets->id . '" class="shadow-lg z-30 absolute top-5 right-10" style="display: none">
                             <ul>
-                                <li class="px-5 py-2 text-center bg-white text-paragraph hover:bg-primary-600 hover:text-primary-400">
-                                    <a href="' . $editUrl . '">Edit</a>
-                                </li>
-                                <li class="px-5 py-2 text-center bg-white text-paragraph hover:bg-primary-600 hover:text-primary-400">
-                                    <a href="' . $viewUrl . '">View</a>
-                                </li>
-                                <li class="px-5 py-2 text-center bg-white text-paragraph hover:bg-primary-600 hover:text-primary-400">
-                                    <form action="' . $deleteUrl . '" method="POST" onsubmit="return confirm(\'Are you sure?\');">
-                                        ' . csrf_field() . '
-                                        ' . method_field("DELETE") . '
-                                        <button type="submit" class="text-">Delete</button>
-                                    </form>
-                                </li>
+                                ' . $viewBtn . $editBtn . $deleteBtn . '
                             </ul>
                         </div>
                     </div>';
+                return $action;
             })
             ->rawColumns(['action_column'])
             ->addIndexColumn()

@@ -211,6 +211,10 @@ class TicketController extends Controller {
      */
     public function edit(Ticket $ticket) {
         Gate::authorize('update', $ticket);
+        if ($ticket->ticket_status->slug != 'closed' || $ticket->ticket_status->slug != 'resolved') {
+            flash()->info('Ticket has been closed or resolved');
+            return back();
+        }
         return view('ticket.edit', compact('ticket'));
     }
 
@@ -384,6 +388,10 @@ class TicketController extends Controller {
      * @return RedirectResponse
      */
     public function partialUpdate(Request $request, Ticket $ticket): RedirectResponse {
+        $request->validate([
+            "request_title"      => 'required',
+            "request_attachment" => 'nullable|mimes:png,jpg,pdf,heic,jpeg',
+        ]);
         $ticketUpdate = $ticket->update([
             'title'       => $request->request_title,
             'description' => $request->request_description,
