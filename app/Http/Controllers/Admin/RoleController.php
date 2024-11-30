@@ -4,16 +4,16 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Module;
+use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
 use Spatie\Permission\Models\Role;
 use Yajra\DataTables\Facades\DataTables;
 
-class RoleController extends Controller
-{
+class RoleController extends Controller {
 
-    public function index()
-    {
+    public function index() {
         Gate::authorize('viewAny', Role::class);
 
         $roles = Role::with('permissions')->orderBy('id', 'desc')->get();
@@ -24,8 +24,7 @@ class RoleController extends Controller
      * Define public method displayListDatatable to display the datatable resources
      * @param Request $request
      */
-    public function displayListDatatable(Request $request)
-    {
+    public function displayListDatatable(Request $request) {
 
         Gate::authorize('viewAny', Role::class);
         $roles = Role::with('permissions')->whereNotIn('name', ['super-admin'])->orderBy('id', 'desc')->get();
@@ -48,7 +47,11 @@ class RoleController extends Controller
             })
             ->editColumn('permission', function ($roles) {
                 $permissionsHtml = '';
-                foreach ($roles->permissions as $permission) {
+                foreach ($roles->permissions as $key => $permission) {
+                    if ($key > 5) {
+                        $permissionsHtml .= '<a href="' . route('admin.role.edit', ['id' => $roles->id]) . '" class="underline ml-2 text-green-500">more..</a>';
+                        break;
+                    }
                     $permissionsHtml .= '<span class="inline-flex px-3 py-1 bg-inProgress-400 items-center text-paragraph ml-1 rounded">' . $permission->name . '</span>';;
                 }
 
@@ -92,16 +95,19 @@ class RoleController extends Controller
             ->make(true);
     }
 
-    public function create()
-    {
+    public function create() {
         Gate::authorize('create', Role::class);
+        $user  = User::where('id', Auth::id())->first();
+        $query = Module::query()->with('permissions');
+        if (!$user->hasRole('super-admin')) {
+            $query->whereNotIn('name', ['menu', 'module']);
 
-        $modules = Module::with('permissions')->get();
+        }
+        $modules = $query->get();
         return view('role.create', compact('modules'));
     }
 
-    public function store(Request $request)
-    {
+    public function store(Request $request) {
         Gate::authorize('create', Role::class);
 
         $request->validate([
@@ -121,12 +127,18 @@ class RoleController extends Controller
      * Define public method edit()
      * @param $id;
      */
-    public function edit($id)
-    {
+    public function edit($id) {
         Gate::authorize('update', Role::class);
 
-        $role    = Role::with('permissions')->find($id);
-        $modules = Module::with('permissions')->get();
+        $role  = Role::with('permissions')->find($id);
+        $user  = User::where('id', Auth::id())->first();
+        $query = Module::query()->with('permissions');
+        if (!$user->hasRole('super-admin')) {
+            $query->whereNotIn('name', ['menu', 'module']);
+
+        }
+        $modules = $query->get();
+
         if ($role->id) {
             $rolePermmission = @$role->permissions->pluck("id")->toArray();
         } else {
@@ -140,8 +152,7 @@ class RoleController extends Controller
      * @param Request $request
      * @param ?string $id
      */
-    public function update(Request $request, $id)
-    {
+    public function update(Request $request, $id) {
         Gate::authorize('update', Role::class);
 
         $request->validate([
@@ -159,8 +170,7 @@ class RoleController extends Controller
         return back();
     }
 
-    public function switchAccount(Request $request)
-    {
+    public function switchAccount(Request $request) {
 
         $request->session()->put('login_role', $request->role);
         return back();
