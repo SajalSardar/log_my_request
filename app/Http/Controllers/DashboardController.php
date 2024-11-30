@@ -18,6 +18,8 @@ class DashboardController extends Controller {
         $agents     = DashboardDecorator::agents();
         $categories = DashboardDecorator::categories();
         $teams      = DashboardDecorator::teams();
+
+        // return $state;
         return view('dashboard', compact('chart', 'state', 'traffic', 'agents', 'categories', 'teams'));
     }
 }
