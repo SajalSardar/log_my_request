@@ -7,9 +7,11 @@
     @endsection
 
     <div class="flex justify-end pb-4">
-        <x-actions.href href="{{ route('admin.team.create') }}">
-            Create Team
-        </x-actions.href>
+        @can('team create')
+            <x-actions.href href="{{ route('admin.team.create') }}">
+                Create Team
+            </x-actions.href>
+        @endcan
     </div>
 
     <div class="relative">
