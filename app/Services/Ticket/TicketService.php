@@ -357,6 +357,9 @@ class TicketService {
                 if ($request->team_search) {
                     $query->where('team_id', '=', $request->team_search);
                 }
+                if ($request->department_search) {
+                    $query->where('department_id', '=', $request->department_search);
+                }
                 if ($request->status_search) {
                     $query->where('ticket_status_id', '=', $request->status_search);
                 }

@@ -107,7 +107,8 @@ class TicketController extends Controller {
         $categories   = Category::where('status', 1)->get();
         $teams        = Team::where('status', 1)->get();
         $ticketStatus = TicketStatus::where('status', 1)->get();
-        return view('ticket.all_list', compact('queryStatus', 'categories', 'teams', 'ticketStatus'));
+        $departments  = Department::where('status', true)->get();
+        return view('ticket.all_list', compact('queryStatus', 'categories', 'teams', 'ticketStatus', 'departments'));
     }
 
     /**
@@ -118,17 +119,6 @@ class TicketController extends Controller {
     public function allTicketListDataTable(Request $request) {
         Gate::authorize('viewAny', Ticket::class);
         return TicketService::allTicketListDataTable($request);
-    }
-
-    /**
-     * Display a listing of the data table resource.
-     */
-    public function displayListDatatable() {
-        Gate::authorize('viewAny', Ticket::class);
-
-        $ticket = Cache::remember('ticket_' . Auth::id() . '_list', 60 * 60, function () {
-            return Ticket::get();
-        });
     }
 
     /**
@@ -296,6 +286,9 @@ class TicketController extends Controller {
      * @return RedirectResponse
      */
     public function interNoteStore(Request $request, Ticket $ticket): RedirectResponse {
+        $request->validate([
+            "internal_note" => 'required',
+        ]);
         $ticket_status = TicketService::getTicketStatusById($ticket->ticket_status_id);
         $internal_note = TicketService::createTicketNote($ticket->id, $ticket_status->name, $ticket_status->name, 'internal_note', $request->internal_note);
         $internal_note ? flash()->success('Internal Note has been Added!') : flash()->success('Something went wrong !!!');

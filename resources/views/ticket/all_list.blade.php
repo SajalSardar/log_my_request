@@ -39,7 +39,7 @@
                         <option value="medium">Medium</option>
                         <option value="high">High</option>
                     </x-forms.select-input>
-                    <span x-show="priority" class="absolute top-1 end-9 text-surface cursor-pointer focus:text-primary outline-none dark:text-white text-base" tabindex="0" style="display: block;" @click="priority = '';$nextTick(() => $('#priority_search').trigger('change'))">✕</span>
+                    <span x-show="priority" class="absolute top-2 end-5 text-orange-600 text-surface cursor-pointer focus:text-primary outline-none dark:text-white text-base" tabindex="0" style="display: block;" @click="priority = '';$nextTick(() => $('#priority_search').trigger('change'))">✕</span>
                 </div>
             </div>
             <div style="width:110px" class="relative" x-data="{ status: '' }">
@@ -49,7 +49,7 @@
                     <option value="{{ $item->id }}">{{ $item->name }}</option>
                     @endforeach
                 </x-forms.select-input>
-                <span x-show="status" class="absolute top-1 end-9 text-surface cursor-pointer focus:text-primary outline-none dark:text-white text-base" tabindex="0" style="display: block;" @click="status = '';$nextTick(() => $('#status_search').trigger('change'))">✕</span>
+                <span x-show="status" class="absolute top-2 end-5 text-orange-600 text-surface cursor-pointer focus:text-primary outline-none dark:text-white text-base" tabindex="0" style="display: block;" @click="status = '';$nextTick(() => $('#status_search').trigger('change'))">✕</span>
             </div>
             <div style="width:122px" class="relative" x-data="{ category: '' }">
                 <x-forms.select-input x-model="category" class="text-paragraph" id="category_search">
@@ -58,16 +58,16 @@
                     <option value="{{ $category->id }}">{{ $category->name }}</option>
                     @endforeach
                 </x-forms.select-input>
-                <span x-show="category" class="absolute top-1 end-9 text-surface cursor-pointer focus:text-primary outline-none dark:text-white text-base" tabindex="0" style="display: block;" @click="category = '';$nextTick(() => $('#category_search').trigger('change'))">✕</span>
+                <span x-show="category" class="absolute top-2 end-5 text-orange-600 text-surface cursor-pointer focus:text-primary outline-none dark:text-white text-base" tabindex="0" style="display: block;" @click="category = '';$nextTick(() => $('#category_search').trigger('change'))">✕</span>
             </div>
-            <div style="width:136px" class="relative" x-data="{ team: '' }">
-                <x-forms.select-input class="text-paragraph" x-model="team" id="team_search">
+            <div style="width:136px" class="relative" x-data="{ department: '' }">
+                <x-forms.select-input class="text-paragraph" x-model="department" id="department_search">
                     <option value="">Department</option>
-                    @foreach ($teams as $team)
-                    <option value="{{ $team->id }}">{{ $team->name }}</option>
+                    @foreach ($departments as $department)
+                    <option value="{{ $department->id }}">{{ $department->name }}</option>
                     @endforeach
                 </x-forms.select-input>
-                <span x-show="team" class="absolute top-1 end-9 text-surface cursor-pointer focus:text-primary outline-none dark:text-white text-base" tabindex="0" style="display: block;" @click="team = '';$nextTick(() => $('#team_search').trigger('change'))">✕</span>
+                <span x-show="department" class="absolute top-2 end-5 text-orange-600 text-surface cursor-pointer focus:text-primary outline-none dark:text-white text-base" tabindex="0" style="display: block;" @click="department = '';$nextTick(() => $('#department_search').trigger('change'))">✕</span>
             </div>
             <div style="width:96px" class="relative" x-data="{ team: '' }">
                 <x-forms.select-input class="text-paragraph" x-model="team" id="team_search">
@@ -76,7 +76,7 @@
                     <option value="{{ $team->id }}">{{ $team->name }}</option>
                     @endforeach
                 </x-forms.select-input>
-                <span x-show="team" class="absolute top-1 end-9 text-surface cursor-pointer focus:text-primary outline-none dark:text-white text-base" tabindex="0" style="display: block;" @click="team = '';$nextTick(() => $('#team_search').trigger('change'))">✕</span>
+                <span x-show="team" class="absolute top-2 end-5 text-orange-600 text-surface cursor-pointer focus:text-primary outline-none dark:text-white text-base" tabindex="0" style="display: block;" @click="team = '';$nextTick(() => $('#team_search').trigger('change'))">✕</span>
             </div>
             <div style="width:128px" class="relative" x-data="{ due_date_x: '' }">
                 <x-forms.select-input class="text-paragraph" x-model="due_date_x" id="due_date_search">
@@ -86,7 +86,7 @@
                     <option value="this_week">This Week</option>
                     <option value="this_month">This Month</option>
                 </x-forms.select-input>
-                <span x-show="due_date_x" class="absolute top-1 end-9 text-surface cursor-pointer focus:text-primary outline-none dark:text-white text-base" tabindex="0" style="display: block;" @click="due_date_x = '';$nextTick(() => $('#due_date_search').trigger('change'))">✕</span>
+                <span x-show="due_date_x" class="absolute top-2 end-5 text-orange-600 text-surface cursor-pointer focus:text-primary outline-none dark:text-white text-base" tabindex="0" style="display: block;" @click="due_date_x = '';$nextTick(() => $('#due_date_search').trigger('change'))">✕</span>
             </div>
             @can('request create')
                 <div>
@@ -170,6 +170,7 @@
                         d.team_search = $('#team_search').val();
                         d.status_search = $('#status_search').val();
                         d.due_date_search = $('#due_date_search').val();
+                        d.department_search = $('#department_search').val();
                     }
                 },
                 columns: [{
@@ -238,7 +239,7 @@
             });
 
             $(document).on('change keyup',
-                '#priority_search, #category_search, #team_search, #status_search, #due_date_search, #ticket_id_search',
+                '#priority_search, #category_search, #team_search, #status_search, #due_date_search, #ticket_id_search, #department_search',
                 function(e) {
                     dTable.draw();
                     e.preventDefault();
