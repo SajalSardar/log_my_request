@@ -11,9 +11,11 @@ use Illuminate\Support\Facades\Gate;
 use Spatie\Permission\Models\Role;
 use Yajra\DataTables\Facades\DataTables;
 
-class RoleController extends Controller {
+class RoleController extends Controller
+{
 
-    public function index() {
+    public function index()
+    {
         Gate::authorize('viewAny', Role::class);
 
         $roles = Role::with('permissions')->orderBy('id', 'desc')->get();
@@ -24,14 +26,16 @@ class RoleController extends Controller {
      * Define public method displayListDatatable to display the datatable resources
      * @param Request $request
      */
-    public function displayListDatatable(Request $request) {
+    public function displayListDatatable(Request $request)
+    {
 
         Gate::authorize('viewAny', Role::class);
         $roles = Role::with('permissions')->whereNotIn('name', ['super-admin'])->orderBy('id', 'desc')->get();
 
         return DataTables::of($roles)
             ->addColumn('select', function () {
-                return '<div class="flex items-center justify-center ml-6 w-[50px]"><input type="checkbox" class ="border text-center border-slate-200 rounded focus:ring-transparent p-1" style="background-color: #9b9b9b; accent-color: #5C5C5C !important;"></div>';
+                return '<div class="flex items-center justify-center ml-6 w-[50px]"><input type="checkbox" class="child-checkbox rounded border border-base-500 w-4 h-4 mr-3 focus:ring-transparent text-primary-400" />
+                </div>';
             })
             ->editColumn('id', function ($roles) {
                 return '<div class="w-[50px]"><span class="text-paragraph">' . '#' . $roles->id . '</span></div>';
@@ -39,9 +43,9 @@ class RoleController extends Controller {
             ->editColumn('name', function ($roles) {
                 return '
                     <div class="flex items-center">
-                            <img src="' . asset('assets/images/profile.jpg') . '" width="40" height="40" style="border-radius: 50%;border:1px solid #eee" alt="profile">
+                        ' . avatar($roles->name) . '
                         <div class="infos ps-5">
-                            <h5 class="text-paragraph">' . $roles->name . '</h5>
+                            <h5 class="text-paragraph">' . htmlspecialchars($roles->name, ENT_QUOTES, 'UTF-8') . '</h5>
                         </div>
                     </div>';
             })
@@ -95,19 +99,20 @@ class RoleController extends Controller {
             ->make(true);
     }
 
-    public function create() {
+    public function create()
+    {
         Gate::authorize('create', Role::class);
         $user  = User::where('id', Auth::id())->first();
         $query = Module::query()->with('permissions');
         if (!$user->hasRole('super-admin')) {
             $query->whereNotIn('name', ['menu', 'module']);
-
         }
         $modules = $query->get();
         return view('role.create', compact('modules'));
     }
 
-    public function store(Request $request) {
+    public function store(Request $request)
+    {
         Gate::authorize('create', Role::class);
 
         $request->validate([
@@ -127,7 +132,8 @@ class RoleController extends Controller {
      * Define public method edit()
      * @param $id;
      */
-    public function edit($id) {
+    public function edit($id)
+    {
         Gate::authorize('update', Role::class);
 
         $role  = Role::with('permissions')->find($id);
@@ -135,7 +141,6 @@ class RoleController extends Controller {
         $query = Module::query()->with('permissions');
         if (!$user->hasRole('super-admin')) {
             $query->whereNotIn('name', ['menu', 'module']);
-
         }
         $modules = $query->get();
 
@@ -152,7 +157,8 @@ class RoleController extends Controller {
      * @param Request $request
      * @param ?string $id
      */
-    public function update(Request $request, $id) {
+    public function update(Request $request, $id)
+    {
         Gate::authorize('update', Role::class);
 
         $request->validate([
@@ -170,7 +176,8 @@ class RoleController extends Controller {
         return back();
     }
 
-    public function switchAccount(Request $request) {
+    public function switchAccount(Request $request)
+    {
 
         $request->session()->put('login_role', $request->role);
         return back();

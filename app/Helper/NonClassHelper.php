@@ -172,3 +172,38 @@ function getTicketNotsNotify()
 
     return $ticketNotifyNotes;
 }
+
+function avatar(?string $name): string
+{
+    $colors = [
+        ['letter' => '#9D0009', 'bg' => 'rgba(157, 0, 9, 0.2)'],
+        ['letter' => '#E60029', 'bg' => 'rgba(230, 0, 41, 0.2)'],
+        ['letter' => '#F27700', 'bg' => 'rgba(242, 119, 0, 0.2)'],
+        ['letter' => '#FFA304', 'bg' => 'rgba(255, 163, 4, 0.2)'],
+        ['letter' => '#FEDA00', 'bg' => 'rgba(254, 218, 0, 0.2)'],
+        ['letter' => '#9E4352', 'bg' => 'rgba(158, 67, 82, 0.2)'],
+        ['letter' => '#843C6E', 'bg' => 'rgba(132, 60, 110, 0.2)'],
+        ['letter' => '#636CC9', 'bg' => 'rgba(99, 108, 201, 0.2)'],
+        ['letter' => '#4590D3', 'bg' => 'rgba(69, 144, 211, 0.2)'],
+        ['letter' => '#00EBFC', 'bg' => 'rgba(0, 235, 252, 0.2)'],
+        ['letter' => '#006FE5', 'bg' => 'rgba(0, 111, 229, 0.2)'],
+        ['letter' => '#6e77d2', 'bg' => 'rgba(110, 119, 210, 0.2)'],
+        ['letter' => '#5700DB', 'bg' => 'rgba(87, 0, 219, 0.2)'],
+        ['letter' => '#704000', 'bg' => 'rgba(112, 64, 0, 0.2)'],
+        ['letter' => '#00556A', 'bg' => 'rgba(0, 85, 106, 0.2)'],
+        ['letter' => '#408300', 'bg' => 'rgba(64, 131, 0, 0.2)'],
+        ['letter' => '#88387F', 'bg' => 'rgba(136, 56, 127, 0.2)'],
+        ['letter' => '#8701DE', 'bg' => 'rgba(135, 1, 222, 0.2)'],
+        ['letter' => '#8B5474', 'bg' => 'rgba(139, 84, 116, 0.2)'],
+        ['letter' => '#FF590D', 'bg' => 'rgba(255, 89, 13, 0.2)'],
+        ['letter' => '#74457F', 'bg' => 'rgba(116, 69, 127, 0.2)'],
+        ['letter' => '#62000D', 'bg' => 'rgba(98, 0, 13, 0.2)'],
+        ['letter' => '#99ADA0', 'bg' => 'rgba(153, 173, 160, 0.2)'],
+        ['letter' => '#BDB900', 'bg' => 'rgba(189, 185, 0, 0.2)'],
+        ['letter' => '#E4D900', 'bg' => 'rgba(228, 217, 0, 0.2)'],
+        ['letter' => '#9AE100', 'bg' => 'rgba(154, 225, 0, 0.2)'],
+    ];
+    $color = $colors[array_rand($colors)];
+
+    return "<div class='flex justify-center items-center text-sm' style='width: 30px; height: 30px; border-radius: 50%; background: {$color['bg']}; color: {$color['letter']}; border: 1px solid #ddd;'>" . ucfirst(substr($name, 0, 1)) . "</div>";
+}
