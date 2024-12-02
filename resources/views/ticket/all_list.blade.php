@@ -1,24 +1,24 @@
 <x-app-layout>
 
     @if (Route::is('admin.ticket.list.active.memode'))
-    @section('title', 'My Request List')
-    @include('ticket.breadcrumb.index', ['value' => 'Assign to Me'])
+        @section('title', 'My Request List')
+        @include('ticket.breadcrumb.index', ['value' => 'Assign to Me'])
     @elseif(request()->has('request_status'))
-    @section('title', Str::ucfirst(request()->get('request_status')) . ' Request')
-    @include('ticket.breadcrumb.index', ['value' => Str::ucfirst(request()->get('request_status')) . ' Request'])
+        @section('title', Str::ucfirst(request()->get('request_status')) . ' Request')
+        @include('ticket.breadcrumb.index', ['value' => Str::ucfirst(request()->get('request_status')) . ' Request'])
     @else
-    @section('title', 'All Request List')
-    @include('ticket.breadcrumb.index', ['value' => 'All Requests'])
+        @section('title', 'All Request List')
+        @include('ticket.breadcrumb.index', ['value' => 'All Requests'])
     @endif
 
     <div class="lg:flex md:flex lg:justify-between md:justify-between lg:items-center md:items-center">
         <div class="lg:mb-0 sm:mb-3">
             @if (Route::is('admin.ticket.list.active.memode'))
-            <h2 class="text-detail-heading">My Request List</h2>
+                <h2 class="text-detail-heading">My Request List</h2>
             @elseIf(request()->has('request_status'))
-            <h2 class="text-detail-heading">{{ camelCase(request()->get('request_status')) }} Request</h2>
+                <h2 class="text-detail-heading">{{ camelCase(request()->get('request_status')) }} Request</h2>
             @else
-            <h2 class="text-detail-heading">All Requests</h2>
+                <h2 class="text-detail-heading">All Requests</h2>
             @endif
         </div>
         <div class="flex flex-wrap lg:gap-3 md:gap-2 sm:gap-3 lg:justify-end md:justify-end sm:justify-start">
@@ -39,44 +39,44 @@
                         <option value="medium">Medium</option>
                         <option value="high">High</option>
                     </x-forms.select-input>
-                    <span x-show="priority" class="absolute top-2 end-5 text-orange-600 text-surface cursor-pointer focus:text-primary outline-none dark:text-white text-base" tabindex="0" style="display: block;" @click="priority = '';$nextTick(() => $('#priority_search').trigger('change'))">✕</span>
+                    <span x-show="priority" class="absolute top-1 end-9 text-surface cursor-pointer focus:text-primary outline-none dark:text-white text-base" tabindex="0" style="display: block;" @click="priority = '';$nextTick(() => $('#priority_search').trigger('change'))">✕</span>
                 </div>
             </div>
             <div style="width:110px" class="relative" x-data="{ status: '' }">
                 <x-forms.select-input x-model="status" class="text-paragraph" id="status_search">
                     <option value="">Status</option>
                     @foreach ($ticketStatus as $item)
-                    <option value="{{ $item->id }}">{{ $item->name }}</option>
+                        <option value="{{ $item->id }}">{{ $item->name }}</option>
                     @endforeach
                 </x-forms.select-input>
-                <span x-show="status" class="absolute top-2 end-5 text-orange-600 text-surface cursor-pointer focus:text-primary outline-none dark:text-white text-base" tabindex="0" style="display: block;" @click="status = '';$nextTick(() => $('#status_search').trigger('change'))">✕</span>
+                <span x-show="status" class="absolute top-1 end-9 text-surface cursor-pointer focus:text-primary outline-none dark:text-white text-base" tabindex="0" style="display: block;" @click="status = '';$nextTick(() => $('#status_search').trigger('change'))">✕</span>
             </div>
             <div style="width:122px" class="relative" x-data="{ category: '' }">
                 <x-forms.select-input x-model="category" class="text-paragraph" id="category_search">
                     <option value="">Category</option>
                     @foreach ($categories as $category)
-                    <option value="{{ $category->id }}">{{ $category->name }}</option>
+                        <option value="{{ $category->id }}">{{ $category->name }}</option>
                     @endforeach
                 </x-forms.select-input>
-                <span x-show="category" class="absolute top-2 end-5 text-orange-600 text-surface cursor-pointer focus:text-primary outline-none dark:text-white text-base" tabindex="0" style="display: block;" @click="category = '';$nextTick(() => $('#category_search').trigger('change'))">✕</span>
+                <span x-show="category" class="absolute top-1 end-9 text-surface cursor-pointer focus:text-primary outline-none dark:text-white text-base" tabindex="0" style="display: block;" @click="category = '';$nextTick(() => $('#category_search').trigger('change'))">✕</span>
             </div>
-            <div style="width:136px" class="relative" x-data="{ department: '' }">
-                <x-forms.select-input class="text-paragraph" x-model="department" id="department_search">
+            <div style="width:136px" class="relative" x-data="{ team: '' }">
+                <x-forms.select-input class="text-paragraph" x-model="team" id="team_search">
                     <option value="">Department</option>
-                    @foreach ($departments as $department)
-                    <option value="{{ $department->id }}">{{ $department->name }}</option>
+                    @foreach ($teams as $team)
+                        <option value="{{ $team->id }}">{{ $team->name }}</option>
                     @endforeach
                 </x-forms.select-input>
-                <span x-show="department" class="absolute top-2 end-5 text-orange-600 text-surface cursor-pointer focus:text-primary outline-none dark:text-white text-base" tabindex="0" style="display: block;" @click="department = '';$nextTick(() => $('#department_search').trigger('change'))">✕</span>
+                <span x-show="team" class="absolute top-1 end-9 text-surface cursor-pointer focus:text-primary outline-none dark:text-white text-base" tabindex="0" style="display: block;" @click="team = '';$nextTick(() => $('#team_search').trigger('change'))">✕</span>
             </div>
             <div style="width:96px" class="relative" x-data="{ team: '' }">
                 <x-forms.select-input class="text-paragraph" x-model="team" id="team_search">
                     <option value="">Team</option>
                     @foreach ($teams as $team)
-                    <option value="{{ $team->id }}">{{ $team->name }}</option>
+                        <option value="{{ $team->id }}">{{ $team->name }}</option>
                     @endforeach
                 </x-forms.select-input>
-                <span x-show="team" class="absolute top-2 end-5 text-orange-600 text-surface cursor-pointer focus:text-primary outline-none dark:text-white text-base" tabindex="0" style="display: block;" @click="team = '';$nextTick(() => $('#team_search').trigger('change'))">✕</span>
+                <span x-show="team" class="absolute top-1 end-9 text-surface cursor-pointer focus:text-primary outline-none dark:text-white text-base" tabindex="0" style="display: block;" @click="team = '';$nextTick(() => $('#team_search').trigger('change'))">✕</span>
             </div>
             <div style="width:128px" class="relative" x-data="{ due_date_x: '' }">
                 <x-forms.select-input class="text-paragraph" x-model="due_date_x" id="due_date_search">
@@ -86,18 +86,16 @@
                     <option value="this_week">This Week</option>
                     <option value="this_month">This Month</option>
                 </x-forms.select-input>
-                <span x-show="due_date_x" class="absolute top-2 end-5 text-orange-600 text-surface cursor-pointer focus:text-primary outline-none dark:text-white text-base" tabindex="0" style="display: block;" @click="due_date_x = '';$nextTick(() => $('#due_date_search').trigger('change'))">✕</span>
+                <span x-show="due_date_x" class="absolute top-1 end-9 text-surface cursor-pointer focus:text-primary outline-none dark:text-white text-base" tabindex="0" style="display: block;" @click="due_date_x = '';$nextTick(() => $('#due_date_search').trigger('change'))">✕</span>
             </div>
-            @can('request create')
-                <div>
-                    <x-actions.href href="{{ route('admin.ticket.create') }}" class="flex items-center gap-1">
-                        <span>Create A Request</span>
-                        <svg fill="none" width="24" height="24" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v6m3-3H9m12 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
-                        </svg>
-                    </x-actions.href>
-                </div>
-            @endcan
+            <div>
+                <x-actions.href href="{{ route('admin.ticket.create') }}" class="flex items-center gap-1">
+                    <span>Create A Request</span>
+                    <svg fill="none" width="24" height="24" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v6m3-3H9m12 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
+                    </svg>
+                </x-actions.href>
+            </div>
         </div>
     </div>
 
@@ -113,7 +111,7 @@
                                 <path d="M8.3335 9.1665V14.1665" stroke="#5e666e" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
                                 <path d="M11.6665 9.1665V14.1665" stroke="#5e666e" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
                             </svg>
-                            <input id="checkbox1" type="checkbox" class="w-4 h-4 mr-3 focus:ring-transparent text-primary-400" />
+                            <input id="checkbox1" type="checkbox" class="w-4 h-4 mr-3 rounded border border-base-500 focus:ring-transparent text-primary-400" />
                         </span>
                     </th>
                     <th class="text-heading-dark w-[50px]">ID</th>
@@ -139,132 +137,131 @@
     </div>
 
     @section('script')
-    <script>
-        $(function() {
-            var dTable = $('#data-table').DataTable({
-                stripeClasses: [],
-                processing: true,
-                serverSide: true,
-                responsive: true,
-                searching: false,
-                scrollX: true,
-                lengthChange: true,
-                pageLength: 50,
-                lengthMenu: [
-                    [20, 30, 50, 100, -1],
-                    [20, 30, 50, 100, 'All']
-                ],
-                order: [
-                    1, 'desc'
-                ],
-                ajax: {
-                    url: "{{ route('admin.ticket.all.list.datatable') }}",
-                    type: "GET",
-                    data: function(d) {
-                        d._token = "{{ csrf_token() }}";
-                        d.query_status = "{{ $queryStatus }}";
-                        d.me_mode_search = $('#me_mode_search').val();
-                        d.ticket_id_search = $('#ticket_id_search').val();
-                        d.priority_search = $('#priority_search').val();
-                        d.category_search = $('#category_search').val();
-                        d.team_search = $('#team_search').val();
-                        d.status_search = $('#status_search').val();
-                        d.due_date_search = $('#due_date_search').val();
-                        d.department_search = $('#department_search').val();
-                    }
-                },
-                columns: [{
-                        data: 'select',
-                        name: 'select',
-                        sortable: false,
+        <script>
+            $(function() {
+                var dTable = $('#data-table').DataTable({
+                    stripeClasses: [],
+                    processing: true,
+                    serverSide: true,
+                    responsive: true,
+                    searching: false,
+                    scrollX: true,
+                    lengthChange: false,
+                    pageLength: 50,
+                    lengthMenu: [
+                        [20, 30, 50, 100, -1],
+                        [20, 30, 50, 100, 'All']
+                    ],
+                    order: [
+                        1, 'desc'
+                    ],
+                    ajax: {
+                        url: "{{ route('admin.ticket.all.list.datatable') }}",
+                        type: "GET",
+                        data: function(d) {
+                            d._token = "{{ csrf_token() }}";
+                            d.query_status = "{{ $queryStatus }}";
+                            d.me_mode_search = $('#me_mode_search').val();
+                            d.ticket_id_search = $('#ticket_id_search').val();
+                            d.priority_search = $('#priority_search').val();
+                            d.category_search = $('#category_search').val();
+                            d.team_search = $('#team_search').val();
+                            d.status_search = $('#status_search').val();
+                            d.due_date_search = $('#due_date_search').val();
+                        }
                     },
-                    {
-                        data: 'id',
-                        name: 'id'
-                    },
-                    {
-                        data: 'title',
-                        name: 'title'
-                    },
-                    {
-                        data: 'priority',
-                        name: 'priority'
-                    },
-                    {
-                        data: 'ticket_status_id',
-                        name: 'ticket_status_id'
-                    },
-                    {
-                        data: 'category_id',
-                        name: 'category_id'
-                    },
-                    {
-                        data: 'sub_category_id',
-                        name: 'sub_category_id'
-                    },
-                    {
-                        data: 'user_id',
-                        name: 'user_id'
-                    },
-                    {
-                        data: 'department_id',
-                        name: 'department_id'
-                    },
-                    {
-                        data: 'team_id',
-                        name: 'team_id'
-                    },
-                    {
-                        data: 'agent',
-                        name: 'agent'
-                    },
-                    {
-                        data: 'created_at',
-                        name: 'created_at'
-                    },
-                    {
-                        data: 'request_age',
-                        name: 'request_age'
-                    },
-                    {
-                        data: 'due_date',
-                        name: 'due_date'
-                    },
-                    {
-                        data: 'action_column',
-                        name: 'action_column',
-                        sortable: false
-                    }
-                ]
-            });
-
-            $(document).on('change keyup',
-                '#priority_search, #category_search, #team_search, #status_search, #due_date_search, #ticket_id_search, #department_search',
-                function(e) {
-                    dTable.draw();
-                    e.preventDefault();
+                    columns: [{
+                            data: 'select',
+                            name: 'select',
+                            sortable: false,
+                        },
+                        {
+                            data: 'id',
+                            name: 'id'
+                        },
+                        {
+                            data: 'title',
+                            name: 'title'
+                        },
+                        {
+                            data: 'priority',
+                            name: 'priority'
+                        },
+                        {
+                            data: 'ticket_status_id',
+                            name: 'ticket_status_id'
+                        },
+                        {
+                            data: 'category_id',
+                            name: 'category_id'
+                        },
+                        {
+                            data: 'sub_category_id',
+                            name: 'sub_category_id'
+                        },
+                        {
+                            data: 'user_id',
+                            name: 'user_id'
+                        },
+                        {
+                            data: 'department_id',
+                            name: 'department_id'
+                        },
+                        {
+                            data: 'team_id',
+                            name: 'team_id'
+                        },
+                        {
+                            data: 'agent',
+                            name: 'agent'
+                        },
+                        {
+                            data: 'created_at',
+                            name: 'created_at'
+                        },
+                        {
+                            data: 'request_age',
+                            name: 'request_age'
+                        },
+                        {
+                            data: 'due_date',
+                            name: 'due_date'
+                        },
+                        {
+                            data: 'action_column',
+                            name: 'action_column',
+                            sortable: false
+                        }
+                    ]
                 });
-        });
-    </script>
-    <script>
-        const masterCheckbox = document.getElementById('checkbox1');
-        masterCheckbox.addEventListener('change', function() {
-            const childCheckboxes = document.querySelectorAll('.child-checkbox');
-            childCheckboxes.forEach(checkbox => {
-                checkbox.checked = masterCheckbox.checked;
-            });
-        });
-    </script>
 
-    <script>
-        document.querySelectorAll('table.dataTable tbody tr').forEach(row => {
-            row.addEventListener('mouseenter', function() {
-                this.style.backgroundColor = 'inherit';
+                $(document).on('change keyup',
+                    '#priority_search, #category_search, #team_search, #status_search, #due_date_search, #ticket_id_search',
+                    function(e) {
+                        dTable.draw();
+                        e.preventDefault();
+                    });
             });
-            row.addEventListener('mouseleave', function() {
-                this.style.backgroundColor = 'inherit';
+        </script>
+        <script>
+            const masterCheckbox = document.getElementById('checkbox1');
+            masterCheckbox.addEventListener('change', function() {
+                const childCheckboxes = document.querySelectorAll('.child-checkbox');
+                childCheckboxes.forEach(checkbox => {
+                    checkbox.checked = masterCheckbox.checked;
+                });
             });
-        });
-    </script>
+        </script>
+
+        <script>
+            document.querySelectorAll('table.dataTable tbody tr').forEach(row => {
+                row.addEventListener('mouseenter', function() {
+                    this.style.backgroundColor = 'inherit';
+                });
+                row.addEventListener('mouseleave', function() {
+                    this.style.backgroundColor = 'inherit';
+                });
+            });
+        </script>
     @endsection
 </x-app-layout>
