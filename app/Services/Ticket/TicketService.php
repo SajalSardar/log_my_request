@@ -474,7 +474,8 @@ class TicketService {
                     </li>';
                 }
 
-                $action = '<div class="relative">
+                $action = '
+                    <div class="relative">
                         <button onclick="toggleAction(' . $tickets->id . ')" class="p-3 hover:letter-slate-100 rounded-full">
                             <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
                                 xmlns="http://www.w3.org/2000/svg">
@@ -487,9 +488,12 @@ class TicketService {
                             </svg>
                         </button>
                         <div id="action-' . $tickets->id . '" class="shadow-lg z-30 absolute top-5 right-10" style="display: none">
-                            <ul>' . $viewBtn . $editBtn . $deleteBtn . '</ul>
+                            <ul>
+                                ' . $viewBtn . $editBtn . $deleteBtn . '
+                            </ul>
                         </div>
                     </div>';
+                return $action;
             })
             ->rawColumns(['action_column'])
             ->addIndexColumn()
