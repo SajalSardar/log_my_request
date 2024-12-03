@@ -5,7 +5,7 @@
         @csrf
         @method('PUT')
         <div class="flex justify-between mb-[24px]">
-            <h3 class="font-inter font-semibold text-[#333] text-[20px]">Update Role</h3>
+            <h3 class="text-detail-heading">Update Role</h3>
             <div>
                 <a href="{{ route('admin.role.index') }}" class="flex items-center px-0 bg-transparent gap-1 text-heading-light text-paragraph hover:text-primary-400 transition-colors">
                     Role Lists
