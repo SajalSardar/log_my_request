@@ -520,9 +520,7 @@ class TicketService {
                             </svg>
                         </button>
                         <div id="action-' . $tickets->id . '" class="shadow-lg z-30 absolute top-5 right-10" style="display: none">
-                            <ul>
-                                ' . $viewBtn . $editBtn . $deleteBtn . '
-                            </ul>
+                            <ul>' . $viewBtn . $editBtn . $deleteBtn . '</ul>
                         </div>
                     </div>';
                 return $action;
