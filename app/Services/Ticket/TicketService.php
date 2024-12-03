@@ -2,27 +2,26 @@
 
 namespace App\Services\Ticket;
 
-use Carbon\Carbon;
-use App\Models\User;
-use App\Models\Ticket;
+use App\Mail\LogUpdateMail;
 use App\Mail\TicketEmail;
+use App\Models\Ticket;
 use App\Models\TicketLog;
 use App\Models\TicketNote;
-use App\Mail\LogUpdateMail;
-use Illuminate\Support\Str;
-use Laravolt\Avatar\Avatar;
-use App\Models\TicketStatus;
 use App\Models\TicketOwnership;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Mail;
+use App\Models\TicketStatus;
+use App\Models\User;
+use Carbon\Carbon;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Str;
+use Laravolt\Avatar\Avatar;
 use Yajra\DataTables\Facades\DataTables;
 
-class TicketService
-{
+class TicketService {
     /**
      * Define public property $user;
      * @var array|object
@@ -40,8 +39,7 @@ class TicketService
      * @param $form
      * @return array|object
      */
-    public function store(array | object $request): array | object
-    {
+    public function store(array | object $request): array | object {
 
         $checkUser = User::query()->where('email', $request->requester_email)->first();
         if (!empty($checkUser)) {
@@ -109,8 +107,7 @@ class TicketService
      * @param $request
      * @return array|object|bool
      */
-    public function update(Model $model, $request)
-    {
+    public function update(Model $model, $request) {
 
         $ticket        = Ticket::with('owners')->where('id', $model->getKey())->first();
         $requester     = User::where('email', $request->requester_email)->first();
@@ -163,8 +160,7 @@ class TicketService
         return $ticket;
     }
 
-    public static function createTicketNote($ticketId, $old_status = null, $new_status = null, $note_type, $note = null)
-    {
+    public static function createTicketNote($ticketId, $old_status = null, $new_status = null, $note_type, $note = null) {
         $note = TicketNote::create(
             [
                 'ticket_id'  => $ticketId,
@@ -178,8 +174,7 @@ class TicketService
 
         return $note;
     }
-    public static function createTicketLog($ticketId, $ticket_status, $status = null, $comment = null)
-    {
+    public static function createTicketLog($ticketId, $ticket_status, $status = null, $comment = null) {
         $log = TicketLog::create(
             [
                 'ticket_id'     => $ticketId,
@@ -194,8 +189,7 @@ class TicketService
         return $log;
     }
 
-    public static function getTicketStatusById($id)
-    {
+    public static function getTicketStatusById($id) {
         $ticketStatus = TicketStatus::where('id', $id)->first();
         if ($ticketStatus) {
 
@@ -204,8 +198,7 @@ class TicketService
         return "Status Not Found!";
     }
 
-    public static function ticketChangesNote($request, $ticket, $ticket_status)
-    {
+    public static function ticketChangesNote($request, $ticket, $ticket_status) {
 
         $emailResponse = [];
         if ($request->owner_id && ($ticket->owners->isEmpty() || $ticket->owners->last()->id != $request->owner_id)) {
@@ -287,8 +280,7 @@ class TicketService
         return $emailResponse;
     }
 
-    public static function allTicketListDataTable($request)
-    {
+    public static function allTicketListDataTable($request) {
         $ticketStatus = null;
 
         if ($request->query_status != 'unassign') {
@@ -343,30 +335,30 @@ class TicketService
                     $dueDate = '';
 
                     switch ($request->due_date_search) {
-                        case 'today':
-                            $todayDate = Carbon::today()->toDateString();
-                            $query->whereDate('due_date', '=', $todayDate);
-                            break;
+                    case 'today':
+                        $todayDate = Carbon::today()->toDateString();
+                        $query->whereDate('due_date', '=', $todayDate);
+                        break;
 
-                        case 'tomorrow':
-                            $tomorrowDate = Carbon::tomorrow()->toDateString();
-                            $query->whereDate('due_date', '=', $tomorrowDate);
-                            break;
+                    case 'tomorrow':
+                        $tomorrowDate = Carbon::tomorrow()->toDateString();
+                        $query->whereDate('due_date', '=', $tomorrowDate);
+                        break;
 
-                        case 'this_week':
-                            $startOfWeek = Carbon::now()->startOfWeek()->toDateString();
-                            $endOfWeek   = Carbon::now()->endOfWeek()->toDateString();
-                            $query->whereBetween('due_date', [$startOfWeek, $endOfWeek]);
-                            break;
+                    case 'this_week':
+                        $startOfWeek = Carbon::now()->startOfWeek()->toDateString();
+                        $endOfWeek   = Carbon::now()->endOfWeek()->toDateString();
+                        $query->whereBetween('due_date', [$startOfWeek, $endOfWeek]);
+                        break;
 
-                        case 'this_month':
-                            $startOfMonth = Carbon::now()->startOfMonth()->toDateString();
-                            $endOfMonth   = Carbon::now()->endOfMonth()->toDateString();
-                            $query->whereBetween('due_date', [$startOfMonth, $endOfMonth]);
-                            break;
+                    case 'this_month':
+                        $startOfMonth = Carbon::now()->startOfMonth()->toDateString();
+                        $endOfMonth   = Carbon::now()->endOfMonth()->toDateString();
+                        $query->whereBetween('due_date', [$startOfMonth, $endOfMonth]);
+                        break;
 
-                        default:
-                            break;
+                    default:
+                        break;
                     }
                 }
             });
@@ -420,7 +412,7 @@ class TicketService
             ->editColumn('user_id', function ($tickets) {
                 $userName = $tickets->user->name ?? 'Unknown';
                 $imageUrl = $tickets->user->image?->url;
-                $data = "
+                $data     = "
                     <div style='width:180px' class='text-paragraph flex items-center'>
                         " . (
                     $imageUrl
@@ -457,8 +449,32 @@ class TicketService
                 $editUrl   = route('admin.ticket.edit', $tickets?->id);
                 $viewUrl   = route('admin.ticket.show', $tickets?->id);
                 $deleteUrl = route('admin.ticket.delete', $tickets?->id);
-                return '
-                    <div class="relative pl-10">
+                $viewBtn   = null;
+                $editBtn   = null;
+                $deleteBtn = null;
+
+                if (Auth::user()->can("request view list")) {
+                    $viewBtn .= '<li class="px-5 py-2 text-center bg-white text-paragraph hover:bg-primary-600 hover:text-primary-400">
+                                    <a href="' . $viewUrl . '">View</a>
+                                </li>';
+                }
+                if (Auth::user()->can("request update") && ($tickets->ticket_status->slug != 'closed' && $tickets->ticket_status->slug != 'resolved')) {
+                    $editBtn .= '<li class="px-5 py-2 text-center bg-white text-paragraph hover:bg-primary-600 hover:text-primary-400">
+                                    <a href="' . $editUrl . '">Edit</a>
+                                </li>
+                                ';
+                }
+                if (Auth::user()->can("request delete") && ($tickets->ticket_status->slug != 'closed' && $tickets->ticket_status->slug != 'resolved')) {
+                    $deleteBtn .= '<li class="px-5 py-2 text-center bg-white text-paragraph hover:bg-primary-600 hover:text-primary-400">
+                        <form action="' . $deleteUrl . '" method="POST" onsubmit="return confirm(\'Are you sure?\');">
+                            ' . csrf_field() . '
+                            ' . method_field("DELETE") . '
+                            <button type="submit" class="text-">Delete</button>
+                        </form>
+                    </li>';
+                }
+
+                $action = '<div class="relative">
                         <button onclick="toggleAction(' . $tickets->id . ')" class="p-3 hover:letter-slate-100 rounded-full">
                             <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
                                 xmlns="http://www.w3.org/2000/svg">
