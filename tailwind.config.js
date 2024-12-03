@@ -57,8 +57,8 @@ export default {
                 background: {
                     gray: "#f3f4f6",
                 },
-                paragraph: "#5c5c5c",
-                title: "#333333",
+                paragraph: "#5e666e",
+                title: "#27313b",
             },
             fontFamily: {
                 sans: ["Figtree", ...defaultTheme.fontFamily.sans],

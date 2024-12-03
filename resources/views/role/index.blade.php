@@ -1,12 +1,7 @@
  <x-app-layout>
      @section('title', 'Role List')
-     @section('breadcrumb')
-     <x-breadcrumb>
-         Role List
-     </x-breadcrumb>
-     @endsection
-
-     <div class="flex justify-between items-center !mt-3">
+     @include('role.breadcrumb.index')
+     <div class="flex justify-between items-center">
          <div>
              <p class="text-detail-heading">Role List</p>
          </div>
@@ -46,7 +41,6 @@
                      <th class="text-heading-dark">Role Name</th>
                      <th class="text-heading-dark">Permission</th>
                      <th class="text-heading-dark">Created At</th>
-                     <th class="text-heading-dark">Action</th>
                  </tr>
              </thead>
 

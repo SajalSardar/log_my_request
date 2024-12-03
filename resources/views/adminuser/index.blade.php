@@ -1,10 +1,6 @@
 <x-app-layout>
     @section('title', 'User List')
-    @section('breadcrumb')
-    <x-breadcrumb>
-        User List
-    </x-breadcrumb>
-    @endsection
+    @include('adminuser.breadcrumb.index')
     <div class="flex justify-between items-center !mt-3">
         <div>
             <p class="text-detail-heading">User List</p>

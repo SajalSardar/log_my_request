@@ -80,9 +80,9 @@ class AdminUserController extends Controller
             ->addColumn('action_column', function ($users) {
                 $editUrl   = route('admin.user.edit', $users?->id);
                 $deleteUrl = route('admin.user.delete', $users?->id);
-                return '
-                    <div class="relative">
-                        <button onclick="toggleAction(' . $users->id . ')" class="p-3 hover:bg-slate-100 rounded-full">
+                return
+                    '<div class="relative pl-10">
+                        <button onclick="toggleAction(' . $users->id . ')" class="p-3 hover:letter-slate-100 rounded-full">
                             <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
                                 xmlns="http://www.w3.org/2000/svg">
                                 <path d="M11.9922 12H12.0012" stroke="#666666" stroke-width="2.5"
@@ -95,14 +95,15 @@ class AdminUserController extends Controller
                         </button>
                         <div id="action-' . $users->id . '" class="shadow-lg z-30 absolute top-5 right-10" style="display: none">
                             <ul>
-                                <li class="px-5 py-1 text-center" style="background: #FFF4EC; color:#F36D00">
+                                <li class="px-5 py-2 text-center bg-white text-paragraph hover:bg-primary-600 hover:text-primary-400">
                                     <a href="' . $editUrl . '">Edit</a>
                                 </li>
-                                <li class="px-5 py-1 text-center bg-red-600 text-white">
+                                 
+                                <li class="px-5 py-2 text-center bg-white text-paragraph hover:bg-primary-600 hover:text-primary-400">
                                     <form action="' . $deleteUrl . '" method="POST" onsubmit="return confirm(\'Are you sure?\');">
                                         ' . csrf_field() . '
                                         ' . method_field("DELETE") . '
-                                        <button type="submit" class="text-white">Delete</button>
+                                        <button type="submit" class="text-">Delete</button>
                                     </form>
                                 </li>
                             </ul>

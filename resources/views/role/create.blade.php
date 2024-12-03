@@ -1,15 +1,8 @@
 <x-app-layout>
     @section('title', 'Create Role')
-    @section('breadcrumb')
-    <x-breadcrumb>
-        Create Role
-    </x-breadcrumb>
-    @endsection
-
-    <form  method="POST" action="{{ route('admin.role.store') }}">
+    @include('role.breadcrumb.create')
+    <form method="POST" action="{{ route('admin.role.store') }}">
         @csrf
-       
-
         <div class="grid md:grid-cols-1 sm:grid-cols-1 sm:gap-1 md:gap-4">
             <div>
                 <label for="form.name" class="text-sm font-semibold font-inter text-[#333] inline-block mb-2">
@@ -24,16 +17,16 @@
         <div class="grid md:grid-cols-1 sm:grid-cols-1 sm:gap-1 md:gap-4">
             <div class="mt-6">
                 @forelse ($modules as $module)
-                    <h3 class="text-heading-dark mb-2">{{ $module->name }}</h3>
-                    <span class="flex gap-3 flex-wrap items-center">
-                        @foreach ($module->permissions as $permission)
-                            <label class="flex gap-2 items-center border border-base-500 py-1.5 px-5 rounded">
-                                <x-forms.checkbox-input type="checkbox" value="{{ $permission->name }}" name="permission[]" />
-                                <span class="text-paragraph">{{ camelCase($permission->name) }}</span>
-                            </label>
-                        @endforeach
-                    </span>
-                    <hr class="my-3">
+                <h3 class="text-heading-dark mb-2">{{ $module->name }}</h3>
+                <span class="flex gap-3 flex-wrap items-center">
+                    @foreach ($module->permissions as $permission)
+                    <label class="flex gap-2 items-center border border-base-500 py-1.5 px-5 rounded">
+                        <x-forms.checkbox-input type="checkbox" value="{{ $permission->name }}" name="permission[]" />
+                        <span class="text-paragraph">{{ camelCase($permission->name) }}</span>
+                    </label>
+                    @endforeach
+                </span>
+                <hr class="my-3">
                 @empty
                 @endforelse
             </div>

@@ -1,9 +1,5 @@
 <x-app-layout>
     @section('title', 'Update User')
-    @section('breadcrumb')
-    <x-breadcrumb>
-        Update User
-    </x-breadcrumb>
-    @endsection
+    @include('adminuser.breadcrumb.update')
     @livewire('admin-user.update-admin-user', ['user' => $user])
 </x-app-layout>
