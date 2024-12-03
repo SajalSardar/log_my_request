@@ -1,9 +1,5 @@
 <x-app-layout>
     @section('title', 'Create Department')
-    @section('breadcrumb')
-    <x-breadcrumb>
-        Create Department
-    </x-breadcrumb>
-    @endsection
+    @include('department.breadcrumb.create')
     <livewire:department.create-department />
 </x-app-layout>
