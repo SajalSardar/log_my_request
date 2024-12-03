@@ -507,8 +507,7 @@ class TicketService {
                     </li>';
                 }
 
-                $action = '
-                    <div class="relative">
+                $action = '<div class="relative">
                         <button onclick="toggleAction(' . $tickets->id . ')" class="p-3 hover:letter-slate-100 rounded-full">
                             <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
                                 xmlns="http://www.w3.org/2000/svg">
