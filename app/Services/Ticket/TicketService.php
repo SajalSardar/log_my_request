@@ -487,21 +487,7 @@ class TicketService {
                             </svg>
                         </button>
                         <div id="action-' . $tickets->id . '" class="shadow-lg z-30 absolute top-5 right-10" style="display: none">
-                            <ul>
-                                <li class="px-5 py-2 text-center bg-white text-paragraph hover:bg-primary-600 hover:text-primary-400">
-                                    <a href="' . $editUrl . '">Edit</a>
-                                </li>
-                                <li class="px-5 py-2 text-center bg-white text-paragraph hover:bg-primary-600 hover:text-primary-400">
-                                    <a href="' . $viewUrl . '">View</a>
-                                </li>
-                                <li class="px-5 py-2 text-center bg-white text-paragraph hover:bg-primary-600 hover:text-primary-400">
-                                    <form action="' . $deleteUrl . '" method="POST" onsubmit="return confirm(\'Are you sure?\');">
-                                        ' . csrf_field() . '
-                                        ' . method_field("DELETE") . '
-                                        <button type="submit" class="text-">Delete</button>
-                                    </form>
-                                </li>
-                            </ul>
+                            <ul>' . $viewBtn . $editBtn . $deleteBtn . '</ul>
                         </div>
                     </div>';
             })
