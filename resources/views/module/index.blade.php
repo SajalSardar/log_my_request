@@ -26,8 +26,8 @@
     </div>
 
     <div class="relative">
-        <table class="display nowrap" id="data-table" style="width: 100%;border:1px solid #ddd">
-            <thead style="background:#F3F4F6;">
+         <table class="display nowrap" id="data-table" style="width: 100%;border:none;">
+            <thead style="background:#F3F4F6; border:none">
                 <tr>
                     <th class="text-heading-dark !text-end">
                         <span class="flex gap-1 !justify-center !items-center">
@@ -37,7 +37,7 @@
                                 <path d="M8.3335 9.16675V14.1667" stroke="#666666" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
                                 <path d="M11.6665 9.16675V14.1667" stroke="#666666" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
                             </svg>
-                            <input type="checkbox" class="border border-slate-200 rounded focus:ring-transparent p-1" style="background-color: #9b9b9b; accent-color: #5C5C5C;">
+                            <input id="checkbox1" type="checkbox" class="w-4 h-4 mr-3 rounded border border-base-500 focus:ring-transparent text-primary-400" />
                         </span>
                     </th>
                     <th class="text-heading-dark text-center">Id</th>

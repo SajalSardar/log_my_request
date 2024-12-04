@@ -29,14 +29,35 @@ function initSelect2form(eliment_id_and_name = "") {
             Livewire.find(componentId).set("form." + eliment_id_and_name, data);
         });
 }
+
+// Toggle action
+let currentlyOpenAction = null;
 function toggleAction(ticketId) {
-    var actionDiv = document.getElementById("action-" + ticketId);
-    if (actionDiv.style.display === "none" || actionDiv.style.display === "") {
-        actionDiv.style.display = "block";
-    } else {
+    let actionDiv = document.getElementById("action-" + ticketId);
+
+    if (currentlyOpenAction === actionDiv) {
         actionDiv.style.display = "none";
+        currentlyOpenAction = null;
+        return;
     }
+
+    if (currentlyOpenAction) {
+        currentlyOpenAction.style.display = "none";
+    }
+    actionDiv.style.display = "block";
+    currentlyOpenAction = actionDiv;
 }
+
+document.addEventListener("click", function (event) {
+    if (
+        currentlyOpenAction &&
+        !event.target.closest(".action-container") &&
+        !event.target.closest("button")
+    ) {
+        currentlyOpenAction.style.display = "none";
+        currentlyOpenAction = null;
+    }
+});
 
 function activeCkEditor(eliment) {
     const editor = ClassicEditor.create(document.querySelector(`#${eliment}`), {

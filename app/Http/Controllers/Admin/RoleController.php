@@ -11,9 +11,11 @@ use Illuminate\Support\Facades\Gate;
 use Spatie\Permission\Models\Role;
 use Yajra\DataTables\Facades\DataTables;
 
-class RoleController extends Controller {
+class RoleController extends Controller
+{
 
-    public function index() {
+    public function index()
+    {
         Gate::authorize('viewAny', Role::class);
 
         $roles = Role::with('permissions')->orderBy('id', 'desc')->get();
@@ -24,14 +26,16 @@ class RoleController extends Controller {
      * Define public method displayListDatatable to display the datatable resources
      * @param Request $request
      */
-    public function displayListDatatable(Request $request) {
+    public function displayListDatatable(Request $request)
+    {
 
         Gate::authorize('viewAny', Role::class);
         $roles = Role::with('permissions')->whereNotIn('name', ['super-admin'])->orderBy('id', 'desc')->get();
 
         return DataTables::of($roles)
             ->addColumn('select', function () {
-                return '<div class="flex items-center justify-center ml-6 w-[50px]"><input type="checkbox" class ="border text-center border-slate-200 rounded focus:ring-transparent p-1" style="background-color: #9b9b9b; accent-color: #5C5C5C !important;"></div>';
+                return '<div class="flex items-center justify-center ml-6 w-[50px]"><input type="checkbox" class="child-checkbox rounded border border-base-500 w-4 h-4 mr-3 focus:ring-transparent text-primary-400" />
+                </div>';
             })
             ->editColumn('id', function ($roles) {
                 return '<div class="w-[50px]"><span class="text-paragraph">' . '#' . $roles->id . '</span></div>';
@@ -39,9 +43,9 @@ class RoleController extends Controller {
             ->editColumn('name', function ($roles) {
                 return '
                     <div class="flex items-center">
-                            <img src="' . asset('assets/images/profile.jpg') . '" width="40" height="40" style="border-radius: 50%;border:1px solid #eee" alt="profile">
+                        ' . avatar($roles->name) . '
                         <div class="infos ps-5">
-                            <h5 class="text-paragraph">' . $roles->name . '</h5>
+                            <h5 class="text-paragraph">' . htmlspecialchars($roles->name, ENT_QUOTES, 'UTF-8') . '</h5>
                         </div>
                     </div>';
             })
@@ -49,10 +53,10 @@ class RoleController extends Controller {
                 $permissionsHtml = '';
                 foreach ($roles->permissions as $key => $permission) {
                     if ($key > 5) {
-                        $permissionsHtml .= '<a href="' . route('admin.role.edit', ['id' => $roles->id]) . '" class="underline ml-2 text-green-500">more..</a>';
+                        $permissionsHtml .= '<a href="' . route('admin.role.edit', ['id' => $roles->id]) . '" class="ml-2 text-primary-400">more..</a>';
                         break;
                     }
-                    $permissionsHtml .= '<span class="inline-flex px-3 py-1 bg-inProgress-400 items-center text-paragraph ml-1 rounded">' . $permission->name . '</span>';;
+                    $permissionsHtml .= '<span class="inline-flex px-3 py-1 bg-inProgress-400/15 items-center text-paragraph !text-inProgress-400 ml-1 rounded">' . $permission->name . '</span>';
                 }
 
                 return $permissionsHtml;
@@ -62,8 +66,10 @@ class RoleController extends Controller {
             })
 
             ->addColumn('action_column', function ($roles) {
-                $links = '<div class="relative"><button onclick="toggleAction(' . $roles->id . ')"
-                            class="p-3 hover:bg-slate-100 rounded-full">
+                $editUrl   = route('admin.role.edit', $roles?->id);
+                $deleteUrl = route('admin.role.delete', $roles->id);
+                $links = '<div class="relative pl-10">
+                        <button onclick="toggleAction(' . $roles->id . ')" class="p-3 hover:letter-slate-100 rounded-full">
                             <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
                                 xmlns="http://www.w3.org/2000/svg">
                                 <path d="M11.9922 12H12.0012" stroke="#666666" stroke-width="2.5"
@@ -74,19 +80,22 @@ class RoleController extends Controller {
                                     stroke-linecap="round" stroke-linejoin="round" />
                             </svg>
                         </button>
-                        <div id="action-' . $roles->id . '" class="shadow-lg z-30 absolute top-5 right-10"
-                            style="display: none">
+                        <div id="action-' . $roles->id . '" class="shadow-lg z-30 absolute top-5 right-10" style="display: none">
                             <ul>
-                                <li class="px-5 py-1 text-center" style="background: #FFF4EC;color:#F36D00">
-                                    <a
-                                        href="' . route('admin.role.edit', ['id' => $roles->id]) . '">Edit</a>
+                                <li class="px-5 py-2 text-center bg-white text-paragraph hover:bg-primary-600 hover:text-primary-400">
+                                    <a href="' . $editUrl . '">Edit</a>
                                 </li>
-                                <li class="px-5 py-1 text-center bg-white">
-                                    <a
-                                        href="#">View</a>
+                                 
+                                <li class="px-5 py-2 text-center bg-white text-paragraph hover:bg-primary-600 hover:text-primary-400">
+                                    <form action="' . $deleteUrl . '" method="POST" onsubmit="return confirm(\'Are you sure?\');">
+                                        ' . csrf_field() . '
+                                        ' . method_field("DELETE") . '
+                                        <button type="submit" class="text-">Delete</button>
+                                    </form>
                                 </li>
                             </ul>
-                        </div></div>';
+                        </div>
+                </div>';
 
                 return $links;
             })
@@ -95,19 +104,20 @@ class RoleController extends Controller {
             ->make(true);
     }
 
-    public function create() {
+    public function create()
+    {
         Gate::authorize('create', Role::class);
         $user  = User::where('id', Auth::id())->first();
         $query = Module::query()->with('permissions');
         if (!$user->hasRole('super-admin')) {
             $query->whereNotIn('name', ['menu', 'module']);
-
         }
         $modules = $query->get();
         return view('role.create', compact('modules'));
     }
 
-    public function store(Request $request) {
+    public function store(Request $request)
+    {
         Gate::authorize('create', Role::class);
 
         $request->validate([
@@ -127,7 +137,8 @@ class RoleController extends Controller {
      * Define public method edit()
      * @param $id;
      */
-    public function edit($id) {
+    public function edit($id)
+    {
         Gate::authorize('update', Role::class);
 
         $role  = Role::with('permissions')->find($id);
@@ -135,7 +146,6 @@ class RoleController extends Controller {
         $query = Module::query()->with('permissions');
         if (!$user->hasRole('super-admin')) {
             $query->whereNotIn('name', ['menu', 'module']);
-
         }
         $modules = $query->get();
 
@@ -152,7 +162,8 @@ class RoleController extends Controller {
      * @param Request $request
      * @param ?string $id
      */
-    public function update(Request $request, $id) {
+    public function update(Request $request, $id)
+    {
         Gate::authorize('update', Role::class);
 
         $request->validate([
@@ -170,7 +181,8 @@ class RoleController extends Controller {
         return back();
     }
 
-    public function switchAccount(Request $request) {
+    public function switchAccount(Request $request)
+    {
 
         $request->session()->put('login_role', $request->role);
         return back();

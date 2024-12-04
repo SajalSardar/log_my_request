@@ -18,6 +18,7 @@ export default {
                     400: "#F36D00",
                     500: "rgb(109,77,266,4%)",
                     600: "#FFF4EC",
+                    700 : "#FFF7F2",
                 },
                 high: {
                     400: "#10B982",
@@ -56,8 +57,8 @@ export default {
                 background: {
                     gray: "#f3f4f6",
                 },
-                paragraph: "#5c5c5c",
-                title: "#333333",
+                paragraph: "#5e666e",
+                title: "#27313b",
             },
             fontFamily: {
                 sans: ["Figtree", ...defaultTheme.fontFamily.sans],

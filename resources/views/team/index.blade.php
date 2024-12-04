@@ -1,29 +1,37 @@
 <x-app-layout>
     @section('title', 'Team List')
-    @section('breadcrumb')
-    <x-breadcrumb>
-        Team List
-    </x-breadcrumb>
-    @endsection
-
-    <div class="flex justify-end pb-4">
-        @can('team create')
-            <x-actions.href href="{{ route('admin.team.create') }}">
-                Create Team
-            </x-actions.href>
-        @endcan
+    @include('team.breadcrumb.index')
+    <div class="flex justify-between items-center !mt-3 mb-6">
+        <div>
+            <p class="text-detail-heading">Team List</p>
+        </div>
+        <div class="flex-1 mt-1">
+            <div class="flex justify-end gap-3">
+                @can('department create')
+                <div>
+                    <x-actions.href href="{{ route('admin.team.create') }}" class="block">
+                        Create Team
+                        <svg class="inline-block" width="25" height="24" viewBox="0 0 25 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M12.5 8V16M16.5 12H8.5" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+                            <path d="M12.5 22C18.0228 22 22.5 17.5228 22.5 12C22.5 6.47715 18.0228 2 12.5 2C6.97715 2 2.5 6.47715 2.5 12C2.5 17.5228 6.97715 22 12.5 22Z" stroke="white" stroke-width="1.5" />
+                        </svg>
+                    </x-actions.href>
+                </div>
+                @endcan
+            </div>
+        </div>
     </div>
 
     <div class="relative">
-        <table class="display nowrap parent-table" id="data-table" style="width: 100%;border:1px solid #ddd;table-layout:auto">
-            <thead style="background:#F3F4F6;">
+        <table class="display nowrap" id="data-table" style="width: 100%;border:none;">
+            <thead style="background:#F3F4F6; border:none">
                 <tr>
                     <th class="text-heading-dark pl-5 text-start">Team Name</th>
                     <th class="text-heading-dark text-start">Department</th>
                     <th class="text-heading-dark text-start">Categories</th>
                     <th class="text-heading-dark text-start">Status</th>
                     <th class="text-heading-dark text-start">Created</th>
-                    <th class="text-heading-dark text-start">Action</th>
+                    <th class="text-heading-dark text-start"></th>
                 </tr>
             </thead>
 
@@ -50,7 +58,7 @@
                                 @if (!empty($each->image) && !empty($each->image->url))
                                 <img src="{{ $each->image->url }}" alt="user_picture" height="25" width="25">
                                 @else
-                                <img class="rounded-lg shadow-lg" width="30" height="30" style="border-radius: 50%; border:1px solid #eee" alt="profile" src="https://placehold.co/50">
+                                {!! avatar($each->name) !!}
                                 @endif
                             </div>
                             <div class="infos ps-5 flex">
@@ -93,14 +101,14 @@
                             </button>
                             <div id="action-{{ $each->id }}" class="shadow-lg z-30 absolute top-5 right-10" style="display: none">
                                 <ul>
-                                    <li class="px-5 py-1 text-center" style="background: #FFF4EC; color:#F36D00">
+                                    <li class="px-5 py-2 text-center bg-white text-paragraph hover:bg-primary-600 hover:text-primary-400">
                                         <a href="{{ route('admin.team.edit',['team' => $each->id]) }}">Edit</a>
                                     </li>
-                                    <li class="px-5 py-1 text-center bg-red-600 text-white">
+                                    <li class="px-5 py-2 text-center bg-white text-paragraph hover:bg-primary-600 hover:text-primary-400">
                                         <form action="{{ route('admin.team.destroy',['team' => $each->id]) }}" method="POST">
                                             @csrf
                                             @method('DELETE')
-                                            <button type="submit" class="text-white">Delete</button>
+                                            <button type="submit" class="text-paragraph">Delete</button>
                                         </form>
                                     </li>
                                 </ul>
@@ -165,12 +173,12 @@
                                             </button>
                                             <div id="action-{{ $agent->id }}" class="shadow-lg z-30 absolute top-5 right-10" style="display: none">
                                                 <ul>
-                                                    <li class="px-5 py-1 text-center" style="background: #FFF4EC; color:#F36D00">
+                                                    <li class="px-5 py-2 text-center bg-white text-paragraph hover:bg-primary-600 hover:text-primary-400">
                                                         <a href="' . $editUrl . '">Edit</a>
                                                     </li>
-                                                    <li class="px-5 py-1 text-center bg-red-600 text-white">
+                                                    <li class="px-5 py-2 text-center bg-white text-paragraph hover:bg-primary-600 hover:text-primary-400">
                                                         <form>
-                                                            <button type="submit" class="text-white">Delete</button>
+                                                            <button type="submit" class="text-paragraph">Delete</button>
                                                         </form>
                                                     </li>
                                                 </ul>

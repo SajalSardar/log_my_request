@@ -1,16 +1,27 @@
 <div class="navbar sticky border z-10 border-b-base-500">
-    <div class="navbar-wrapper flex justify-between">
-        <div class="hamberger">
-            <button type="button" class="text-lg text-gray-900 font-semibold sidebar-toggle">
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M4 5H14" stroke="#666666" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
-                    <path d="M4 12H20" stroke="#666666" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
-                    <path d="M4 19H20" stroke="#666666" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
-                </svg>
-            </button>
+    <div class="grid lg:grid-cols-12 md:grid-cols-12 sm:grid-cols-12">
+        <div class="grid lg:grid-cols-12 md:grid-cols-12 sm:grid-cols-12 lg:col-span-11 md:col-span-11 sm:col-span-11 sm:gap-5">
+            <div class="hamberger lg:col-span-1 md:col-span-2 sm:col-span-2">
+                <button type="button" class="text-lg text-gray-900 font-semibold sidebar-toggle">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M4 5H14" stroke="#5e666e" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+                        <path d="M4 12H20" stroke="#5e666e" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+                        <path d="M4 19H20" stroke="#5e666e" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+                    </svg>
+                </button>
+            </div>
+
+            <div class="lg:col-span-5 md:col-span-6 sm:col-span-6">
+                <x-forms.text-input-icon dir="start" class="text-paragraph" placeholder="Search here">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M11 19C15.4183 19 19 15.4183 19 11C19 6.58172 15.4183 3 11 3C6.58172 3 3 6.58172 3 11C3 15.4183 6.58172 19 11 19Z" stroke="#5E666E" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+                        <path d="M20.9999 21.0004L16.6499 16.6504" stroke="#5E666E" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+                    </svg>
+                </x-forms.text-input-icon>
+            </div>
         </div>
 
-        <div class="flex gap-6 items-center mr-6">
+        <div class="flex lg:col-span-1 gap-6 items-center justify-end mr-6">
             <div class="relative cursor-pointer mr-2 toggle-notification-button">
                 <svg width="24" height="24" class="sm:w-5 sm:h-5 md:w-6 md:h-6" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <path d="M18 8C18 6.4087 17.3679 4.88258 16.2426 3.75736C15.1174 2.63214 13.5913 2 12 2C10.4087 2 8.88258 2.63214 7.75736 3.75736C6.63214 4.88258 6 6.4087 6 8C6 15 3 17 3 17H21C21 17 18 15 18 8Z" stroke="#5c5c5c" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
@@ -48,7 +59,7 @@
                 <div class="toggle-menu-button flex gap-1 items-center cursor-pointer">
                     <img src="{{ Auth::user()->image?->url ? Auth::user()->image?->url : asset('assets/images/profile.png') }}" alt="profile" width="38" width="38" style="border-radius: 50%">
                     <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M6 9L12 15L18 9" stroke="#5C5C5C" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                        <path d="M6 9L12 15L18 9" stroke="#5e666e" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
                     </svg>
                 </div>
                 <div class="toggle-menu absolute p-3 shadow w-[180px] rounded bg-white sm:right-12 z-50" style="top: 46px;display:none">

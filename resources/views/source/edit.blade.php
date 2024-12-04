@@ -1,9 +1,5 @@
 <x-app-layout>
     @section('title', 'Edit Source')
-    @section('breadcrumb')
-        <x-breadcrumb>
-            Edit Source
-        </x-breadcrumb>
-    @endsection
+    @include('source.breadcrumb.update')
     <livewire:source.update-source :source="$source" />
 </x-app-layout>

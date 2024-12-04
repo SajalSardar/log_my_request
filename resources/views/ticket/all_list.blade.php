@@ -33,71 +33,130 @@
             </div>
             <div style="width:106px" class="relative" x-data="{ priority: '' }">
                 <div>
-                    <x-forms.select-input x-model="priority" name='priority_search' id="priority_search">
-                        <option value="">Priority</option>
-                        <option value="low">Low</option>
-                        <option value="medium">Medium</option>
-                        <option value="high">High</option>
-                    </x-forms.select-input>
-                    <span x-show="priority" class="absolute top-2 end-5 text-orange-600 text-surface cursor-pointer focus:text-primary outline-none dark:text-white text-base" tabindex="0" style="display: block;" @click="priority = '';$nextTick(() => $('#priority_search').trigger('change'))">✕</span>
+                    <div style="width: 100%;" class="relative custom-select">
+                        <div>
+                            <div class="selected">Priority</div>
+                            <input type="hidden" id="priority_search" name="priority_search" value="">
+                            <div class="options">
+                                <div class="option" data-value="low">Low</div>
+                                <div class="option" data-value="medium">Medium</div>
+                                <div class="option" data-value="high">High</div>
+                            </div>
+                        </div>
+                        <div class="absolute top-[50%] translate-y-[-50%] -right-5">
+                            <svg class="text-[#5e666e] ri-arrow-down-s-line ml-auto group-[.selected]:rotate-90 mr-[24px]" width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M6 9L12 15L18 9" stroke="#5e666e" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+                            </svg>
+                        </div>
+                    </div>
                 </div>
+                <span x-show="priority" class="absolute top-1 end-9 text-surface cursor-pointer focus:text-primary outline-none dark:text-white text-base" tabindex="0" style="display: block;" @click="priority = '';$nextTick(() => $('#priority_search').trigger('change'))">✕</span>
             </div>
             <div style="width:110px" class="relative" x-data="{ status: '' }">
-                <x-forms.select-input x-model="status" class="text-paragraph" id="status_search">
-                    <option value="">Status</option>
-                    @foreach ($ticketStatus as $item)
-                    <option value="{{ $item->id }}">{{ $item->name }}</option>
-                    @endforeach
-                </x-forms.select-input>
-                <span x-show="status" class="absolute top-2 end-5 text-orange-600 text-surface cursor-pointer focus:text-primary outline-none dark:text-white text-base" tabindex="0" style="display: block;" @click="status = '';$nextTick(() => $('#status_search').trigger('change'))">✕</span>
-            </div>
-            <div style="width:122px" class="relative" x-data="{ category: '' }">
-                <x-forms.select-input x-model="category" class="text-paragraph" id="category_search">
-                    <option value="">Category</option>
-                    @foreach ($categories as $category)
-                    <option value="{{ $category->id }}">{{ $category->name }}</option>
-                    @endforeach
-                </x-forms.select-input>
-                <span x-show="category" class="absolute top-2 end-5 text-orange-600 text-surface cursor-pointer focus:text-primary outline-none dark:text-white text-base" tabindex="0" style="display: block;" @click="category = '';$nextTick(() => $('#category_search').trigger('change'))">✕</span>
-            </div>
-            <div style="width:136px" class="relative" x-data="{ department: '' }">
-                <x-forms.select-input class="text-paragraph" x-model="department" id="department_search">
-                    <option value="">Department</option>
-                    @foreach ($departments as $department)
-                    <option value="{{ $department->id }}">{{ $department->name }}</option>
-                    @endforeach
-                </x-forms.select-input>
-                <span x-show="department" class="absolute top-2 end-5 text-orange-600 text-surface cursor-pointer focus:text-primary outline-none dark:text-white text-base" tabindex="0" style="display: block;" @click="department = '';$nextTick(() => $('#department_search').trigger('change'))">✕</span>
-            </div>
-            <div style="width:96px" class="relative" x-data="{ team: '' }">
-                <x-forms.select-input class="text-paragraph" x-model="team" id="team_search">
-                    <option value="">Team</option>
-                    @foreach ($teams as $team)
-                    <option value="{{ $team->id }}">{{ $team->name }}</option>
-                    @endforeach
-                </x-forms.select-input>
-                <span x-show="team" class="absolute top-2 end-5 text-orange-600 text-surface cursor-pointer focus:text-primary outline-none dark:text-white text-base" tabindex="0" style="display: block;" @click="team = '';$nextTick(() => $('#team_search').trigger('change'))">✕</span>
-            </div>
-            <div style="width:128px" class="relative" x-data="{ due_date_x: '' }">
-                <x-forms.select-input class="text-paragraph" x-model="due_date_x" id="due_date_search">
-                    <option value="">Due Date</option>
-                    <option value="today">Today</option>
-                    <option value="tomorrow">Tomorrow</option>
-                    <option value="this_week">This Week</option>
-                    <option value="this_month">This Month</option>
-                </x-forms.select-input>
-                <span x-show="due_date_x" class="absolute top-2 end-5 text-orange-600 text-surface cursor-pointer focus:text-primary outline-none dark:text-white text-base" tabindex="0" style="display: block;" @click="due_date_x = '';$nextTick(() => $('#due_date_search').trigger('change'))">✕</span>
-            </div>
-            @can('request create')
-                <div>
-                    <x-actions.href href="{{ route('admin.ticket.create') }}" class="flex items-center gap-1">
-                        <span>Create A Request</span>
-                        <svg fill="none" width="24" height="24" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v6m3-3H9m12 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
+                <div style="width: 100%;" class="relative custom-select">
+                    <div>
+                        <div class="selected">Status</div>
+                        <input type="hidden" id="status_search" name="status_search" value="">
+                        <div class="options">
+                            @foreach ($ticketStatus as $item)
+                            <div class="option" data-value="{{ $item->id }}">{{ $item->name }}</div>
+                            @endforeach
+                        </div>
+                    </div>
+                    <div class="absolute top-[50%] translate-y-[-50%] -right-5">
+                        <svg class="text-[#5e666e] ri-arrow-down-s-line ml-auto group-[.selected]:rotate-90 mr-[24px]" width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M6 9L12 15L18 9" stroke="#5e666e" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
                         </svg>
-                    </x-actions.href>
+                    </div>
                 </div>
-            @endcan
+                <span x-show="status" class="absolute top-1 end-9 text-surface cursor-pointer focus:text-primary outline-none dark:text-white text-base" tabindex="0" style="display: block;" @click="status = '';$nextTick(() => $('#status_search').trigger('change'))">✕</span>
+            </div>
+            <div style="width:175px" class="relative" x-data="{ category: '' }">
+                <div style="width: 100%;" class="relative custom-select">
+                    <div>
+                        <div class="selected">Category</div>
+                        <input type="hidden" id="category_search" name="category_search" value="">
+                        <div class="options">
+                            @foreach ($categories as $item)
+                            <div class="option" data-value="{{ $item->id }}">{{ $item->name }}</div>
+                            @endforeach
+                        </div>
+                    </div>
+                    <div class="absolute top-[50%] translate-y-[-50%] -right-5">
+                        <svg class="text-[#5e666e] ri-arrow-down-s-line ml-auto group-[.selected]:rotate-90 mr-[24px]" width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M6 9L12 15L18 9" stroke="#5e666e" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+                        </svg>
+                    </div>
+                </div>
+                <span x-show="category" class="absolute top-1 end-9 text-surface cursor-pointer focus:text-primary outline-none dark:text-white text-base" tabindex="0" style="display: block;" @click="category = '';$nextTick(() => $('#category_search').trigger('change'))">✕</span>
+            </div>
+            <div style="width:150px" class="relative" x-data="{ department: '' }">
+                <div style="width: 100%;" class="relative custom-select">
+                    <div>
+                        <div class="selected">Department</div>
+                        <input type="hidden" id="department_search" name="department_search" value="">
+                        <div class="options">
+                            @foreach ($departments as $item)
+                            <div class="option" data-value="{{ $item->id }}">{{ $item->name }}</div>
+                            @endforeach
+                        </div>
+                    </div>
+                    <div class="absolute top-[50%] translate-y-[-50%] -right-5">
+                        <svg class="text-[#5e666e] ri-arrow-down-s-line ml-auto group-[.selected]:rotate-90 mr-[24px]" width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M6 9L12 15L18 9" stroke="#5e666e" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+                        </svg>
+                    </div>
+                </div>
+                <span x-show="department" class="absolute top-1 end-9 text-surface cursor-pointer focus:text-primary outline-none dark:text-white text-base" tabindex="0" style="display: block;" @click="team = '';$nextTick(() => $('#team_search').trigger('change'))">✕</span>
+            </div>
+            <div style="width:120px" class="relative" x-data="{ team: '' }">
+                <div style="width: 100%;" class="relative custom-select">
+                    <div>
+                        <div class="selected">Team</div>
+                        <input type="hidden" id="team_search" name="team_search" value="">
+                        <div class="options">
+                            @foreach ($teams as $item)
+                            <div class="option" data-value="{{ $item->id }}">{{ $item->name }}</div>
+                            @endforeach
+                        </div>
+                    </div>
+
+                    <div class="absolute top-[50%] translate-y-[-50%] -right-5">
+                        <svg class="text-[#5e666e] ri-arrow-down-s-line ml-auto group-[.selected]:rotate-90 mr-[24px]" width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M6 9L12 15L18 9" stroke="#5e666e" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+                        </svg>
+                    </div>
+                </div>
+                <span x-show="team" class="absolute top-1 end-9 text-surface cursor-pointer focus:text-primary outline-none dark:text-white text-base" tabindex="0" style="display: block;" @click="team = '';$nextTick(() => $('#team_search').trigger('change'))">✕</span>
+            </div>
+            <div style="width:120px" class="relative" x-data="{ due_date_x: '' }">
+                <div style="width: 100%;" class="relative custom-select">
+                    <div>
+                        <div class="selected">Due Date</div>
+                        <input type="hidden" id="due_date_search" name="due_date_search" value="">
+                        <div class="options">
+                            <div class="option" data-value="today">Today</div>
+                            <div class="option" data-value="tomorrow">Tomorrow</div>
+                            <div class="option" data-value="this_week">This Week</div>
+                            <div class="option" data-value="this_month">This Month</div>
+                        </div>
+                    </div>
+                    <div class="absolute top-[50%] translate-y-[-50%] -right-5">
+                        <svg class="text-[#5e666e] ri-arrow-down-s-line ml-auto group-[.selected]:rotate-90 mr-[24px]" width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M6 9L12 15L18 9" stroke="#5e666e" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+                        </svg>
+                    </div>
+                </div>
+                <span x-show="due_date_x" class="absolute top-1 end-9 text-surface cursor-pointer focus:text-primary outline-none dark:text-white text-base" tabindex="0" style="display: block;" @click="due_date_x = '';$nextTick(() => $('#due_date_search').trigger('change'))">✕</span>
+            </div>
+            <div>
+                <x-actions.href href="{{ route('admin.ticket.create') }}" class="flex items-center gap-1">
+                    <span>Create A Request</span>
+                    <svg fill="none" width="24" height="24" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v6m3-3H9m12 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
+                    </svg>
+                </x-actions.href>
+            </div>
         </div>
     </div>
 
@@ -113,7 +172,7 @@
                                 <path d="M8.3335 9.1665V14.1665" stroke="#5e666e" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
                                 <path d="M11.6665 9.1665V14.1665" stroke="#5e666e" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
                             </svg>
-                            <input id="checkbox1" type="checkbox" class="w-4 h-4 mr-3 focus:ring-transparent text-primary-400" />
+                            <input id="checkbox1" type="checkbox" class="w-4 h-4 mr-3 rounded border border-base-500 focus:ring-transparent text-primary-400" />
                         </span>
                     </th>
                     <th class="text-heading-dark w-[50px]">ID</th>
@@ -140,7 +199,38 @@
 
     @section('script')
     <script>
+        function initCustomSelect() {
+            const customSelects = document.querySelectorAll('.custom-select');
+            customSelects.forEach(customSelect => {
+                customSelect.addEventListener('click', function(event) {
+                    event.stopPropagation();
+                    customSelect.classList.toggle('active');
+                    const input = customSelect.querySelector('input');
+                    const data = event.target.getAttribute('data-value');
+
+                    if (data) {
+                        input.value = data;
+                        input.dispatchEvent(new Event('change'));
+                        customSelect.querySelector('.selected').textContent = event.target.textContent;
+                        customSelect.classList.remove('active');
+                    }
+                });
+            });
+            document.addEventListener('click', function() {
+                customSelects.forEach(customSelect => customSelect.classList.remove('active'));
+            });
+        }
+        document.addEventListener('DOMContentLoaded', initCustomSelect);
+    </script>
+    <script>
         $(function() {
+            const hiddenInput = document.getElementById('status_search');
+            const priority_search = document.getElementById('priority_search');
+            const category_search = document.getElementById('category_search');
+            const department_search = document.getElementById('department_search');
+            const team_search = document.getElementById('team_search');
+            const due_date_search = document.getElementById('due_date_search');
+
             var dTable = $('#data-table').DataTable({
                 stripeClasses: [],
                 processing: true,
@@ -148,7 +238,7 @@
                 responsive: true,
                 searching: false,
                 scrollX: true,
-                lengthChange: true,
+                lengthChange: false,
                 pageLength: 50,
                 lengthMenu: [
                     [20, 30, 50, 100, -1],
@@ -167,10 +257,10 @@
                         d.ticket_id_search = $('#ticket_id_search').val();
                         d.priority_search = $('#priority_search').val();
                         d.category_search = $('#category_search').val();
+                        d.department_search = $('#department_search').val();
                         d.team_search = $('#team_search').val();
                         d.status_search = $('#status_search').val();
                         d.due_date_search = $('#due_date_search').val();
-                        d.department_search = $('#department_search').val();
                     }
                 },
                 columns: [{
@@ -239,11 +329,29 @@
             });
 
             $(document).on('change keyup',
-                '#priority_search, #category_search, #team_search, #status_search, #due_date_search, #ticket_id_search, #department_search',
+                '#priority_search, #category_search, #team_search,#department_search, #status_search, #due_date_search, #ticket_id_search',
                 function(e) {
                     dTable.draw();
                     e.preventDefault();
                 });
+            hiddenInput.addEventListener('change', () => {
+                $('#status_search').trigger('change');
+            });
+            priority_search.addEventListener('change', () => {
+                $('#priority_search').trigger('change');
+            });
+            category_search.addEventListener('change', () => {
+                $('#category_search').trigger('change');
+            });
+            department_search.addEventListener('change', () => {
+                $('#department_search').trigger('change');
+            });
+            team_search.addEventListener('change', () => {
+                $('#team_search').trigger('change');
+            });
+            due_date_search.addEventListener('change', () => {
+                $('#due_date_search').trigger('change');
+            });
         });
     </script>
     <script>
@@ -266,5 +374,56 @@
             });
         });
     </script>
+    @endsection
+
+    @section('style')
+    <style>
+        .custom-select {
+            position: relative;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            height: 40px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+        }
+
+        .custom-select .selected {
+            padding: 10px;
+            background: #fff;
+            color: #5e666e;
+            color: #5e666e;
+            font-family: "Inter", "sans-serif";
+            font-size: 14px;
+        }
+
+        .custom-select .options {
+            display: none;
+            position: absolute;
+            top: 100%;
+            left: 0;
+            right: 0;
+            border: 1px solid #ddd;
+            background: #fff;
+            z-index: 1000;
+        }
+
+        .custom-select .option {
+            padding: 10px;
+            cursor: pointer;
+            color: #5e666e;
+            font-family: "Inter", "sans-serif";
+            font-size: 14px;
+        }
+
+        .custom-select .option:hover {
+            background: #FFF7F2;
+            color: #F36D00;
+        }
+
+        .custom-select.active .options {
+            display: block;
+        }
+    </style>
     @endsection
 </x-app-layout>

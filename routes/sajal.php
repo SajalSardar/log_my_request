@@ -54,7 +54,6 @@ Route::middleware('auth', 'verified')->prefix('dashboard')->name('admin.')->grou
         Route::get('get-department-wise-team', 'departmentWiseTeam')->name('department.wise.team');
     });
 
-    // role
     Route::controller(RoleController::class)->name('role.')->group(function () {
         Route::get('role-list', 'index')->name('index');
         Route::get('/role-list-datatable', 'displayListDatatable')->name('list.datatable');
@@ -63,6 +62,7 @@ Route::middleware('auth', 'verified')->prefix('dashboard')->name('admin.')->grou
         Route::get('edit-user-role/{id}', 'edit')->name('edit');
         Route::put('update-user-role/{id}', 'update')->name('update');
         Route::post('switch-accont', 'switchAccount')->name('swotch');
+        Route::delete('delete', 'delete')->name('delete');
     });
 
     // modules

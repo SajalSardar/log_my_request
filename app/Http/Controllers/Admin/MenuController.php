@@ -11,11 +11,13 @@ use Spatie\Permission\Models\Permission;
 use Spatie\Permission\Models\Role;
 use Yajra\DataTables\Facades\DataTables;
 
-class MenuController extends Controller {
+class MenuController extends Controller
+{
     /**
      * Display a listing of the resource.
      */
-    public function index() {
+    public function index()
+    {
         Gate::authorize('viewAny', Menu::class);
         return view('menu.index');
     }
@@ -24,7 +26,8 @@ class MenuController extends Controller {
      * Display a listing of the data table resource.
      * @param Request $request
      */
-    public function displayListDatatable(Request $request) {
+    public function displayListDatatable(Request $request)
+    {
         Gate::authorize('viewAny', Menu::class);
         $menus = Menu::query();
 
@@ -38,7 +41,8 @@ class MenuController extends Controller {
 
         return DataTables::of($menus)
             ->addColumn('select', function () {
-                return '<div class="flex items-center justify-center ml-6 w-[50px]"><input type="checkbox" class ="border text-center border-slate-200 rounded focus:ring-transparent p-1" style="background-color: #9b9b9b; accent-color: #5C5C5C !important;"></div>';
+                return '<div class="flex items-center justify-center ml-6 w-[50px]"><input type="checkbox" class="child-checkbox rounded border border-base-500 w-4 h-4 mr-3 focus:ring-transparent text-primary-400" />
+                </div>';
             })
             ->editColumn('id', function ($menus) {
                 return '<div class="w-[50px]"><span class="text-paragraph">' . '#' . $menus->id . '</span></div>';
@@ -67,7 +71,7 @@ class MenuController extends Controller {
                 $rolesHtml = '';
                 $roles     = json_decode($menus->roles, true);
                 foreach ($roles as $role) {
-                    $rolesHtml .= '<span class="inline-flex px-3 py-1 bg-inProgress-400 items-center text-paragraph ml-1 rounded">' . $role . '</span>';
+                    $rolesHtml .= '<span class="inline-flex px-3 py-1 bg-inProgress-400/15 !text-inProgress-400 items-center text-paragraph ml-1 rounded">' . $role . '</span>';
                 }
                 return $rolesHtml;
             })
@@ -75,13 +79,15 @@ class MenuController extends Controller {
                 $permissionsHtml = '';
                 $permissions     = $menus->permissions ? json_decode($menus->permissions, true) : [];
                 foreach ($permissions as $permission) {
-                    $permissionsHtml .= '<span class="inline-flex px-3 py-1 bg-gray-400 items-center text-paragraph ml-1 rounded">' . $permission . '</span>';
+                    $permissionsHtml .= '<span class="inline-flex px-3 py-1 bg-paragraph/15 items-center text-paragraph ml-1 rounded">' . $permission . '</span>';
                 }
                 return $permissionsHtml;
             })
             ->addColumn('action_column', function ($menus) {
-                $links = '<div class="relative"><button onclick="toggleAction(' . $menus->id . ')"
-                            class="p-3 hover:bg-slate-100 rounded-full">
+                $editUrl   = route('admin.menu.edit', $menus?->id);
+                $deleteUrl = route('admin.menu.destroy', $menus->id);
+                $links = '<div class="relative pl-10">
+                        <button onclick="toggleAction(' . $menus->id . ')" class="p-3 hover:letter-slate-100 rounded-full">
                             <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
                                 xmlns="http://www.w3.org/2000/svg">
                                 <path d="M11.9922 12H12.0012" stroke="#666666" stroke-width="2.5"
@@ -92,19 +98,22 @@ class MenuController extends Controller {
                                     stroke-linecap="round" stroke-linejoin="round" />
                             </svg>
                         </button>
-                        <div id="action-' . $menus->id . '" class="shadow-lg z-30 absolute top-5 right-10"
-                            style="display: none">
+                        <div id="action-' . $menus->id . '" class="shadow-lg z-30 absolute top-5 right-10" style="display: none">
                             <ul>
-                                <li class="px-5 py-1 text-center" style="background: #FFF4EC;color:#F36D00">
-                                    <a
-                                        href="' . route('admin.menu.edit', $menus->id) . '">Edit</a>
+                                <li class="px-5 py-2 text-center bg-white text-paragraph hover:bg-primary-600 hover:text-primary-400">
+                                    <a href="' . $editUrl . '">Edit</a>
                                 </li>
-                                <li class="px-5 py-1 text-center bg-red-600 text-white">
-                                    <a
-                                        href="' . route('admin.menu.destroy', $menus->id) . '">Delete</a>
+                                 
+                                <li class="px-5 py-2 text-center bg-white text-paragraph hover:bg-primary-600 hover:text-primary-400">
+                                    <form action="' . $deleteUrl . '" method="POST" onsubmit="return confirm(\'Are you sure?\');">
+                                        ' . csrf_field() . '
+                                        ' . method_field("DELETE") . '
+                                        <button type="submit" class="text-">Delete</button>
+                                    </form>
                                 </li>
                             </ul>
-                        </div></div>';
+                        </div>
+                </div>';
 
                 return $links;
             })
@@ -116,7 +125,8 @@ class MenuController extends Controller {
     /**
      * Show the form for creating a new resource.
      */
-    public function create() {
+    public function create()
+    {
         Gate::authorize('create', Menu::class);
         $roles        = Role::where('name', '!=', 'super-admin')->get();
         $parent_menus = Menu::where('parent_id', null)->get();
@@ -130,7 +140,8 @@ class MenuController extends Controller {
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request) {
+    public function store(Request $request)
+    {
         //
         Gate::authorize('create', Menu::class);
     }
@@ -138,7 +149,8 @@ class MenuController extends Controller {
     /**
      * Display the specified resource.
      */
-    public function show(Menu $menu) {
+    public function show(Menu $menu)
+    {
         //
         Gate::authorize('view', $menu);
         return view('menu.show');
@@ -147,7 +159,8 @@ class MenuController extends Controller {
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Menu $menu) {
+    public function edit(Menu $menu)
+    {
         Gate::authorize('update', $menu);
         $roles        = Role::where('name', '!=', 'super-admin')->get();
         $parent_menus = Menu::where('parent_id', null)->get();
@@ -161,14 +174,16 @@ class MenuController extends Controller {
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Menu $menu) {
+    public function update(Request $request, Menu $menu)
+    {
         Gate::authorize('update', $menu);
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Menu $menu) {
+    public function destroy(Menu $menu)
+    {
         Gate::authorize('delete', $menu);
         $menu->delete();
         flash()->success('Menu has been deleted');

@@ -18,6 +18,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Str;
+use Laravolt\Avatar\Avatar;
 use Yajra\DataTables\Facades\DataTables;
 
 class TicketService {
@@ -279,39 +280,6 @@ class TicketService {
         return $emailResponse;
     }
 
-    public function randomHexColor() {
-        $colors = [
-            ['letter' => '#9D0009', 'bg' => 'rgba(157, 0, 9, 0.2)'],
-            ['letter' => '#E60029', 'bg' => 'rgba(230, 0, 41, 0.2)'],
-            ['letter' => '#F27700', 'bg' => 'rgba(242, 119, 0, 0.2)'],
-            ['letter' => '#FFA304', 'bg' => 'rgba(255, 163, 4, 0.2)'],
-            ['letter' => '#FEDA00', 'bg' => 'rgba(254, 218, 0, 0.2)'],
-            ['letter' => '#9AE100', 'bg' => 'rgba(154, 225, 0, 0.2)'],
-            ['letter' => '#36F601', 'bg' => 'rgba(54, 246, 1, 0.2)'],
-            ['letter' => '#00BB5A', 'bg' => 'rgba(0, 187, 90, 0.2)'],
-            ['letter' => '#00BF39', 'bg' => 'rgba(0, 191, 57, 0.2)'],
-            ['letter' => '#00EBCF', 'bg' => 'rgba(0, 235, 207, 0.2)'],
-            ['letter' => '#006FE5', 'bg' => 'rgba(0, 111, 229, 0.2)'],
-            ['letter' => '#0205F2', 'bg' => 'rgba(2, 5, 242, 0.2)'],
-            ['letter' => '#5700DB', 'bg' => 'rgba(87, 0, 219, 0.2)'],
-            ['letter' => '#704000', 'bg' => 'rgba(112, 64, 0, 0.2)'],
-            ['letter' => '#00556A', 'bg' => 'rgba(0, 85, 106, 0.2)'],
-            ['letter' => '#408300', 'bg' => 'rgba(64, 131, 0, 0.2)'],
-            ['letter' => '#88387F', 'bg' => 'rgba(136, 56, 127, 0.2)'],
-            ['letter' => '#DC01A2', 'bg' => 'rgba(220, 1, 162, 0.2)'],
-            ['letter' => '#8701DE', 'bg' => 'rgba(135, 1, 222, 0.2)'],
-            ['letter' => '#BDDB01', 'bg' => 'rgba(189, 219, 1, 0.2)'],
-            ['letter' => '#FF590D', 'bg' => 'rgba(255, 89, 13, 0.2)'],
-            ['letter' => '#74457F', 'bg' => 'rgba(116, 69, 127, 0.2)'],
-            ['letter' => '#62000D', 'bg' => 'rgba(98, 0, 13, 0.2)'],
-            ['letter' => '#99ADA0', 'bg' => 'rgba(153, 173, 160, 0.2)'],
-            ['letter' => '#BDB900', 'bg' => 'rgba(189, 185, 0, 0.2)'],
-            ['letter' => '#E4D900', 'bg' => 'rgba(228, 217, 0, 0.2)'],
-        ];
-
-        return $colors[array_rand($colors)];
-    }
-
     public static function allTicketListDataTable($request) {
         $ticketStatus = null;
 
@@ -329,9 +297,9 @@ class TicketService {
 
         if ($request->query_status == 'unassign') {
 
-            $tickets->leftJoin('ticket_ownerships as towner', 'tickets.id', '=', 'towner.ticket_id')
-                ->where('towner.owner_id', null)
-                ->select('tickets.*', 'towner.owner_id');
+            $tickets->leftJoin('ticket_ownerships as owner', 'tickets.id', '=', 'owner.ticket_id')
+                ->where('owner.owner_id', null)
+                ->select('tickets.*', 'owner.owner_id');
         } elseif ($ticketStatus && $ticketStatus->slug == $request->query_status) {
 
             $tickets->where('ticket_status_id', $ticketStatus->id);
@@ -354,11 +322,11 @@ class TicketService {
                 if ($request->category_search) {
                     $query->where('category_id', '=', $request->category_search);
                 }
-                if ($request->team_search) {
-                    $query->where('team_id', '=', $request->team_search);
-                }
                 if ($request->department_search) {
                     $query->where('department_id', '=', $request->department_search);
+                }
+                if ($request->team_search) {
+                    $query->where('team_id', '=', $request->team_search);
                 }
                 if ($request->status_search) {
                     $query->where('ticket_status_id', '=', $request->status_search);
@@ -398,7 +366,7 @@ class TicketService {
 
         return DataTables::of($tickets)
             ->addColumn('select', function () {
-                return '<div class="flex items-center justify-center ml-6 w-[50px]"><input type="checkbox" class="child-checkbox w-4 h-4 mr-3 focus:ring-transparent text-primary-400" />
+                return '<div class="flex items-center justify-center ml-6 w-[50px]"><input type="checkbox" class="child-checkbox rounded border border-base-500 w-4 h-4 mr-3 focus:ring-transparent text-primary-400" />
                 </div>';
             })
             ->editColumn('id', function ($tickets) {
@@ -444,37 +412,36 @@ class TicketService {
             ->editColumn('user_id', function ($tickets) {
                 $userName = $tickets->user->name ?? 'Unknown';
                 $imageUrl = $tickets->user->image?->url;
-                $instance = new self();
-                $color    = $instance->randomHexColor();
-
-                $data = "
-                <div style='width:180px' class='text-paragraph flex items-center'>
-                    " . ($imageUrl
-                    ? "<img src='{$imageUrl}' width='40' height='40' style='border-radius: 50%; border: 1px solid #eee;' alt='profile'>"
-                    : "<div class='flex justify-center items-center text-sm' style='width: 30px; height: 30px; border-radius: 50%; background: {$color['bg']}; color: {$color['letter']}; border: 1px solid #eee;'>" . ucfirst(substr($userName, 0, 1)) . "</div>") . "
-                    <span class='ml-2'>{$userName}</span>
-                </div>";
+                $data     = "
+                    <div style='width:180px' class='text-paragraph flex items-center'>
+                        " . (
+                    $imageUrl
+                    ? "<img src='{$imageUrl}' width='30' height='30' style='border-radius: 50%; border: 1px solid #eee;' alt='profile'>"
+                    : avatar($userName)
+                ) . "
+                        <span class='ml-2'>{$userName}</span>
+                    </div>";
                 return $data;
             })
 
             ->editColumn('team_id', function ($tickets) {
-                $data = '<span class="text-paragraph">' . @$tickets->team->name . '</span>';
+                $data = '<div style="width:180px"><span class="text-paragraph">' . @$tickets->team->name . '</span></div>';
                 return $data;
             })
             ->addColumn('agent', function ($tickets) {
-                $data = '<span class="text-paragraph" style="width:138px">' . @$tickets->owners->last()->name . '</span>';
+                $data = '<div style="width:180px"><span class="text-paragraph" style="width:138px">' . @$tickets->owners->last()->name . '</span></div>';
                 return $data;
             })
             ->editColumn('created_at', function ($tickets) {
-                $data = '<span class="text-paragraph" style="width:120px">' . ISODate($tickets?->created_at) . '</span>';
+                $data = '<div style="width:160px"><span class="text-paragraph" style="width:120px">' . ISODate($tickets?->created_at) . '</span></div>';
                 return $data;
             })
             ->addColumn('request_age', function ($tickets) {
-                $data = '<span class="text-paragraph">' . dayMonthYearHourMininteSecond($tickets?->created_at, $tickets?->resolved_at) . '</span>';
+                $data = '<div style="width:250px"><span class="text-paragraph">' . dayMonthYearHourMininteSecond($tickets?->created_at, $tickets?->resolved_at) . '</span></div>';
                 return $data;
             })
             ->editColumn('due_date', function ($tickets) {
-                $data = '<span class="text-paragraph" style="width:103px">' . ISOdate($tickets->due_date) . '</span>';
+                $data = '<span class="text-paragraph" style="width:120px">' . ISOdate($tickets->due_date) . '</span>';
                 return $data;
             })
 
@@ -507,7 +474,8 @@ class TicketService {
                     </li>';
                 }
 
-                $action = '<div class="relative">
+                $action = '
+                    <div class="relative">
                         <button onclick="toggleAction(' . $tickets->id . ')" class="p-3 hover:letter-slate-100 rounded-full">
                             <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
                                 xmlns="http://www.w3.org/2000/svg">
@@ -520,7 +488,9 @@ class TicketService {
                             </svg>
                         </button>
                         <div id="action-' . $tickets->id . '" class="shadow-lg z-30 absolute top-5 right-10" style="display: none">
-                            <ul>' . $viewBtn . $editBtn . $deleteBtn . '</ul>
+                            <ul>
+                                ' . $viewBtn . $editBtn . $deleteBtn . '
+                            </ul>
                         </div>
                     </div>';
                 return $action;
