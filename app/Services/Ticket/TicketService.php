@@ -486,18 +486,18 @@ class TicketService {
                 $editBtn   = null;
                 $deleteBtn = null;
 
-                if (Auth::user()->can("request view list")) {
+                if (Auth::user()->hasRole(['super-admin']) || Auth::user()->can("request view list")) {
                     $viewBtn .= '<li class="px-5 py-2 text-center bg-white text-paragraph hover:bg-primary-600 hover:text-primary-400">
                                     <a href="' . $viewUrl . '">View</a>
                                 </li>';
                 }
-                if (Auth::user()->can("request update") && ($tickets->ticket_status->slug != 'closed' && $tickets->ticket_status->slug != 'resolved')) {
+                if (Auth::user()->hasRole(['super-admin']) || Auth::user()->can("request update") && ($tickets->ticket_status->slug != 'closed' && $tickets->ticket_status->slug != 'resolved')) {
                     $editBtn .= '<li class="px-5 py-2 text-center bg-white text-paragraph hover:bg-primary-600 hover:text-primary-400">
                                     <a href="' . $editUrl . '">Edit</a>
                                 </li>
                                 ';
                 }
-                if (Auth::user()->can("request delete") && ($tickets->ticket_status->slug != 'closed' && $tickets->ticket_status->slug != 'resolved')) {
+                if (Auth::user()->hasRole(['super-admin']) || Auth::user()->can("request delete") && ($tickets->ticket_status->slug != 'closed' && $tickets->ticket_status->slug != 'resolved')) {
                     $deleteBtn .= '<li class="px-5 py-2 text-center bg-white text-paragraph hover:bg-primary-600 hover:text-primary-400">
                         <form action="' . $deleteUrl . '" method="POST" onsubmit="return confirm(\'Are you sure?\');">
                             ' . csrf_field() . '

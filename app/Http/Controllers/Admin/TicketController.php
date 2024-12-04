@@ -201,7 +201,7 @@ class TicketController extends Controller {
      */
     public function edit(Ticket $ticket) {
         Gate::authorize('update', $ticket);
-        if ($ticket->ticket_status->slug != 'closed' || $ticket->ticket_status->slug != 'resolved') {
+        if ($ticket->ticket_status->slug == 'closed' || $ticket->ticket_status->slug == 'resolved') {
             flash()->info('Ticket has been closed or resolved');
             return back();
         }
