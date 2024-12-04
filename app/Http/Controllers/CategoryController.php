@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Category;
+use Helper;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Cache;
@@ -42,17 +43,14 @@ class CategoryController extends Controller
                 return '<div class="w-[50px]"><span class="text-paragraph">' . '#' . $category->id . '</span></div>';
             })
             ->editColumn('status', function ($category) {
-                $status = $category->status == "1" ? 'Active' : 'Inactive';
-                $class = $category->status == '1' ? 'bg-resolved-400/15 !text-resolved-400' : 'bg-closed-400/15 !text-closed-400';
-                return '<span class="inline-flex px-3 py-1 ' . $class . ' items-center text-paragraph ml-1 rounded">' . $status . '</span>';
+                return Helper::status($category->status);
             })
             ->editColumn('name', function ($category) {
                 $imageUrl = $category->image?->url ?? null;
-            
                 $imageTag = $imageUrl
                     ? '<img class="rounded-lg shadow-lg" width="40" height="40" style="border-radius: 50%; border:1px solid #eee;" alt="profile" src="' . $imageUrl . '">'
                     : avatar($category->name);
-            
+
                 return '
                     <div class="flex items-center" style="width: 200px;">
                         ' . $imageTag . '
@@ -61,7 +59,7 @@ class CategoryController extends Controller
                         </div>
                     </div>';
             })
-            
+
             ->editColumn('parent_id', function ($category) {
                 return '<h5 class="text-paragraph">' . $category?->parent?->name ?? 'None' . '</h5>';
             })
@@ -73,7 +71,7 @@ class CategoryController extends Controller
             ->addColumn('action_column', function ($category) {
                 $editUrl = route('admin.category.edit', $category?->id);
                 $deleteUrl = route('admin.category.destroy', $category?->id);
-                 
+
                 return
                     '<div class="relative pl-10">
                         <button onclick="toggleAction(' . $category->id . ')" class="p-3 hover:letter-slate-100 rounded-full">

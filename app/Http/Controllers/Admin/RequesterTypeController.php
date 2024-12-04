@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use Illuminate\Http\Request;
 use App\Models\RequesterType;
 use App\Http\Controllers\Controller;
+use Helper;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Artisan;
@@ -44,9 +45,7 @@ class RequesterTypeController extends Controller
                 return '<div class="w-[50px]"><span class="text-paragraph">' . '#' . $requesterType->id . '</span></div>';
             })
             ->editColumn('status', function ($requesterType) {
-                $status = $requesterType->status == "1" ? 'Active' : 'Inactive';
-                $class  = $requesterType->status == '1' ? 'bg-resolved-400/15 text-resolved-400' : 'bg-closed-400/15 !text-closed-400';
-                return '<span class="inline-flex px-3 py-1 ' . $class . ' items-center text-paragraph ml-1 rounded">' . $status . '</span>';
+                return Helper::status($requesterType->status);
             })
 
             ->editColumn('name', function ($requesterType) {

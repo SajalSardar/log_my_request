@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Models\Department;
 use App\Http\Controllers\Controller;
+use Helper;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Cache;
@@ -40,9 +41,7 @@ class DepartmentController extends Controller
                 return '<div class="w-[50px]"><span class="text-paragraph">' . '#' . $department->id . '</span></div>';
             })
             ->editColumn('status', function ($department) {
-                $status = $department->status == "1" ? 'Active' : 'Inactive';
-                $class = $department->status == '1' ? 'bg-resolved-400/15 !text-resolved-400' : 'bg-closed-400/15 !text-closed-400';
-                return '<span class="inline-flex px-3 py-1 ' . $class . ' items-center text-paragraph ml-1 rounded">' . $status . '</span>';
+                return Helper::status($department->status);
             })
             ->editColumn('name', function ($department) {
                 $imageUrl = $department->image?->url ?? asset('assets/images/profile.jpg');

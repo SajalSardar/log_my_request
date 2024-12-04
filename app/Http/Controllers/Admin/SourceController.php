@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Models\Source;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Helper;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Cache;
@@ -46,9 +47,7 @@ class SourceController extends Controller
                 return '<div class="w-[50px]"><span class="text-paragraph">' . '#' . $source->id . '</span></div>';
             })
             ->editColumn('status', function ($source) {
-                $status = $source->status == "1" ? 'Active' : 'Inactive';
-                $class = $source->status == '1' ? 'bg-resolved-400/15 !text-resolved-400' : 'bg-closed-400 !text-closed-400';
-                return '<span class="inline-flex px-3 py-1 ' . $class . ' items-center text-paragraph ml-1 rounded">' . $status . '</span>';
+                return Helper::status($source->status);
             })
 
             ->editColumn('title', function ($source) {

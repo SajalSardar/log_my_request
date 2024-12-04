@@ -58,7 +58,7 @@
                                 @if (!empty($each->image) && !empty($each->image->url))
                                 <img src="{{ $each->image->url }}" alt="user_picture" height="25" width="25">
                                 @else
-                                <img class="rounded-lg shadow-lg" width="30" height="30" style="border-radius: 50%; border:1px solid #eee" alt="profile" src="https://placehold.co/50">
+                                {!! avatar($each->name) !!}
                                 @endif
                             </div>
                             <div class="infos ps-5 flex">
