@@ -31,6 +31,13 @@ class DatabaseSeeder extends Seeder {
             'password'          => Hash::make('password@987'),
             'remember_token'    => Str::random(10),
         ]);
+        $userAdmin = User::factory()->create([
+            'name'              => 'Admin',
+            'email'             => "admin@gmail.com",
+            'email_verified_at' => now(),
+            'password'          => Hash::make('password@987'),
+            'remember_token'    => Str::random(10),
+        ]);
 
         $agentuser = User::factory()->create([
             'name'              => 'Agent',
@@ -49,10 +56,12 @@ class DatabaseSeeder extends Seeder {
         ]);
 
         $role      = Role::create(['name' => 'super-admin']);
+        $admin     = Role::create(['name' => 'admin']);
         $agent     = Role::create(['name' => 'agent']);
         $requester = Role::create(['name' => 'requester']);
 
         $user->assignRole($role);
+        $userAdmin->assignRole($admin);
         $agentuser->assignRole($agent);
         $requesteruser->assignRole($requester);
 

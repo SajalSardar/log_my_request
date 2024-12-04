@@ -82,7 +82,9 @@
 <!-- Attachment Part Start !-->
 <div class="flex items-center mt-9">
     <div class="flex items-center">
+        @if ($ticket->images && $ticket?->images->count() > 0)
         <p class="text-detail-heading me-3" style="width: 110px;">Attached File:</p>
+        @endif
         <div class="custom_file flex flex-wrap gap-5">
 
             @if ($ticket->images && $ticket?->images->count() > 0)

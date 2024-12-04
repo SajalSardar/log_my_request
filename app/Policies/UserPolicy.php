@@ -5,13 +5,13 @@ namespace App\Policies;
 use App\Models\User;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
-class AdminUserPolicy {
+class UserPolicy {
     use HandlesAuthorization;
     /**
      * Determine whether the user can view any models.
      */
     public function viewAny(User $user): bool {
-        if ($user->can('AdminUser view list')) {
+        if ($user->can('user view list')) {
             return true;
         }
         return false;
@@ -21,7 +21,7 @@ class AdminUserPolicy {
      * Determine whether the user can view the model.
      */
     public function view(User $user): bool {
-        if ($user->can('adminUser view list')) {
+        if ($user->can('user view list')) {
             return true;
         }
         return false;
@@ -32,14 +32,14 @@ class AdminUserPolicy {
      */
     public function create(User $user): bool {
         //
-        return ($user->can('AdminUser create'));
+        return ($user->can('user create'));
     }
 
     /**
      * Determine whether the user can update the model.
      */
     public function update(User $user): bool {
-        if ($user->can('adminUser update')) {
+        if ($user->can('user update')) {
             return true;
         }
         return false;
@@ -49,7 +49,7 @@ class AdminUserPolicy {
      * Determine whether the user can delete the model.
      */
     public function delete(User $user): bool {
-        if ($user->can('adminUser delete')) {
+        if ($user->can('user delete')) {
             return true;
         }
         return false;
@@ -59,7 +59,7 @@ class AdminUserPolicy {
      * Determine whether the user can restore the model.
      */
     public function restore(User $user): bool {
-        if ($user->can('adminUser restore')) {
+        if ($user->can('user restore')) {
             return true;
         }
         return false;
@@ -69,7 +69,7 @@ class AdminUserPolicy {
      * Determine whether the user can permanently delete the model.
      */
     public function forceDelete(User $user): bool {
-        if ($user->can('adminUser force delete')) {
+        if ($user->can('user force delete')) {
             return true;
         }
         return false;

@@ -1,10 +1,6 @@
 <x-app-layout>
     @section('title', 'User List')
-    @section('breadcrumb')
-    <x-breadcrumb>
-        User List
-    </x-breadcrumb>
-    @endsection
+    @include('adminuser.breadcrumb.index')
     <div class="flex justify-between items-center !mt-3">
         <div>
             <p class="text-detail-heading">User List</p>
@@ -12,11 +8,12 @@
         <div class="flex-1 mt-1">
             <div class="flex justify-end gap-3">
                 <div>
-                    <x-forms.text-input placeholder="search by name" id="unser_name_search" class="text-sm" />
+                    <x-forms.text-input placeholder="search by name" id="user_name_search" class="text-sm" />
                 </div>
                 <div>
-                    <x-forms.text-input id="unser_email_search" class="text-sm" placeholder="search by email" />
+                    <x-forms.text-input id="user_email_search" class="text-sm" placeholder="search by email" />
                 </div>
+                @can('user create')
                 <div>
                     <x-actions.href href="{{ route('admin.user.create') }}" class="block">
                         Create User
@@ -26,13 +23,14 @@
                         </svg>
                     </x-actions.href>
                 </div>
+                @endcan
             </div>
         </div>
     </div>
 
     <div class="relative">
-        <table class="display nowrap" id="data-table" style="width: 100%;border:1px solid #ddd">
-            <thead style="background:#F3F4F6;">
+        <table class="display nowrap" id="data-table" style="width: 100%;border:none;">
+            <thead style="background:#F3F4F6; border:none">
                 <tr>
                     <th class="text-heading-dark !text-end w-[50px]">
                         <span class="flex gap-2 !justify-center !items-center">
@@ -42,7 +40,7 @@
                                 <path d="M8.3335 9.1665V14.1665" stroke="#5C5C5C" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
                                 <path d="M11.6665 9.1665V14.1665" stroke="#5C5C5C" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
                             </svg>
-                            <input type="checkbox" class="border text-center border-slate-200 rounded focus:ring-transparent p-1" style="background-color: #9b9b9b; accent-color: #5C5C5C;">
+                            <input id="checkbox1" type="checkbox" class="w-4 h-4 mr-3 rounded border border-base-500 focus:ring-transparent text-primary-400" />
                         </span>
                     </th>
                     <th class="text-heading-dark w-[50px]">Id</th>
@@ -68,6 +66,7 @@
                 responsive: true,
                 searching: false,
                 scrollX: true,
+                lengthChange: false,
                 order: [
                     1, 'desc'
                 ],
@@ -76,8 +75,8 @@
                     type: "GET",
                     data: function(d) {
                         d._token = "{{ csrf_token() }}";
-                        d.unser_name_search = $('#unser_name_search').val();
-                        d.unser_email_search = $('#unser_email_search').val();
+                        d.user_name_search = $('#user_name_search').val();
+                        d.user_email_search = $('#user_email_search').val();
                     }
                 },
                 columns: [{
@@ -113,7 +112,7 @@
                 ]
             });
             $(document).on('change keyup',
-                '#unser_name_search, #unser_email_search',
+                '#user_name_search, #user_email_search',
                 function(e) {
                     dTable.draw();
                     e.preventDefault();

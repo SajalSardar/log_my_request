@@ -2,23 +2,20 @@
 
 namespace App\Models;
 
+use Illuminate\Contracts\Auth\MustVerifyEmail;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\MorphOne;
+use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Facades\Cache;
 use Spatie\Permission\Traits\HasRoles;
-use Illuminate\Notifications\Notifiable;
-use Illuminate\Database\Eloquent\SoftDeletes;
-use Illuminate\Contracts\Auth\MustVerifyEmail;
-use Illuminate\Database\Eloquent\Relations\HasMany;
-use Illuminate\Database\Eloquent\Relations\MorphTo;
-use Illuminate\Database\Eloquent\Relations\MorphOne;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Foundation\Auth\User as Authenticatable;
 
-class User extends Authenticatable implements MustVerifyEmail
-{
+class User extends Authenticatable implements MustVerifyEmail {
     use HasFactory, Notifiable, HasRoles, SoftDeletes;
 
-    protected static function boot()
-    {
+    protected static function boot() {
         parent::boot();
 
         static::created(function () {
@@ -29,7 +26,6 @@ class User extends Authenticatable implements MustVerifyEmail
             Cache::forget("user_list");
         });
     }
-
     /**
      * The attributes that are mass assignable.
      *
@@ -60,16 +56,14 @@ class User extends Authenticatable implements MustVerifyEmail
      *
      * @return array<string, string>
      */
-    protected function casts(): array
-    {
+    protected function casts(): array {
         return [
             'email_verified_at' => 'datetime',
             'password'          => 'hashed',
         ];
     }
 
-    public function tickets()
-    {
+    public function tickets() {
         return $this->belongsToMany(Ticket::class, 'ticket_ownerships', 'owner_id', 'ticket_id');
     }
 
@@ -77,8 +71,7 @@ class User extends Authenticatable implements MustVerifyEmail
      * Get all ticket associate with user
      * @return HasMany
      */
-    public function requester_tickets(): HasMany
-    {
+    public function requester_tickets(): HasMany {
         return $this->hasMany(Ticket::class);
     }
 
@@ -86,18 +79,15 @@ class User extends Authenticatable implements MustVerifyEmail
      * Get all ticket associate with user
      * @return HasMany
      */
-    public function categories(): HasMany
-    {
+    public function categories(): HasMany {
         return $this->hasMany(Ticket::class, 'category_id');
     }
 
-    public function teams()
-    {
+    public function teams() {
         return $this->belongsToMany(Team::class, 'team_user', 'user_id', 'team_id');
     }
 
-    public function requester_type()
-    {
+    public function requester_type() {
         return $this->belongsTo(RequesterType::class, 'requester_type_id', 'id');
     }
 
@@ -105,8 +95,7 @@ class User extends Authenticatable implements MustVerifyEmail
      * Get the image associate with this model
      * @return MorphOne
      */
-    public function image(): MorphOne
-    {
+    public function image(): MorphOne {
         return $this->morphOne(Image::class, 'image', 'image_type', 'image_id');
     }
 }

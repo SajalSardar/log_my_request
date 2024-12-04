@@ -1,11 +1,6 @@
 <x-app-layout>
     @section('title', 'Edit Team')
-    @section('breadcrumb')
-        <x-breadcrumb>
-            Edit Team
-        </x-breadcrumb>
-    @endsection
-
+    @include('team.breadcrumb.update')
     <livewire:team.update-team :team="$team" :agentUser="$agentUser" :categories="$categories" :departments="$departments" />
     @section('script')
         <script>

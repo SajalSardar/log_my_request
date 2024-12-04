@@ -1,10 +1,6 @@
 <x-app-layout>
     @section('title', 'Create Team')
-    @section('breadcrumb')
-    <x-breadcrumb>
-        Create Team
-    </x-breadcrumb>
-    @endsection
+    @include('team.breadcrumb.create')
     <livewire:team.create-team :categories="$categories" :agentUser="$agentUser" :departments="$departments" />
     <script>
         document.addEventListener('DOMContentLoaded', function() {

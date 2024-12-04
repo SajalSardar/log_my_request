@@ -13,6 +13,7 @@ class CreateMenu extends Component {
     public $roles;
     public $routes;
     public $parent_menus = null;
+    public $permission_list;
 
     #[Validate]
     public $name = '';
@@ -22,6 +23,7 @@ class CreateMenu extends Component {
     public $url = null;
     public $icon = '';
     public $role = [];
+    public $permission = [];
     #[Validate]
     public $status = 'active';
     #[Validate]
@@ -41,16 +43,17 @@ class CreateMenu extends Component {
         array_push($this->role, 'super-admin');
         $rolesArray = array_unique($this->role);
         Menu::create([
-            "name"      => $this->name,
-            "slug"      => Str::slug($this->name),
-            "user_id"   => Auth::id(),
-            "parent_id" => $this->parent_id ?? null,
-            "route"     => $this->route,
-            "url"       => $this->url,
-            "icon"      => $this->icon,
-            "roles"     => json_encode($rolesArray),
-            "status"    => $this->status,
-            "order"     => $this->order,
+            "name"        => $this->name,
+            "slug"        => Str::slug($this->name),
+            "user_id"     => Auth::id(),
+            "parent_id"   => $this->parent_id ?? null,
+            "route"       => $this->route,
+            "url"         => $this->url,
+            "icon"        => $this->icon,
+            "roles"       => json_encode($rolesArray),
+            "permissions" => json_encode($this->permission),
+            "status"      => $this->status,
+            "order"       => $this->order,
         ]);
         if ($this->parent_id) {
             $parentMenu = Menu::where('id', $this->parent_id)->first();

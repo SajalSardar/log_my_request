@@ -1,11 +1,6 @@
 <x-app-layout>
     @section('title', 'Menu List')
-    @section('breadcrumb')
-    <x-breadcrumb>
-        Menu List
-    </x-breadcrumb>
-    @endsection
-
+    @include('menu.breadcrumb.index')
     <div class="flex justify-between items-center !mt-3">
         <div>
             <p class="text-detail-heading">{{ Str::ucfirst(request()->get('ticket_status')) }} Menu List</p>
@@ -15,6 +10,7 @@
                 <div>
                     <x-forms.text-input id="unser_name_search" class="text-paragraph" placeholder="Search.." />
                 </div>
+                @can('menu create')
                 <div>
                     <x-actions.href href="{{ route('admin.menu.create') }}" class="inline-block">
                         Create Menu
@@ -24,13 +20,14 @@
                         </svg>
                     </x-actions.href>
                 </div>
+                @endcan
             </div>
         </div>
     </div>
 
     <div class="relative">
-        <table class="display nowrap" id="data-table" style="width: 100%;border:1px solid #ddd">
-            <thead style="background:#F3F4F6;">
+        <table class="display nowrap" id="data-table" style="width: 100%;border:none;">
+            <thead style="background:#F3F4F6; border:none">
                 <tr>
                     <th class="text-heading-dark !text-end w-[50px]">
                         <span class="flex gap-2 !justify-center !items-center">
@@ -40,14 +37,15 @@
                                 <path d="M8.3335 9.1665V14.1665" stroke="#5C5C5C" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
                                 <path d="M11.6665 9.1665V14.1665" stroke="#5C5C5C" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
                             </svg>
-                            <input type="checkbox" class="border text-center border-slate-200 rounded focus:ring-transparent p-1" style="background-color: #9b9b9b; accent-color: #5C5C5C;">
+                            <input id="checkbox1" type="checkbox" class="w-4 h-4 mr-3 rounded border border-base-500 focus:ring-transparent text-primary-400" />
                         </span>
                     </th>
                     <th class="text-heading-dark w-[50px]">Id</th>
                     <th class="text-heading-dark">Name</th>
                     <th class="text-heading-dark">Order</th>
                     <th class="text-heading-dark">Route</th>
-                    <th class="text-heading-dark">Role</th>
+                    <th class="text-heading-dark">Roles</th>
+                    <th class="text-heading-dark">Permissions</th>
                     <th class="text-heading-dark">Url</th>
                     <th class="text-heading-dark">Created</th>
                 </tr>
@@ -67,6 +65,7 @@
                 responsive: true,
                 searching: false,
                 scrollX: true,
+                lengthChange: false,
                 order: [
                     1, 'desc'
                 ],
@@ -101,6 +100,10 @@
                     {
                         data: 'role',
                         name: 'role'
+                    },
+                    {
+                        data: 'permission',
+                        name: 'permission'
                     },
                     {
                         data: 'url',

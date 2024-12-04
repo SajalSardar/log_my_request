@@ -1,17 +1,13 @@
 <x-app-layout>
     @section('title', 'Source List')
-    @section('breadcrumb')
-    <x-breadcrumb>
-        Source List
-    </x-breadcrumb>
-    @endsection
-
+    @include('source.breadcrumb.index')
     <div class="flex justify-between items-center !mt-3">
         <div>
             <p class="text-detail-heading">Source List</p>
         </div>
         <div class="flex-1 mt-1">
             <div class="flex justify-end gap-3">
+                @can('source create')
                 <div>
                     <x-actions.href href="{{ route('admin.source.create') }}" class="block">
                         Create Source
@@ -21,13 +17,14 @@
                         </svg>
                     </x-actions.href>
                 </div>
+                @endcan
             </div>
         </div>
     </div>
 
     <div class="relative">
-        <table class="display nowrap" id="data-table" style="width: 100%;border:1px solid #ddd">
-            <thead style="background:#F3F4F6;">
+        <table class="display nowrap" id="data-table" style="width: 100%;border:none;">
+            <thead style="background:#F3F4F6; border:none">
                 <tr>
                     <th class="text-heading-dark !text-end w-[50px]">
                         <span class="flex gap-1 !justify-center !items-center">
@@ -37,14 +34,13 @@
                                 <path d="M8.3335 9.1665V14.1665" stroke="#5C5C5C" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
                                 <path d="M11.6665 9.1665V14.1665" stroke="#5C5C5C" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
                             </svg>
-                            <input type="checkbox" class="border border-slate-200 rounded focus:ring-transparent p-1" style="background-color: #9b9b9b; accent-color: #5C5C5C;">
+                            <input id="checkbox1" type="checkbox" class="w-4 h-4 mr-3 rounded border border-base-500 focus:ring-transparent text-primary-400" />
                         </span>
                     </th>
                     <th class="text-heading-dark w-[50px]">Id</th>
                     <th class="text-heading-dark">Source Name</th>
                     <th class="text-heading-dark">Status</th>
                     <th class="text-heading-dark">Created at</th>
-                    <th class="text-heading-dark">Action</th>
                 </tr>
             </thead>
 
@@ -62,6 +58,7 @@
                 responsive: true,
                 searching: false,
                 scrollX: true,
+                lengthChange:false,
                 order: [
                     1, 'desc'
                 ],

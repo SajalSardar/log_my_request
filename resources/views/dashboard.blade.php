@@ -10,12 +10,12 @@
         <p>Create Request permission</p>
     @endcan --}}
 
-    @role('super-admin')
     <div class="mb-8 flex justify-between">
         <div>
             <h1 class="text-2xl font-inter font-bold text-[#333333]">Hello {{ auth()->user()->name }}!</h1>
             <p class="font-inter text-base font-normal text-[#5c5c5c]">Welcome to explore your dashboard here.</p>
         </div>
+        @can('request create')
         <div>
             <x-actions.href href="{{ route('admin.ticket.create') }}" class="flex items-center gap-1 text-heading-light">
                 <span>Create A Request</span>
@@ -24,7 +24,10 @@
                 </svg>
             </x-actions.href>
         </div>
+        @endcan
     </div>
+    
+    @can('request card view')
     <div class="grid sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
         <a href="{{ route('admin.ticket.all.list') }}">
             <div class="border border-base-500 rounded py-10">
@@ -152,117 +155,119 @@
             </div>
         </a>
     </div>
+    @endcan
+
+    @canany(['top requesters section view', 'top agents section view', 'top categories section view','top teams section view'])
     <div class="border border-base-500 rounded px-8 py-6 mt-[25px]">
         <div class="grid sm:grid-cols-1 md:grid-cols-4 lg:grid-cols-4 gap-6">
-            <div>
-                <div class="flex justify-between items-center mb-[15px]">
-                    <h3 class="font-inter font-semibold text-sm text-[#333]">Top 5 Requesters</h3>
-                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M7 17L17 7" stroke="#5C5C5C" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
-                        <path d="M9 7H17V15" stroke="#5C5C5C" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
-                    </svg>
+            @can('top requesters section view')
+                <div>
+                    <div class="flex justify-between items-center mb-[15px]">
+                        <h3 class="font-inter font-semibold text-sm text-[#333]">Top 5 Requesters</h3>
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M7 17L17 7" stroke="#5C5C5C" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+                            <path d="M9 7H17V15" stroke="#5C5C5C" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+                        </svg>
+                    </div>
+                    <table class="w-full">
+                        <thead class="w-full bg-[#F3F4F6]" style="border:1px solid #F3F4F6;border-radius:10px !important">
+                            <th class="text-start ps-10 font-inter font-semibold text-sm text-[#333]">Requesters</th>
+                            <th class="text-start font-inter font-semibold text-sm text-[#333]">Request</th>
+                        </thead>
+
+                        <tbody>
+                            @foreach ($traffic as $each)
+                            <tr style="border:1px solid #ddd">
+                                <td class="text-start ps-10 text-paragraph">{{ ucfirst($each['name']) }}</td>
+                                <td class="text-start text-paragraph">{{ ucfirst($each['total']) }}</td>
+                            </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
                 </div>
-                <table class="w-full">
-                    <thead class="w-full bg-[#F3F4F6]" style="border:1px solid #F3F4F6;border-radius:10px !important">
-                        <th class="text-start ps-10 font-inter font-semibold text-sm text-[#333]">Requesters</th>
-                        <th class="text-start font-inter font-semibold text-sm text-[#333]">Request</th>
-                    </thead>
+            @endcan
+            @can('top agents section view')
+                <div>
+                    <div class="flex justify-between items-center mb-[15px]">
+                        <h3 class="font-inter font-semibold text-sm text-[#333]">Top 5 Agents</h3>
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M7 17L17 7" stroke="#5C5C5C" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+                            <path d="M9 7H17V15" stroke="#5C5C5C" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+                        </svg>
+                    </div>
+                    <table class="w-full">
+                        <thead class="w-full bg-[#F3F4F6]" style="border:1px solid #F3F4F6;border-radius:10px !important">
+                            <th class="text-start ps-12 font-inter font-semibold text-sm text-[#333]">Agents</th>
+                            <th class="text-start font-inter font-semibold text-sm text-[#333]">Resolved</th>
+                        </thead>
 
-                    <tbody>
-                        @foreach ($traffic as $each)
-                        <tr style="border:1px solid #ddd">
-                            <td class="text-start ps-10 text-paragraph">{{ ucfirst($each['name']) }}</td>
-                            <td class="text-start text-paragraph">{{ ucfirst($each['total']) }}</td>
-                        </tr>
-                        @endforeach
-                    </tbody>
-                </table>
-            </div>
-
-            <div>
-                <div class="flex justify-between items-center mb-[15px]">
-                    <h3 class="font-inter font-semibold text-sm text-[#333]">Top 5 Agents</h3>
-                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M7 17L17 7" stroke="#5C5C5C" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
-                        <path d="M9 7H17V15" stroke="#5C5C5C" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
-                    </svg>
+                        <tbody>
+                            @foreach ($agents as $each)
+                            <tr style="border:1px solid #ddd">
+                                <td class="text-start ps-12 text-paragraph">{{ ucfirst($each['name']) }}</td>
+                                <td class="text-start text-paragraph">{{ ucfirst($each['total']) }}</td>
+                            </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
                 </div>
-                <table class="w-full">
-                    <thead class="w-full bg-[#F3F4F6]" style="border:1px solid #F3F4F6;border-radius:10px !important">
-                        <th class="text-start ps-12 font-inter font-semibold text-sm text-[#333]">Agents</th>
-                        <th class="text-start font-inter font-semibold text-sm text-[#333]">Resolved</th>
-                    </thead>
+            @endcan
+            @can('top categories section view')
+                <div>
+                    <div class="flex justify-between items-center mb-[15px]">
+                        <h3 class="font-inter font-semibold text-sm text-[#333]">Request by Categories</h3>
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M7 17L17 7" stroke="#5C5C5C" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+                            <path d="M9 7H17V15" stroke="#5C5C5C" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+                        </svg>
+                    </div>
+                    <table class="w-full">
+                        <thead class="w-full bg-[#F3F4F6]" style="border:1px solid #F3F4F6;border-radius:10px !important">
+                            <th class="text-start ps-12 font-inter font-semibold text-sm text-[#333]">Categories</th>
+                            <th class="text-start font-inter font-semibold text-sm text-[#333]">Request</th>
+                        </thead>
 
-                    <tbody>
-                        @foreach ($agents as $each)
-                        <tr style="border:1px solid #ddd">
-                            <td class="text-start ps-12 text-paragraph">{{ ucfirst($each['name']) }}</td>
-                            <td class="text-start text-paragraph">{{ ucfirst($each['total']) }}</td>
-                        </tr>
-                        @endforeach
-                    </tbody>
-                </table>
-            </div>
-
-            <div>
-                <div class="flex justify-between items-center mb-[15px]">
-                    <h3 class="font-inter font-semibold text-sm text-[#333]">Request by Categories</h3>
-                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M7 17L17 7" stroke="#5C5C5C" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
-                        <path d="M9 7H17V15" stroke="#5C5C5C" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
-                    </svg>
+                        <tbody>
+                            @foreach ($categories as $each)
+                            <tr style="border:1px solid #ddd">
+                                <td class="text-start ps-12 text-paragraph">{{ ucfirst($each['name']) }}</td>
+                                <td class="text-start text-paragraph">{{ ucfirst($each['total']) }}</td>
+                            </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
                 </div>
-                <table class="w-full">
-                    <thead class="w-full bg-[#F3F4F6]" style="border:1px solid #F3F4F6;border-radius:10px !important">
-                        <th class="text-start ps-12 font-inter font-semibold text-sm text-[#333]">Categories</th>
-                        <th class="text-start font-inter font-semibold text-sm text-[#333]">Request</th>
-                    </thead>
+            @endcan
+            @can('top teams section view')
+                <div>
+                    <div class="flex justify-between items-center mb-[15px]">
+                        <h3 class="font-inter font-semibold text-sm text-[#333]">Teams</h3>
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M7 17L17 7" stroke="#5C5C5C" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+                            <path d="M9 7H17V15" stroke="#5C5C5C" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+                        </svg>
+                    </div>
+                    <table class="w-full">
+                        <thead class="w-full bg-[#F3F4F6]" style="border:1px solid #F3F4F6;border-radius:10px !important">
+                            <th class="text-start ps-10 font-inter font-semibold text-sm text-[#333]">Teams</th>
+                            <th class="text-start font-inter font-semibold text-sm text-[#333]">Agents</th>
+                        </thead>
 
-                    <tbody>
-                        @foreach ($categories as $each)
-                        <tr style="border:1px solid #ddd">
-                            <td class="text-start ps-12 text-paragraph">{{ ucfirst($each['name']) }}</td>
-                            <td class="text-start text-paragraph">{{ ucfirst($each['total']) }}</td>
-                        </tr>
-                        @endforeach
-                    </tbody>
-                </table>
-            </div>
-
-            <div>
-                <div class="flex justify-between items-center mb-[15px]">
-                    <h3 class="font-inter font-semibold text-sm text-[#333]">Teams</h3>
-                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M7 17L17 7" stroke="#5C5C5C" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
-                        <path d="M9 7H17V15" stroke="#5C5C5C" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
-                    </svg>
+                        <tbody>
+                            @foreach ($teams as $each)
+                            <tr style="border:1px solid #ddd">
+                                <td class="text-start ps-10 text-paragraph">{{ ucfirst($each['name']) }}</td>
+                                <td class="text-start text-paragraph">{{ ucfirst($each['total']) }}</td>
+                            </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
                 </div>
-                <table class="w-full">
-                    <thead class="w-full bg-[#F3F4F6]" style="border:1px solid #F3F4F6;border-radius:10px !important">
-                        <th class="text-start ps-10 font-inter font-semibold text-sm text-[#333]">Teams</th>
-                        <th class="text-start font-inter font-semibold text-sm text-[#333]">Agents</th>
-                    </thead>
-
-                    <tbody>
-                        @foreach ($teams as $each)
-                        <tr style="border:1px solid #ddd">
-                            <td class="text-start ps-10 text-paragraph">{{ ucfirst($each['name']) }}</td>
-                            <td class="text-start text-paragraph">{{ ucfirst($each['total']) }}</td>
-                        </tr>
-                        @endforeach
-                    </tbody>
-                </table>
-            </div>
+            @endcan
         </div>
     </div>
-    @endrole
+    @endcanany
 
-    @if (Helper::roleWiseAccess('attendee'))
-    <p>attendee</p>
-    @endif
-    @if (Helper::roleWiseAccess('organizer'))
-    <p>organizer</p>
-    @endif
 
     @section('style')
     <style>

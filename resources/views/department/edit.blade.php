@@ -1,9 +1,5 @@
 <x-app-layout>
     @section('title', 'Update Department')
-    @section('breadcrumb')
-    <x-breadcrumb>
-        Update Department
-    </x-breadcrumb>
-    @endsection
+    @include('department.breadcrumb.update')
     <livewire:department.update-department :department="$department" />
 </x-app-layout>

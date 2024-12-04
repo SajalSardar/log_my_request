@@ -3,7 +3,7 @@
         @foreach ($data as $key => $item)
             <li>
                 <a href="{{ $item['route'] }}" class="flex items-center text-title">
-                    <span @if($loop->last) style="color: #5e666e !important;" @endif>
+                    <span @if($loop->last) class="text-primary-400" @endif>
                         {{ $item['title'] }}
                     </span>
                 </a>

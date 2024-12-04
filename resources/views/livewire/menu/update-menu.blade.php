@@ -1,9 +1,9 @@
 <form wire:submit="update" method="POST">
     <div class="grid lg:grid-cols-3 md:grid-cols-3 sm:grid-cols-1">
         <div class="flex justify-between mb-[24px]">
-            <h3 class="font-inter font-semibold text-[#333] text-[20px]">Update Menu</h3>
+            <h3 class="text-detail-heading">Update Menu</h3>
             <a href="{{ route('admin.menu.index') }}" class="flex items-center px-0 bg-transparent gap-1 text-heading-light text-paragraph hover:text-primary-400 transition-colors">
-                Go to Menu Lists
+                Menu Lists
                 <svg class="w-6 h-6" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <path d="M20 12H4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
                     <path d="M15 17C15 17 20 13.3176 20 12C20 10.6824 15 7 15 7" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
@@ -77,6 +77,25 @@
                             @endforeach
                         </x-forms.select2-select>
                         <x-input-error :messages="$errors->get('role')" class="mt-2" />
+                    </div>
+                </div>
+            </div>
+            <div class="grid lg:grid-cols-1 md:grid-cols-1 sm:grid-cols-1 sm:gap-1 md:gap-2">
+                <div class="pt-2 w-full">
+                    <x-forms.label for="permission">
+                        {{ __('Permission') }}
+                    </x-forms.label>
+                    <div wire:ignore>
+                        <x-forms.select2-select wire:model.defer="permission" id="permission" multiple>
+                            <option disabled>Select permission</option>
+                            @foreach ($permission_list as $list)
+                            @php
+                                $lists = $menu->permissions ? json_decode($menu->permissions, true): [];
+                            @endphp
+                            <option {{ in_array($list->name, $lists) ? 'selected' : '' }} value="{{ $list->name }}">{{ Str::ucfirst($list->name) }}</option>
+                            @endforeach
+                        </x-forms.select2-select>
+                        <x-input-error :messages="$errors->get('permission')" class="mt-2" />
                     </div>
                 </div>
             </div>
