@@ -1,5 +1,5 @@
 <x-app-layout>
     @section('title', 'Create Request Status')
     @include('ticketstatus.breadcrumb.create')
-    <livewire:ticketstatus.create-ticketstatus />
+    <livewire:ticket-status.create-ticket-status />
 </x-app-layout>
