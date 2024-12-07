@@ -10,7 +10,15 @@
                 'route' => '#',
             ],
             [
-                'title' => 'Roles',
+                'title' => 'Admin',
+                'route' => route('admin.role.index'),
+            ],
+            [
+                'title' => '/',
+                'route' => '#',
+            ],
+            [
+                'title' => 'Role',
                 'route' => route('admin.role.index'),
             ],
         ];

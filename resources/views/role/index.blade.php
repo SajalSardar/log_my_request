@@ -40,7 +40,7 @@
                      <th class="text-heading-dark w-[50px]">Id</th>
                      <th class="text-heading-dark">Role Name</th>
                      <th class="text-heading-dark">Permission</th>
-                     <th class="text-heading-dark">Created At</th>
+                     <th class="text-heading-dark">Created</th>
                  </tr>
              </thead>
 

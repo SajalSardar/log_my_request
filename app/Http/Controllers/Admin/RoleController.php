@@ -56,7 +56,7 @@ class RoleController extends Controller
                         $permissionsHtml .= '<a href="' . route('admin.role.edit', ['id' => $roles->id]) . '" class="ml-2 text-primary-400">more..</a>';
                         break;
                     }
-                    $permissionsHtml .= '<span class="inline-flex px-3 py-1 bg-inProgress-400/15 items-center text-paragraph !text-inProgress-400 ml-1 rounded">' . $permission->name . '</span>';
+                    $permissionsHtml .= '<span class="inline-flex px-3 py-1 bg-inProgress-400/10 items-center text-paragraph !text-inProgress-400 ml-1 rounded">' . $permission->name . '</span>';
                 }
 
                 return $permissionsHtml;

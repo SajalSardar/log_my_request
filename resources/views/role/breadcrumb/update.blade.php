@@ -10,7 +10,7 @@
                 'route' => '#',
             ],
             [
-                'title' => 'role',
+                'title' => 'Admin',
                 'route' => route('admin.role.index'),
             ],
             [
@@ -18,8 +18,15 @@
                 'route' => '#',
             ],
             [
-                'title' => 'Update',
-                'route' => '#'
+                'title' => 'Role',
+                'route' => route('admin.role.index'),
+            ],
+            [
+                'title' => '/',
+                'route' => '#',
+            ],            [
+                'title' => 'Update Role',
+                'route' => route('admin.role.create'),
             ],
         ];
     @endphp

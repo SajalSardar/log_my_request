@@ -71,7 +71,7 @@ class MenuController extends Controller
                 $rolesHtml = '';
                 $roles     = json_decode($menus->roles, true);
                 foreach ($roles as $role) {
-                    $rolesHtml .= '<span class="inline-flex px-3 py-1 bg-inProgress-400/15 !text-inProgress-400 items-center text-paragraph ml-1 rounded">' . $role . '</span>';
+                    $rolesHtml .= '<span class="inline-flex px-3 py-1 bg-inProgress-400/10 !text-inProgress-400 items-center text-paragraph ml-1 rounded">' . $role . '</span>';
                 }
                 return $rolesHtml;
             })
@@ -79,7 +79,7 @@ class MenuController extends Controller
                 $permissionsHtml = '';
                 $permissions     = $menus->permissions ? json_decode($menus->permissions, true) : [];
                 foreach ($permissions as $permission) {
-                    $permissionsHtml .= '<span class="inline-flex px-3 py-1 bg-paragraph/15 items-center text-paragraph ml-1 rounded">' . $permission . '</span>';
+                    $permissionsHtml .= '<span class="inline-flex px-3 py-1 bg-paragraph/10 items-center text-paragraph ml-1 rounded">' . $permission . '</span>';
                 }
                 return $permissionsHtml;
             })

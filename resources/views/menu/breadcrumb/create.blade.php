@@ -10,14 +10,23 @@
                 'route' => '#',
             ],
             [
+                'title' => 'Admin',
+                'route' => route('admin.menu.index'),
+            ],
+            [
+                'title' => '/',
+                'route' => '#',
+            ],
+            [
                 'title' => 'Menu',
                 'route' => route('admin.menu.index'),
             ],
             [
                 'title' => '/',
                 'route' => '#',
-            ],            [
-                'title' => 'Create',
+            ],
+            [
+                'title' => 'Create Menu',
                 'route' => route('admin.menu.create'),
             ],
         ];

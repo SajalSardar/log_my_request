@@ -3,7 +3,7 @@
     @include('adminuser.breadcrumb.index')
     <div class="flex justify-between items-center !mt-3">
         <div>
-            <p class="text-detail-heading">User List</p>
+            <p class="text-detail-heading">Users List</p>
         </div>
         <div class="flex-1 mt-1">
             <div class="flex justify-end gap-3">
@@ -47,8 +47,8 @@
                     <th class="text-heading-dark">User Name</th>
                     <th class="text-heading-dark">Email</th>
                     <th class="text-heading-dark">Roles</th>
-                    <th class="text-heading-dark">Created At</th>
-                    <th class="text-heading-dark">Action</th>
+                    <th class="text-heading-dark">Created</th>
+                    <th class="text-heading-dark"></th>
                 </tr>
             </thead>
 
