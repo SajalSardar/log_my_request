@@ -2,12 +2,7 @@
     @section('title')
     {{ $ticket?->title }}
     @endsection
-    @section('breadcrumb')
-    <x-breadcrumb>
-        {{ $ticket?->title }}
-    </x-breadcrumb>
-    @endsection
-
+    @include('ticket.breadcrumb.show', ['value' => 'Details'])
     <header class="mb-7">
         <span class="text-detail-heading">Request ID & Title: #{{ $ticket?->id }} ,
             {{ $ticket?->title }}</span>
