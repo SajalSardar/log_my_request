@@ -95,15 +95,16 @@ class Helper
     // }
     public static function getAllMenus()
     {
-        $menus = Menu::with(['submneus' => function ($q) {
-            $q->orderBy('order', 'asc')
-                ->where('status', 'active');
-        }])
+        $menus = Menu::with([
+            'submneus' => function ($q) {
+                $q->orderBy('order', 'asc')
+                    ->where('status', 'active');
+            }
+        ])
             ->where('parent_id', null)
             ->where('status', 'active')
             ->orderBy('order', 'asc')
             ->get();
-
         $user = User::where('id', Auth::id())->first();
 
         if (!$user->hasRole('super-admin')) {

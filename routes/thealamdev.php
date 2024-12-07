@@ -2,6 +2,8 @@
 
 use App\Http\Controllers\Admin\AdminUserController;
 use App\Http\Controllers\Admin\ConversationController;
+use App\Http\Controllers\Admin\Entity;
+use App\Http\Controllers\Admin\EntityController;
 use Illuminate\Support\Facades\Route;
 
 Route::middleware(['auth', 'locale', 'verified'])->prefix('dashboard')->name('admin.')->group(function () {
@@ -16,5 +18,9 @@ Route::middleware(['auth', 'locale', 'verified'])->prefix('dashboard')->name('ad
     Route::controller(ConversationController::class)->prefix('conversations')->name('conversation.')->group(function () {
         Route::post('replay/{conversation}', 'replay')->name('replay');
         Route::post('conversations/{ticket}', 'conversation')->name('ticket.conversation');
+    });
+
+    Route::controller(EntityController::class)->prefix('entities')->name('entity.')->group(function () {
+        Route::get('/{entity}', 'index')->name('index');
     });
 });

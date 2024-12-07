@@ -1,3 +1,4 @@
+@props(['value' => $value])
 <div>
     @php
         $response = [
@@ -10,16 +11,8 @@
                 'route' => '#',
             ],
             [
-                'title' => 'Requests',
-                'route' => route('admin.ticket.all.list'),
-            ],
-            [
-                'title' => '/',
+                'title' => $value,
                 'route' => '#',
-            ],
-            [
-                'title' => 'Create Request',
-                'route' => route('admin.ticket.create'),
             ]
         ];
     @endphp
