@@ -5,43 +5,13 @@
     @include('ticket.breadcrumb.show', ['value' => 'Details'])
     <header class="mb-7">
         <span class="text-detail-heading">Request ID & Title: #{{ $ticket?->id }} ,
-            {{ $ticket?->title }}</span>
+            {{ $ticket?->title }}
+        </span>
     </header>
 
     <div class="flex flex-wrap" id="tabs-id">
         <div class="w-full">
             @include('ticket/partials/tab_menu')
-            <div class="relative flex flex-col min-w-0 break-words bg-white w-full">
-                <div class="py-5 flex-auto">
-                    <div class="tab-content tab-space">
-                        <div class="block" id="tab-detail">
-                            <div class="grid lg:grid-cols-3 md:grid-cols-3 sm:grid-cols-1 sm:gap-3 md:gap-32 lg:gap-32">
-                                <div class="col-span-2">
-                                    @include('ticket/partials/details')
-                                    @if (!Auth::user()->hasRole(['requester', 'Requester']))
-                                        @include('ticket/partials/internal_note')
-                                    @endif
-                                </div>
-                                @if (!Auth::user()->hasRole(['requester', 'Requester']))
-                                    <div>
-                                        <!-- Edit Part Start !-->
-                                        <div class="mt-3">
-                                            @include('ticket/partials/sidebar_form')
-                                        </div>
-                                        <!-- Edit Part End !-->
-                                    </div>
-                                @endif
-                            </div>
-                        </div>
-                        <div class="hidden" id="tab-conversation">
-                            @include('ticket/partials/conversation')
-                        </div>
-                        <div class="hidden" id="tab-history">
-                            @include('ticket/partials/history')
-                        </div>
-                    </div>
-                </div>
-            </div>
         </div>
     </div>
 
@@ -54,7 +24,6 @@
     <style>
         .ck-editor__editable_inline {
             min-height: 200px;
-            /* Adjust the height to your preference */
         }
 
         .reply-box {
@@ -64,7 +33,6 @@
         .show {
             opacity: 1;
             max-height: 200px;
-            /* Adjust as needed for your textarea */
         }
     </style>
     @endsection
