@@ -10,6 +10,14 @@
                 'route' => '#',
             ],
             [
+                'title' => 'Settings',
+                'route' => route('admin.category.index'),
+            ],
+            [
+                'title' => '/',
+                'route' => '#',
+            ],
+            [
                 'title' => 'Category',
                 'route' => route('admin.category.index'),
             ],
@@ -17,7 +25,7 @@
                 'title' => '/',
                 'route' => '#',
             ],            [
-                'title' => 'Create',
+                'title' => 'Create Category',
                 'route' => route('admin.category.create'),
             ],
         ];

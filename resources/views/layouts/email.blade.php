@@ -90,14 +90,14 @@
             font-size: 14px;
             font-weight: 600;
             font-family: "Inter", sans-serif;
-            color: #5c5c5c;
+            color: #5e666e;
         }
 
         .text-caption {
             font-size: 14px;
             font-weight: 400;
             font-family: "Inter", sans-serif;
-            color: #5c5c5c;
+            color: #5e666e;
         }
     </style>
 </head>

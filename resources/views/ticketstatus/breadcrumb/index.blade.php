@@ -10,8 +10,16 @@
                 'route' => '#',
             ],
             [
-                'title' => 'Team',
-                'route' => route('admin.team.index'),
+                'title' => 'Settings',
+                'route' => route('admin.ticketstatus.index'),
+            ],
+            [
+                'title' => '/',
+                'route' => '#',
+            ],
+            [
+                'title' => 'Request Status',
+                'route' => route('admin.ticketstatus.index'),
             ],
         ];
     @endphp

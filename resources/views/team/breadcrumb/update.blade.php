@@ -10,7 +10,7 @@
                 'route' => '#',
             ],
             [
-                'title' => 'Team',
+                'title' => 'Settings',
                 'route' => route('admin.team.index'),
             ],
             [
@@ -18,8 +18,15 @@
                 'route' => '#',
             ],
             [
-                'title' => 'Update',
-                'route' => '#'
+                'title' => 'Team',
+                'route' => route('admin.team.index'),
+            ],
+            [
+                'title' => '/',
+                'route' => '#',
+            ],            [
+                'title' => 'Update Team',
+                'route' => '#',
             ],
         ];
     @endphp

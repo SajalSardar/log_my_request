@@ -10,14 +10,22 @@
                 'route' => '#',
             ],
             [
-                'title' => 'Ticket Status',
+                'title' => 'Settings',
+                'route' => route('admin.ticketstatus.index'),
+            ],
+            [
+                'title' => '/',
+                'route' => '#',
+            ],
+            [
+                'title' => 'Request Status',
                 'route' => route('admin.ticketstatus.index'),
             ],
             [
                 'title' => '/',
                 'route' => '#',
             ],            [
-                'title' => 'Create',
+                'title' => 'Create Request Status',
                 'route' => route('admin.ticketstatus.create'),
             ],
         ];

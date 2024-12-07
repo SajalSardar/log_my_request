@@ -26,9 +26,9 @@ class Helper
     public static function status(?string $status): string
     {
         if ($status == '1') {
-            return '<span class="inline-flex px-3 py-1 border border-resolved-400 !text-resolved-400 items-center text-paragraph ml-1 rounded"> Active </span>';
+            return '<span class="inline-flex px-3 py-1 border border-resolved-400 items-center text-sm font-inter ml-1 rounded text-resolved-400"> Active</span>';
         } else {
-            return '<span class="inline-flex px-3 py-1 border border-closed-400 !text-closed-400 items-center text-paragraph ml-1 rounded"> Inactive </span>';
+            return '<span class="inline-flex px-3 py-1 border border-closed-400 items-center text-sm font-inter ml-1 rounded text-closed-400"> Inactive </span>';
         }
     }
 
@@ -40,7 +40,7 @@ class Helper
     public static function badge(?string $string): string
     {
         $escapedString = htmlspecialchars($string, ENT_QUOTES, 'UTF-8');
-        return '<span class="inline-flex px-3 py-1 bg-inProgress-400/15 items-center text-paragraph ml-1 rounded">
+        return '<span class="inline-flex px-3 py-1 bg-inProgress-400/10 text-inProgress-400 items-center text-sm font-inter ml-1 rounded">
                 <span class="p-1">
                 ' . $escapedString . '
            </span></span>';
