@@ -447,7 +447,7 @@ class TicketService
                 return $data;
             })
             ->addColumn('request_age', function ($tickets) {
-                $data = '<div style="width:250px"><span class="text-paragraph">' . dayMonthYearHourMininteSecond($tickets?->created_at, $tickets?->resolved_at) . '</span></div>';
+                $data = '<div style="width:250px"><span class="text-paragraph">' . dayMonthYearHourMinuteSecond($tickets?->created_at, $tickets?->resolved_at) . '</span></div>';
                 return $data;
             })
             ->editColumn('due_date', function ($tickets) {

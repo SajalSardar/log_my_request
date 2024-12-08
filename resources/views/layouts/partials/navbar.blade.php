@@ -34,11 +34,14 @@
 
                 <div class="toggle-notification-box absolute w-96 h-96 bg-white border border-slate-300 rounded shadow top-12 right-0 sm:-right-10 overflow-auto" style="display: none">
                     @forelse (getTicketNotsNotify()->take(30) as $item)
-                    <a href="{{ route('admin.ticket.show',[$item->ticket_id, 'notify_id' =>$item->id ]) }}">
+                    <a href="{{ route('admin.ticket.show', [$item->ticket_id, 'notify_id' => $item->id]) }}">
                         <div class="p-4 flex items-center hover:bg-slate-200">
+                            @php
+                            echo avatar($item->note_type, 40, 40)
+                            @endphp
                             <div class="ml-4">
                                 @php
-                                $replaceString = str_replace('_'," ", $item->note_type)
+                                $replaceString = str_replace('_', " ", $item->note_type)
                                 @endphp
                                 <p class="text-sm text-gray-500">{{ Str::ucfirst($replaceString) }}</p>
                                 <p class="text-sm text-gray-500">{{ date('l h:i:a d M, Y', strtotime($item->created_at)) }}</p>
@@ -63,16 +66,29 @@
                     </svg>
                 </div>
                 <div class="toggle-menu absolute p-3 shadow w-[180px] rounded bg-white sm:right-12 z-50" style="top: 46px;display:none">
-                    <ul>
-                        <li class="py-2 cursor-pointer">
+                    <ul class="px-3">
+                        <li class="py-2 cursor-pointer flex items-center gap-2">
+                            @php
+                            echo avatar(name: Auth::user()->name, width: 24, height: 24);
+                            @endphp
                             <p href="#" class="text-title">
                                 {{ Auth::user()->name }}
                             </p>
                         </li>
-                        <li class="py-2 cursor-pointer">
+                        <li class="py-2 cursor-pointer flex items-center gap-2">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M22 12C22 17.5228 17.5228 22 12 22C6.47715 22 2 17.5228 2 12C2 6.47715 6.47715 2 12 2C17.5228 2 22 6.47715 22 12Z" stroke="#5E666E" stroke-width="1.5" />
+                                <path d="M14.75 9.5C14.75 11.0188 13.5188 12.25 12 12.25C10.4812 12.25 9.25 11.0188 9.25 9.5C9.25 7.98122 10.4812 6.75 12 6.75C13.5188 6.75 14.75 7.98122 14.75 9.5Z" stroke="#5E666E" stroke-width="1.5" />
+                                <path d="M5.5 19L6.0604 18.0193C6.95061 16.4615 8.60733 15.5 10.4017 15.5H13.5984C15.3927 15.5 17.0494 16.4615 17.9396 18.0193L18.5 19" stroke="#5E666E" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+                            </svg>
                             <a href="{{ route('profile.edit') }}" class="text-title">Profile</a>
                         </li>
-                        <li class="py-2 cursor-pointer">
+                        <li class="py-2 cursor-pointer flex items-center gap-2">
+                            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M9 21H5C4.46957 21 3.96086 20.7893 3.58579 20.4142C3.21071 20.0391 3 19.5304 3 19V5C3 4.46957 3.21071 3.96086 3.58579 3.58579C3.96086 3.21071 4.46957 3 5 3H9" stroke="#5e666e" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
+                                <path d="M16 17L21 12L16 7" stroke="#5e666e" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
+                                <path d="M21 12H9" stroke="#5e666e" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
+                            </svg>
                             <form action="{{ route('logout') }}" method="POST">
                                 @csrf
                                 <button type="submit" class="bg-transparent text-title">Logout</button>

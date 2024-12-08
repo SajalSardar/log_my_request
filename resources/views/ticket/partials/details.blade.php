@@ -1,34 +1,33 @@
-<!-- Infos Part Start !-->
-<div class="my-3 p-5 border border-slate-200 text-base-400 rounded">
+<div class="p-5 border border-slate-200 text-base-400 rounded">
     <div class="flex flex-wrap">
         <div class="basis-full sm:basis-full md:basis-1/2" style="border-right:2px solid #ddd">
             <ul>
-                <li>
+                <li class="pb-1">
                     <span class="text-heading-dark">Requester ID:
                     </span>
-                    <span class="text-title">#{{ $ticket?->user->id }}</span>
+                    <span class="text-paragraph">#{{ $ticket?->user->id }}</span>
                 </li>
-                <li>
+                <li class="pb-1">
                     <span class="text-heading-dark">Requester: </span>
-                    <span class="text-title">{{ $ticket?->user?->name }}</span>
+                    <span class="text-paragraph">{{ $ticket?->user?->name }}</span>
                 </li>
-                <li>
+                <li class="pb-1">
                     <span class="text-heading-dark">Phone: </span>
-                    <span class="text-title">{{ $ticket?->user?->phone }}</span>
+                    <span class="text-paragraph">{{ $ticket?->user?->phone }}</span>
                 </li>
-                <li>
+                <li class="pb-1">
                     <span class="text-heading-dark">Email: </span>
-                    <span class="text-title">{{ $ticket?->user?->email }}</span>
+                    <span class="text-paragraph">{{ $ticket?->user?->email }}</span>
                 </li>
-                <li>
+                <li class="pb-1">
                     <span class="text-heading-dark">Type: </span>
-                    <span class="text-title">{{ $ticket?->user->requester_type?->name }}</span>
+                    <span class="text-paragraph">{{ $ticket?->user->requester_type?->name }}</span>
                 </li>
             </ul>
         </div>
         <div class="basis-full sm:basis-full md:basis-1/2  sm:px-0 1 md:pl-10 lg:pl-6">
             <ul>
-                <li>
+                <li class="pb-1">
                     <span class="text-heading-dark">Status: </span>
                     <span class="text-heading-dark">
                         <span class="text-red-bg">
@@ -36,57 +35,47 @@
                         </span>
                     </span>
                 </li>
-                <li>
+                <li class="pb-1">
                     <span class="text-heading-dark">Priority:
                     </span>
                     <span class="text-heading-dark">
                         <span class="text-red-bg">{{ ucfirst($ticket?->priority) }}</span>
                     </span>
                 </li>
-                <li>
+                <li class="pb-1">
                     <span class="text-heading-dark">Due Data:
                     </span>
-                    <span class="text-title">{{ Helper::ISODate($ticket?->due_date) }}</span>
+                    <span class="text-paragraph">{{ Helper::ISODate($ticket?->due_date) }}</span>
                 </li>
-                <li>
+                <li class="pb-1">
                     <span class="text-heading-dark">Category:
                     </span>
-                    <span class="text-title">{{ $ticket?->category?->name }}</span>
+                    <span class="text-paragraph">{{ $ticket?->category?->name }}</span>
                 </li>
-                <li>
+                <li class="pb-1">
                     <span class="text-heading-dark">Request Age:
                     </span>
-                    <span class="text-title">{{ dayMonthYearHourMininteSecond($ticket?->created_at, $ticket?->resolved_at, true, true, true, true, true, true) }}</span>
+                    <span class="text-paragraph">{{ dayMonthYearHourMinuteSecond($ticket?->created_at, $ticket?->resolved_at) }}</span>
                 </li>
             </ul>
         </div>
     </div>
 
 </div>
-<!-- Infos Part End !-->
 
-<!-- Edit & Favorite Part Start !-->
-<div class="flex justify-between">
+<div class="flex justify-between mt-4">
     <p class="text-detail-heading">Request Description</p>
 </div>
-<!-- Edit & Favorite Part End !-->
 
-<!-- Description Part Start !-->
-<div class="mt-1 p-4 border border-base-500 rounded">
-    <p class="text-paragraph text-justify">
-        {!! $ticket?->description !!}
-    </p>
+<div class="mt-1 p-4 border border-base-500 rounded descriptionBox">
+    {!! $ticket?->description !!}
 </div>
-<!-- Description Part End !-->
 
-<!-- Attachment Part Start !-->
+@if ($ticket->images && $ticket?->images->count() > 0)
 <div class="flex items-center mt-9">
     <div class="flex items-center">
-        @if ($ticket->images && $ticket?->images->count() > 0)
         <p class="text-detail-heading me-3" style="width: 110px;">Attached File:</p>
-        @endif
         <div class="custom_file flex flex-wrap gap-5">
-
             @if ($ticket->images && $ticket?->images->count() > 0)
             @foreach ($ticket->images as $image)
             @php
@@ -134,7 +123,7 @@
                         </svg>
                     </div>
                 </a>
-                <form action="{{ route('admin.ticket.trashFile',['file' => $image->id]) }}" method="POST">
+                <form action="{{ route('admin.ticket.trashFile', ['file' => $image->id]) }}" method="POST">
                     @csrf
                     @method('DELETE')
                     <button class="absolute -top-4 -right-4 bg-[#eee] hover:bg-[#d6d6d6] z-40 p-2 rounded-full">
@@ -151,3 +140,4 @@
         </div>
     </div>
 </div>
+@endif

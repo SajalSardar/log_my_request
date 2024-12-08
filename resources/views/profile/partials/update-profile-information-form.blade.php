@@ -68,6 +68,34 @@
             <x-input-error class="mt-2" :messages="$errors->get('designation')" />
         </div>
     </div>
+    <div class="grid md:grid-cols-2 sm:grid-cols-1 lg:gap-3 sm:gap-1 md:gap-2 mb-3">
+        <div class="w-full">
+            <x-input-label for="department" :value="__('Department')" />
+            <x-forms.select-input name="department" id="department" class="mt-1">
+                <option value="">Select Department</option>
+                @foreach ($departments as $each)
+                <option value="{{ $each->id }}">
+                    {{ $each->name }}
+                </option>
+                @endforeach
+            </x-forms.select-input>
+            <x-input-error class="mt-2" :messages="$errors->get('department')" />
+        </div>
+
+        <div class="w-full">
+            <x-input-label for="team" :value="__('Team')" />
+            <x-forms.select-input name="team" id="team" class="mt-1">
+                <option value="">Select Team</option>
+                @foreach ($teams as $each)
+                <option value="{{ $each->id }}">
+                    {{ $each?->name }}
+                </option>
+                @endforeach
+            </x-forms.select-input>
+            <x-input-error class="mt-2" :messages="$errors->get('team')" />
+        </div>
+
+    </div>
 
     <div class="mt-6">
         <x-primary-button>{{ __('Save') }}</x-primary-button>

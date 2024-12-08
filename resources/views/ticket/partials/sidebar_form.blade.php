@@ -20,7 +20,7 @@
                     </div>
                 </div>
                
-                <div class="grid md:grid-cols-1 sm:grid-cols-2 sm:gap-1 md:gap-3">
+                <div class="grid">
                     <div class="mt-3">
                         <x-forms.label for="category_id" required="yes">
                             {{ __('Category') }}
@@ -45,8 +45,7 @@
                     </div>
                 </div>
 
-                <div class="grid md:grid-cols-1 sm:grid-cols-2 sm:gap-1 md:gap-3 hidden" id="sub_category_div">
-
+                <div class="grid hidden" id="sub_category_div">
                     <div class="mt-3">
                         <x-forms.label for="sub_category_id" required="yes">
                             {{ __('Sub Category') }}
@@ -64,9 +63,7 @@
                     </div>
                 </div>
 
-
-                <div class="grid md:grid-cols-1 sm:grid-cols-2 sm:gap-1 md:gap-3">
-
+                <div class="grid">
                     <div class="mt-3">
                         <x-forms.label for="ticket_status_id" required="yes">
                             {{ __('Status') }}
@@ -86,8 +83,7 @@
                     </div>
                 </div>
 
-                <div class="grid md:grid-cols-1 sm:grid-cols-2 sm:gap-1 md:gap-3">
-
+                <div class="grid">
                     <div class="mt-3">
                         <x-forms.label for="department_id" required="yes">
                             {{ __('Department') }}
@@ -107,7 +103,8 @@
                         <x-input-error :messages="$errors->get('department_id')" class="mt-2" />
                     </div>
                 </div>
-                <div class="grid md:grid-cols-2 sm:grid-cols-2 sm:gap-1 md:gap-3">
+
+                <div class="grid lg:grid-cols-2 md:grid-cols-2 sm:grid-cols-1 sm:gap-1 md:gap-3">
                     <div class="mt-3">
                         <x-forms.label for="team_id" required="yes">
                             {{ __('Assign Team') }}
@@ -126,7 +123,6 @@
                             </x-forms.select-input>
                         @endif
                         
-
                         <x-input-error :messages="$errors->get('team_id')" class="mt-2" />
                     </div>
                     <div class="mt-3">

@@ -8,16 +8,11 @@
             {{ $ticket?->title }}
         </span>
     </header>
-
-    <div class="flex flex-wrap" id="tabs-id">
-        <div class="w-full">
-            @include('ticket/partials/tab_menu')
-        </div>
-    </div>
-
+    
+    @include('ticket/partials/tab_menu')
     @if (!Auth::user()->hasRole(['requester', 'Requester']))
-        @include('ticket/partials/requester_offcanvas')
-        @include('ticket/partials/request_offcanvas')
+    @include('ticket/partials/requester_offcanvas')
+    @include('ticket/partials/request_offcanvas')
     @endif
 
     @section('style')
@@ -40,7 +35,7 @@
     @section('script')
     <script>
         let team = document.querySelector('#team');
-        team.addEventListener('change', function (e) {
+        team.addEventListener('change', function(e) {
             let team_id = e.target.value;
             let ticket_id = '@json($ticket->id)';
             $.ajax({
@@ -52,7 +47,7 @@
                     team_id: team_id,
                     _token: "{{ csrf_token() }}"
                 },
-                success: function (response) {
+                success: function(response) {
                     let ownerSelect = $('select[name="owner_id"]');
                     ownerSelect.find('option:not(:first)').remove();
                     response.forEach(element => {
@@ -105,12 +100,12 @@
         });
 
 
-        $(window).on('load', function () {
+        $(window).on('load', function() {
             let category_id = "{{ $ticket->category_id }}";
             select_sub_category(category_id);
         });
 
-        $(document).on('change', '#category_id', function () {
+        $(document).on('change', '#category_id', function() {
             let category_id = $(this).val();
             select_sub_category(category_id);
         });
@@ -127,7 +122,7 @@
                 data: {
                     category_id: category_id,
                 },
-                success: function (response) {
+                success: function(response) {
                     if (response) {
                         let sub_category_div = $('#sub_category_div');
                         let sub_category_select = $('#sub_category_id');
@@ -137,7 +132,7 @@
                             sub_category_div.removeClass('hidden');
 
                             let options = '<option value>Select subcategory</option>';
-                            response.forEach(function (subcategory) {
+                            response.forEach(function(subcategory) {
                                 let select = subcategory.id == sub_category_id ? "selected" :
                                     "";
                                 options +=
@@ -151,13 +146,13 @@
                         alert('User data could not be retrieved. Please try again.');
                     }
                 },
-                error: function () {
+                error: function() {
                     alert('There was an error processing the request.');
                 }
             });
         }
 
-        $(document).on('change', '#department', function () {
+        $(document).on('change', '#department', function() {
             let department_id = $(this).val();
             let team_id = "{{ $ticket->team_id }}";
             let url = "{{ route('admin.ticket.department.wise.team') }}";
@@ -170,13 +165,13 @@
                 data: {
                     department_id: department_id,
                 },
-                success: function (response) {
+                success: function(response) {
                     if (response) {
 
                         if (response && response.length > 0) {
 
                             let options = '<option value>Select Team</option>';
-                            response.forEach(function (team) {
+                            response.forEach(function(team) {
                                 let select = team.id == team_id ? "selected" : "";
                                 options +=
                                     `<option value="${team.id}" ${select}>${team.name}</option>`;
@@ -187,13 +182,13 @@
                         alert('User data could not be retrieved. Please try again.');
                     }
                 },
-                error: function () {
+                error: function() {
                     alert('There was an error processing the request.');
                 }
             });
         });
 
-        $(document).on('change', '#userOnChabge', function () {
+        $(document).on('change', '#userOnChabge', function() {
             let user_id = $(this).val();
             let url = "{{ route('admin.get.user.by.id') }}";
             $.ajax({
@@ -203,7 +198,7 @@
                 data: {
                     user_id: user_id,
                 },
-                success: function (response) {
+                success: function(response) {
                     if (response) {
                         let requester_name = $('#requester_name'),
                             requester_email = $('#requester_email'),
