@@ -226,6 +226,16 @@ class TicketController extends Controller
         return back();
     }
 
+    public function bluckDelete(Request $request){
+        // return $request;
+        Gate::authorize('delete', Ticket::class);
+        foreach($request->request_id as $request_id){
+            Ticket::where('id', $request_id)->delete();
+        }
+        flash()->success('Ticket has been trashed');
+        return back();
+    }
+
     /**
      * Delete file of the model
      * @param Ticket $ticket
