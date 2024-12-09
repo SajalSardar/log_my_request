@@ -2,10 +2,10 @@
 
     @if (Route::is('admin.ticket.list.active.memode'))
     @section('title', 'My Request List')
-    @include('ticket.breadcrumb.index', ['value' => 'Assign to Me'])
+    @include('ticket.breadcrumb.index', ['value' => 'Requests Assigned to Me'])
     @elseif(request()->has('request_status'))
-    @section('title', Str::ucfirst(request()->get('request_status')) . ' Request')
-    @include('ticket.breadcrumb.index', ['value' => Str::ucfirst(request()->get('request_status')) . ' Request'])
+    @section('title', Str::ucfirst(request()->get('request_status')) . ' Requests')
+    @include('ticket.breadcrumb.index', ['value' => Str::ucfirst(request()->get('request_status')) . ' Requests'])
     @else
     @section('title', 'All Request List')
     @include('ticket.breadcrumb.index', ['value' => 'All Requests'])
@@ -14,9 +14,9 @@
     <div class="lg:flex md:flex lg:justify-between md:justify-between lg:items-center md:items-center">
         <div class="lg:mb-0 sm:mb-3">
             @if (Route::is('admin.ticket.list.active.memode'))
-            <h2 class="text-detail-heading">My Request List</h2>
+            <h2 class="text-detail-heading">My Requests</h2>
             @elseIf(request()->has('request_status'))
-            <h2 class="text-detail-heading">{{ camelCase(request()->get('request_status')) }} Request</h2>
+            <h2 class="text-detail-heading">{{ camelCase(request()->get('request_status')) }} Requests</h2>
             @else
             <h2 class="text-detail-heading">All Requests</h2>
             @endif

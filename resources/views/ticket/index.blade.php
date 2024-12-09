@@ -17,7 +17,7 @@
                             <span class="pl-2 arrow">
                                 <!-- Arrow down -->
                                 <svg width="15" height="5" viewBox="0 0 15 5" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                    <path d="M0 0L5 5L10 0H0Z" fill="#666666" />
+                                    <path d="M0 0L5 5L10 0H0Z" fill="#5e666e" />
                                 </svg>
                             </span>
                         </div>
@@ -109,9 +109,9 @@
                                 <td class="relative">
                                     <button onclick="toggleAction('{{ $ticket->id }}')" class="p-3 hover:bg-slate-100 rounded-full">
                                         <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                            <path d="M11.9922 12H12.0012" stroke="#666666" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" />
-                                            <path d="M11.9844 18H11.9934" stroke="#666666" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" />
-                                            <path d="M12 6H12.009" stroke="#666666" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" />
+                                            <path d="M11.9922 12H12.0012" stroke="#5e666e" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" />
+                                            <path d="M11.9844 18H11.9934" stroke="#5e666e" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" />
+                                            <path d="M12 6H12.009" stroke="#5e666e" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" />
                                         </svg>
                                     </button>
                                     <div id="action-{{ $ticket->id }}" class="shadow-lg z-30 absolute top-5 right-16" style="display: none">
@@ -154,12 +154,12 @@
             if (submenu.style.display === 'list-item') {
                 submenu.style.display = 'none';
                 toggleIcon.innerHTML = `<svg width="5" height="15" viewBox="0 0 5 15" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                                <path d="M0 0L5 5L0 10V0Z" fill="#666666" />
+                                                <path d="M0 0L5 5L0 10V0Z" fill="#5e666e" />
                                             </svg>`;
             } else {
                 submenu.style.display = 'list-item';
                 toggleIcon.innerHTML = `<svg width="15" height="5" viewBox="0 0 15 5" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                            <path d="M0 0L5 5L10 0H0Z" fill="#666666"/>
+                                            <path d="M0 0L5 5L10 0H0Z" fill="#5e666e"/>
                                             </svg>`;
             }
         }

@@ -10,6 +10,14 @@
                 'route' => '#',
             ],
             [
+                'title' => 'Settings',
+                'route' => route('admin.team.index'),
+            ],
+            [
+                'title' => '/',
+                'route' => '#',
+            ],
+            [
                 'title' => 'Team',
                 'route' => route('admin.team.index'),
             ],

@@ -25,11 +25,11 @@
                     <button onclick="toggleAction({{ $each?->id }})" class="p-3 hover:bg-slate-100 rounded-full">
                         <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
                             xmlns="http://www.w3.org/2000/svg">
-                            <path d="M11.9922 12H12.0012" stroke="#666666" stroke-width="2.5" stroke-linecap="round"
+                            <path d="M11.9922 12H12.0012" stroke="#5e666e" stroke-width="2.5" stroke-linecap="round"
                                 stroke-linejoin="round"></path>
-                            <path d="M11.9844 18H11.9934" stroke="#666666" stroke-width="2.5" stroke-linecap="round"
+                            <path d="M11.9844 18H11.9934" stroke="#5e666e" stroke-width="2.5" stroke-linecap="round"
                                 stroke-linejoin="round"></path>
-                            <path d="M12 6H12.009" stroke="#666666" stroke-width="2.5" stroke-linecap="round"
+                            <path d="M12 6H12.009" stroke="#5e666e" stroke-width="2.5" stroke-linecap="round"
                                 stroke-linejoin="round"></path>
                         </svg>
                     </button>

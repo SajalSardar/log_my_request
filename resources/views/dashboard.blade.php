@@ -1,19 +1,10 @@
 <x-app-layout>
     @section('title', 'Dashboard')
-    @section('breadcrumb')
-    <x-breadcrumb>
-
-    </x-breadcrumb>
-    @endsection
-{{-- 
-    @can('request create')
-        <p>Create Request permission</p>
-    @endcan --}}
-
+    @include('breadcrumb')
     <div class="mb-8 flex justify-between">
         <div>
-            <h1 class="text-2xl font-inter font-bold text-[#333333]">Hello {{ auth()->user()->name }}!</h1>
-            <p class="font-inter text-base font-normal text-[#5c5c5c]">Welcome to explore your dashboard here.</p>
+            <h1 class="!text-2xl text-detail-heading">Hello {{ auth()->user()->name }}!</h1>
+            <p class="text-paragraph">Welcome to explore your dashboard here.</p>
         </div>
         @can('request create')
         <div>
@@ -26,7 +17,7 @@
         </div>
         @endcan
     </div>
-    
+
     @can('request card view')
     <div class="grid sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
         <a href="{{ route('admin.ticket.all.list') }}">
@@ -43,8 +34,8 @@
                     $allRequests = $state->pluck('count')->sum();
                     @endphp
                     <div class="mt-3">
-                        <h4 class="font-inter text-2xl font-semibold text-black-400">{{ $allRequests }}</h4>
-                        <p class="text-base font-inter font-normal text-black-400">All Requests</p>
+                        <h4 class="!text-2xl text-detail-heading">{{ $allRequests }}</h4>
+                        <p class="text-paragraph">All Requests</p>
                     </div>
                 </div>
             </div>
@@ -60,8 +51,8 @@
                         </svg>
                     </div>
                     <div class="mt-3">
-                        <h4 class="font-inter text-2xl font-semibold text-black-400">{{ $state->pluck('count')[0] }}</h4>
-                        <p class="text-base font-inter font-normal text-black-400">{{ ucfirst($state->pluck('name')[0]) }} Requests</p>
+                        <h4 class="!text-2xl text-detail-heading">{{ $state->pluck('count')[0] }}</h4>
+                        <p class="text-paragraph">{{ ucfirst($state->pluck('name')[0]) }} Requests</p>
                     </div>
                 </div>
             </div>
@@ -78,8 +69,8 @@
                         </svg>
                     </div>
                     <div class="mt-3">
-                        <h4 class="font-inter text-2xl font-semibold text-black-400">{{ $state->pluck('count')[1] }}</h4>
-                        <p class="text-base font-inter font-normal text-black-400">{{ ucfirst($state->pluck('name')[1]) }} Requests</p>
+                        <h4 class="!text-2xl text-detail-heading">{{ $state->pluck('count')[1] }}</h4>
+                        <p class="text-paragraph">{{ ucfirst($state->pluck('name')[1]) }} Requests</p>
                     </div>
                 </div>
             </div>
@@ -90,7 +81,7 @@
             <div class="mt-11 flex items-center justify-between">
                 <div class="value">
                     @foreach ($chart as $item)
-                    <p class="text-title pb-2">{{ $item->title }} :
+                    <p class="text-paragraph pb-2">{{ $item->title }} :
                         <span class="text-sm font-semibold" style="color: {{ $item->color }};">
                             {{ $item->value }}%
                         </span>
@@ -99,7 +90,7 @@
                 </div>
                 <div class="chart-container">
                     <svg id="circularChart" width="152" height="152" viewBox="0 0 36 36" class="circular-chart">
-                        <text x="18" y="20.35" text-anchor="middle" font-size="4" fill="#333">Requests</text>
+                        <text x="18" y="20.35" text-anchor="middle" font-size="4" fill="#5E666E">Requests</text>
                     </svg>
                 </div>
             </div>
@@ -115,8 +106,8 @@
                         </svg>
                     </div>
                     <div class="mt-3">
-                        <h4 class="font-inter text-2xl font-semibold text-black-400">{{ $state->pluck('count')[2] }}</h4>
-                        <p class="text-base font-inter font-normal text-black-400">{{ ucfirst($state->pluck('name')[2]) }} Requests</p>
+                        <h4 class="!text-2xl text-detail-heading">{{ $state->pluck('count')[2] }}</h4>
+                        <p class="text-paragraph">{{ ucfirst($state->pluck('name')[2]) }} Requests</p>
                     </div>
                 </div>
             </div>
@@ -132,8 +123,8 @@
                         </svg>
                     </div>
                     <div class="mt-3">
-                        <h4 class="font-inter text-2xl font-semibold text-black-400">{{ $state->pluck('count')[3] }}</h4>
-                        <p class="text-base font-inter font-normal text-black-400">{{ ucfirst($state->pluck('name')[3]) }} Requests</p>
+                        <h4 class="!text-2xl text-detail-heading">{{ $state->pluck('count')[3] }}</h4>
+                        <p class="text-paragraph">{{ ucfirst($state->pluck('name')[3]) }} Requests</p>
                     </div>
                 </div>
             </div>
@@ -148,8 +139,8 @@
                         </svg>
                     </div>
                     <div class="mt-3">
-                        <h4 class="font-inter text-2xl font-semibold text-black-400">{{ $state->pluck('count')[4] }}</h4>
-                        <p class="text-base font-inter font-normal text-black-400">{{ ucfirst($state->pluck('name')[4]) }} Requests</p>
+                        <h4 class="!text-2xl text-detail-heading">{{ $state->pluck('count')[4] }}</h4>
+                        <p class="text-paragraph">{{ ucfirst($state->pluck('name')[4]) }} Requests</p>
                     </div>
                 </div>
             </div>
@@ -157,117 +148,125 @@
     </div>
     @endcan
 
-    @canany(['top requesters section view', 'top agents section view', 'top categories section view','top teams section view'])
+    @canany(['top requesters section view', 'top agents section view', 'top categories section view', 'top teams section view'])
     <div class="border border-base-500 rounded px-8 py-6 mt-[25px]">
         <div class="grid sm:grid-cols-1 md:grid-cols-4 lg:grid-cols-4 gap-6">
             @can('top requesters section view')
-                <div>
-                    <div class="flex justify-between items-center mb-[15px]">
-                        <h3 class="font-inter font-semibold text-sm text-[#333]">Top 5 Requesters</h3>
+            <div>
+                <div class="flex justify-between items-center mb-[15px]">
+                    <h3 class="text-title font-medium">Top 5 Requesters</h3>
+                    <a href="{{ route('admin.entity.index',['entity' => 'requesters']) }}">
                         <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M7 17L17 7" stroke="#5C5C5C" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
-                            <path d="M9 7H17V15" stroke="#5C5C5C" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+                            <path d="M7 17L17 7" stroke="#5e666e" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+                            <path d="M9 7H17V15" stroke="#5e666e" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
                         </svg>
-                    </div>
-                    <table class="w-full">
-                        <thead class="w-full bg-[#F3F4F6]" style="border:1px solid #F3F4F6;border-radius:10px !important">
-                            <th class="text-start ps-10 font-inter font-semibold text-sm text-[#333]">Requesters</th>
-                            <th class="text-start font-inter font-semibold text-sm text-[#333]">Request</th>
-                        </thead>
+                    </a>
 
-                        <tbody>
-                            @foreach ($traffic as $each)
-                            <tr style="border:1px solid #ddd">
-                                <td class="text-start ps-10 text-paragraph">{{ ucfirst($each['name']) }}</td>
-                                <td class="text-start text-paragraph">{{ ucfirst($each['total']) }}</td>
-                            </tr>
-                            @endforeach
-                        </tbody>
-                    </table>
                 </div>
+                <table class="w-full">
+                    <thead class="w-full bg-[#F3F4F6]" style="border:1px solid #F3F4F6;border-radius:10px !important">
+                        <th class="text-start ps-10 text-title font-medium">Requesters</th>
+                        <th class="text-start text-title font-medium">Request</th>
+                    </thead>
+
+                    <tbody>
+                        @foreach ($traffic as $each)
+                        <tr style="border:1px solid #ddd">
+                            <td class="text-start ps-10 text-paragraph">{{ ucfirst($each['name']) }}</td>
+                            <td class="text-start text-paragraph">{{ ucfirst($each['total']) }}</td>
+                        </tr>
+                        @endforeach
+                    </tbody>
+                </table>
+            </div>
             @endcan
             @can('top agents section view')
-                <div>
-                    <div class="flex justify-between items-center mb-[15px]">
-                        <h3 class="font-inter font-semibold text-sm text-[#333]">Top 5 Agents</h3>
+            <div>
+                <div class="flex justify-between items-center mb-[15px]">
+                    <h3 class="text-title font-medium">Top 5 Agents</h3>
+                    <a href="{{ route('admin.entity.index',['entity' => 'agents']) }}">
                         <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M7 17L17 7" stroke="#5C5C5C" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
-                            <path d="M9 7H17V15" stroke="#5C5C5C" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+                            <path d="M7 17L17 7" stroke="#5e666e" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+                            <path d="M9 7H17V15" stroke="#5e666e" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
                         </svg>
-                    </div>
-                    <table class="w-full">
-                        <thead class="w-full bg-[#F3F4F6]" style="border:1px solid #F3F4F6;border-radius:10px !important">
-                            <th class="text-start ps-12 font-inter font-semibold text-sm text-[#333]">Agents</th>
-                            <th class="text-start font-inter font-semibold text-sm text-[#333]">Resolved</th>
-                        </thead>
-
-                        <tbody>
-                            @foreach ($agents as $each)
-                            <tr style="border:1px solid #ddd">
-                                <td class="text-start ps-12 text-paragraph">{{ ucfirst($each['name']) }}</td>
-                                <td class="text-start text-paragraph">{{ ucfirst($each['total']) }}</td>
-                            </tr>
-                            @endforeach
-                        </tbody>
-                    </table>
+                    </a>
                 </div>
+                <table class="w-full">
+                    <thead class="w-full bg-[#F3F4F6]" style="border:1px solid #F3F4F6;border-radius:10px !important">
+                        <th class="text-start ps-12 text-title font-medium">Agents</th>
+                        <th class="text-start text-title font-medium">Resolved</th>
+                    </thead>
+
+                    <tbody>
+                        @foreach ($agents as $each)
+                        <tr style="border:1px solid #ddd">
+                            <td class="text-start ps-12 text-paragraph">{{ ucfirst($each['name']) }}</td>
+                            <td class="text-start text-paragraph">{{ ucfirst($each['total']) }}</td>
+                        </tr>
+                        @endforeach
+                    </tbody>
+                </table>
+            </div>
             @endcan
             @can('top categories section view')
-                <div>
-                    <div class="flex justify-between items-center mb-[15px]">
-                        <h3 class="font-inter font-semibold text-sm text-[#333]">Request by Categories</h3>
+            <div>
+                <div class="flex justify-between items-center mb-[15px]">
+                    <h3 class="text-title font-medium">Request by Categories</h3>
+                    <a href="{{ route('admin.entity.index',['entity' => 'categories']) }}">
                         <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M7 17L17 7" stroke="#5C5C5C" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
-                            <path d="M9 7H17V15" stroke="#5C5C5C" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+                            <path d="M7 17L17 7" stroke="#5e666e" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+                            <path d="M9 7H17V15" stroke="#5e666e" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
                         </svg>
-                    </div>
-                    <table class="w-full">
-                        <thead class="w-full bg-[#F3F4F6]" style="border:1px solid #F3F4F6;border-radius:10px !important">
-                            <th class="text-start ps-12 font-inter font-semibold text-sm text-[#333]">Categories</th>
-                            <th class="text-start font-inter font-semibold text-sm text-[#333]">Request</th>
-                        </thead>
-
-                        <tbody>
-                            @foreach ($categories as $each)
-                            <tr style="border:1px solid #ddd">
-                                <td class="text-start ps-12 text-paragraph">{{ ucfirst($each['name']) }}</td>
-                                <td class="text-start text-paragraph">{{ ucfirst($each['total']) }}</td>
-                            </tr>
-                            @endforeach
-                        </tbody>
-                    </table>
+                    </a>
                 </div>
+                <table class="w-full">
+                    <thead class="w-full bg-[#F3F4F6]" style="border:1px solid #F3F4F6;border-radius:10px !important">
+                        <th class="text-start ps-12 text-title font-medium">Categories</th>
+                        <th class="text-start text-title font-medium">Request</th>
+                    </thead>
+
+                    <tbody>
+                        @foreach ($categories as $each)
+                        <tr style="border:1px solid #ddd">
+                            <td class="text-start ps-12 text-paragraph">{{ ucfirst($each['name']) }}</td>
+                            <td class="text-start text-paragraph">{{ ucfirst($each['total']) }}</td>
+                        </tr>
+                        @endforeach
+                    </tbody>
+                </table>
+            </div>
             @endcan
             @can('top teams section view')
-                <div>
-                    <div class="flex justify-between items-center mb-[15px]">
-                        <h3 class="font-inter font-semibold text-sm text-[#333]">Teams</h3>
+            <div>
+                <div class="flex justify-between items-center mb-[15px]"> 
+                    <h3 class="text-title font-medium">Teams</h3>
+                    <a href="{{ route('admin.entity.index',['entity' => 'teams']) }}">
                         <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M7 17L17 7" stroke="#5C5C5C" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
-                            <path d="M9 7H17V15" stroke="#5C5C5C" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+                            <path d="M7 17L17 7" stroke="#5e666e" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+                            <path d="M9 7H17V15" stroke="#5e666e" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
                         </svg>
-                    </div>
-                    <table class="w-full">
-                        <thead class="w-full bg-[#F3F4F6]" style="border:1px solid #F3F4F6;border-radius:10px !important">
-                            <th class="text-start ps-10 font-inter font-semibold text-sm text-[#333]">Teams</th>
-                            <th class="text-start font-inter font-semibold text-sm text-[#333]">Agents</th>
-                        </thead>
-
-                        <tbody>
-                            @foreach ($teams as $each)
-                            <tr style="border:1px solid #ddd">
-                                <td class="text-start ps-10 text-paragraph">{{ ucfirst($each['name']) }}</td>
-                                <td class="text-start text-paragraph">{{ ucfirst($each['total']) }}</td>
-                            </tr>
-                            @endforeach
-                        </tbody>
-                    </table>
+                    </a>
                 </div>
+                <table class="w-full">
+                    <thead class="w-full bg-[#F3F4F6]" style="border:1px solid #F3F4F6;border-radius:10px !important">
+                        <th class="text-start ps-10 text-title font-medium">Teams</th>
+                        <th class="text-start text-title font-medium">Agents</th>
+                    </thead>
+
+                    <tbody>
+                        @foreach ($teams as $each)
+                        <tr style="border:1px solid #ddd">
+                            <td class="text-start ps-10 text-paragraph">{{ ucfirst($each['name']) }}</td>
+                            <td class="text-start text-paragraph">{{ ucfirst($each['total']) }}</td>
+                        </tr>
+                        @endforeach
+                    </tbody>
+                </table>
+            </div>
             @endcan
         </div>
     </div>
     @endcanany
-
 
     @section('style')
     <style>

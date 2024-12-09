@@ -1,3 +1,4 @@
+@props(['value' => 'Dashboard'])
 <div>
     @php
         $response = [
@@ -10,25 +11,17 @@
                 'route' => '#',
             ],
             [
-                'title' => 'Settings',
-                'route' => route('admin.requestertype.index'),
+                'title' => 'Requests',
+                'route' => route('admin.ticket.all.list'),
             ],
             [
                 'title' => '/',
                 'route' => '#',
             ],
             [
-                'title' => 'Requester Type',
-                'route' => route('admin.requestertype.index'),
-            ],
-            [
-                'title' => '/',
+                'title' => isset($value) ? camelCase($value) : 'Dashboard',
                 'route' => '#',
-            ],
-            [
-                'title' => 'Update Requester Type',
-                'route' => '#',
-            ],
+            ]
         ];
     @endphp
     <x-breadcrumb :data="$response" />

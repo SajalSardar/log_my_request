@@ -10,7 +10,7 @@
                 'route' => '#',
             ],
             [
-                'title' => 'Category',
+                'title' => 'Settings',
                 'route' => route('admin.category.index'),
             ],
             [
@@ -18,8 +18,15 @@
                 'route' => '#',
             ],
             [
-                'title' => 'Update',
-                'route' => '#'
+                'title' => 'Category',
+                'route' => route('admin.category.index'),
+            ],
+            [
+                'title' => '/',
+                'route' => '#',
+            ],            [
+                'title' => 'Update Category',
+                'route' => '#',
             ],
         ];
     @endphp

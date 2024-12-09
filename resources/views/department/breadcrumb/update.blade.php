@@ -10,7 +10,7 @@
                 'route' => '#',
             ],
             [
-                'title' => 'Department',
+                'title' => 'Settings',
                 'route' => route('admin.department.index'),
             ],
             [
@@ -18,8 +18,15 @@
                 'route' => '#',
             ],
             [
-                'title' => 'Update',
-                'route' => '#'
+                'title' => 'Department',
+                'route' => route('admin.department.index'),
+            ],
+            [
+                'title' => '/',
+                'route' => '#',
+            ],            [
+                'title' => 'Update Department',
+                'route' => '#',
             ],
         ];
     @endphp

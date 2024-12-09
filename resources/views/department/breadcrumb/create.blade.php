@@ -10,6 +10,14 @@
                 'route' => '#',
             ],
             [
+                'title' => '/',
+                'route' => '#',
+            ],
+            [
+                'title' => 'Settings',
+                'route' => route('admin.department.index'),
+            ],
+            [
                 'title' => 'Department',
                 'route' => route('admin.department.index'),
             ],
@@ -17,7 +25,7 @@
                 'title' => '/',
                 'route' => '#',
             ],            [
-                'title' => 'Create',
+                'title' => 'Create Department',
                 'route' => route('admin.department.create'),
             ],
         ];

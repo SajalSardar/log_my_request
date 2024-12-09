@@ -77,7 +77,7 @@ function ISOdate($date)
 // }
 
 
-function dayMonthYearHourMininteSecond($date, $endDate = null)
+function dayMonthYearHourMinuteSecond($date, $endDate = null)
 {
     $startDate = Carbon::create($date);
     $endDate = $endDate ? Carbon::create($endDate) : Carbon::now();
@@ -173,7 +173,7 @@ function getTicketNotsNotify()
     return $ticketNotifyNotes;
 }
 
-function avatar(?string $name): string
+function avatar(?string $name, ?string $width = '30', ?string $height = '30'): string
 {
     $colors = [
         ['letter' => '#9D0009', 'bg' => 'rgba(157, 0, 9, 0.2)'],
@@ -205,5 +205,5 @@ function avatar(?string $name): string
     ];
     $color = $colors[array_rand($colors)];
 
-    return "<div class='flex justify-center items-center text-sm' style='width: 30px; height: 30px; border-radius: 50%; background: {$color['bg']}; color: {$color['letter']}; border: 1px solid #ddd;'>" . ucfirst(substr($name, 0, 1)) . "</div>";
+    return "<div class='flex justify-center items-center text-sm' style='width: {$height}px; height: {$height}px; border-radius: 50%; background: {$color['bg']}; color: {$color['letter']}; border: 1px solid #ddd;'>" . ucfirst(substr($name, 0, 1)) . "</div>";
 }

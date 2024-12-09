@@ -10,6 +10,14 @@
                 'route' => '#',
             ],
             [
+                'title' => 'Settings',
+                'route' => route('admin.source.index'),
+            ],
+            [
+                'title' => '/',
+                'route' => '#',
+            ],
+            [
                 'title' => 'Source',
                 'route' => route('admin.source.index'),
             ],

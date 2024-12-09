@@ -10,6 +10,14 @@
                 'route' => '#',
             ],
             [
+                'title' => 'Settings',
+                'route' => route('admin.requestertype.index'),
+            ],
+            [
+                'title' => '/',
+                'route' => '#',
+            ],
+            [
                 'title' => 'Requester Type',
                 'route' => route('admin.requestertype.index'),
             ],
@@ -17,7 +25,7 @@
                 'title' => '/',
                 'route' => '#',
             ],            [
-                'title' => 'Create',
+                'title' => 'Create Requester Type',
                 'route' => route('admin.requestertype.create'),
             ],
         ];

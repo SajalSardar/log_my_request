@@ -10,13 +10,17 @@
                 'route' => '#',
             ],
             [
-                'title' => 'Request',
-                'route' => route('admin.ticket.index'),
+                'title' => 'Requests',
+                'route' => route('admin.ticket.all.list'),
             ],
             [
                 'title' => '/',
                 'route' => '#',
             ],
+            [
+                'title' => 'Create Request',
+                'route' => route('admin.ticket.create'),
+            ]
         ];
     @endphp
     <x-breadcrumb :data="$response" />

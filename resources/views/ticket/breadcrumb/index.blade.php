@@ -11,7 +11,7 @@
                 'route' => '#',
             ],
             [
-                'title' => 'Request',
+                'title' => 'Requests',
                 'route' => route('admin.ticket.all.list'),
             ],
             [

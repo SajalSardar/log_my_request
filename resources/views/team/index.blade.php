@@ -44,12 +44,12 @@
                                 <span class="cursor-pointer" @click="open = !open">
                                     <template x-if="!open">
                                         <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                            <path d="M9 18L15 12L9 6" stroke="#5C5C5C" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+                                            <path d="M9 18L15 12L9 6" stroke="#5e666e" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
                                         </svg>
                                     </template>
                                     <template x-if="open">
                                         <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                            <path d="M6 9L12 15L18 9" stroke="#5C5C5C" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+                                            <path d="M6 9L12 15L18 9" stroke="#5e666e" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
                                         </svg>
                                     </template>
                                 </span>
@@ -91,11 +91,11 @@
                             <button onclick="toggleAction({{$each->id}})" class="p-3 hover:bg-slate-100 rounded-full">
                                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
                                     xmlns="http://www.w3.org/2000/svg">
-                                    <path d="M11.9922 12H12.0012" stroke="#666666" stroke-width="2.5"
+                                    <path d="M11.9922 12H12.0012" stroke="#5e666e" stroke-width="2.5"
                                         stroke-linecap="round" stroke-linejoin="round" />
-                                    <path d="M11.9844 18H11.9934" stroke="#666666" stroke-width="2.5"
+                                    <path d="M11.9844 18H11.9934" stroke="#5e666e" stroke-width="2.5"
                                         stroke-linecap="round" stroke-linejoin="round" />
-                                    <path d="M12 6H12.009" stroke="#666666" stroke-width="2.5"
+                                    <path d="M12 6H12.009" stroke="#5e666e" stroke-width="2.5"
                                         stroke-linecap="round" stroke-linejoin="round" />
                                 </svg>
                             </button>
@@ -127,7 +127,7 @@
                                     <th class="text-heading-dark text-start">Role</th>
                                     <th class="text-heading-dark text-start">Phone</th>
                                     <th class="text-heading-dark text-start">Designation</th>
-                                    <th class="text-heading-dark text-start">Action</th>
+                                    <th class="text-heading-dark text-start"></th>
                                 </tr>
                             </thead>
                             <tbody class="w-full">
@@ -163,18 +163,18 @@
                                             <button onclick="toggleAction({{$agent->id}})" class="p-3 hover:bg-slate-100 rounded-full">
                                                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
                                                     xmlns="http://www.w3.org/2000/svg">
-                                                    <path d="M11.9922 12H12.0012" stroke="#666666" stroke-width="2.5"
+                                                    <path d="M11.9922 12H12.0012" stroke="#5e666e" stroke-width="2.5"
                                                         stroke-linecap="round" stroke-linejoin="round" />
-                                                    <path d="M11.9844 18H11.9934" stroke="#666666" stroke-width="2.5"
+                                                    <path d="M11.9844 18H11.9934" stroke="#5e666e" stroke-width="2.5"
                                                         stroke-linecap="round" stroke-linejoin="round" />
-                                                    <path d="M12 6H12.009" stroke="#666666" stroke-width="2.5"
+                                                    <path d="M12 6H12.009" stroke="#5e666e" stroke-width="2.5"
                                                         stroke-linecap="round" stroke-linejoin="round" />
                                                 </svg>
                                             </button>
                                             <div id="action-{{ $agent->id }}" class="shadow-lg z-30 absolute top-5 right-10" style="display: none">
                                                 <ul>
                                                     <li class="px-5 py-2 text-center bg-white text-paragraph hover:bg-primary-600 hover:text-primary-400">
-                                                        <a href="' . $editUrl . '">Edit</a>
+                                                        <a href="{{ route('admin.user.edit',['user' => $agent->id]) }}">Edit</a>
                                                     </li>
                                                     <li class="px-5 py-2 text-center bg-white text-paragraph hover:bg-primary-600 hover:text-primary-400">
                                                         <form>

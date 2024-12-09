@@ -21,7 +21,8 @@ use Illuminate\Support\Str;
 use Laravolt\Avatar\Avatar;
 use Yajra\DataTables\Facades\DataTables;
 
-class TicketService {
+class TicketService
+{
     /**
      * Define public property $user;
      * @var array|object
@@ -39,30 +40,31 @@ class TicketService {
      * @param $form
      * @return array|object
      */
-    public function store(array | object $request): array | object {
+    public function store(array|object $request): array|object
+    {
 
         $checkUser = User::query()->where('email', $request->requester_email)->first();
         if (!empty($checkUser)) {
             $request->credentials = false;
             $checkUser->update(
                 [
-                    'phone'             => $request->requester_phone,
-                    'name'              => $request->requester_name,
+                    'phone' => $request->requester_phone,
+                    'name' => $request->requester_name,
                     'requester_type_id' => $request->requester_type_id,
-                    'requester_id'      => $request->requester_id,
+                    'requester_id' => $request->requester_id,
                 ]
             );
         } else {
-            $this->password       = rand(10000000, 99999999);
+            $this->password = rand(10000000, 99999999);
             $request->credentials = true;
-            $request->password    = $this->password;
-            $this->user           = User::create([
-                'name'              => $request?->requester_name,
-                'email'             => $request?->requester_email,
-                'phone'             => $request?->requester_phone,
-                'password'          => Hash::make($this->password),
+            $request->password = $this->password;
+            $this->user = User::create([
+                'name' => $request?->requester_name,
+                'email' => $request?->requester_email,
+                'phone' => $request?->requester_phone,
+                'password' => Hash::make($this->password),
                 'requester_type_id' => $request?->requester_type_id,
-                'requester_id'      => $request?->requester_id,
+                'requester_id' => $request?->requester_id,
             ]);
             $this->user->assignRole('requester');
             event(new Registered($this->user));
@@ -70,19 +72,19 @@ class TicketService {
 
         $response = Ticket::create(
             [
-                'user_id'          => $checkUser ? $checkUser->id : $this->user->id,
-                'department_id'    => $request?->department_id,
-                'team_id'          => $request?->team_id,
-                'category_id'      => $request?->category_id,
+                'user_id' => $checkUser ? $checkUser->id : $this->user->id,
+                'department_id' => $request?->department_id,
+                'team_id' => $request?->team_id,
+                'category_id' => $request?->category_id,
                 'ticket_status_id' => $request?->ticket_status_id,
-                'source_id'        => $request?->source_id,
-                'title'            => $request?->request_title,
-                'description'      => $request?->request_description,
-                'priority'         => $request?->priority,
-                'ticket_type'      => 'customer',
-                'due_date'         => $request?->due_date,
-                'created_by'       => Auth::id(),
-                'sub_category_id'  => $request?->sub_category_id,
+                'source_id' => $request?->source_id,
+                'title' => $request?->request_title,
+                'description' => $request?->request_description,
+                'priority' => $request?->priority,
+                'ticket_type' => 'customer',
+                'due_date' => $request?->due_date,
+                'created_by' => Auth::id(),
+                'sub_category_id' => $request?->sub_category_id,
             ]
         );
 
@@ -107,20 +109,21 @@ class TicketService {
      * @param $request
      * @return array|object|bool
      */
-    public function update(Model $model, $request) {
+    public function update(Model $model, $request)
+    {
 
-        $ticket        = Ticket::with('owners')->where('id', $model->getKey())->first();
-        $requester     = User::where('email', $request->requester_email)->first();
+        $ticket = Ticket::with('owners')->where('id', $model->getKey())->first();
+        $requester = User::where('email', $request->requester_email)->first();
         $emailResponse = null;
         DB::beginTransaction();
         try {
             if (!empty($requester)) {
                 $requester->update(
                     [
-                        'phone'             => $request->requester_phone,
-                        'name'              => $request->requester_name,
+                        'phone' => $request->requester_phone,
+                        'name' => $request->requester_name,
                         'requester_type_id' => $request->requester_type_id,
-                        'requester_id'      => $request->requester_id,
+                        'requester_id' => $request->requester_id,
                     ]
                 );
             }
@@ -130,17 +133,17 @@ class TicketService {
 
             $ticket->update(
                 [
-                    'department_id'    => $request?->department_id,
-                    'source_id'        => $request->source_id,
-                    'title'            => $request->request_title,
-                    'description'      => $request->request_description,
-                    'priority'         => $request->priority,
-                    'due_date'         => $request->due_date,
-                    'team_id'          => $request->team_id,
-                    'category_id'      => $request->category_id,
+                    'department_id' => $request?->department_id,
+                    'source_id' => $request->source_id,
+                    'title' => $request->request_title,
+                    'description' => $request->request_description,
+                    'priority' => $request->priority,
+                    'due_date' => $request->due_date,
+                    'team_id' => $request->team_id,
+                    'category_id' => $request->category_id,
                     'ticket_status_id' => $request->ticket_status_id,
-                    'updated_by'       => Auth::id(),
-                    'sub_category_id'  => $request?->sub_category_id,
+                    'updated_by' => Auth::id(),
+                    'sub_category_id' => $request?->sub_category_id,
                 ]
             );
 
@@ -160,12 +163,13 @@ class TicketService {
         return $ticket;
     }
 
-    public static function createTicketNote($ticketId, $old_status = null, $new_status = null, $note_type, $note = null) {
+    public static function createTicketNote($ticketId, $old_status = null, $new_status = null, $note_type, $note = null)
+    {
         $note = TicketNote::create(
             [
-                'ticket_id'  => $ticketId,
-                'note_type'  => $note_type,
-                'note'       => $note,
+                'ticket_id' => $ticketId,
+                'note_type' => $note_type,
+                'note' => $note,
                 'old_status' => $old_status,
                 'new_status' => $new_status,
                 'created_by' => Auth::id(),
@@ -174,22 +178,24 @@ class TicketService {
 
         return $note;
     }
-    public static function createTicketLog($ticketId, $ticket_status, $status = null, $comment = null) {
+    public static function createTicketLog($ticketId, $ticket_status, $status = null, $comment = null)
+    {
         $log = TicketLog::create(
             [
-                'ticket_id'     => $ticketId,
+                'ticket_id' => $ticketId,
                 'ticket_status' => $ticket_status,
-                'status'        => $status,
-                'comment'       => $comment,
-                'updated_by'    => Auth::id(),
-                'created_by'    => Auth::id(),
+                'status' => $status,
+                'comment' => $comment,
+                'updated_by' => Auth::id(),
+                'created_by' => Auth::id(),
             ]
         );
 
         return $log;
     }
 
-    public static function getTicketStatusById($id) {
+    public static function getTicketStatusById($id)
+    {
         $ticketStatus = TicketStatus::where('id', $id)->first();
         if ($ticketStatus) {
 
@@ -198,14 +204,15 @@ class TicketService {
         return "Status Not Found!";
     }
 
-    public static function ticketChangesNote($request, $ticket, $ticket_status) {
+    public static function ticketChangesNote($request, $ticket, $ticket_status)
+    {
 
         $emailResponse = [];
         if ($request->owner_id && ($ticket->owners->isEmpty() || $ticket->owners->last()->id != $request->owner_id)) {
 
             $last_owner = TicketOwnership::where('ticket_id', $ticket->id)->where('duration', null)->orderBy('id', 'desc')->first();
             if ($last_owner && $request->owner_id) {
-                $now                 = Carbon::now();
+                $now = Carbon::now();
                 $duration_in_seconds = $last_owner->created_at->diffInSeconds($now);
                 $last_owner->update([
                     'duration' => $duration_in_seconds,
@@ -248,20 +255,20 @@ class TicketService {
             $checkTicketStatus = TicketService::getTicketStatusById($request->ticket_status_id);
 
             if ((ticketOpenProgressHoldPermission($request->ticket_status_id) == false) && $ticket->resolved_at == null) {
-                $resolution_now        = Carbon::now();
+                $resolution_now = Carbon::now();
                 $resolution_in_seconds = $ticket->created_at->diffInSeconds($resolution_now);
                 $ticket->update([
                     'resolution_time' => (int) $resolution_in_seconds,
-                    'resolved_at'     => now(),
-                    'resolved_by'     => Auth::id(),
+                    'resolved_at' => now(),
+                    'resolved_by' => Auth::id(),
                 ]);
             }
 
             if (ticketOpenProgressHoldPermission($request->ticket_status_id) == true) {
                 $ticket->update([
                     'resolution_time' => null,
-                    'resolved_at'     => null,
-                    'resolved_by'     => null,
+                    'resolved_at' => null,
+                    'resolved_by' => null,
                 ]);
             }
             $note = $request->comment ? $request->comment : 'Status changed';
@@ -280,7 +287,8 @@ class TicketService {
         return $emailResponse;
     }
 
-    public static function allTicketListDataTable($request) {
+    public static function allTicketListDataTable($request)
+    {
         $ticketStatus = null;
 
         if ($request->query_status != 'unassign') {
@@ -335,30 +343,30 @@ class TicketService {
                     $dueDate = '';
 
                     switch ($request->due_date_search) {
-                    case 'today':
-                        $todayDate = Carbon::today()->toDateString();
-                        $query->whereDate('due_date', '=', $todayDate);
-                        break;
+                        case 'today':
+                            $todayDate = Carbon::today()->toDateString();
+                            $query->whereDate('due_date', '=', $todayDate);
+                            break;
 
-                    case 'tomorrow':
-                        $tomorrowDate = Carbon::tomorrow()->toDateString();
-                        $query->whereDate('due_date', '=', $tomorrowDate);
-                        break;
+                        case 'tomorrow':
+                            $tomorrowDate = Carbon::tomorrow()->toDateString();
+                            $query->whereDate('due_date', '=', $tomorrowDate);
+                            break;
 
-                    case 'this_week':
-                        $startOfWeek = Carbon::now()->startOfWeek()->toDateString();
-                        $endOfWeek   = Carbon::now()->endOfWeek()->toDateString();
-                        $query->whereBetween('due_date', [$startOfWeek, $endOfWeek]);
-                        break;
+                        case 'this_week':
+                            $startOfWeek = Carbon::now()->startOfWeek()->toDateString();
+                            $endOfWeek = Carbon::now()->endOfWeek()->toDateString();
+                            $query->whereBetween('due_date', [$startOfWeek, $endOfWeek]);
+                            break;
 
-                    case 'this_month':
-                        $startOfMonth = Carbon::now()->startOfMonth()->toDateString();
-                        $endOfMonth   = Carbon::now()->endOfMonth()->toDateString();
-                        $query->whereBetween('due_date', [$startOfMonth, $endOfMonth]);
-                        break;
+                        case 'this_month':
+                            $startOfMonth = Carbon::now()->startOfMonth()->toDateString();
+                            $endOfMonth = Carbon::now()->endOfMonth()->toDateString();
+                            $query->whereBetween('due_date', [$startOfMonth, $endOfMonth]);
+                            break;
 
-                    default:
-                        break;
+                        default:
+                            break;
                     }
                 }
             });
@@ -373,47 +381,49 @@ class TicketService {
                 return '<div class="w-[50px]"><span class="text-paragraph">' . '#' . $tickets->id . '</span></div>';
             })
             ->editColumn('title', function ($tickets) {
-                return '<a href="' . route('admin.ticket.show', ['ticket' => $tickets?->id]) . '" class="pr-4 text-paragraph hover:text-primary-400 block" style="width: 325px; display: inline-block; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">' . Str::limit(ucfirst($tickets->title), 50, '...') . '</a>';
+                return '<a href="' . route('admin.ticket.show', ['ticket' => $tickets?->id]) . '" class=" text-paragraph hover:text-primary-400 block" style="width: 280px; display: inline-block; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">' . Str::limit(ucfirst($tickets->title), 50, '...') . '</a>';
             })
             ->editColumn('priority', function ($tickets) {
                 $priorityColor = match ($tickets->priority) {
                     'high' => '#EF4444',
-                    'low'    => '#10B981',
+                    'low' => '#10B981',
                     'medium' => '#3B82F6',
                 };
-                return '<span style="color: ' . $priorityColor . '; padding: 5px; border-radius: 4px;" class="text-paragraph w-20 pr-3 block">' . Str::ucfirst($tickets->priority) . '</span>';
+                return '<div style="width:100px">
+                <span style="color: ' . $priorityColor . '; padding: 5px; border-radius: 4px;" class="text-paragraph pr-3 block">' . Str::ucfirst($tickets->priority) . '</span>
+                </div>';
             })
             ->editColumn('department_id', function ($tickets) {
-                return '<span class="text-paragraph w-40 block pr-3">' . Str::ucfirst(@$tickets->department->name) . '</span>';
+                return '<div style="width:150px"><span class="text-paragraph block">' . Str::ucfirst(@$tickets->department->name) . '</span></div>';
             })
             ->editColumn('category_id', function ($tickets) {
-                return '<span class="text-paragraph w-44 block pr-4">' . Str::ucfirst(@$tickets->category->name) . '</span>';
+                return '<div style="width:150px"><span class="text-paragraph block">' . Str::ucfirst(@$tickets->category->name) . '</span></div>';
             })
             ->editColumn('sub_category_id', function ($tickets) {
-                return '<span class="text-paragraph w-44 block pr-4">' . Str::ucfirst(@$tickets->sub_category->name) . '</span>';
+                return '<div style="width:170px"><span class="text-paragraph block">' . Str::ucfirst(@$tickets->sub_category->name) . '</span></div>';
             })
             ->editColumn('ticket_status_id', function ($tickets) {
                 $data = "";
                 if ($tickets->ticket_status->slug === 'resolved') {
-                    $data .= '<div style="width: 156px;"><span class="py-1 letter-transparent border border-resolved-400 text-resolved-400 rounded px-2">' . Str::ucfirst($tickets->ticket_status->name) . '</span></div>';
+                    $data .= '<div style="width: 120px;"><span class="py-1 letter-transparent border border-resolved-400 text-resolved-400 rounded px-2">' . Str::ucfirst($tickets->ticket_status->name) . '</span></div>';
                 } elseif ($tickets->ticket_status->slug === 'closed') {
-                    $data .= '<div style="width: 156px;"><span class="letter-transparent border border-closed-400 text-closed-400 text-left rounded px-2 py-1">' . Str::ucfirst($tickets->ticket_status->name) . '</span></div>';
+                    $data .= '<div style="width: 120px;"><span class="letter-transparent border border-closed-400 text-closed-400 text-left rounded px-2 py-1">' . Str::ucfirst($tickets->ticket_status->name) . '</span></div>';
                 } elseif ($tickets->ticket_status->slug === 'open') {
-                    $data .= '<div style="width: 156px;"><span class="py-1 letter-transparent border border-open-400 text-open-400 rounded px-2">' . Str::ucfirst($tickets->ticket_status->name) . '</span></div>';
+                    $data .= '<div style="width: 120px;"><span class="py-1 letter-transparent border border-open-400 text-open-400 rounded px-2">' . Str::ucfirst($tickets->ticket_status->name) . '</span></div>';
                 } elseif ($tickets->ticket_status->slug === 'in-progress') {
-                    $data .= '<div style="width: 156px;"><span class="py-1 letter-transparent border border-inProgress-400 text-inProgress-400 rounded px-2">' . Str::ucfirst($tickets->ticket_status->name) . '</span></div>';
+                    $data .= '<div style="width: 120px;"><span class="py-1 letter-transparent border border-inProgress-400 text-inProgress-400 rounded px-2">' . Str::ucfirst($tickets->ticket_status->name) . '</span></div>';
                 } elseif ($tickets->ticket_status->slug === 'on-hold') {
-                    $data .= '<div style="width: 156px;"><span class="py-1 letter-transparent border border-hold-400 text-hold-400 rounded px-2">' . Str::ucfirst($tickets->ticket_status->name) . '</span></div>';
+                    $data .= '<div style="width: 120px;"><span class="py-1 letter-transparent border border-hold-400 text-hold-400 rounded px-2">' . Str::ucfirst($tickets->ticket_status->name) . '</span></div>';
                 } else {
-                    $data .= '<div style="width: 156px;"><span class="py-1 !letter-gray-400 text-paragraph rounded px-2">' . Str::ucfirst($tickets->ticket_status->name) . '</span></div>';
+                    $data .= '<div style="width: 120px;"><span class="py-1 !letter-gray-400 text-paragraph rounded px-2">' . Str::ucfirst($tickets->ticket_status->name) . '</span></div>';
                 }
                 return $data;
             })
             ->editColumn('user_id', function ($tickets) {
                 $userName = $tickets->user->name ?? 'Unknown';
                 $imageUrl = $tickets->user->image?->url;
-                $data     = "
-                    <div style='width:180px' class='text-paragraph flex items-center'>
+                $data = "
+                    <div style='width:160px' class='text-paragraph flex items-center'>
                         " . (
                     $imageUrl
                     ? "<img src='{$imageUrl}' width='30' height='30' style='border-radius: 50%; border: 1px solid #eee;' alt='profile'>"
@@ -433,11 +443,11 @@ class TicketService {
                 return $data;
             })
             ->editColumn('created_at', function ($tickets) {
-                $data = '<div style="width:160px"><span class="text-paragraph" style="width:120px">' . ISODate($tickets?->created_at) . '</span></div>';
+                $data = '<div style="width:150px"><span class="text-paragraph" style="width:120px">' . ISODate($tickets?->created_at) . '</span></div>';
                 return $data;
             })
             ->addColumn('request_age', function ($tickets) {
-                $data = '<div style="width:250px"><span class="text-paragraph">' . dayMonthYearHourMininteSecond($tickets?->created_at, $tickets?->resolved_at) . '</span></div>';
+                $data = '<div style="width:250px"><span class="text-paragraph">' . dayMonthYearHourMinuteSecond($tickets?->created_at, $tickets?->resolved_at) . '</span></div>';
                 return $data;
             })
             ->editColumn('due_date', function ($tickets) {
@@ -446,11 +456,11 @@ class TicketService {
             })
 
             ->addColumn('action_column', function ($tickets) {
-                $editUrl   = route('admin.ticket.edit', $tickets?->id);
-                $viewUrl   = route('admin.ticket.show', $tickets?->id);
+                $editUrl = route('admin.ticket.edit', $tickets?->id);
+                $viewUrl = route('admin.ticket.show', $tickets?->id);
                 $deleteUrl = route('admin.ticket.delete', $tickets?->id);
-                $viewBtn   = null;
-                $editBtn   = null;
+                $viewBtn = null;
+                $editBtn = null;
                 $deleteBtn = null;
 
                 if (Auth::user()->hasRole(['super-admin']) || Auth::user()->can("request view list")) {
@@ -475,15 +485,15 @@ class TicketService {
                 }
 
                 $action = '
-                    <div class="relative">
+                    <div style="padding-left:50px" class="relative">
                         <button onclick="toggleAction(' . $tickets->id . ')" class="p-3 hover:letter-slate-100 rounded-full">
                             <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
                                 xmlns="http://www.w3.org/2000/svg">
-                                <path d="M11.9922 12H12.0012" stroke="#666666" stroke-width="2.5"
+                                <path d="M11.9922 12H12.0012" stroke="#5e666e" stroke-width="2.5"
                                     stroke-linecap="round" stroke-linejoin="round" />
-                                <path d="M11.9844 18H11.9934" stroke="#666666" stroke-width="2.5"
+                                <path d="M11.9844 18H11.9934" stroke="#5e666e" stroke-width="2.5"
                                     stroke-linecap="round" stroke-linejoin="round" />
-                                <path d="M12 6H12.009" stroke="#666666" stroke-width="2.5"
+                                <path d="M12 6H12.009" stroke="#5e666e" stroke-width="2.5"
                                     stroke-linecap="round" stroke-linejoin="round" />
                             </svg>
                         </button>

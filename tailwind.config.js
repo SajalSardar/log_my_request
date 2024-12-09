@@ -42,7 +42,7 @@ export default {
                     400: "rgb(59,130,246,100%)",
                 },
                 base: {
-                    400: "#666666",
+                    400: "#5e666e",
                     500: "#ddd",
                 },
                 black: {
@@ -66,7 +66,7 @@ export default {
             },
         },
         screens: {
-            sm: "480px",
+            sm: "380px",
             md: "768px",
             lg: "1024px",
             xl: "1280px",
