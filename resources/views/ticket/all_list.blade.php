@@ -150,9 +150,6 @@
                 <span x-show="due_date_x" class="absolute top-1 end-9 text-surface cursor-pointer focus:text-primary outline-none dark:text-white text-base" tabindex="0" style="display: block;" @click="due_date_x = '';$nextTick(() => $('#due_date_search').trigger('change'))">✕</span>
             </div>
             <div>
-                <x-buttons.primary id="reset_search">
-                    Reset filter
-                </x-buttons.primary>
                 <x-actions.href href="{{ route('admin.ticket.create') }}" class="flex items-center gap-1">
                     <span>Create A Request</span>
                     <svg fill="none" width="24" height="24" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
@@ -164,12 +161,13 @@
     </div>
 
     <div class="relative">
-        <form action="{{ route('admin.ticket.bluck.delete') }}" method="POST">
-            @csrf
-            <table class="display nowrap" id="data-table" style="width: 100%;border:none;">
-                <thead style="background:#F3F4F6; border:none">
-                    <tr>
-                        <th class="text-heading-dark !text-end w-[50px]">
+        
+        <table class="display nowrap" id="data-table" style="width: 100%;border:none;">
+            <thead style="background:#F3F4F6; border:none">
+                <tr>
+                    <th class="text-heading-dark !text-end w-[50px]">
+                        <form action="{{ route('admin.ticket.bluck.delete') }}" method="POST">
+                            @csrf
                             <span class="flex gap-2 !justify-center !items-center">
                                 <button type="submit">
                                     <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -181,28 +179,28 @@
                                 </button>
                                 <input id="checkbox1" type="checkbox" class="w-4 h-4 mr-3 rounded border border-base-500 focus:ring-transparent text-primary-400" />
                             </span>
-                        </th>
-                        <th class="text-heading-dark w-[50px]">ID</th>
-                        <th class="text-heading-dark">Title</th>
-                        <th class="text-heading-dark">Priority</th>
-                        <th class="text-heading-dark">Status</th>
-                        <th class="text-heading-dark">Category</th>
-                        <th class="text-heading-dark">Sub Category</th>
-                        <th class="text-heading-dark">Requester</th>
-                        <th class="text-heading-dark">Department</th>
-                        <th class="text-heading-dark">Assigned Team</th>
-                        <th class="text-heading-dark">Assigned Agent</th>
-                        <th class="text-heading-dark">Created</th>
-                        <th class="text-heading-dark">Age</th>
-                        <th class="text-heading-dark">Due</th>
-                        <th class="text-heading-dark"></th>
-                    </tr>
-                </thead>
-    
-                <tbody class="mt-5">
-                </tbody>
-            </table>
-        </form>
+                        </form>
+                    </th>
+                    <th class="text-heading-dark w-[50px]">ID</th>
+                    <th class="text-heading-dark">Title</th>
+                    <th class="text-heading-dark">Priority</th>
+                    <th class="text-heading-dark">Status</th>
+                    <th class="text-heading-dark">Category</th>
+                    <th class="text-heading-dark">Sub Category</th>
+                    <th class="text-heading-dark">Requester</th>
+                    <th class="text-heading-dark">Department</th>
+                    <th class="text-heading-dark">Assigned Team</th>
+                    <th class="text-heading-dark">Assigned Agent</th>
+                    <th class="text-heading-dark">Created</th>
+                    <th class="text-heading-dark">Age</th>
+                    <th class="text-heading-dark">Due</th>
+                    <th class="text-heading-dark"></th>
+                </tr>
+            </thead>
+
+            <tbody class="mt-5">
+            </tbody>
+        </table>
     </div>
 
     @section('script')
