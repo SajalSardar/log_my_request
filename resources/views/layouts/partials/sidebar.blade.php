@@ -50,7 +50,7 @@
                             <ul class="ml-3 hidden group-[.selected]:block">
                                 @foreach ($menu->submneus as $submenu)
                                     <li class="relative">
-                                        <a href="{{ $submenu->route == '#' && $submenu->url ? url($submenu->url) : route($submenu->route) }}" class="pl-2 px-2 text-[#333] py-3 mt-2 font-inter text-sm flex items-center block hover:bg-primary-700 hover:before:bg-primary-400 before:absolute before:rounded-r-2xl before:content-[''] before:w-[3px] before:h-full before:top-0 before:left-0 {{ Route::is($submenu->route) || url($submenu->url) == Request::fullUrl() ? 'bg-primary-700 before:bg-primary-400' : '' }}">
+                                        <a href="{{ $submenu->url ? url($submenu->url) : ($submenu->route == '#' ? '#' : route($submenu->route)) }}" class="pl-2 px-2 text-[#333] py-3 mt-2 font-inter text-sm flex items-center block hover:bg-primary-700 hover:before:bg-primary-400 before:absolute before:rounded-r-2xl before:content-[''] before:w-[3px] before:h-full before:top-0 before:left-0 {{ Route::is($submenu->route) || url($submenu->url) == Request::fullUrl() ? 'bg-primary-700 before:bg-primary-400' : '' }}">
                                             <span class="flex items-center text-paragraph">
                                                 <span class="pl-4"> {!! $submenu->icon !!}</span>
                                                 <span class="text-paragraph ml-2">{{ $submenu->name }}</span>
