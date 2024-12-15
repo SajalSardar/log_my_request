@@ -32,7 +32,7 @@
             @yield('breadcrumb')
             <!-- Breadcrumb End -->
 
-            <div class=" mt-2">
+            <div class=" mt-2 mb-12">
                 {{ $slot }}
             </div>
         </div>
