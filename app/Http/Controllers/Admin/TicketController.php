@@ -229,7 +229,7 @@ class TicketController extends Controller
     public function bluckDelete(Request $request){
         return $request;
         Gate::authorize('delete', Ticket::class);
-        foreach($request->request_id as $request_id){
+        foreach($request->request_ids as $request_id){
             Ticket::where('id', $request_id)->delete();
         }
         flash()->success('Ticket has been trashed');

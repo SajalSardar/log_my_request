@@ -177,6 +177,7 @@
                                         <path d="M11.6665 9.1665V14.1665" stroke="#5e666e" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
                                     </svg>
                                 </button>
+                                <input type="hidden" name="request_ids" id="request_ids">
                                 <input id="checkbox1" type="checkbox" class="w-4 h-4 mr-3 rounded border border-base-500 focus:ring-transparent text-primary-400" />
                             </span>
                         </form>
@@ -364,9 +365,17 @@
         const masterCheckbox = document.getElementById('checkbox1');
         masterCheckbox.addEventListener('change', function() {
             const childCheckboxes = document.querySelectorAll('.child-checkbox');
+            let ids = [];
             childCheckboxes.forEach(checkbox => {
                 checkbox.checked = masterCheckbox.checked;
+                ids.push(checkbox.checked)
             });
+            $('#request_ids').val(ids);
+        });
+
+        $(document).on('click', '.request_row_checkbox',function(){
+            console.log(this.value);
+
         });
     </script>
 

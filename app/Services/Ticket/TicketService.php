@@ -374,7 +374,7 @@ class TicketService
 
         return DataTables::of($tickets)
             ->addColumn('select', function ($tickets) {
-                return '<div class="flex items-center justify-center ml-6 w-[50px]"><input type="checkbox" class="child-checkbox rounded border border-base-500 w-4 h-4 mr-3 focus:ring-transparent text-primary-400" value="'.$tickets->id.'" name="request_id[]" />
+                return '<div class="flex items-center justify-center ml-6 w-[50px]"><input type="checkbox" class="child-checkbox rounded border border-base-500 w-4 h-4 mr-3 focus:ring-transparent text-primary-400 request_row_checkbox" value="'.$tickets->id.'" />
                 </div>';
             })
             ->editColumn('id', function ($tickets) {
