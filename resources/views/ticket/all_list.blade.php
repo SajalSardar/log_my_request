@@ -161,13 +161,12 @@
     </div>
 
     <div class="relative">
-        
-        <table class="display nowrap" id="data-table" style="width: 100%;border:none;">
-            <thead style="background:#F3F4F6; border:none">
-                <tr>
-                    <th class="text-heading-dark !text-end w-[50px]">
-                        <form action="{{ route('admin.ticket.bluck.delete') }}" method="POST">
-                            @csrf
+        <form action="{{ route('admin.ticket.bluck.delete') }}" method="POST">
+            @csrf
+            <table class="display nowrap" id="data-table" style="width: 100%;border:none;">
+                <thead style="background:#F3F4F6; border:none">
+                    <tr>
+                        <th class="text-heading-dark !text-end w-[50px]">
                             <span class="flex gap-2 !justify-center !items-center">
                                 <button type="submit">
                                     <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -177,31 +176,30 @@
                                         <path d="M11.6665 9.1665V14.1665" stroke="#5e666e" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
                                     </svg>
                                 </button>
-                                <input type="hidden" name="request_ids" id="request_ids">
                                 <input id="checkbox1" type="checkbox" class="w-4 h-4 mr-3 rounded border border-base-500 focus:ring-transparent text-primary-400" />
                             </span>
-                        </form>
-                    </th>
-                    <th class="text-heading-dark w-[50px]">ID</th>
-                    <th class="text-heading-dark">Title</th>
-                    <th class="text-heading-dark">Priority</th>
-                    <th class="text-heading-dark">Status</th>
-                    <th class="text-heading-dark">Category</th>
-                    <th class="text-heading-dark">Sub Category</th>
-                    <th class="text-heading-dark">Requester</th>
-                    <th class="text-heading-dark">Department</th>
-                    <th class="text-heading-dark">Assigned Team</th>
-                    <th class="text-heading-dark">Assigned Agent</th>
-                    <th class="text-heading-dark">Created</th>
-                    <th class="text-heading-dark">Age</th>
-                    <th class="text-heading-dark">Due</th>
-                    <th class="text-heading-dark"></th>
-                </tr>
-            </thead>
+                        </th>
+                        <th class="text-heading-dark w-[50px]">ID</th>
+                        <th class="text-heading-dark">Title</th>
+                        <th class="text-heading-dark">Priority</th>
+                        <th class="text-heading-dark">Status</th>
+                        <th class="text-heading-dark">Category</th>
+                        <th class="text-heading-dark">Sub Category</th>
+                        <th class="text-heading-dark">Requester</th>
+                        <th class="text-heading-dark">Department</th>
+                        <th class="text-heading-dark">Assigned Team</th>
+                        <th class="text-heading-dark">Assigned Agent</th>
+                        <th class="text-heading-dark">Created</th>
+                        <th class="text-heading-dark">Age</th>
+                        <th class="text-heading-dark">Due</th>
+                        <th class="text-heading-dark"></th>
+                    </tr>
+                </thead>
 
-            <tbody class="mt-5">
-            </tbody>
-        </table>
+                <tbody class="mt-5">
+                </tbody>
+            </table>
+        </form>
     </div>
 
     @section('script')
@@ -373,10 +371,7 @@
             $('#request_ids').val(ids);
         });
 
-        $(document).on('click', '.request_row_checkbox',function(){
-            console.log(this.value);
-
-        });
+        
     </script>
 
     <script>
