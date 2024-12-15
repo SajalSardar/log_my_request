@@ -502,4 +502,172 @@ class TicketService {
             ->escapeColumns([])
             ->make(true);
     }
+
+    public static function trashTicketListDataTable($request) {
+
+        $tickets = Ticket::query()
+            ->onlyTrashed()
+            ->with(['owners', 'source', 'user', 'team', 'category', 'sub_category', 'ticket_status', 'department']);
+
+        if (Auth::user()->hasRole(['requester', 'Requester'])) {
+            $tickets->where('user_id', Auth::id());
+        }
+
+        if ($request->all()) {
+            $tickets->where(function ($query) use ($request) {
+
+                if ($request->ticket_id_search) {
+                    $query->where('id', 'like', '%' . $request->ticket_id_search . '%')
+                        ->orWhere('title', 'like', '%' . $request->ticket_id_search . '%');
+                }
+                if ($request->priority_search) {
+                    $query->where('priority', '=', $request->priority_search);
+                }
+                if ($request->category_search) {
+                    $query->where('category_id', '=', $request->category_search);
+                }
+                if ($request->department_search) {
+                    $query->where('department_id', '=', $request->department_search);
+                }
+                if ($request->team_search) {
+                    $query->where('team_id', '=', $request->team_search);
+                }
+                if ($request->status_search) {
+                    $query->where('ticket_status_id', '=', $request->status_search);
+                }
+
+            });
+        }
+
+        return DataTables::of($tickets)
+            ->addColumn('select', function ($tickets) {
+                return '<div class="flex items-center justify-center ml-6 w-[50px]"><input type="checkbox" class="child-checkbox rounded border border-base-500 w-4 h-4 mr-3 focus:ring-transparent text-primary-400 request_row_checkbox" name="request_ids[]" value="' . $tickets->id . '" />
+                </div>';
+            })
+            ->editColumn('id', function ($tickets) {
+                return '<div class="w-[50px]"><span class="text-paragraph">' . '#' . $tickets->id . '</span></div>';
+            })
+            ->editColumn('title', function ($tickets) {
+                return '<p class="text-paragraph block" style="width: 280px; display: inline-block; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">' . Str::limit(ucfirst($tickets->title), 50, '...') . '</p>';
+            })
+            ->editColumn('priority', function ($tickets) {
+                $priorityColor = match ($tickets->priority) {
+                    'high' => '#EF4444',
+                    'low'    => '#10B981',
+                    'medium' => '#3B82F6',
+                };
+                return '<div style="width:100px">
+                <span style="color: ' . $priorityColor . '; padding: 5px; border-radius: 4px;" class="text-paragraph pr-3 block">' . Str::ucfirst($tickets->priority) . '</span>
+                </div>';
+            })
+            ->editColumn('department_id', function ($tickets) {
+                return '<div style="width:150px"><span class="text-paragraph block">' . Str::ucfirst(@$tickets->department->name) . '</span></div>';
+            })
+            ->editColumn('category_id', function ($tickets) {
+                return '<div style="width:150px"><span class="text-paragraph block">' . Str::ucfirst(@$tickets->category->name) . '</span></div>';
+            })
+            ->editColumn('sub_category_id', function ($tickets) {
+                return '<div style="width:170px"><span class="text-paragraph block">' . Str::ucfirst(@$tickets->sub_category->name) . '</span></div>';
+            })
+            ->editColumn('ticket_status_id', function ($tickets) {
+                $data = "";
+                if ($tickets->ticket_status->slug === 'resolved') {
+                    $data .= '<div style="width: 120px;"><span class="py-1 letter-transparent border border-resolved-400 text-resolved-400 rounded px-2">' . Str::ucfirst($tickets->ticket_status->name) . '</span></div>';
+                } elseif ($tickets->ticket_status->slug === 'closed') {
+                    $data .= '<div style="width: 120px;"><span class="letter-transparent border border-closed-400 text-closed-400 text-left rounded px-2 py-1">' . Str::ucfirst($tickets->ticket_status->name) . '</span></div>';
+                } elseif ($tickets->ticket_status->slug === 'open') {
+                    $data .= '<div style="width: 120px;"><span class="py-1 letter-transparent border border-open-400 text-open-400 rounded px-2">' . Str::ucfirst($tickets->ticket_status->name) . '</span></div>';
+                } elseif ($tickets->ticket_status->slug === 'in-progress') {
+                    $data .= '<div style="width: 120px;"><span class="py-1 letter-transparent border border-inProgress-400 text-inProgress-400 rounded px-2">' . Str::ucfirst($tickets->ticket_status->name) . '</span></div>';
+                } elseif ($tickets->ticket_status->slug === 'on-hold') {
+                    $data .= '<div style="width: 120px;"><span class="py-1 letter-transparent border border-hold-400 text-hold-400 rounded px-2">' . Str::ucfirst($tickets->ticket_status->name) . '</span></div>';
+                } else {
+                    $data .= '<div style="width: 120px;"><span class="py-1 !letter-gray-400 text-paragraph rounded px-2">' . Str::ucfirst($tickets->ticket_status->name) . '</span></div>';
+                }
+                return $data;
+            })
+            ->editColumn('user_id', function ($tickets) {
+                $userName = $tickets->user->name ?? 'Unknown';
+                $imageUrl = $tickets->user->image?->url;
+                $data     = "
+                    <div style='width:160px' class='text-paragraph flex items-center'>
+                        " . (
+                    $imageUrl
+                    ? "<img src='{$imageUrl}' width='30' height='30' style='border-radius: 50%; border: 1px solid #eee;' alt='profile'>"
+                    : avatar($userName)
+                ) . "
+                        <span class='ml-2'>{$userName}</span>
+                    </div>";
+                return $data;
+            })
+
+            ->editColumn('team_id', function ($tickets) {
+                $data = '<div style="width:180px"><span class="text-paragraph">' . @$tickets->team->name . '</span></div>';
+                return $data;
+            })
+            ->addColumn('agent', function ($tickets) {
+                $data = '<div style="width:180px"><span class="text-paragraph" style="width:138px">' . @$tickets->owners->last()->name . '</span></div>';
+                return $data;
+            })
+            ->editColumn('created_at', function ($tickets) {
+                $data = '<div style="width:150px"><span class="text-paragraph" style="width:120px">' . ISODate($tickets?->created_at) . '</span></div>';
+                return $data;
+            })
+            ->addColumn('request_age', function ($tickets) {
+                $data = '<div style="width:250px"><span class="text-paragraph">' . dayMonthYearHourMinuteSecond($tickets?->created_at, $tickets?->resolved_at) . '</span></div>';
+                return $data;
+            })
+            ->editColumn('due_date', function ($tickets) {
+                $data = '<span class="text-paragraph" style="width:120px">' . ISOdate($tickets->due_date) . '</span>';
+                return $data;
+            })
+
+            ->addColumn('action_column', function ($tickets) {
+                $editUrl   = route('admin.ticket.edit', $tickets?->id);
+                $deleteUrl = route('admin.ticket.delete', $tickets?->id);
+                $editBtn   = null;
+                $deleteBtn = null;
+
+                if (Auth::user()->hasRole(['super-admin']) || Auth::user()->can("request update") && ($tickets->ticket_status->slug != 'closed' && $tickets->ticket_status->slug != 'resolved')) {
+                    $editBtn .= '<li class="px-5 py-2 text-center bg-white text-paragraph hover:bg-primary-600 hover:text-primary-400">
+                                    <a href="' . $editUrl . '">Restore</a>
+                                </li>
+                                ';
+                }
+                if (Auth::user()->hasRole(['super-admin']) || Auth::user()->can("request delete") && ($tickets->ticket_status->slug != 'closed' && $tickets->ticket_status->slug != 'resolved')) {
+                    $deleteBtn .= '<li class="px-5 py-2 text-center bg-white text-paragraph hover:bg-primary-600 hover:text-primary-400">
+                        <form action="' . $deleteUrl . '" method="POST" onsubmit="return confirm(\'Are you sure?\');">
+                            ' . csrf_field() . '
+                            ' . method_field("DELETE") . '
+                            <button type="submit" class="text-">Permanate Delete</button>
+                        </form>
+                    </li>';
+                }
+
+                $action = '
+                    <div style="padding-left:50px" class="relative">
+                        <button type="button" onclick="toggleAction(' . $tickets->id . ')" class="p-3 hover:letter-slate-100 rounded-full">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
+                                xmlns="http://www.w3.org/2000/svg">
+                                <path d="M11.9922 12H12.0012" stroke="#5e666e" stroke-width="2.5"
+                                    stroke-linecap="round" stroke-linejoin="round" />
+                                <path d="M11.9844 18H11.9934" stroke="#5e666e" stroke-width="2.5"
+                                    stroke-linecap="round" stroke-linejoin="round" />
+                                <path d="M12 6H12.009" stroke="#5e666e" stroke-width="2.5"
+                                    stroke-linecap="round" stroke-linejoin="round" />
+                            </svg>
+                        </button>
+                        <div id="action-' . $tickets->id . '" class="shadow-lg z-30 absolute top-5 right-10" style="display: none">
+                            <ul>
+                                ' . $editBtn . $deleteBtn . '
+                            </ul>
+                        </div>
+                    </div>';
+                return $action;
+            })
+            ->rawColumns(['action_column'])
+            ->addIndexColumn()
+            ->escapeColumns([])
+            ->make(true);
+    }
 }

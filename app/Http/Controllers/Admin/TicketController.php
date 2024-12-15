@@ -111,11 +111,26 @@ class TicketController extends Controller {
         return view('ticket.all_list', compact('queryStatus', 'categories', 'teams', 'ticketStatus', 'departments'));
     }
 
+    public function trashRequestList() {
+        Gate::authorize('viewAny', Ticket::class);
+        $categories   = Category::where('status', 1)->get();
+        $teams        = Team::where('status', 1)->get();
+        $ticketStatus = TicketStatus::where('status', 1)->get();
+        $departments  = Department::where('status', true)->get();
+        return view('ticket.trash', compact('categories', 'teams', 'ticketStatus', 'departments'));
+    }
+
+    public function trashRequestDatatable(Request $request) {
+        Gate::authorize('viewAny', Ticket::class);
+        return TicketService::trashTicketListDataTable($request);
+    }
+
     /**
      * Define all ticket list datatable
      * @param Request $request
      * @return \Illuminate\Http\JsonResponse
      */
+
     public function allTicketListDataTable(Request $request) {
         Gate::authorize('viewAny', Ticket::class);
         return TicketService::allTicketListDataTable($request);

@@ -1,29 +1,14 @@
 <x-app-layout>
 
-    @if (Route::is('admin.ticket.list.active.memode'))
-    @section('title', 'My Request List')
-    @include('ticket.breadcrumb.index', ['value' => 'Requests Assigned to Me'])
-    @elseif(request()->has('request_status'))
-    @section('title', Str::ucfirst(request()->get('request_status')) . ' Requests')
-    @include('ticket.breadcrumb.index', ['value' => Str::ucfirst(request()->get('request_status')) . ' Requests'])
-    @else
-    @section('title', 'All Request List')
-    @include('ticket.breadcrumb.index', ['value' => 'All Requests'])
-    @endif
+    @section('title', 'Trash Request List')
+    @include('ticket.breadcrumb.index', ['value' => 'Trash Request'])
 
     <div class="lg:flex md:flex lg:justify-between md:justify-between lg:items-center md:items-center">
         <div class="lg:mb-0 sm:mb-3">
-            @if (Route::is('admin.ticket.list.active.memode'))
-            <h2 class="text-detail-heading">My Requests</h2>
-            @elseIf(request()->has('request_status'))
-            <h2 class="text-detail-heading">{{ camelCase(request()->get('request_status')) }} Requests</h2>
-            @else
-            <h2 class="text-detail-heading">All Requests</h2>
-            @endif
+            <h2 class="text-detail-heading">Trash Requests</h2>
         </div>
         <div class="flex flex-wrap lg:gap-3 md:gap-2 sm:gap-3 lg:justify-end md:justify-end sm:justify-start">
             <div style="width: 246px;">
-                <input type="hidden" id="me_mode_search" value="{{ Route::is('admin.ticket.list.active.memode') ? 'me_mode' : '' }}">
                 <x-forms.text-input-icon dir="start" id="ticket_id_search" class="text-paragraph" placeholder="Search ID or Name">
                     <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <path d="M11 19C15.4183 19 19 15.4183 19 11C19 6.58172 15.4183 3 11 3C6.58172 3 3 6.58172 3 11C3 15.4183 6.58172 19 11 19Z" stroke="#5E666E" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
@@ -129,26 +114,7 @@
                 </div>
                 <span x-show="team" class="absolute top-1 end-9 text-surface cursor-pointer focus:text-primary outline-none dark:text-white text-base" tabindex="0" style="display: block;" @click="team = '';$nextTick(() => $('#team_search').trigger('change'))">✕</span>
             </div>
-            <div style="width:120px" class="relative" x-data="{ due_date_x: '' }">
-                <div style="width: 100%;" class="relative custom-select">
-                    <div>
-                        <div class="selected">Due Date</div>
-                        <input type="hidden" id="due_date_search" name="due_date_search" value="">
-                        <div class="options">
-                            <div class="option" data-value="today">Today</div>
-                            <div class="option" data-value="tomorrow">Tomorrow</div>
-                            <div class="option" data-value="this_week">This Week</div>
-                            <div class="option" data-value="this_month">This Month</div>
-                        </div>
-                    </div>
-                    <div class="absolute top-[50%] translate-y-[-50%] -right-5">
-                        <svg class="text-[#5e666e] ri-arrow-down-s-line ml-auto group-[.selected]:rotate-90 mr-[24px]" width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M6 9L12 15L18 9" stroke="#5e666e" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
-                        </svg>
-                    </div>
-                </div>
-                <span x-show="due_date_x" class="absolute top-1 end-9 text-surface cursor-pointer focus:text-primary outline-none dark:text-white text-base" tabindex="0" style="display: block;" @click="due_date_x = '';$nextTick(() => $('#due_date_search').trigger('change'))">✕</span>
-            </div>
+            
             <div>
                 <x-actions.href href="{{ route('admin.ticket.create') }}" class="flex items-center gap-1">
                     <span>Create A Request</span>
@@ -234,7 +200,6 @@
             const category_search = document.getElementById('category_search');
             const department_search = document.getElementById('department_search');
             const team_search = document.getElementById('team_search');
-            const due_date_search = document.getElementById('due_date_search');
 
             var dTable = $('#data-table').DataTable({
                 stripeClasses: [],
@@ -253,11 +218,10 @@
                     1, 'desc'
                 ],
                 ajax: {
-                    url: "{{ route('admin.ticket.all.list.datatable') }}",
+                    url: "{{ route('admin.ticket.trash.request.list.datatable') }}",
                     type: "GET",
                     data: function(d) {
                         d._token = "{{ csrf_token() }}";
-                        d.query_status = "{{ $queryStatus }}";
                         d.me_mode_search = $('#me_mode_search').val();
                         d.ticket_id_search = $('#ticket_id_search').val();
                         d.priority_search = $('#priority_search').val();
@@ -265,7 +229,6 @@
                         d.department_search = $('#department_search').val();
                         d.team_search = $('#team_search').val();
                         d.status_search = $('#status_search').val();
-                        d.due_date_search = $('#due_date_search').val();
                     }
                 },
                 columns: [{
@@ -354,9 +317,7 @@
             team_search.addEventListener('change', () => {
                 $('#team_search').trigger('change');
             });
-            due_date_search.addEventListener('change', () => {
-                $('#due_date_search').trigger('change');
-            });
+           
         });
     </script>
     <script>
