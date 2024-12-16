@@ -161,7 +161,7 @@
     </div>
 
     <div class="relative">
-        <form action="{{ route('admin.ticket.bluck.delete') }}" method="POST">
+        <form action="{{ route('admin.ticket.bluck.delete') }}" method="POST" onsubmit="return confirm('Are you sure?')">
             @csrf
             <table class="display nowrap" id="data-table" style="width: 100%;border:none;">
                 <thead style="background:#F3F4F6; border:none">

@@ -55,6 +55,9 @@ Route::middleware('auth', 'verified')->prefix('dashboard')->name('admin.')->grou
         Route::get('get-department-wise-team', 'departmentWiseTeam')->name('department.wise.team');
         Route::get('trash-request-list', 'trashRequestList')->name('trash.request.list');
         Route::get('trash-request-datatable', 'trashRequestDatatable')->name('trash.request.list.datatable');
+        Route::get('restore-trash-request/{id}', 'restoreTrashRequest')->name('restore.trash.request');
+        Route::delete('delete-trash-request/{id}', 'deleteTrashRequest')->name('delete.trash.request');
+        Route::post('trash-bluck-request', 'trashBluckRequestDelete')->name('trash.bluck.delete');
     });
 
     Route::controller(RoleController::class)->name('role.')->group(function () {

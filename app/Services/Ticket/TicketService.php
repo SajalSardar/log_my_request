@@ -623,23 +623,23 @@ class TicketService {
             })
 
             ->addColumn('action_column', function ($tickets) {
-                $editUrl   = route('admin.ticket.edit', $tickets?->id);
-                $deleteUrl = route('admin.ticket.delete', $tickets?->id);
-                $editBtn   = null;
-                $deleteBtn = null;
+                $restoreUrl         = route('admin.ticket.restore.trash.request', $tickets?->id);
+                $permanentDeleteUrl = route('admin.ticket.delete.trash.request', $tickets?->id);
+                $restoreBtn         = null;
+                $permanentDeleteBtn = null;
 
-                if (Auth::user()->hasRole(['super-admin']) || Auth::user()->can("request update") && ($tickets->ticket_status->slug != 'closed' && $tickets->ticket_status->slug != 'resolved')) {
-                    $editBtn .= '<li class="px-5 py-2 text-center bg-white text-paragraph hover:bg-primary-600 hover:text-primary-400">
-                                    <a href="' . $editUrl . '">Restore</a>
+                if (Auth::user()->hasRole(['super-admin']) || Auth::user()->can("request restore")) {
+                    $restoreBtn .= '<li class="px-5 py-2 text-center bg-white text-paragraph hover:bg-primary-600 hover:text-primary-400">
+                                    <a href="' . $restoreUrl . '">Restore</a>
                                 </li>
                                 ';
                 }
-                if (Auth::user()->hasRole(['super-admin']) || Auth::user()->can("request delete") && ($tickets->ticket_status->slug != 'closed' && $tickets->ticket_status->slug != 'resolved')) {
-                    $deleteBtn .= '<li class="px-5 py-2 text-center bg-white text-paragraph hover:bg-primary-600 hover:text-primary-400">
-                        <form action="' . $deleteUrl . '" method="POST" onsubmit="return confirm(\'Are you sure?\');">
+                if (Auth::user()->hasRole(['super-admin']) || Auth::user()->can("request force delete")) {
+                    $permanentDeleteBtn .= '<li class="px-5 py-2 text-center bg-white text-paragraph hover:bg-primary-600 hover:text-primary-400">
+                        <form action="' . $permanentDeleteUrl . '" method="POST" onsubmit="return confirm(\'Are you sure?\');">
                             ' . csrf_field() . '
                             ' . method_field("DELETE") . '
-                            <button type="submit" class="text-">Permanate Delete</button>
+                            <button type="submit" class="text-">Permanent Delete</button>
                         </form>
                     </li>';
                 }
@@ -659,7 +659,7 @@ class TicketService {
                         </button>
                         <div id="action-' . $tickets->id . '" class="shadow-lg z-30 absolute top-5 right-10" style="display: none">
                             <ul>
-                                ' . $editBtn . $deleteBtn . '
+                                ' . $restoreBtn . $permanentDeleteBtn . '
                             </ul>
                         </div>
                     </div>';
