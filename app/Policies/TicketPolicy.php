@@ -52,7 +52,7 @@ class TicketPolicy {
      */
     public function delete(User $user, Ticket $ticket): bool {
         if ($user->can('request delete')) {
-            return !Auth::user()->hasRole(['requester', 'Requester']) || $ticket->user_id == Auth::id();
+            return true;
         }
         return false;
     }
@@ -60,9 +60,9 @@ class TicketPolicy {
     /**
      * Determine whether the user can restore the model.
      */
-    public function restore(User $user, Ticket $ticket): bool {
+    public function restore(User $user): bool {
         if ($user->can('request restore')) {
-            return !Auth::user()->hasRole(['requester', 'Requester']) || $ticket->user_id == Auth::id();
+            return true;
         }
         return false;
     }
@@ -72,7 +72,7 @@ class TicketPolicy {
      */
     public function forceDelete(User $user, Ticket $ticket): bool {
         if ($user->can('request force delete')) {
-            return !Auth::user()->hasRole(['requester', 'Requester']) || $ticket->user_id == Auth::id();
+            return true;
         }
         return false;
     }
