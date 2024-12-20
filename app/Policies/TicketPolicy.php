@@ -50,7 +50,7 @@ class TicketPolicy {
     /**
      * Determine whether the user can delete the model.
      */
-    public function delete(User $user, Ticket $ticket): bool {
+    public function delete(User $user): bool {
         if ($user->can('request delete')) {
             return true;
         }
