@@ -57,6 +57,16 @@
 
             <div class="grid lg:grid-cols-1 md:grid-cols-1 sm:grid-cols-1 sm:gap-1 md:gap-2">
                 <div class="pt-2 w-full">
+                    <x-forms.label for="url">
+                        {{ __('Url (optional)') }}
+                    </x-forms.label>
+                    <x-forms.text-input type="text" wire:model.blur="url" placeholder="Full url" />
+                    <x-input-error :messages="$errors->get('url')" class="mt-2" />
+                </div>
+            </div>
+
+            <div class="grid lg:grid-cols-1 md:grid-cols-1 sm:grid-cols-1 sm:gap-1 md:gap-2">
+                <div class="pt-2 w-full">
                     <x-forms.label for="role">
                         {{ __('Role') }}
                     </x-forms.label>

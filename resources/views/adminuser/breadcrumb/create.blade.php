@@ -10,6 +10,13 @@
                 'route' => '#',
             ],
             [
+                'title' => 'Admin',
+                'route' => route('admin.user.index'),
+            ],
+            [
+                'title' => '/',
+                'route' => '#',
+            ],            [
                 'title' => 'User',
                 'route' => route('admin.user.index'),
             ],
@@ -17,7 +24,7 @@
                 'title' => '/',
                 'route' => '#',
             ],            [
-                'title' => 'Create',
+                'title' => 'Create User',
                 'route' => route('admin.user.create'),
             ],
         ];

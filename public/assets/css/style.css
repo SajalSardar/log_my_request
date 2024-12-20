@@ -77,7 +77,9 @@ span {
 
 .-translate-x-full {
     --tw-translate-x: -100%;
-    transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
+    transform: translate(var(--tw-translate-x), var(--tw-translate-y))
+        rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y))
+        scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
 }
 
 @media (min-width: 768px) {
@@ -93,7 +95,7 @@ span {
 
 /* navbar css */
 .navbar {
-    padding: 8px 0;
+    padding: 15px 0;
     background: #fff;
     left: 0;
     top: 0;
@@ -105,7 +107,7 @@ span {
 }
 
 .hamberger {
-    margin-left:35px;
+    margin-left: 35px;
     display: flex;
     align-items: center;
 }
@@ -263,20 +265,20 @@ div.dt-container .dt-paging .dt-paging-button.current:hover {
     color: rgb(243 109 0) !important;
 }
 
-table.dataTable.stripe>tbody>tr:nth-child(odd)>*,
-table.dataTable.display>tbody>tr:nth-child(odd)>* {
+table.dataTable.stripe > tbody > tr:nth-child(odd) > *,
+table.dataTable.display > tbody > tr:nth-child(odd) > * {
     box-shadow: inset 0 0 0 9999px #ffffff;
     box-shadow: inset 0 0 0 9999px #ffffff;
 }
 
-table.dataTable.display>tbody>tr:nth-child(odd)>.sorting_1,
-table.dataTable.order-column.stripe>tbody>tr:nth-child(odd)>.sorting_1 {
+table.dataTable.display > tbody > tr:nth-child(odd) > .sorting_1,
+table.dataTable.order-column.stripe > tbody > tr:nth-child(odd) > .sorting_1 {
     box-shadow: inset 0 0 0 9999px #ffffff;
     box-shadow: inset 0 0 0 9999px #ffffff;
 }
 
-table.dataTable.display>tbody>tr:nth-child(even)>.sorting_1,
-table.dataTable.order-column.stripe>tbody>tr:nth-child(even)>.sorting_1 {
+table.dataTable.display > tbody > tr:nth-child(even) > .sorting_1,
+table.dataTable.order-column.stripe > tbody > tr:nth-child(even) > .sorting_1 {
     box-shadow: inset 0 0 0 9999px #ffffff;
     box-shadow: inset 0 0 0 9999px #ffffff;
 }
@@ -291,7 +293,7 @@ table tr {
 
 /* ==== select box option design ==== */
 
-select>option {
+select > option {
     background-color: #b8e1ba;
 }
 
@@ -319,14 +321,14 @@ select>option {
     background-color: transparent !important;
 }
 
-table.dataTable thead>tr>th.dt-orderable-asc span.dt-column-order,
-table.dataTable thead>tr>th.dt-orderable-desc span.dt-column-order,
-table.dataTable thead>tr>th.dt-ordering-asc span.dt-column-order,
-table.dataTable thead>tr>th.dt-ordering-desc span.dt-column-order,
-table.dataTable thead>tr>td.dt-orderable-asc span.dt-column-order,
-table.dataTable thead>tr>td.dt-orderable-desc span.dt-column-order,
-table.dataTable thead>tr>td.dt-ordering-asc span.dt-column-order,
-table.dataTable thead>tr>td.dt-ordering-desc span.dt-column-order {
+table.dataTable thead > tr > th.dt-orderable-asc span.dt-column-order,
+table.dataTable thead > tr > th.dt-orderable-desc span.dt-column-order,
+table.dataTable thead > tr > th.dt-ordering-asc span.dt-column-order,
+table.dataTable thead > tr > th.dt-ordering-desc span.dt-column-order,
+table.dataTable thead > tr > td.dt-orderable-asc span.dt-column-order,
+table.dataTable thead > tr > td.dt-orderable-desc span.dt-column-order,
+table.dataTable thead > tr > td.dt-ordering-asc span.dt-column-order,
+table.dataTable thead > tr > td.dt-ordering-desc span.dt-column-order {
     right: auto;
     margin-left: 10px !important;
 }
@@ -337,7 +339,7 @@ table.dataTable thead {
     border: none !important;
 }
 
-table.dataTable>tbody>tr {
+table.dataTable > tbody > tr {
     border: 1px solid #ddd;
 }
 
@@ -352,7 +354,7 @@ table.dataTable>tbody>tr {
     font-family: "Inter", sans-serif !important;
     font-weight: 400 !important;
     font-size: 14px !important;
-    color: #5c5c5c !important;
+    color: #5e666e !important;
     line-height: 40px !important;
 }
 
@@ -362,14 +364,14 @@ table.dataTable>tbody>tr {
     font-family: "Inter", sans-serif !important;
     font-weight: 400 !important;
     font-size: 14px !important;
-    color: #5c5c5c !important;
+    color: #5e666e !important;
     line-height: 40px !important;
 }
 
 /* Adjust the rendered text inside the Select2 box */
 .select2-selection__rendered {
     line-height: 40px !important;
-    color: #5c5c5c !important;
+    color: #5e666e !important;
 }
 
 /* Adjust the arrow (dropdown indicator) */
@@ -387,7 +389,9 @@ table.dataTable>tbody>tr {
     position: relative;
 }
 
-.select2-container--default .select2-selection--multiple .select2-selection__choice {
+.select2-container--default
+    .select2-selection--multiple
+    .select2-selection__choice {
     height: 30px !important;
     border: 1px solid #ddd !important;
     background-color: #f3f4f6 !important;
@@ -395,16 +399,35 @@ table.dataTable>tbody>tr {
     left: 10px;
 }
 
-.select2-container--default .select2-selection--multiple .select2-selection__choice__remove {
-    color: #5c5c5c !important;
+.select2-container--default
+    .select2-selection--multiple
+    .select2-selection__choice__remove {
+    color: #5e666e !important;
     padding: 0 4px;
     position: absolute;
     left: 0;
     top: -6px !important;
 }
 
-.select2-container--default .select2-selection--multiple .select2-selection__choice__display {
+.select2-container--default
+    .select2-selection--multiple
+    .select2-selection__choice__display {
     position: relative;
     left: 0;
     top: -6px !important;
+}
+
+.dt-empty {
+    margin-top: 20px !important;
+    display: block;
+    color: #ef4444;
+    font-family: "Inter";
+    font-size: 16px;
+    font-weight: 600;
+}
+.descriptionBox p {
+    color: #5e666e;
+    font-size: 14px;
+    font-family: "Inter";
+    font-weight: 400;
 }

@@ -1,10 +1,5 @@
 <x-app-layout>
     @section('title', 'Create Request')
-    @section('breadcrumb')
-    <x-breadcrumb>
-        Create Request
-    </x-breadcrumb>
-    @endsection
-
+    @include('ticket.breadcrumb.create')
     <livewire:ticket.create-ticket />
 </x-app-layout>

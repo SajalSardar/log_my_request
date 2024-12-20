@@ -10,6 +10,14 @@
                 'route' => '#',
             ],
             [
+                'title' => 'Admin',
+                'route' => route('admin.user.index'),
+            ],
+            [
+                'title' => '/',
+                'route' => '#',
+            ],
+            [
                 'title' => 'User',
                 'route' => route('admin.user.index'),
             ],
@@ -18,8 +26,8 @@
                 'route' => '#',
             ],
             [
-                'title' => 'Update',
-                'route' => '#'
+                'title' => 'Update User',
+                'route' => '#',
             ],
         ];
     @endphp

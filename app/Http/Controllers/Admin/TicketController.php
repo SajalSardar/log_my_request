@@ -17,6 +17,7 @@ use App\Models\Source;
 use App\Models\Team;
 use App\Models\Ticket;
 use App\Models\TicketNote;
+use App\Models\TicketOwnership;
 use App\Models\TicketStatus;
 use App\Models\User;
 use App\Services\Ticket\TicketService;
@@ -116,6 +117,7 @@ class TicketController extends Controller {
      * @param Request $request
      * @return \Illuminate\Http\JsonResponse
      */
+
     public function allTicketListDataTable(Request $request) {
         Gate::authorize('viewAny', Ticket::class);
         return TicketService::allTicketListDataTable($request);
@@ -215,6 +217,65 @@ class TicketController extends Controller {
         Gate::authorize('delete', $ticket);
         $ticket->delete();
         flash()->success('Ticket has been trashed');
+        return back();
+    }
+
+    public function bluckDelete(Request $request) {
+
+        Gate::authorize('delete', Ticket::class);
+        foreach ($request->request_ids as $request_id) {
+            Ticket::where('id', $request_id)->delete();
+        }
+        flash()->success('Ticket has been trashed');
+        return back();
+    }
+
+    public function trashRequestList() {
+        Gate::authorize('restore', Ticket::class);
+        $categories   = Category::where('status', 1)->get();
+        $teams        = Team::where('status', 1)->get();
+        $ticketStatus = TicketStatus::where('status', 1)->get();
+        $departments  = Department::where('status', true)->get();
+        return view('ticket.trash', compact('categories', 'teams', 'ticketStatus', 'departments'));
+    }
+
+    public function trashRequestDatatable(Request $request) {
+        Gate::authorize('restore', Ticket::class);
+        return TicketService::trashTicketListDataTable($request);
+    }
+
+    public function restoreTrashRequest($ticket) {
+        Gate::authorize('restore', Ticket::class);
+
+        $tickets = Ticket::where('id', $ticket)->onlyTrashed()->restore();
+        flash()->success('Ticket has been restored');
+        return back();
+    }
+
+    public function deleteTrashRequest($ticket) {
+        Gate::authorize('forceDelete', Ticket::class);
+        $ticket = Ticket::with('ticket_notes', 'ticket_logs')->where('id', $ticket)->onlyTrashed()->first();
+        $ticket->ticket_notes()->forceDelete();
+        $ticket->ticket_logs()->forceDelete();
+        $ownership = TicketOwnership::where('ticket_id', $ticket->id)->forceDelete();
+        $ticket->forceDelete();
+        flash()->success('Ticket has been permanently deleted!');
+        return back();
+    }
+
+    public function trashBluckRequestDeleteRestore(Request $request) {
+        Gate::authorize('restore', Ticket::class);
+        if ($request->bluck_action_type === 'restore') {
+            foreach ($request->request_ids as $request_id) {
+                Ticket::where('id', $request_id)->onlyTrashed()->restore();
+            }
+        } elseif ($request->bluck_action_type === 'delete') {
+            foreach ($request->request_ids as $request_id) {
+                Ticket::where('id', $request_id)->forceDelete();
+            }
+        }
+
+        flash()->success('Action completed successfully!');
         return back();
     }
 

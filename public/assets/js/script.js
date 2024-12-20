@@ -9,11 +9,6 @@ sidebarToggle.addEventListener("click", function (e) {
     main.classList.toggle("active");
     sidebarOverlay.classList.toggle("hidden");
     sidebarMenu.classList.toggle("-translate-x-full");
-    // if (hamberger.classList.contains("active")) {
-    //     hamberger.style.marginRight = '65px';
-    // } else {
-    //     hamberger.style.marginRight = '100px';
-    // }
 });
 
 sidebarOverlay.addEventListener("click", function (e) {
@@ -38,9 +33,8 @@ document.querySelectorAll(".sidebar-dropdown-toggle").forEach(function (item) {
         }
     });
 });
-// end: Sidebar
 
-// start: Popper
+
 const popperInstance = {};
 document.querySelectorAll(".dropdown").forEach(function (item, index) {
     const popperId = "popper-" + index;
@@ -122,9 +116,7 @@ function hidePopper(popperId) {
         };
     });
 }
-// end: Popper
 
-// start: Tab
 document.querySelectorAll("[data-tab]").forEach(function (item) {
     item.addEventListener("click", function (e) {
         e.preventDefault();
@@ -147,11 +139,7 @@ document.querySelectorAll("[data-tab]").forEach(function (item) {
         target.classList.remove("hidden");
     });
 });
-// end: Tab
 
-/**
- * Dropdown menu toggle
- */
 
 let toggleMenuButton = document.querySelector(".toggle-menu-button");
 let toggleMenu = document.querySelector(".toggle-menu");
@@ -167,7 +155,6 @@ toggleMenuButton.addEventListener("click", function (e) {
 /**
  * Dropdown item in notification and email notification
  */
-
 let toggleNotificationButton = document.querySelector(
     ".toggle-notification-button"
 );
@@ -187,11 +174,30 @@ let toggleEmailNotificationBox = document.querySelector(
     ".toggle-email-notification-box"
 );
 
-// toggleEmailNotificationButton.addEventListener("click", function (e) {
-//     if (toggleEmailNotificationBox.style.display == "none") {
-//         toggleEmailNotificationBox.style.display = "block";
-//     } else {
-//         toggleEmailNotificationBox.style.display = "none";
-//     }
-// });
+
+
+document.addEventListener('DOMContentLoaded', function () {
+    let tabs = document.querySelectorAll('.tab');
+    let contents = document.querySelectorAll('.tab-content');
+
+    tabs.forEach(function (tab) {
+        tab.addEventListener('click', function (e) {
+            let targetId = tab.id.replace('Tab', 'Content');
+
+            contents.forEach(function (content) {
+                content.classList.add('hidden');
+            });
+
+            tabs.forEach(function (tab) {
+                tab.classList.remove('border-primary-400', '!text-primary-400');
+                tab.classList.add('border-transparent', 'text-gray-400');
+            });
+
+            document.getElementById(targetId).classList.remove('hidden');
+
+            tab.classList.add('border-primary-400', '!text-primary-400');
+            tab.classList.remove('border-transparent', 'text-gray-400');
+        });
+    });
+});
 

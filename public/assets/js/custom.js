@@ -70,8 +70,38 @@ function activeCkEditor(eliment) {
             "numberedList",
             "blockQuote",
         ],
-    }).catch((error) => {
-        console.error(error);
-    });
-}
+        fontFamily: {
+            options: ['default', 'Inter'],
+            supportAllValues: true,
+        },
+        fontSize: {
+            options: [14, 'default'],
+            default: 14,
+        },
+        fontColor: {
+            colors: [
+                {
+                    color: '#5e666e',
+                    label: '#5e666e',
+                },
+            ],
+            columns: 5,
+        },
 
+    })
+        .then((editor) => {
+            const editorContentStyles = `
+                .ck-content {
+                    font-family: 'Inter', sans-serif;
+                    font-size: 14px;
+                    font-weight: 400;
+                }
+            `;
+            const styleElement = document.createElement('style');
+            styleElement.textContent = editorContentStyles;
+            document.head.appendChild(styleElement);
+        })
+        .catch((error) => {
+            console.error(error);
+        });
+}

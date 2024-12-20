@@ -1,3 +1,4 @@
+@props(['value' => $value])
 <div>
     @php
         $response = [
@@ -10,17 +11,9 @@
                 'route' => '#',
             ],
             [
-                'title' => 'Admin',
-                'route' => route('admin.user.index'),
-            ],
-            [
-                'title' => '/',
+                'title' => $value,
                 'route' => '#',
-            ],
-            [
-                'title' => 'User',
-                'route' => route('admin.user.index'),
-            ],
+            ]
         ];
     @endphp
     <x-breadcrumb :data="$response" />

@@ -10,7 +10,7 @@
                 'route' => '#',
             ],
             [
-                'title' => 'Source',
+                'title' => 'Settings',
                 'route' => route('admin.source.index'),
             ],
             [
@@ -18,8 +18,15 @@
                 'route' => '#',
             ],
             [
-                'title' => 'Update',
-                'route' => '#'
+                'title' => 'Source',
+                'route' => route('admin.source.index'),
+            ],
+            [
+                'title' => '/',
+                'route' => '#',
+            ],            [
+                'title' => 'Update Source',
+                'route' => '#',
             ],
         ];
     @endphp
