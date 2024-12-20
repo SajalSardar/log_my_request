@@ -57,7 +57,7 @@ Route::middleware('auth', 'verified')->prefix('dashboard')->name('admin.')->grou
         Route::get('trash-request-datatable', 'trashRequestDatatable')->name('trash.request.list.datatable');
         Route::get('restore-trash-request/{id}', 'restoreTrashRequest')->name('restore.trash.request');
         Route::delete('delete-trash-request/{id}', 'deleteTrashRequest')->name('delete.trash.request');
-        Route::post('trash-bluck-request', 'trashBluckRequestDelete')->name('trash.bluck.delete');
+        Route::post('trash-bluck-request-delete-restore', 'trashBluckRequestDeleteRestore')->name('trash.bluck.delete');
     });
 
     Route::controller(RoleController::class)->name('role.')->group(function () {

@@ -64,16 +64,10 @@ class TicketPolicy {
         if ($user->can('request restore')) {
             return true;
         }
-        return false;
-    }
-
-    /**
-     * Determine whether the user can permanently delete the model.
-     */
-    public function forceDelete(User $user, Ticket $ticket): bool {
         if ($user->can('request force delete')) {
             return true;
         }
         return false;
     }
+
 }

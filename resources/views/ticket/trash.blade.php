@@ -127,21 +127,31 @@
     </div>
 
     <div class="relative">
-        <form action="{{ route('admin.ticket.trash.bluck.delete') }}" method="POST" onsubmit="return confirm('Are you sure?')">
+        <form action="{{ route('admin.ticket.trash.bluck.delete') }}" method="POST" id="trash_restore_form">
             @csrf
+            <input type="hidden" id="action_type" name="bluck_action_type" value="" autocomplete="off">
             <table class="display nowrap" id="data-table" style="width: 100%;border:none;">
                 <thead style="background:#F3F4F6; border:none">
                     <tr>
                         <th class="text-heading-dark !text-end w-[50px]">
-                            <span class="flex gap-2 !justify-center !items-center">
-                                <button type="submit">
-                                    <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                        <path d="M2.5 5H4.16667H17.5" stroke="#5e666e" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
-                                        <path d="M15.8332 4.99984V16.6665C15.8332 17.1085 15.6576 17.5325 15.345 17.845C15.0325 18.1576 14.6085 18.3332 14.1665 18.3332H5.83317C5.39114 18.3332 4.96722 18.1576 4.65466 17.845C4.3421 17.5325 4.1665 17.1085 4.1665 16.6665V4.99984M6.6665 4.99984V3.33317C6.6665 2.89114 6.8421 2.46722 7.15466 2.15466C7.46722 1.8421 7.89114 1.6665 8.33317 1.6665H11.6665C12.1085 1.6665 12.5325 1.8421 12.845 2.15466C13.1576 2.46722 13.3332 2.89114 13.3332 3.33317V4.99984" stroke="#5e666e" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
-                                        <path d="M8.3335 9.1665V14.1665" stroke="#5e666e" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
-                                        <path d="M11.6665 9.1665V14.1665" stroke="#5e666e" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
-                                    </svg>
-                                </button>
+                            <span class="flex gap-1 !justify-center !items-center">
+                                @can("request restore")
+                                    <button type="button" id="restore_btn" title="Restore">
+                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" width="25" height="20" stroke-width="1.5" stroke="#5e666e">
+                                            <path stroke-linecap="round" stroke-linejoin="round" d="M9 15 3 9m0 0 6-6M3 9h12a6 6 0 0 1 0 12h-3" />
+                                        </svg>                                      
+                                    </button>
+                                @endcan
+                                @can("request force delete")
+                                    <button type="button" id="delete_btn" title="Delete">
+                                        <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                            <path d="M2.5 5H4.16667H17.5" stroke="#5e666e" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+                                            <path d="M15.8332 4.99984V16.6665C15.8332 17.1085 15.6576 17.5325 15.345 17.845C15.0325 18.1576 14.6085 18.3332 14.1665 18.3332H5.83317C5.39114 18.3332 4.96722 18.1576 4.65466 17.845C4.3421 17.5325 4.1665 17.1085 4.1665 16.6665V4.99984M6.6665 4.99984V3.33317C6.6665 2.89114 6.8421 2.46722 7.15466 2.15466C7.46722 1.8421 7.89114 1.6665 8.33317 1.6665H11.6665C12.1085 1.6665 12.5325 1.8421 12.845 2.15466C13.1576 2.46722 13.3332 2.89114 13.3332 3.33317V4.99984" stroke="#5e666e" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+                                            <path d="M8.3335 9.1665V14.1665" stroke="#5e666e" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+                                            <path d="M11.6665 9.1665V14.1665" stroke="#5e666e" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+                                        </svg>
+                                    </button>
+                                @endcan
                                 <input id="checkbox1" type="checkbox" class="w-4 h-4 mr-3 rounded border border-base-500 focus:ring-transparent text-primary-400" />
                             </span>
                         </th>
@@ -316,6 +326,21 @@
             });
             team_search.addEventListener('change', () => {
                 $('#team_search').trigger('change');
+            });
+
+            //trash action type
+            $(document).on('click', '#restore_btn, #delete_btn', function (e) {
+                const actionType = $(this).attr('id') === 'restore_btn' ? 'restore' : 'delete';
+                const confirmationMessage = actionType === 'restore' 
+                    ? 'Are you sure you want to restore this item?' 
+                    : 'Are you sure you want to delete this item?';
+
+                $('#action_type').val(actionType);
+                if (confirm(confirmationMessage)) {
+                    $('#trash_restore_form').submit(); 
+                } else {
+                    console.log('Action canceled');
+                }
             });
            
         });

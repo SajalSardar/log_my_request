@@ -254,7 +254,6 @@ class TicketController extends Controller {
 
     public function deleteTrashRequest($ticket) {
         Gate::authorize('forceDelete', Ticket::class);
-
         $ticket = Ticket::with('ticket_notes', 'ticket_logs')->where('id', $ticket)->onlyTrashed()->first();
         $ticket->ticket_notes()->forceDelete();
         $ticket->ticket_logs()->forceDelete();
@@ -264,12 +263,19 @@ class TicketController extends Controller {
         return back();
     }
 
-    public function trashBluckRequestDelete(Request $request) {
-        Gate::authorize('forceDelete', Ticket::class);
-        foreach ($request->request_ids as $request_id) {
-            Ticket::where('id', $request_id)->forceDelete();
+    public function trashBluckRequestDeleteRestore(Request $request) {
+        Gate::authorize('restore', Ticket::class);
+        if ($request->bluck_action_type === 'restore') {
+            foreach ($request->request_ids as $request_id) {
+                Ticket::where('id', $request_id)->onlyTrashed()->restore();
+            }
+        } elseif ($request->bluck_action_type === 'delete') {
+            foreach ($request->request_ids as $request_id) {
+                Ticket::where('id', $request_id)->forceDelete();
+            }
         }
-        flash()->success('Ticket has been permanently deleted!');
+
+        flash()->success('Action completed successfully!');
         return back();
     }
 
