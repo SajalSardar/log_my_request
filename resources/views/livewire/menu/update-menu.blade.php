@@ -41,6 +41,9 @@
 
             <div class="grid lg:grid-cols-1 md:grid-cols-1 sm:grid-cols-1 sm:gap-1 md:gap-2">
                 <div class="pt-2 w-full">
+                    <x-forms.label for="route" required="yes">
+                        {{ __('Route Name') }}
+                    </x-forms.label>
                     <x-forms.select-input wire:model.blur="route" placeholder="Route name">
                         <option selected disabled>Route Name</option>
                         @if (is_object($routes) && $routes->count() > 0)
@@ -58,7 +61,7 @@
             <div class="grid lg:grid-cols-1 md:grid-cols-1 sm:grid-cols-1 sm:gap-1 md:gap-2">
                 <div class="pt-2 w-full">
                     <x-forms.label for="url">
-                        {{ __('Url') }}
+                        {{ __('Url (optional)') }}
                     </x-forms.label>
                     <x-forms.text-input type="text" value="{{ $menu->url }}" wire:model.blur="url" placeholder="Full url" />
                     <x-input-error :messages="$errors->get('url')" class="mt-2" />

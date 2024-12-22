@@ -41,6 +41,7 @@ Route::middleware('auth', 'verified')->prefix('dashboard')->name('admin.')->grou
         Route::get('edit-request/{ticket}', 'edit')->name('edit');
         Route::delete('request-delete/{ticket}', 'destroy')->name('delete');
         Route::delete('file/{file}', 'trashFile')->name('trashFile');
+        Route::post('bluck-delete', 'bluckDelete')->name('bluck.delete');
         Route::get('request-list', 'allTicketList')->name('all.list');
         Route::get('status-wise-request-list', 'allTicketList')->name('status.wise.list');
         Route::get('my-request-list', 'allTicketList')->name('list.active.memode');
@@ -52,6 +53,11 @@ Route::middleware('auth', 'verified')->prefix('dashboard')->name('admin.')->grou
         Route::post('request-partial-update/{ticket}', 'partialUpdate')->name('partialUpdate');
         Route::get('get-category-wise-subcategory', 'categoryWiseSubcategory')->name('category.wise.subcategory');
         Route::get('get-department-wise-team', 'departmentWiseTeam')->name('department.wise.team');
+        Route::get('trash-request-list', 'trashRequestList')->name('trash.request.list');
+        Route::get('trash-request-datatable', 'trashRequestDatatable')->name('trash.request.list.datatable');
+        Route::get('restore-trash-request/{id}', 'restoreTrashRequest')->name('restore.trash.request');
+        Route::delete('delete-trash-request/{id}', 'deleteTrashRequest')->name('delete.trash.request');
+        Route::post('trash-bluck-request-delete-restore', 'trashBluckRequestDeleteRestore')->name('trash.bluck.delete');
     });
 
     Route::controller(RoleController::class)->name('role.')->group(function () {
