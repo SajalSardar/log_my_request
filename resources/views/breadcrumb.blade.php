@@ -2,6 +2,14 @@
     @php
         $response = [
             [
+                'title' => 'Dashboard',
+                'route' => route('dashboard'),
+            ],
+            [
+                'title' => '/',
+                'route' => route('dashboard'),
+            ],
+            [
                 'title' => 'Home',
                 'route' => route('dashboard'),
             ],

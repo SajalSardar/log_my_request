@@ -10,8 +10,7 @@
     @livewireStyles
     <link rel="stylesheet" href="{{ asset('assets/css/select2.min.css') }}">
 
-    {{-- @vite(['resources/css/app.css', 'resources/js/app.js']) --}}
-    <link rel="stylesheet" href="{{ asset('build/assets/app-Df1BPbl3.css') }}">
+    @vite(['resources/css/app.css', 'resources/js/app.js'])
 
     <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,100..900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="{{ asset('vendor/datatable/dataTables.dataTables.min.css') }}">
@@ -38,11 +37,11 @@
             <div class=" mt-2 mb-12">
                 {{ $slot }}
             </div>
+            @livewire('loader.spinner')
         </div>
 
     </main>
     @livewireScripts
-    <script src="{{ asset('build/assets/app-DCrXoRMQ.js') }}"></script>
     <script src="{{ asset('assets/js/jquery.min.js') }}"></script>
     <script src="{{ asset('assets/js/select2.min.js') }}"></script>
     <script src="{{ asset('assets/js/ckeditor.js') }}"></script>

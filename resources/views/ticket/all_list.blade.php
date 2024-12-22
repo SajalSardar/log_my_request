@@ -12,15 +12,6 @@
     @endif
 
     <div class="lg:flex md:flex lg:justify-between md:justify-between lg:items-center md:items-center">
-        <div class="lg:mb-0 sm:mb-3">
-            @if (Route::is('admin.ticket.list.active.memode'))
-            <h2 class="text-detail-heading">My Requests</h2>
-            @elseIf(request()->has('request_status'))
-            <h2 class="text-detail-heading">{{ camelCase(request()->get('request_status')) }} Requests</h2>
-            @else
-            <h2 class="text-detail-heading">All Requests</h2>
-            @endif
-        </div>
         <div class="flex flex-wrap lg:gap-3 md:gap-2 sm:gap-3 lg:justify-end md:justify-end sm:justify-start">
             <div style="width: 246px;">
                 <input type="hidden" id="me_mode_search" value="{{ Route::is('admin.ticket.list.active.memode') ? 'me_mode' : '' }}">
@@ -150,18 +141,23 @@
                 <span x-show="due_date_x" class="absolute top-1 end-9 text-surface cursor-pointer focus:text-primary outline-none dark:text-white text-base" tabindex="0" style="display: block;" @click="due_date_x = '';$nextTick(() => $('#due_date_search').trigger('change'))">✕</span>
             </div>
             <div>
-                <x-actions.href href="{{ route('admin.ticket.create') }}" class="flex items-center gap-1">
-                    <span>Create A Request</span>
-                    <svg fill="none" width="24" height="24" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v6m3-3H9m12 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
-                    </svg>
-                </x-actions.href>
+                <x-buttons.secondary>Reset All</x-buttons.secondary>
             </div>
         </div>
+
+        <div class="flex justify-start items-center sm:mt-3 md:mt-0 lg:mt-0">
+        <x-actions.href href="{{ route('admin.ticket.create') }}" class="flex items-center gap-1">
+            <span>Create A Request</span>
+            <svg fill="none" width="24" height="24" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v6m3-3H9m12 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
+            </svg>
+        </x-actions.href>
+        </div>
+
     </div>
 
     <div class="relative">
-        <form action="{{ route('admin.ticket.bluck.delete') }}" method="POST" onsubmit="return confirm('Are you sure?')">
+        <form action="{{ route('admin.ticket.bulk.delete') }}" method="POST" onsubmit="return confirm('Are you sure?')">
             @csrf
             <table class="display nowrap" id="data-table" style="width: 100%;border:none;">
                 <thead style="background:#F3F4F6; border:none">
@@ -367,8 +363,6 @@
                 checkbox.checked = masterCheckbox.checked;
             });
         });
-
-        
     </script>
 
     <script>
