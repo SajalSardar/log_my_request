@@ -41,7 +41,7 @@
                         </span>
                     </th>
                     <th class="text-heading-dark w-[50px]">Id</th>
-                    <th class="text-heading-dark">Name</th>
+                    <th class="text-heading-dark">Menu</th>
                     <th class="text-heading-dark">Order</th>
                     <th class="text-heading-dark">Route</th>
                     <th class="text-heading-dark">Roles</th>

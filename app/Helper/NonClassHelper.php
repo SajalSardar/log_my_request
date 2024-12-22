@@ -106,13 +106,9 @@ function dayMonthYearHourMinuteSecond($date, $endDate = null)
     if ($m > 0) {
         $output[] = $m . ' ' . ($m > 1 ? 'mins' : 'min');
     }
-    if ($s > 0) {
-        $output[] = $s . ' ' . ($s > 1 ? 'seconds' : 'second');
-    }
 
-    // Customize the level of detail:
     if (count($output) > 3) {
-        $output = array_slice($output, 0, 3); // Limit to 3 components for simplicity.
+        $output = array_slice($output, 0, 3); 
     }
 
     return implode(', ', $output);
