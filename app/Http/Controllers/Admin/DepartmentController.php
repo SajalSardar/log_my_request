@@ -38,7 +38,7 @@ class DepartmentController extends Controller
                 </div>';
             })
             ->editColumn('id', function ($department) {
-                return '<div class="w-[50px]"><span class="text-paragraph">' . '#' . $department->id . '</span></div>';
+                return '<div class="w-[50px]"><span class="text-paragraph">' . ID(prefix: 'DPT', id: $department->id) . '</span></div>';
             })
             ->editColumn('status', function ($department) {
                 return Helper::status($department->status);

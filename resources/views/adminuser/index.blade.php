@@ -2,9 +2,6 @@
     @section('title', 'User List')
     @include('adminuser.breadcrumb.index')
     <div class="flex justify-between items-center !mt-3">
-        <div>
-            <p class="text-detail-heading">Users List</p>
-        </div>
         <div class="flex-1 mt-1">
             <div class="flex justify-end gap-3">
                 <div>

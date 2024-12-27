@@ -45,13 +45,13 @@ class MenuController extends Controller
                 </div>';
             })
             ->editColumn('id', function ($menus) {
-                return '<div class="w-[50px]"><span class="text-paragraph">' . '#' . $menus->id . '</span></div>';
+                return '<div class="w-[100px]"><span class="text-paragraph">' . ID(prefix: 'MNU', id: $menus->id) . '</span></div>';
             })
             ->editColumn('order', function ($menus) {
-                return '<span class="text-paragraph text-end">' . $menus->order . '</span>';
+                return '<div class="w-[100px] ml-1"><span class="text-paragraph text-end">' . $menus->order . '</span></div>';
             })
             ->editColumn('route', function ($menus) {
-                return '<span class="text-paragraph text-end">' . $menus->route . '</span>';
+                return '<div class="w-[180px] ml-1"><span class="text-paragraph text-start">' . $menus->route . '</span></div>';
             })
             ->editColumn('url', function ($menus) {
                 return '<span class="text-paragraph text-end">' . $menus->url . '</span>';

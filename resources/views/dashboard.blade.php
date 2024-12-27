@@ -3,7 +3,7 @@
     @include('breadcrumb')
     <div class="mb-8 flex justify-between">
         <div>
-            <h1 class="!text-2xl text-detail-heading">Hello {{ auth()->user()->name }}!</h1>
+            <h1 class="!text-2xl text-detail-heading !font-semibold">Hello {{ auth()->user()->name }}!</h1>
             <p class="text-paragraph">Welcome to explore your dashboard here.</p>
         </div>
         @can('request create')

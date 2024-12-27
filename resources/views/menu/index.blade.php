@@ -2,9 +2,6 @@
     @section('title', 'Menu List')
     @include('menu.breadcrumb.index')
     <div class="flex justify-between items-center !mt-3">
-        <div>
-            <p class="text-detail-heading">{{ Str::ucfirst(request()->get('ticket_status')) }} Menu List</p>
-        </div>
         <div class="flex-1 mt-1">
             <div class="flex justify-end gap-3">
                 <div>
@@ -42,7 +39,7 @@
                     </th>
                     <th class="text-heading-dark w-[50px]">Id</th>
                     <th class="text-heading-dark">Menu</th>
-                    <th class="text-heading-dark">Order</th>
+                    <th class="text-heading-dark !text-start">Order</th>
                     <th class="text-heading-dark">Route</th>
                     <th class="text-heading-dark">Roles</th>
                     <th class="text-heading-dark">Permissions</th>

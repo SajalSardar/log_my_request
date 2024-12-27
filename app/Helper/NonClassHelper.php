@@ -12,71 +12,6 @@ function ISOdate($date)
     return $date ? date('M d, Y', strtotime($date)) : '';
 }
 
-// function dayMonthYearHourMininteSecond($date, $endDate = null, $year = false, $month = false, $day = false, $hour = false, $minute = false, $second = false) {
-//     $startDate = Carbon::create($date);
-//     if ($endDate) {
-//         $endDate = $endDate;
-//     } else {
-//         $endDate = Carbon::now();
-//     }
-
-//     $y   = (int) $startDate->diffInYears($endDate);
-//     $mon = (int) $startDate
-//         ->copy()
-//         ->addYears($y)
-//         ->diffInMonths($endDate);
-//     $d = (int) $startDate
-//         ->copy()
-//         ->addYears($y)
-//         ->addMonths($mon)
-//         ->diffInDays($endDate);
-//     $h = (int) $startDate
-//         ->copy()
-//         ->addYears($y)
-//         ->addMonths($mon)
-//         ->addDays($d)
-//         ->diffInHours($endDate);
-//     $m = (int) $startDate
-//         ->copy()
-//         ->addYears($y)
-//         ->addMonths($mon)
-//         ->addDays($d)
-//         ->addHours($h)
-//         ->diffInMinutes($endDate);
-//     $s = (int) $startDate
-//         ->copy()
-//         ->addYears($y)
-//         ->addMonths($mon)
-//         ->addDays($d)
-//         ->addHours($h)
-//         ->addMinutes($m)
-//         ->diffInSeconds($endDate);
-
-//     $output = '';
-
-//     if ($year && $y != 0) {
-//         $output .= $y . ' year, ';
-//     }
-//     if ($month && $mon != 0) {
-//         $output .= $mon . ' month, ';
-//     }
-//     if ($day && $d != 0) {
-//         $output .= $d . ' day, ';
-//     }
-//     if ($hour && $h != 0) {
-//         $output .= $h . ' hour, ';
-//     }
-//     if ($minute && $m != 0) {
-//         $output .= $m . ' minute and ';
-//     }
-//     if ($second && $s != 0) {
-//         $output .= $s . ' second.';
-//     }
-//     $output = rtrim($output, ', ');
-//     return $output;
-// }
-
-
 function dayMonthYearHourMinuteSecond($date, $endDate = null)
 {
     $startDate = Carbon::create($date);
@@ -108,7 +43,7 @@ function dayMonthYearHourMinuteSecond($date, $endDate = null)
     }
 
     if (count($output) > 3) {
-        $output = array_slice($output, 0, 3); 
+        $output = array_slice($output, 0, 3);
     }
 
     return implode(', ', $output);
@@ -133,6 +68,11 @@ function camelCase($string): string
     );
 
     return $string;
+}
+
+function ID(?string $prefix, ?string $id)
+{
+    return '#' . $prefix . str_pad(string: $id, length: 2, pad_string: '0', pad_type: STR_PAD_LEFT);
 }
 
 function getTicketStatusById($id)

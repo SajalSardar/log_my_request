@@ -40,7 +40,7 @@ class CategoryController extends Controller
                 </div>';
             })
             ->editColumn('id', function ($category) {
-                return '<div class="w-[50px]"><span class="text-paragraph">' . '#' . $category->id . '</span></div>';
+                return '<div class="w-[50px]"><span class="text-paragraph">' . ID(prefix: 'CAT', id: $category->id). '</span></div>';
             })
             ->editColumn('status', function ($category) {
                 return Helper::status($category->status);

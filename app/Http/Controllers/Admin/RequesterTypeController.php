@@ -42,7 +42,7 @@ class RequesterTypeController extends Controller
                 </div>';
             })
             ->editColumn('id', function ($requesterType) {
-                return '<div class="w-[50px]"><span class="text-paragraph">' . '#' . $requesterType->id . '</span></div>';
+                return '<div class="w-[50px]"><span class="text-paragraph">' . ID(prefix: 'RTP', id: $requesterType->id) . '</span></div>';
             })
             ->editColumn('status', function ($requesterType) {
                 return Helper::status($requesterType->status);

@@ -377,7 +377,7 @@ class TicketService
                 </div>';
             })
             ->editColumn('id', function ($tickets) {
-                return '<div class="w-[70px]"><span class="text-paragraph">' . '#REQ' . $tickets->id . '</span></div>';
+                return '<div class="w-[70px]"><span class="text-paragraph">' . ID(prefix: 'REQ', id: $tickets->id) . '</span></div>';
             })
             ->editColumn('title', function ($tickets) {
                 return '<a href="' . route('admin.ticket.show', ['ticket' => $tickets?->id]) . '" class=" text-paragraph hover:text-primary-400 block" style="width: 280px; display: inline-block; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">' . Str::limit(ucfirst($tickets->title), 50, '...') . '</a>';

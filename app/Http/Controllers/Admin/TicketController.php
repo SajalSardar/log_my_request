@@ -99,8 +99,6 @@ class TicketController extends Controller
                 ->get();
         });
 
-        // return $this->tickets;
-
         return view("ticket.index", ['tickets' => $this->tickets ?? collect()]);
     }
 

@@ -27,5 +27,5 @@
 }
 
 .text-active-breadcrumb {
-    @apply text-[18px] font-medium font-inter text-[#27313b];
+    @apply text-xl font-medium font-inter text-[#27313b];
 }

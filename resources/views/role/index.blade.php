@@ -2,9 +2,6 @@
      @section('title', 'Role List')
      @include('role.breadcrumb.index')
      <div class="flex justify-between items-center">
-         <div>
-             <p class="text-detail-heading">Role List</p>
-         </div>
          <div class="flex-1 mt-1">
              <div class="flex justify-end gap-3">
                  @can('role create')
