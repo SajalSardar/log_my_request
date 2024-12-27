@@ -3,12 +3,14 @@
     @include('adminuser.breadcrumb.index')
     <div class="flex justify-between items-center !mt-3">
         <div class="flex-1 mt-1">
-            <div class="flex justify-end gap-3">
-                <div>
-                    <x-forms.text-input placeholder="search by name" id="user_name_search" class="text-sm" />
-                </div>
-                <div>
-                    <x-forms.text-input id="user_email_search" class="text-sm" placeholder="search by email" />
+            <div class="flex justify-between gap-3">
+                <div class="flex gap-3">
+                    <div>
+                        <x-forms.text-input placeholder="search by name" id="user_name_search" class="text-sm" />
+                    </div>
+                    <div>
+                        <x-forms.text-input id="user_email_search" class="text-sm" placeholder="search by email" />
+                    </div>
                 </div>
                 @can('user create')
                 <div>
@@ -41,7 +43,7 @@
                         </span>
                     </th>
                     <th class="text-heading-dark w-[50px]">Id</th>
-                    <th class="text-heading-dark">User Name</th>
+                    <th class="text-heading-dark">User</th>
                     <th class="text-heading-dark">Email</th>
                     <th class="text-heading-dark">Roles</th>
                     <th class="text-heading-dark">Created</th>

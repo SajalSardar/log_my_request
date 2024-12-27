@@ -58,27 +58,29 @@ class EntityController extends Controller
 
             ->addColumn('action_column', function ($row) use ($entity) {
                 return '
-                <div class="relative pl-10">
-                    <button onclick="toggleAction(' . $row->uuid . ')" class="p-3 hover:letter-slate-100 rounded-full">
-                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
-                            xmlns="http://www.w3.org/2000/svg">
-                            <path d="M11.9922 12H12.0012" stroke="#5e666e" stroke-width="2.5"
-                                stroke-linecap="round" stroke-linejoin="round" />
-                            <path d="M11.9844 18H11.9934" stroke="#5e666e" stroke-width="2.5"
-                                stroke-linecap="round" stroke-linejoin="round" />
-                            <path d="M12 6H12.009" stroke="#5e666e" stroke-width="2.5"
-                                stroke-linecap="round" stroke-linejoin="round" />
-                        </svg>
-                    </button>
-                    <div id="action-' . $row->uuid . '" class="shadow-lg z-30 absolute top-5 right-10" style="display: none">
+                <div style="padding-left:50px" class="relative">
+                    <button type="button" onclick="toggleAction(' . $row->uuid . ')" class="p-3 hover:letter-slate-100 rounded-full">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
+                                xmlns="http://www.w3.org/2000/svg">
+                                <path d="M11.9922 12H12.0012" stroke="#5e666e" stroke-width="2.5"
+                                    stroke-linecap="round" stroke-linejoin="round" />
+                                <path d="M11.9844 18H11.9934" stroke="#5e666e" stroke-width="2.5"
+                                    stroke-linecap="round" stroke-linejoin="round" />
+                                <path d="M12 6H12.009" stroke="#5e666e" stroke-width="2.5"
+                                    stroke-linecap="round" stroke-linejoin="round" />
+                            </svg>
+                        </button>
+                    <div id="action-' . $row->uuid . '" class="shadow-lg z-30 absolute top-5 -left-6" style="display: none">
                         <ul>
-                            <li class="px-5 py-2 text-center bg-white text-paragraph hover:bg-primary-600 hover:text-primary-400">
-                                <a href="' . $row->action->edit . '">Edit</a>
-                            </li>' .
-                            ($entity === 'requesters' ? '
+                            ' . ($entity === 'requesters' ? '
                             <li class="px-5 py-2 text-center bg-white text-paragraph hover:bg-primary-600 hover:text-primary-400">
                                 <a href="' . $row->action->view . '">View</a>
                             </li>' : '') . '
+                            
+                            <li class="px-5 py-2 text-center bg-white text-paragraph hover:bg-primary-600 hover:text-primary-400">
+                                <a href="' . $row->action->edit . '">Edit</a>
+                            </li>
+                            
                             <li class="px-5 py-2 text-center bg-white text-paragraph hover:bg-primary-600 hover:text-primary-400">
                                 <form action="' . $row->action->delete . '" method="POST" onsubmit="return confirm(\'Are you sure?\');">
                                     ' . csrf_field() . '
@@ -90,7 +92,7 @@ class EntityController extends Controller
                     </div>
                 </div>';
             })
-            
+
             ->addIndexColumn()
             ->rawColumns(['select', 'id', 'name', 'total', 'action_column'])
             ->make(true);

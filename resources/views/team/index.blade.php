@@ -2,9 +2,6 @@
     @section('title', 'Team List')
     @include('team.breadcrumb.index')
     <div class="flex justify-between items-center !mt-3 mb-6">
-        <div>
-            <p class="text-detail-heading">Team List</p>
-        </div>
         <div class="flex-1 mt-1">
             <div class="flex justify-end gap-3">
                 @can('department create')
@@ -26,7 +23,19 @@
         <table class="display nowrap" id="data-table" style="width: 100%;border:none;">
             <thead style="background:#F3F4F6; border:none">
                 <tr>
-                    <th class="text-heading-dark pl-5 text-start">Team Name</th>
+                    <th class="text-heading-dark pl-4 !text-end w-[50px]">
+                        <span class="flex gap-2 !justify-center !items-center">
+                            <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M2.5 5H4.16667H17.5" stroke="#5e666e" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+                                <path d="M15.8332 4.99984V16.6665C15.8332 17.1085 15.6576 17.5325 15.345 17.845C15.0325 18.1576 14.6085 18.3332 14.1665 18.3332H5.83317C5.39114 18.3332 4.96722 18.1576 4.65466 17.845C4.3421 17.5325 4.1665 17.1085 4.1665 16.6665V4.99984M6.6665 4.99984V3.33317C6.6665 2.89114 6.8421 2.46722 7.15466 2.15466C7.46722 1.8421 7.89114 1.6665 8.33317 1.6665H11.6665C12.1085 1.6665 12.5325 1.8421 12.845 2.15466C13.1576 2.46722 13.3332 2.89114 13.3332 3.33317V4.99984" stroke="#5e666e" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+                                <path d="M8.3335 9.1665V14.1665" stroke="#5e666e" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+                                <path d="M11.6665 9.1665V14.1665" stroke="#5e666e" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+                            </svg>
+                            <input id="checkbox1" type="checkbox" class="w-4 h-4 mr-3 rounded border border-base-500 focus:ring-transparent text-primary-400" />
+                        </span>
+                    </th>
+                    <th class="text-heading-dark pl-5 text-start">ID</th>
+                    <th class="text-heading-dark text-start">Team</th>
                     <th class="text-heading-dark text-start">Department</th>
                     <th class="text-heading-dark text-start">Categories</th>
                     <th class="text-heading-dark text-start">Status</th>
@@ -39,8 +48,8 @@
             <tbody x-data="{ open: false }">
                 <tr class="text-center border border-base-500">
                     <td>
-                        <div class="flex pl-2">
-                            <div>
+                        <div class="flex gap-2">
+                            <div class="pl-3">
                                 <span class="cursor-pointer" @click="open = !open">
                                     <template x-if="!open">
                                         <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -54,6 +63,15 @@
                                     </template>
                                 </span>
                             </div>
+                            <div class="flex items-center justify-center"><input type="checkbox" class="child-checkbox rounded border border-base-500 w-4 h-4 mr-3 focus:ring-transparent text-primary-400" />
+                            </div>
+                        </div>
+                    </td>
+                    <td>
+                        <div><span class="text-paragraph"> {{ ID(prefix: 'TEA', id: $each->id) }} </span></div>
+                    </td>
+                    <td>
+                        <div class="flex gap-1 items-center">
                             <div class="profile">
                                 @if (!empty($each->image) && !empty($each->image->url))
                                 <img src="{{ $each->image->url }}" alt="user_picture" height="25" width="25">
@@ -87,8 +105,8 @@
                         </p>
                     </td>
                     <td>
-                        <div class="relative">
-                            <button onclick="toggleAction({{$each->id}})" class="p-3 hover:bg-slate-100 rounded-full">
+                        <div class="relative pl-10">
+                            <button onclick="toggleAction('{{$each->id}}')" class="p-3 hover:bg-slate-100 rounded-full">
                                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
                                     xmlns="http://www.w3.org/2000/svg">
                                     <path d="M11.9922 12H12.0012" stroke="#5e666e" stroke-width="2.5"
@@ -99,7 +117,7 @@
                                         stroke-linecap="round" stroke-linejoin="round" />
                                 </svg>
                             </button>
-                            <div id="action-{{ $each->id }}" class="shadow-lg z-30 absolute top-5 right-10" style="display: none">
+                            <div id="action-{{ $each->id }}" class="shadow-lg z-30 absolute top-5 -left-6" style="display: none">
                                 <ul>
                                     <li class="px-5 py-2 text-center bg-white text-paragraph hover:bg-primary-600 hover:text-primary-400">
                                         <a href="{{ route('admin.team.edit',['team' => $each->id]) }}">Edit</a>
@@ -118,11 +136,23 @@
                 </tr>
 
                 <tr x-show="open" style="display: none;">
-                    <td colspan="6">
+                    <td colspan="8">
                         <table class="w-full child-table" style="table-layout: auto;">
                             <thead class="w-full">
                                 <tr style="border-bottom:1px solid #ddd">
-                                    <th class="text-heading-dark text-start pl-3">Name</th>
+                                    <th class="text-heading-dark pl-3 !text-end w-[50px]">
+                                        <span class="flex gap-2 !justify-center !items-center">
+                                            <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                <path d="M2.5 5H4.16667H17.5" stroke="#5e666e" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+                                                <path d="M15.8332 4.99984V16.6665C15.8332 17.1085 15.6576 17.5325 15.345 17.845C15.0325 18.1576 14.6085 18.3332 14.1665 18.3332H5.83317C5.39114 18.3332 4.96722 18.1576 4.65466 17.845C4.3421 17.5325 4.1665 17.1085 4.1665 16.6665V4.99984M6.6665 4.99984V3.33317C6.6665 2.89114 6.8421 2.46722 7.15466 2.15466C7.46722 1.8421 7.89114 1.6665 8.33317 1.6665H11.6665C12.1085 1.6665 12.5325 1.8421 12.845 2.15466C13.1576 2.46722 13.3332 2.89114 13.3332 3.33317V4.99984" stroke="#5e666e" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+                                                <path d="M8.3335 9.1665V14.1665" stroke="#5e666e" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+                                                <path d="M11.6665 9.1665V14.1665" stroke="#5e666e" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+                                            </svg>
+                                            <input id="checkbox1" type="checkbox" class="w-4 h-4 mr-3 rounded border border-base-500 focus:ring-transparent text-primary-400" />
+                                        </span>
+                                    </th>
+                                    <th class="text-heading-dark text-start pl-3">ID</th>
+                                    <th class="text-heading-dark text-start">Agent</th>
                                     <th class="text-heading-dark text-start">Email</th>
                                     <th class="text-heading-dark text-start">Role</th>
                                     <th class="text-heading-dark text-start">Phone</th>
@@ -133,6 +163,16 @@
                             <tbody class="w-full">
                                 @foreach ($each->agents as $agent)
                                 <tr style="border-bottom:1px solid #ddd">
+                                    <td>
+                                        <div class="pl-[36px]">
+                                            <input type="checkbox" class="-pl-3 child-checkbox rounded border border-base-500 w-4 h-4 mr-3 focus:ring-transparent text-primary-400" />
+                                        </div>
+                                    </td>
+                                    <td class="text-paragraph">
+                                        <span class="-ml-2 pl-3">
+                                            {{ $agent->id }}
+                                        </span>
+                                    </td>
                                     <td class="text-paragraph">
                                         <span class="-ml-2 pl-3">
                                             {{ $agent->name }}
@@ -160,7 +200,7 @@
                                     </td>
                                     <td>
                                         <div class="relative">
-                                            <button onclick="toggleAction({{$agent->id}})" class="p-3 hover:bg-slate-100 rounded-full">
+                                            <button onclick="toggleAction('{{$agent->id}}')" class="p-3 hover:bg-slate-100 rounded-full">
                                                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
                                                     xmlns="http://www.w3.org/2000/svg">
                                                     <path d="M11.9922 12H12.0012" stroke="#5e666e" stroke-width="2.5"

@@ -74,7 +74,7 @@ class DepartmentController extends Controller
 
                 return
                     '<div class="relative pl-10">
-                        <button onclick="toggleAction(' . $department->id . ')" class="p-3 hover:letter-slate-100 rounded-full">
+                       <button type="button" onclick="toggleAction(' . $department->id . ')" class="p-3 hover:letter-slate-100 rounded-full">
                             <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
                                 xmlns="http://www.w3.org/2000/svg">
                                 <path d="M11.9922 12H12.0012" stroke="#5e666e" stroke-width="2.5"
@@ -85,7 +85,7 @@ class DepartmentController extends Controller
                                     stroke-linecap="round" stroke-linejoin="round" />
                             </svg>
                         </button>
-                        <div id="action-' . $department->id . '" class="shadow-lg z-30 absolute top-5 right-10" style="display: none">
+                        <div id="action-' . $department->id . '" class="shadow-lg z-30 absolute top-5 -left-6" style="display: none">
                             <ul>
                                 <li class="px-5 py-2 text-center bg-white text-paragraph hover:bg-primary-600 hover:text-primary-400">
                                     <a href="' . $editUrl . '">Edit</a>

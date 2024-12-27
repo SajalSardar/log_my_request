@@ -2,9 +2,6 @@
     @section('title', 'Category List')
     @include('category.breadcrumb.index')
     <div class="flex justify-between items-center !mt-3">
-        <div>
-            <p class="text-detail-heading">Category List</p>
-        </div>
         <div class="flex-1 mt-1">
             <div class="flex justify-end gap-3">
                 @can('category create')
@@ -38,7 +35,7 @@
                         </span>
                     </th>
                     <th class="text-heading-dark w-[50px]">Id</th>
-                    <th class="text-heading-dark">Name</th>
+                    <th class="text-heading-dark">Category</th>
                     <th class="text-heading-dark">Parent</th>
                     <th class="text-heading-dark">Status</th>
                     <th class="text-heading-dark">Created</th>

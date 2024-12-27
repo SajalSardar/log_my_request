@@ -49,7 +49,12 @@
                 searching: false,
                 responsive: true,
                 scrollX: true,
-                lengthChange: false,
+                lengthChange: true,
+                pageLength: 50,
+                lengthMenu: [
+                    [20, 30, 50, 100, -1],
+                    [20, 30, 50, 100, 'All']
+                ],
                 order: [
                     1, 'desc'
                 ],
@@ -82,13 +87,6 @@
                 ]
             });
         });
-    </script>
-
-    <script>
-        function toggleAction(id) {
-            const actionMenu = document.getElementById(`action-${id}`);
-            actionMenu.style.display = actionMenu.style.display === 'none' ? 'block' : 'none';
-        }
     </script>
     @endsection
 </x-app-layout>
