@@ -60,7 +60,6 @@
         });
     </script>
 
-
     <script type="text/javascript">
         function changeAtiveTab(event, tabID) {
             let element = event.target;

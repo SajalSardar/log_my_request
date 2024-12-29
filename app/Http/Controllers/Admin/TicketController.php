@@ -462,7 +462,7 @@ class TicketController extends Controller
     {
         $request->validate([
             "request_title"      => 'required',
-            "request_attachment" => 'nullable|mimes:png,jpg,pdf,heic,jpeg',
+            "request_attachment" => 'nullable|mimes:png,jpg,pdf,docx,heic,jpeg',
         ]);
         $ticketUpdate = $ticket->update([
             'title'       => $request->request_title,

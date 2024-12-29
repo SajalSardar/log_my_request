@@ -4,9 +4,10 @@ namespace App\Livewire\AdminUser;
 
 use Livewire\Component;
 use Spatie\Permission\Models\Role;
+use Illuminate\Support\Facades\Mail;
 use App\Services\AdminUser\AdminUserService;
 use App\Livewire\Forms\AdminUserCreateRequest;
-
+use App\Mail\UserMail;
 
 class CreateAdminUser extends Component
 {
@@ -30,6 +31,9 @@ class CreateAdminUser extends Component
     {
         $this->form->validate();
         $isCreate = $service->store($this->form);
+        if (!empty($isCreate)) {
+            Mail::to($isCreate->email)->queue(new UserMail($isCreate));
+        }
         $response = $isCreate ? 'Data has been submit successfully !' : 'Something went wrong !';
         flash()->success($response);
         $this->form->reset();

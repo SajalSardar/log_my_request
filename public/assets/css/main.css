@@ -1041,10 +1041,6 @@ select {
   margin-bottom: 15px;
 }
 
-.mb-\[20px\] {
-  margin-bottom: 20px;
-}
-
 .mb-\[24px\] {
   margin-bottom: 24px;
 }
@@ -1556,10 +1552,6 @@ select {
   align-items: flex-start;
 }
 
-.items-end {
-  align-items: flex-end;
-}
-
 .\!items-center {
   align-items: center !important;
 }
@@ -1802,7 +1794,7 @@ select {
 }
 
 .border-hold-400 {
-  border-color: rgb(251,191,36,100%);
+  border-color: rgb(255,163,4,100%);
 }
 
 .border-inProgress-400 {
@@ -2189,6 +2181,10 @@ select {
   padding-left: 2.5rem;
 }
 
+.pl-12 {
+  padding-left: 3rem;
+}
+
 .pl-14 {
   padding-left: 3.5rem;
 }
@@ -2494,7 +2490,7 @@ select {
 }
 
 .text-hold-400 {
-  color: rgb(251,191,36,100%);
+  color: rgb(255,163,4,100%);
 }
 
 .text-inProgress-400 {

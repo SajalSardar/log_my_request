@@ -222,37 +222,37 @@ class TicketService
             $ticket->owners()->attach($request->owner_id);
             $note = $request->comment ? $request->comment : 'Owner changed';
 
-            TicketService::createTicketNote($ticket->id, $ticket_status->name, $ticket_status->name, 'owner_change', $note);
+            self::createTicketNote($ticket->id, $ticket_status->name, $ticket_status->name, 'owner_change', $note);
 
             $emailResponse['owner_change'] = 'Owner changed';
         }
         if ($ticket->team_id != $request->team_id) {
             $note = $request->comment ? $request->comment : 'Team changed';
-            TicketService::createTicketNote($ticket->id, $ticket_status->name, $ticket_status->name, 'team_change', $note);
+            self::createTicketNote($ticket->id, $ticket_status->name, $ticket_status->name, 'team_change', $note);
             $emailResponse['team_change'] = 'Team changed';
         }
         if ($ticket->category_id != $request->category_id) {
             $note = $request->comment ? $request->comment : 'Category changed';
-            TicketService::createTicketNote($ticket->id, $ticket_status->name, $ticket_status->name, 'category_change', $note);
+            self::createTicketNote($ticket->id, $ticket_status->name, $ticket_status->name, 'category_change', $note);
 
             $emailResponse['category_change'] = 'Category changed';
         }
         if ($ticket->priority != $request->priority) {
             $note = $request->comment ? $request->comment : 'Priority changed';
-            TicketService::createTicketNote($ticket->id, $ticket_status->name, $ticket_status->name, 'priority_change', $note);
+            self::createTicketNote($ticket->id, $ticket_status->name, $ticket_status->name, 'priority_change', $note);
             $emailResponse['priority'] = 'Priority changed';
         }
 
         $old_due_date = $ticket->due_date ? $ticket->due_date->format('Y-m-d') : '';
         if (empty($old_due_date) || $old_due_date != $request->due_date) {
             $note = $request->comment ? $request->comment : 'Due Date changed';
-            TicketService::createTicketNote($ticket->id, $ticket_status->name, $ticket_status->name, 'due_date_change', $note);
+            self::createTicketNote($ticket->id, $ticket_status->name, $ticket_status->name, 'due_date_change', $note);
 
             $emailResponse['due_date_change'] = 'Due date changed';
         }
         if ($ticket->ticket_status_id != $request->ticket_status_id) {
 
-            $checkTicketStatus = TicketService::getTicketStatusById($request->ticket_status_id);
+            $checkTicketStatus = self::getTicketStatusById($request->ticket_status_id);
 
             if ((ticketOpenProgressHoldPermission($request->ticket_status_id) == false) && $ticket->resolved_at == null) {
                 $resolution_now        = Carbon::now();
@@ -272,14 +272,14 @@ class TicketService
                 ]);
             }
             $note = $request->comment ? $request->comment : 'Status changed';
-            TicketService::createTicketNote($ticket->id, $ticket->ticket_status->name, $checkTicketStatus->name, 'status_change', $note);
+            self::createTicketNote($ticket->id, $ticket->ticket_status->name, $checkTicketStatus->name, 'status_change', $note);
 
             $emailResponse['status_change'] = 'Status changed';
         }
 
         if ($ticket->department_id != $request->department_id) {
             $note = $request->comment ? $request->comment : 'Department changed';
-            TicketService::createTicketNote($ticket->id, $ticket_status->name, $ticket_status->name, 'department_change', $note);
+            self::createTicketNote($ticket->id, $ticket_status->name, $ticket_status->name, 'department_change', $note);
 
             $emailResponse['department_change'] = 'Department changed';
         }

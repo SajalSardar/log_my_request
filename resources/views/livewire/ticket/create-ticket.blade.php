@@ -1,6 +1,4 @@
  <form wire:submit="save">
-
-     <h3 class="text-detail-heading mb-[20px]">Request Form</h3>
      <div class="grid lg:grid:cols-12 md:grid-cols-12 sm:grid-cols-12">
          <div class="lg:col-span-6 md:col-span-12 sm:col-span-12 border border-base-500 p-5 rounded">
              <div class="grid lg:grid-cols-1 md:grid-cols-1 sm:grid-cols-1 sm:gap-1 md:gap-2">

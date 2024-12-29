@@ -28,7 +28,7 @@
             </div>
             <div class="grid md:grid-cols-1 sm:grid-cols-1 sm:gap-1 md:gap-4">
                 <div class="p-2 w-full">
-                    <x-forms.input-file name="request_attachment" accept=".pdf,.docs,.ppt,.png,.jpg,.heic,.jpeg" />
+                    <x-forms.input-file name="request_attachment" accept=".pdf,.docx,.ppt,.png,.jpg,.heic,.jpeg" />
                     <x-input-error :messages="$errors->get('request_attachment')" class="mt-2" />
                 </div>
             </div>

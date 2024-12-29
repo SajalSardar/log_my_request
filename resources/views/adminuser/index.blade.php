@@ -6,10 +6,10 @@
             <div class="flex justify-between gap-3">
                 <div class="flex gap-3">
                     <div>
-                        <x-forms.text-input placeholder="search by name" id="user_name_search" class="text-sm" />
+                        <x-forms.text-input placeholder="Search by name" id="user_name_search" class="text-sm" />
                     </div>
                     <div>
-                        <x-forms.text-input id="user_email_search" class="text-sm" placeholder="search by email" />
+                        <x-forms.text-input id="user_email_search" class="text-sm" placeholder="Search by email" />
                     </div>
                 </div>
                 @can('user create')

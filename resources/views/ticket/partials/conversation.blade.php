@@ -28,9 +28,9 @@
                     @foreach ($chat as $each)
                     <div class="flex items-center gap-2">
                         @php
-                        echo avatar($each->creator->name);
+                        echo avatar($each?->creator?->name);
                         @endphp
-                        <p class="text-heading-dark">{{ @$each->creator->name }}</p>
+                        <p class="text-heading-dark">{{ @$each->creator?->name }}</p>
                     </div>
                     <div class="-mt-2">
                         <div class="pl-10 flex items-center gap-10 mb-3 pt-3 descriptionBox">
