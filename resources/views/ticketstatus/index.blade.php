@@ -56,7 +56,7 @@
                 responsive: true,
                 searching: false,
                 scrollX: true,
-                lengthChange:false,
+                lengthChange: false,
                 order: [
                     1, 'desc'
                 ],
