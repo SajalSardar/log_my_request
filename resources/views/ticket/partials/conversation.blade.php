@@ -103,7 +103,7 @@
 
             <div class="border border-base-500 rounded px-12 py-8 mt-3">
                 <div class="flex justify-center">
-                    <div class='flex justify-center items-center text-2xl' style='width: 100px; height: 100px; border-radius: 50%; background: rgba(135, 1, 222, 0.2); color: #8701DE; border: 1px solid #ddd;'> {{ ucfirst(substr($each->creator->name, 0, 1))}}</div>
+                    <div class='flex justify-center items-center text-2xl' style='width: 100px; height: 100px; border-radius: 50%; background: rgba(135, 1, 222, 0.2); color: #8701DE; border: 1px solid #ddd;'> {{ ucfirst(substr(@$each->creator->name, 0, 1))}}</div>
                     {{-- <img src="{{ asset('assets/images/profile.jpg') }}" width="100" height="100" style="border-radius: 50%;border:1px solid #eee" alt="profile"> --}}
                 </div>
                 <div class="mt-5">

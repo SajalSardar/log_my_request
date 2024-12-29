@@ -1,29 +1,14 @@
 <x-app-layout>
 
-    @if (Route::is('admin.ticket.list.active.memode'))
-    @section('title', 'My Request List')
-    @include('ticket.breadcrumb.index', ['value' => 'Requests Assigned to Me'])
-    @elseif(request()->has('request_status'))
-    @section('title', Str::ucfirst(request()->get('request_status')) . ' Requests')
-    @include('ticket.breadcrumb.index', ['value' => Str::ucfirst(request()->get('request_status')) . ' Requests'])
-    @else
-    @section('title', 'All Request List')
-    @include('ticket.breadcrumb.index', ['value' => 'All Requests'])
-    @endif
+    @section('title', 'Trash Request List')
+    @include('ticket.breadcrumb.index', ['value' => 'Trash Request'])
 
     <div class="lg:flex md:flex lg:justify-between md:justify-between lg:items-center md:items-center">
         <div class="lg:mb-0 sm:mb-3">
-            @if (Route::is('admin.ticket.list.active.memode'))
-            <h2 class="text-detail-heading">My Requests</h2>
-            @elseIf(request()->has('request_status'))
-            <h2 class="text-detail-heading">{{ camelCase(request()->get('request_status')) }} Requests</h2>
-            @else
-            <h2 class="text-detail-heading">All Requests</h2>
-            @endif
+            <h2 class="text-detail-heading">Trash Requests</h2>
         </div>
         <div class="flex flex-wrap lg:gap-3 md:gap-2 sm:gap-3 lg:justify-end md:justify-end sm:justify-start">
             <div style="width: 246px;">
-                <input type="hidden" id="me_mode_search" value="{{ Route::is('admin.ticket.list.active.memode') ? 'me_mode' : '' }}">
                 <x-forms.text-input-icon dir="start" id="ticket_id_search" class="text-paragraph" placeholder="Search ID or Name">
                     <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <path d="M11 19C15.4183 19 19 15.4183 19 11C19 6.58172 15.4183 3 11 3C6.58172 3 3 6.58172 3 11C3 15.4183 6.58172 19 11 19Z" stroke="#5E666E" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
@@ -129,26 +114,7 @@
                 </div>
                 <span x-show="team" class="absolute top-1 end-9 text-surface cursor-pointer focus:text-primary outline-none dark:text-white text-base" tabindex="0" style="display: block;" @click="team = '';$nextTick(() => $('#team_search').trigger('change'))">✕</span>
             </div>
-            <div style="width:120px" class="relative" x-data="{ due_date_x: '' }">
-                <div style="width: 100%;" class="relative custom-select">
-                    <div>
-                        <div class="selected">Due Date</div>
-                        <input type="hidden" id="due_date_search" name="due_date_search" value="">
-                        <div class="options">
-                            <div class="option" data-value="today">Today</div>
-                            <div class="option" data-value="tomorrow">Tomorrow</div>
-                            <div class="option" data-value="this_week">This Week</div>
-                            <div class="option" data-value="this_month">This Month</div>
-                        </div>
-                    </div>
-                    <div class="absolute top-[50%] translate-y-[-50%] -right-5">
-                        <svg class="text-[#5e666e] ri-arrow-down-s-line ml-auto group-[.selected]:rotate-90 mr-[24px]" width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M6 9L12 15L18 9" stroke="#5e666e" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
-                        </svg>
-                    </div>
-                </div>
-                <span x-show="due_date_x" class="absolute top-1 end-9 text-surface cursor-pointer focus:text-primary outline-none dark:text-white text-base" tabindex="0" style="display: block;" @click="due_date_x = '';$nextTick(() => $('#due_date_search').trigger('change'))">✕</span>
-            </div>
+            
             <div>
                 <x-actions.href href="{{ route('admin.ticket.create') }}" class="flex items-center gap-1">
                     <span>Create A Request</span>
@@ -161,21 +127,31 @@
     </div>
 
     <div class="relative">
-        <form action="{{ route('admin.ticket.bluck.delete') }}" method="POST" onsubmit="return confirm('Are you sure?')">
+        <form action="{{ route('admin.ticket.trash.bluck.delete') }}" method="POST" id="trash_restore_form">
             @csrf
+            <input type="hidden" id="action_type" name="bluck_action_type" value="" autocomplete="off">
             <table class="display nowrap" id="data-table" style="width: 100%;border:none;">
                 <thead style="background:#F3F4F6; border:none">
                     <tr>
                         <th class="text-heading-dark !text-end w-[50px]">
-                            <span class="flex gap-2 !justify-center !items-center">
-                                <button type="submit">
-                                    <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                        <path d="M2.5 5H4.16667H17.5" stroke="#5e666e" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
-                                        <path d="M15.8332 4.99984V16.6665C15.8332 17.1085 15.6576 17.5325 15.345 17.845C15.0325 18.1576 14.6085 18.3332 14.1665 18.3332H5.83317C5.39114 18.3332 4.96722 18.1576 4.65466 17.845C4.3421 17.5325 4.1665 17.1085 4.1665 16.6665V4.99984M6.6665 4.99984V3.33317C6.6665 2.89114 6.8421 2.46722 7.15466 2.15466C7.46722 1.8421 7.89114 1.6665 8.33317 1.6665H11.6665C12.1085 1.6665 12.5325 1.8421 12.845 2.15466C13.1576 2.46722 13.3332 2.89114 13.3332 3.33317V4.99984" stroke="#5e666e" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
-                                        <path d="M8.3335 9.1665V14.1665" stroke="#5e666e" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
-                                        <path d="M11.6665 9.1665V14.1665" stroke="#5e666e" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
-                                    </svg>
-                                </button>
+                            <span class="flex gap-1 !justify-center !items-center">
+                                @can("request restore")
+                                    <button type="button" id="restore_btn" title="Restore">
+                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" width="25" height="20" stroke-width="1.5" stroke="#5e666e">
+                                            <path stroke-linecap="round" stroke-linejoin="round" d="M9 15 3 9m0 0 6-6M3 9h12a6 6 0 0 1 0 12h-3" />
+                                        </svg>                                      
+                                    </button>
+                                @endcan
+                                @can("request force delete")
+                                    <button type="button" id="delete_btn" title="Delete">
+                                        <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                            <path d="M2.5 5H4.16667H17.5" stroke="#5e666e" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+                                            <path d="M15.8332 4.99984V16.6665C15.8332 17.1085 15.6576 17.5325 15.345 17.845C15.0325 18.1576 14.6085 18.3332 14.1665 18.3332H5.83317C5.39114 18.3332 4.96722 18.1576 4.65466 17.845C4.3421 17.5325 4.1665 17.1085 4.1665 16.6665V4.99984M6.6665 4.99984V3.33317C6.6665 2.89114 6.8421 2.46722 7.15466 2.15466C7.46722 1.8421 7.89114 1.6665 8.33317 1.6665H11.6665C12.1085 1.6665 12.5325 1.8421 12.845 2.15466C13.1576 2.46722 13.3332 2.89114 13.3332 3.33317V4.99984" stroke="#5e666e" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+                                            <path d="M8.3335 9.1665V14.1665" stroke="#5e666e" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+                                            <path d="M11.6665 9.1665V14.1665" stroke="#5e666e" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+                                        </svg>
+                                    </button>
+                                @endcan
                                 <input id="checkbox1" type="checkbox" class="w-4 h-4 mr-3 rounded border border-base-500 focus:ring-transparent text-primary-400" />
                             </span>
                         </th>
@@ -234,7 +210,6 @@
             const category_search = document.getElementById('category_search');
             const department_search = document.getElementById('department_search');
             const team_search = document.getElementById('team_search');
-            const due_date_search = document.getElementById('due_date_search');
 
             var dTable = $('#data-table').DataTable({
                 stripeClasses: [],
@@ -253,11 +228,10 @@
                     1, 'desc'
                 ],
                 ajax: {
-                    url: "{{ route('admin.ticket.all.list.datatable') }}",
+                    url: "{{ route('admin.ticket.trash.request.list.datatable') }}",
                     type: "GET",
                     data: function(d) {
                         d._token = "{{ csrf_token() }}";
-                        d.query_status = "{{ $queryStatus }}";
                         d.me_mode_search = $('#me_mode_search').val();
                         d.ticket_id_search = $('#ticket_id_search').val();
                         d.priority_search = $('#priority_search').val();
@@ -265,7 +239,6 @@
                         d.department_search = $('#department_search').val();
                         d.team_search = $('#team_search').val();
                         d.status_search = $('#status_search').val();
-                        d.due_date_search = $('#due_date_search').val();
                     }
                 },
                 columns: [{
@@ -354,9 +327,22 @@
             team_search.addEventListener('change', () => {
                 $('#team_search').trigger('change');
             });
-            due_date_search.addEventListener('change', () => {
-                $('#due_date_search').trigger('change');
+
+            //trash action type
+            $(document).on('click', '#restore_btn, #delete_btn', function (e) {
+                const actionType = $(this).attr('id') === 'restore_btn' ? 'restore' : 'delete';
+                const confirmationMessage = actionType === 'restore' 
+                    ? 'Are you sure you want to restore this item?' 
+                    : 'Are you sure you want to delete this item?';
+
+                $('#action_type').val(actionType);
+                if (confirm(confirmationMessage)) {
+                    $('#trash_restore_form').submit(); 
+                } else {
+                    console.log('Action canceled');
+                }
             });
+           
         });
     </script>
     <script>

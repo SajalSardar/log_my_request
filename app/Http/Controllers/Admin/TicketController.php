@@ -17,6 +17,7 @@ use App\Models\Source;
 use App\Models\Team;
 use App\Models\Ticket;
 use App\Models\TicketNote;
+use App\Models\TicketOwnership;
 use App\Models\TicketStatus;
 use App\Models\User;
 use App\Services\Ticket\TicketService;
@@ -30,8 +31,7 @@ use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
 
-class TicketController extends Controller
-{
+class TicketController extends Controller {
     /**
      * Define public property $requester_type;
      * @var array|object
@@ -82,8 +82,7 @@ class TicketController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
-    {
+    public function index() {
         Gate::authorize('viewAny', Ticket::class);
 
         $this->tickets = Cache::remember('status_' . Auth::id() . '_ticket_list', 60 * 60, function () {
@@ -103,8 +102,7 @@ class TicketController extends Controller
         return view("ticket.index", ['tickets' => $this->tickets ?? collect()]);
     }
 
-    public function allTicketList()
-    {
+    public function allTicketList() {
         Gate::authorize('viewAny', Ticket::class);
         $queryStatus  = request()->get('request_status') ?? null;
         $categories   = Category::where('status', 1)->get();
@@ -119,8 +117,8 @@ class TicketController extends Controller
      * @param Request $request
      * @return \Illuminate\Http\JsonResponse
      */
-    public function allTicketListDataTable(Request $request)
-    {
+
+    public function allTicketListDataTable(Request $request) {
         Gate::authorize('viewAny', Ticket::class);
         return TicketService::allTicketListDataTable($request);
     }
@@ -128,8 +126,7 @@ class TicketController extends Controller
     /**
      * Show the form for creating a new resource.
      */
-    public function create()
-    {
+    public function create() {
         Gate::authorize('create', Ticket::class);
         return view('ticket.create');
     }
@@ -137,8 +134,7 @@ class TicketController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Request $request, Ticket $ticket)
-    {
+    public function show(Request $request, Ticket $ticket) {
         if ($request->ajax()) {
             $agents = Team::query()->with('agents')->where('id', $request->team_id)->get();
             return response()->json($agents);
@@ -205,10 +201,9 @@ class TicketController extends Controller
      * Show the form for editing the specified resource.
      * @param Ticket $ticket
      */
-    public function edit(Ticket $ticket)
-    {
+    public function edit(Ticket $ticket) {
         Gate::authorize('update', $ticket);
-        if ($ticket->ticket_status->slug != 'closed' || $ticket->ticket_status->slug != 'resolved') {
+        if ($ticket->ticket_status->slug == 'closed' || $ticket->ticket_status->slug == 'resolved') {
             flash()->info('Ticket has been closed or resolved');
             return back();
         }
@@ -218,11 +213,69 @@ class TicketController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Ticket $ticket)
-    {
+    public function destroy(Ticket $ticket) {
         Gate::authorize('delete', $ticket);
         $ticket->delete();
         flash()->success('Ticket has been trashed');
+        return back();
+    }
+
+    public function bluckDelete(Request $request) {
+
+        Gate::authorize('delete', Ticket::class);
+        foreach ($request->request_ids as $request_id) {
+            Ticket::where('id', $request_id)->delete();
+        }
+        flash()->success('Ticket has been trashed');
+        return back();
+    }
+
+    public function trashRequestList() {
+        Gate::authorize('restore', Ticket::class);
+        $categories   = Category::where('status', 1)->get();
+        $teams        = Team::where('status', 1)->get();
+        $ticketStatus = TicketStatus::where('status', 1)->get();
+        $departments  = Department::where('status', true)->get();
+        return view('ticket.trash', compact('categories', 'teams', 'ticketStatus', 'departments'));
+    }
+
+    public function trashRequestDatatable(Request $request) {
+        Gate::authorize('restore', Ticket::class);
+        return TicketService::trashTicketListDataTable($request);
+    }
+
+    public function restoreTrashRequest($ticket) {
+        Gate::authorize('restore', Ticket::class);
+
+        $tickets = Ticket::where('id', $ticket)->onlyTrashed()->restore();
+        flash()->success('Ticket has been restored');
+        return back();
+    }
+
+    public function deleteTrashRequest($ticket) {
+        Gate::authorize('forceDelete', Ticket::class);
+        $ticket = Ticket::with('ticket_notes', 'ticket_logs')->where('id', $ticket)->onlyTrashed()->first();
+        $ticket->ticket_notes()->forceDelete();
+        $ticket->ticket_logs()->forceDelete();
+        $ownership = TicketOwnership::where('ticket_id', $ticket->id)->forceDelete();
+        $ticket->forceDelete();
+        flash()->success('Ticket has been permanently deleted!');
+        return back();
+    }
+
+    public function trashBluckRequestDeleteRestore(Request $request) {
+        Gate::authorize('restore', Ticket::class);
+        if ($request->bluck_action_type === 'restore') {
+            foreach ($request->request_ids as $request_id) {
+                Ticket::where('id', $request_id)->onlyTrashed()->restore();
+            }
+        } elseif ($request->bluck_action_type === 'delete') {
+            foreach ($request->request_ids as $request_id) {
+                Ticket::where('id', $request_id)->forceDelete();
+            }
+        }
+
+        flash()->success('Action completed successfully!');
         return back();
     }
 
@@ -231,8 +284,7 @@ class TicketController extends Controller
      * @param Ticket $ticket
      * @return mixed
      */
-    public function trashFile(string $id)
-    {
+    public function trashFile(string $id) {
         $response = Image::find($id);
         $response->delete();
         flash()->success('File has been deleted');
@@ -243,8 +295,7 @@ class TicketController extends Controller
      * Define public method logUpdate() to update log of ticket
      * @param Request $request
      */
-    public function logUpdate(Request $request, Ticket $ticket)
-    {
+    public function logUpdate(Request $request, Ticket $ticket) {
 
         $request->validate([
             "team_id"          => 'required',
@@ -295,8 +346,7 @@ class TicketController extends Controller
      * @param \Illuminate\Http\Request $request
      * @return RedirectResponse
      */
-    public function interNoteStore(Request $request, Ticket $ticket): RedirectResponse
-    {
+    public function interNoteStore(Request $request, Ticket $ticket): RedirectResponse {
         $request->validate([
             "internal_note" => 'required',
         ]);
@@ -311,8 +361,7 @@ class TicketController extends Controller
      * @param Image $file
      * @return mixed|\Symfony\Component\HttpFoundation\BinaryFileResponse
      */
-    public function downloadFile(Image $file)
-    {
+    public function downloadFile(Image $file) {
         $filePath = public_path(parse_url($file->url, PHP_URL_PATH));
         return response()->download($filePath);
     }
@@ -323,8 +372,7 @@ class TicketController extends Controller
      * @param Ticket $ticket
      * @return RedirectResponse
      */
-    public function ticketRequesterChange(Request $request, Ticket $ticket): RedirectResponse
-    {
+    public function ticketRequesterChange(Request $request, Ticket $ticket): RedirectResponse {
         $checkUser = User::query()->where('email', $request->requester_email)->first();
         if (!empty($checkUser)) {
             $request->merge([
@@ -393,8 +441,7 @@ class TicketController extends Controller
      * @param Ticket $ticket
      * @return RedirectResponse
      */
-    public function partialUpdate(Request $request, Ticket $ticket): RedirectResponse
-    {
+    public function partialUpdate(Request $request, Ticket $ticket): RedirectResponse {
         $request->validate([
             "request_title"      => 'required',
             "request_attachment" => 'nullable|mimes:png,jpg,pdf,heic,jpeg',
@@ -419,15 +466,13 @@ class TicketController extends Controller
         return back();
     }
 
-    public function categoryWiseSubcategory(Request $request)
-    {
+    public function categoryWiseSubcategory(Request $request) {
         // return $request->category_id;
         $subCategorys = Category::where('parent_id', $request->category_id)->where('status', 1)->get();
 
         return $subCategorys;
     }
-    public function departmentWiseTeam(Request $request)
-    {
+    public function departmentWiseTeam(Request $request) {
         // return $request->category_id;
         $teams = Team::where('department_id', $request->department_id)->where('status', 1)->get();
 
