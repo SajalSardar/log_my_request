@@ -13,11 +13,13 @@ return new class extends Migration
     {
         Schema::create('images', function (Blueprint $table) {
             $table->id();
-            $table->morphs('image');
-            $table->string('disk');
-            $table->string('path');
-            $table->string('url');
-            $table->string('size');
+            $table->morphs(name: 'image');
+            $table->string(column: 'name');
+            $table->string(column: 'path');
+            $table->string(column: 'disk');
+            $table->string(column: 'url');
+            $table->string(column: 'mime');
+            $table->string(column: 'size');
             $table->softDeletes();
             $table->timestamps();
         });

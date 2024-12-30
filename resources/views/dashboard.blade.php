@@ -31,7 +31,7 @@
                         </svg>
                     </div>
                     @php
-                    $allRequests = $state->pluck('count')->sum();
+                    $allRequests = $state?->pluck('count')->sum();
                     @endphp
                     <div class="mt-3">
                         <h4 class="!text-2xl text-detail-heading">{{ $allRequests }}</h4>
@@ -51,8 +51,9 @@
                         </svg>
                     </div>
                     <div class="mt-3">
-                        <h4 class="!text-2xl text-detail-heading">{{ $state->pluck('count')[0] }}</h4>
-                        <p class="text-paragraph">{{ ucfirst($state->pluck('name')[0]) }} Requests</p>
+                        <h4 class="!text-2xl text-detail-heading">{{ $state?->pluck('count')[0] ?? '0' }}</h4>
+                        <p class="text-paragraph">{{ ucfirst($state?->pluck('name')[0] ?? '') }} Requests</p>
+
                     </div>
                 </div>
             </div>
@@ -69,8 +70,9 @@
                         </svg>
                     </div>
                     <div class="mt-3">
-                        <h4 class="!text-2xl text-detail-heading">{{ $state->pluck('count')[1] }}</h4>
-                        <p class="text-paragraph">{{ ucfirst($state->pluck('name')[1]) }} Requests</p>
+                        <h4 class="!text-2xl text-detail-heading">{{ $state?->pluck('count')[1] ?? '0' }}</h4>
+                        <p class="text-paragraph">{{ ucfirst($state?->pluck('name')[1] ?? '') }} Requests</p>
+
                     </div>
                 </div>
             </div>
@@ -81,9 +83,9 @@
             <div class="mt-11 flex items-center justify-between">
                 <div class="value">
                     @foreach ($chart as $item)
-                    <p class="text-paragraph pb-2">{{ $item->title }} :
-                        <span class="text-sm font-semibold" style="color: {{ $item->color }};">
-                            {{ $item->value }}%
+                    <p class="text-paragraph pb-2">{{ $item?->title }} :
+                        <span class="text-sm font-semibold" style="color: {{ $item?->color }};">
+                            {{ $item?->value }}%
                         </span>
                     </p>
                     @endforeach
@@ -106,8 +108,8 @@
                         </svg>
                     </div>
                     <div class="mt-3">
-                        <h4 class="!text-2xl text-detail-heading">{{ $state->pluck('count')[2] }}</h4>
-                        <p class="text-paragraph">{{ ucfirst($state->pluck('name')[2]) }} Requests</p>
+                        <h4 class="!text-2xl text-detail-heading">{{ $state?->pluck('count')[2] ?? '0' }}</h4>
+                        <p class="text-paragraph">{{ ucfirst($state?->pluck('name')[2] ?? '') }} Requests</p>
                     </div>
                 </div>
             </div>
@@ -123,8 +125,8 @@
                         </svg>
                     </div>
                     <div class="mt-3">
-                        <h4 class="!text-2xl text-detail-heading">{{ $state->pluck('count')[3] }}</h4>
-                        <p class="text-paragraph">{{ ucfirst($state->pluck('name')[3]) }} Requests</p>
+                        <h4 class="!text-2xl text-detail-heading">{{ $state?->pluck('count')[3] ?? '0' }}</h4>
+                        <p class="text-paragraph">{{ ucfirst($state?->pluck('name')[3] ?? '') }} Requests</p>
                     </div>
                 </div>
             </div>
@@ -139,8 +141,8 @@
                         </svg>
                     </div>
                     <div class="mt-3">
-                        <h4 class="!text-2xl text-detail-heading">{{ $state->pluck('count')[4] }}</h4>
-                        <p class="text-paragraph">{{ ucfirst($state->pluck('name')[4]) }} Requests</p>
+                        <h4 class="!text-2xl text-detail-heading">{{ $state?->pluck('count')[4] ?? '0' }}</h4>
+                        <p class="text-paragraph">{{ ucfirst($state?->pluck('name')[4] ?? 'Requests') }} Requests</p>
                     </div>
                 </div>
             </div>
@@ -238,7 +240,7 @@
             @endcan
             @can('top teams section view')
             <div>
-                <div class="flex justify-between items-center mb-[15px]"> 
+                <div class="flex justify-between items-center mb-[15px]">
                     <h3 class="text-title font-medium">Teams</h3>
                     <a href="{{ route('admin.entity.index',['entity' => 'teams']) }}">
                         <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
