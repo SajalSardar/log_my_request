@@ -2526,11 +2526,6 @@ select {
   color: rgb(220 38 38 / var(--tw-text-opacity));
 }
 
-.text-red-bg {
-  --tw-text-opacity: 1;
-  color: rgb(239 68 68 / var(--tw-text-opacity));
-}
-
 .text-resolved-400 {
   color: rgb(16,185,129,100%);
 }
