@@ -294,6 +294,14 @@ class TicketService {
         if (Auth::user()->hasRole(['requester', 'Requester'])) {
             $tickets->where('user_id', Auth::id());
         }
+        if (Auth::user()->hasRole(['agent', 'Agent'])) {
+            // agent:view only own department request
+            $user = User::with('teams')->where('id', Auth::id())->first();
+            if ($user->hasAnyPermission(['agent:view only own department request'])) {
+                $departments = $user->teams->pluck('department_id');
+                $tickets->whereIn('department_id', $departments);
+            }
+        }
 
         if ($request->query_status == 'unassign') {
 
