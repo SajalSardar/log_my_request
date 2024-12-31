@@ -81,7 +81,7 @@ class TicketService {
                 'priority'         => $request?->priority,
                 'ticket_type'      => 'customer',
                 'due_date'         => $request?->due_date,
-                'created_by'       => Auth::id(),
+                'created_by'       => $request->created_by ? $request->created_by : Auth::id(),
                 'sub_category_id'  => $request?->sub_category_id,
             ]
         );
