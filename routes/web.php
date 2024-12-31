@@ -9,7 +9,7 @@ Route::get('/', function () {
     return redirect()->route('login');
 });
 
-Route::get('/dashboard', DashboardController::class)->middleware(['auth', 'verified', 'locale'])->name('dashboard');;
+Route::get('/dashboard', DashboardController::class)->middleware(['auth', 'verified', 'locale'])->name('dashboard');
 
 Route::middleware('auth', 'verified')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
@@ -18,7 +18,7 @@ Route::middleware('auth', 'verified')->group(function () {
 });
 
 require __DIR__ . '/auth.php';
-require __DIR__ . '/sajal.php';
+require __DIR__ . '/allroutes.php';
 require __DIR__ . '/thealamdev.php';
 
 Route::get('locale/{lang}', [LocalizationController::class, 'locale'])->name('local');
