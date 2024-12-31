@@ -44,7 +44,7 @@ class SourceController extends Controller
                 </div>';
             })
             ->editColumn('id', function ($source) {
-                return '<div class="w-[50px]"><span class="text-paragraph">' . '#' . $source->id . '</span></div>';
+                return '<div class="w-[50px]"><span class="text-paragraph">' . ID(prefix: 'SRC', id: $source->id) . '</span></div>';
             })
             ->editColumn('status', function ($source) {
                 return Helper::status($source->status);

@@ -10,7 +10,7 @@
                     <x-auth-session-status class="mb-6" :status="session('status')" />
                     <div class="">
                         <div class="mt-3">
-                            <x-forms.text-input-icon style="width: 100%;" type="text" name="name" placeholder="User Name" dir="start">
+                            <x-forms.text-input-icon style="width: 100%;" type="text" name="name" placeholder="Name" dir="start">
                                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                                     <path d="M6.57757 15.4816C5.1628 16.324 1.45336 18.0441 3.71266 20.1966C4.81631 21.248 6.04549 22 7.59087 22H16.4091C17.9545 22 19.1837 21.248 20.2873 20.1966C22.5466 18.0441 18.8372 16.324 17.4224 15.4816C14.1048 13.5061 9.89519 13.5061 6.57757 15.4816Z" stroke="#5e666e" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
                                     <path d="M16.5 6.5C16.5 8.98528 14.4853 11 12 11C9.51472 11 7.5 8.98528 7.5 6.5C7.5 4.01472 9.51472 2 12 2C14.4853 2 16.5 4.01472 16.5 6.5Z" stroke="#5e666e" stroke-width="1.5" />
@@ -116,9 +116,9 @@
                         <img src="{{ asset('assets/images/login-register.png') }}" alt="signup">
                         <div class="absolute top-10 left-12 pe-14">
                             <h3 class="font-inter text-2xl font-semibold text-[#333]">Welcome Back!</h3>
-                            <p class="text-title">
+                            <p class="text-title text-justify">
                                 <span class="!text-primary-400 !font-semibold">LogmyRequest</span>
-                                is a customer service platform designed to help businesses efficiently track, manage, and resolve customer requests in real time. Our mission is to streamline communication and ensure every query is addressed promptly, enhancing customer satisfaction.
+                                is a customer service platform that streamlines communication, enabling businesses to efficiently manage and resolve customer requests in real-time, ensuring prompt responses and enhanced satisfaction.
                             </p>
                         </div>
                     </div>

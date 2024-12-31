@@ -38,7 +38,7 @@ class RoleController extends Controller
                 </div>';
             })
             ->editColumn('id', function ($roles) {
-                return '<div class="w-[50px]"><span class="text-paragraph">' . '#' . $roles->id . '</span></div>';
+                return '<div class="w-[50px]"><span class="text-paragraph">' .ID(prefix: 'ROL', id: $roles->id) . '</span></div>';
             })
             ->editColumn('name', function ($roles) {
                 return '

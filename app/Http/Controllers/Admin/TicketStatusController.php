@@ -42,7 +42,7 @@ class TicketStatusController extends Controller
                 </div>';
             })
             ->editColumn('id', function ($ticketStatus) {
-                return '<div class="w-[50px]"><span class="text-paragraph">' . '#' . $ticketStatus->id . '</span></div>';
+                return '<div class="w-[50px]"><span class="text-paragraph">' . ID(prefix: 'RST', id: $ticketStatus->id) . '</span></div>';
             })
             ->editColumn('status', function ($ticketStatus) {
                 return Helper::status($ticketStatus->status);

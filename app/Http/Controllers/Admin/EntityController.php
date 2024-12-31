@@ -7,25 +7,95 @@ use App\Models\User;
 use App\Models\Category;
 use Illuminate\Contracts\View\View;
 use App\Http\Controllers\Controller;
+use Yajra\DataTables\Facades\DataTables;
 
 class EntityController extends Controller
 {
     /**
      * Get all the resource entities
-     * @param ?string $entity
      * @return View
      */
-    public function index(?string $entity): View
+    public function index(): View
+    {
+        return view('entity.index');
+    }
+
+    public function displayListDatatable(?string $entity)
     {
         $collections = match ($entity) {
             'requesters' => $this->requester(),
             'agents' => $this->agent(),
             'teams' => $this->team(),
             'categories' => $this->categories(),
-            default => 'agents'
+            default => $this->agent()
         };
 
-        return view('entity.index', compact('collections'));
+        return DataTables::of($collections)
+            ->addColumn('select', function () {
+                return '
+                <div class="flex items-center justify-center ml-6 w-[50px]">
+                    <input type="checkbox" class="child-checkbox rounded border border-base-500 w-4 h-4 mr-3 focus:ring-transparent text-primary-400" />
+                </div>';
+            })
+            ->editColumn('id', function ($row) {
+                return '
+                <div class="w-[50px]">
+                    <span class="text-paragraph">' . $row->id . '</span>
+                </div>';
+            })
+            ->editColumn('name', function ($row) {
+                return '
+                <div class="w-[50px]">
+                    <span class="text-paragraph">' . $row->name . '</span>
+                </div>';
+            })
+            ->editColumn('total', function ($row) {
+                return '
+                <div>
+                    <span class="text-paragraph">' . $row->total . '</span>
+                </div>';
+            })
+
+            ->addColumn('action_column', function ($row) use ($entity) {
+                return '
+                <div style="padding-left:50px" class="relative">
+                    <button type="button" onclick="toggleAction(' . $row->uuid . ')" class="p-3 hover:letter-slate-100 rounded-full">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
+                                xmlns="http://www.w3.org/2000/svg">
+                                <path d="M11.9922 12H12.0012" stroke="#5e666e" stroke-width="2.5"
+                                    stroke-linecap="round" stroke-linejoin="round" />
+                                <path d="M11.9844 18H11.9934" stroke="#5e666e" stroke-width="2.5"
+                                    stroke-linecap="round" stroke-linejoin="round" />
+                                <path d="M12 6H12.009" stroke="#5e666e" stroke-width="2.5"
+                                    stroke-linecap="round" stroke-linejoin="round" />
+                            </svg>
+                        </button>
+                    <div id="action-' . $row->uuid . '" class="shadow-lg z-30 absolute top-5 -left-6" style="display: none">
+                        <ul>
+                            ' . ($entity === 'requesters' ? '
+                            <li class="px-5 py-2 text-center bg-white text-paragraph hover:bg-primary-600 hover:text-primary-400">
+                                <a href="' . $row->action->view . '">View</a>
+                            </li>' : '') . '
+                            
+                            <li class="px-5 py-2 text-center bg-white text-paragraph hover:bg-primary-600 hover:text-primary-400">
+                                <a href="' . $row->action->edit . '">Edit</a>
+                            </li>
+                            
+                            <li class="px-5 py-2 text-center bg-white text-paragraph hover:bg-primary-600 hover:text-primary-400">
+                                <form action="' . $row->action->delete . '" method="POST" onsubmit="return confirm(\'Are you sure?\');">
+                                    ' . csrf_field() . '
+                                    ' . method_field("DELETE") . '
+                                    <button type="submit" class="text-">Delete</button>
+                                </form>
+                            </li>
+                        </ul>
+                    </div>
+                </div>';
+            })
+
+            ->addIndexColumn()
+            ->rawColumns(['select', 'id', 'name', 'total', 'action_column'])
+            ->make(true);
     }
 
     /**
@@ -41,12 +111,14 @@ class EntityController extends Controller
         return $response->map(
             fn($query, $entity) =>
             (object) [
-                'id' => $query->id,
+                'id' => ID(prefix: 'REQ', id: $query->id),
+                'uuid' => $query->id,
                 'name' => $query->name,
                 'total' => $query->requester_tickets_count ?? 0,
                 'action' => (object)
                 [
                     'edit' => route('admin.user.edit', ['user' => $query->id]),
+                    'view'  => route('admin.user.create'),
                     'delete' => route('admin.user.delete', ['user' => $query->id])
                 ]
             ]
@@ -66,7 +138,8 @@ class EntityController extends Controller
 
         return $response->map(fn($query) =>
         (object) [
-            'id' => $query->id,
+            'id' => ID(prefix: 'AGT', id: $query->id),
+            'uuid' => $query->id,
             'name' => $query->name,
             'total' => $query->tickets_count ?? 0,
             'action' => (object)
@@ -89,7 +162,8 @@ class EntityController extends Controller
             ->get();
         return $response->map(fn($query) =>
         (object) [
-            'id' => $query->id,
+            'id' => ID(prefix: 'TEA', id: $query->id),
+            'uuid' => $query->id,
             'name' => $query->name,
             'total' => $query->tickets_count ?? 0,
             'action' => (object)
@@ -112,7 +186,8 @@ class EntityController extends Controller
             ->get();
         return $response->map(fn($query) =>
         (object) [
-            'id' => $query->id,
+            'id' => ID(prefix: 'CAT', id: $query->id),
+            'uuid' => $query->id,
             'name' => $query->name,
             'total' => $query->ticket_count ?? 0,
             'action' => (object)

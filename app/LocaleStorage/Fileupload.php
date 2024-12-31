@@ -32,12 +32,13 @@ class Fileupload
         if ($isUpload) {
             $imageDatabase = Image::create(
                 [
-                    'image_type' => $model,
                     'image_id' => $model_id,
-                    'filename' => $filename,
-                    'disk' => 'local',
+                    'image_type' => $model,
+                    'name'  => $filename,
                     'path' => $bucket->toString(),
+                    'disk' => 'local',
                     'url' => $url,
+                    'mime' => $request->image->getClientOriginalExtension(),
                     'size' => $size,
                 ]
             );
@@ -48,7 +49,7 @@ class Fileupload
     }
 
     /**
-     * Define public method fileupload() to upload the file server and database
+     * Define public method fileupload to upload the file server and database
      * @param array|object $request
      * @param int $model_id int
      * @param $oldCategory
@@ -80,12 +81,13 @@ class Fileupload
                         'image_id' => $oldItem->id
                     ],
                     [
-                        'image_type' => $model,
                         'image_id' => $model_id,
-                        'filename' => $filename,
-                        'disk' => 'local',
+                        'image_type' => $model,
+                        'name'  => $filename,
                         'path' => $bucket->toString(),
+                        'disk' => 'local',
                         'url' => $url,
+                        'mime' => $request->image->getClientOriginalExtension(),
                         'size' => $size,
                     ]
                 );
@@ -114,12 +116,13 @@ class Fileupload
         if ($isUpload) {
             $imageDatabase = Image::create(
                 [
-                    'image_type' => $model,
                     'image_id' => $model_id,
-                    'filename' => $filename,
-                    'disk' => 'local',
+                    'image_type' => $model,
+                    'name'  => $filename,
                     'path' => $bucket->toString(),
+                    'disk' => 'local',
                     'url' => $url,
+                    'mime' => $request->request_attachment->getClientOriginalExtension(),
                     'size' => $size,
                 ]
             );
@@ -149,12 +152,13 @@ class Fileupload
 
             if ($isUpload) {
                 $imageDatabase = Image::create([
-                    'image_type' => $model,
                     'image_id' => $model_id,
-                    'filename' => $filename,
-                    'disk' => 'local',
+                    'image_type' => $model,
+                    'name'  => $filename,
                     'path' => $bucket->toString(),
+                    'disk' => 'local',
                     'url' => $url,
+                    'mime' => $request->request_attachment->getClientOriginalExtension(),
                     'size' => $size,
                 ]);
 
@@ -193,12 +197,13 @@ class Fileupload
             $imageDatabase = Image::updateOrCreate(
                 ['image_id' => $model_id],
                 [
-                    'image_type' => $model,
                     'image_id' => $model_id,
-                    'filename' => $filename,
-                    'disk' => 'local',
+                    'image_type' => $model,
+                    'name'  => $filename,
                     'path' => $bucket->toString(),
+                    'disk' => 'local',
                     'url' => $url,
+                    'mime' => $request->request_attachment?->getClientOriginalExtension(),
                     'size' => $size,
                 ]
             );

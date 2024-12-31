@@ -41,7 +41,7 @@ Route::middleware('auth', 'verified')->prefix('dashboard')->name('admin.')->grou
         Route::get('edit-request/{ticket}', 'edit')->name('edit');
         Route::delete('request-delete/{ticket}', 'destroy')->name('delete');
         Route::delete('file/{file}', 'trashFile')->name('trashFile');
-        Route::post('bluck-delete', 'bluckDelete')->name('bluck.delete');
+        Route::post('bulk-delete', 'bulkDelete')->name('bulk.delete');
         Route::get('request-list', 'allTicketList')->name('all.list');
         Route::get('status-wise-request-list', 'allTicketList')->name('status.wise.list');
         Route::get('my-request-list', 'allTicketList')->name('list.active.memode');

@@ -22,5 +22,6 @@ Route::middleware(['auth', 'locale', 'verified'])->prefix('dashboard')->name('ad
 
     Route::controller(EntityController::class)->prefix('entities')->name('entity.')->group(function () {
         Route::get('/{entity}', 'index')->name('index');
+        Route::get('/{entity}/list-datatable', 'displayListDatatable')->name('list.datatable');
     });
 });

@@ -28,7 +28,7 @@ class Image extends Model
     }
 
     /**
-     * Define public method image()
+     * Get all images associate with models
      * @return MorphTo
      */
     public function image(): MorphTo

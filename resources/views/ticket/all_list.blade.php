@@ -12,19 +12,10 @@
     @endif
 
     <div class="lg:flex md:flex lg:justify-between md:justify-between lg:items-center md:items-center">
-        <div class="lg:mb-0 sm:mb-3">
-            @if (Route::is('admin.ticket.list.active.memode'))
-            <h2 class="text-detail-heading">My Requests</h2>
-            @elseIf(request()->has('request_status'))
-            <h2 class="text-detail-heading">{{ camelCase(request()->get('request_status')) }} Requests</h2>
-            @else
-            <h2 class="text-detail-heading">All Requests</h2>
-            @endif
-        </div>
         <div class="flex flex-wrap lg:gap-3 md:gap-2 sm:gap-3 lg:justify-end md:justify-end sm:justify-start">
-            <div style="width: 246px;">
+            <div style="width: 265px;">
                 <input type="hidden" id="me_mode_search" value="{{ Route::is('admin.ticket.list.active.memode') ? 'me_mode' : '' }}">
-                <x-forms.text-input-icon dir="start" id="ticket_id_search" class="text-paragraph" placeholder="Search ID or Name">
+                <x-forms.text-input-icon dir="start" id="ticket_id_search" class="text-paragraph" placeholder="Search Request ID or Requester">
                     <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <path d="M11 19C15.4183 19 19 15.4183 19 11C19 6.58172 15.4183 3 11 3C6.58172 3 3 6.58172 3 11C3 15.4183 6.58172 19 11 19Z" stroke="#5E666E" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
                         <path d="M20.9999 21.0004L16.6499 16.6504" stroke="#5E666E" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
@@ -35,7 +26,7 @@
                 <div>
                     <div style="width: 100%;" class="relative custom-select">
                         <div>
-                            <div class="selected">Priority</div>
+                            <div class="selected" data-placeholder="Priority">Priority</div>
                             <input type="hidden" id="priority_search" name="priority_search" value="">
                             <div class="options">
                                 <div class="option" data-value="low">Low</div>
@@ -55,7 +46,7 @@
             <div style="width:110px" class="relative" x-data="{ status: '' }">
                 <div style="width: 100%;" class="relative custom-select">
                     <div>
-                        <div class="selected">Status</div>
+                        <div class="selected" data-placeholder="Status">Status</div>
                         <input type="hidden" id="status_search" name="status_search" value="">
                         <div class="options">
                             @foreach ($ticketStatus as $item)
@@ -74,7 +65,7 @@
             <div style="width:175px" class="relative" x-data="{ category: '' }">
                 <div style="width: 100%;" class="relative custom-select">
                     <div>
-                        <div class="selected">Category</div>
+                        <div class="selected" data-placeholder="Category">Category</div>
                         <input type="hidden" id="category_search" name="category_search" value="">
                         <div class="options">
                             @foreach ($categories as $item)
@@ -93,7 +84,7 @@
             <div style="width:150px" class="relative" x-data="{ department: '' }">
                 <div style="width: 100%;" class="relative custom-select">
                     <div>
-                        <div class="selected">Department</div>
+                        <div class="selected" data-placeholder="Department">Department</div>
                         <input type="hidden" id="department_search" name="department_search" value="">
                         <div class="options">
                             @foreach ($departments as $item)
@@ -112,7 +103,7 @@
             <div style="width:120px" class="relative" x-data="{ team: '' }">
                 <div style="width: 100%;" class="relative custom-select">
                     <div>
-                        <div class="selected">Team</div>
+                        <div class="selected" data-placeholder="Team">Team</div>
                         <input type="hidden" id="team_search" name="team_search" value="">
                         <div class="options">
                             @foreach ($teams as $item)
@@ -132,7 +123,7 @@
             <div style="width:120px" class="relative" x-data="{ due_date_x: '' }">
                 <div style="width: 100%;" class="relative custom-select">
                     <div>
-                        <div class="selected">Due Date</div>
+                        <div class="selected" data-placeholder="Due Date">Due Date</div>
                         <input type="hidden" id="due_date_search" name="due_date_search" value="">
                         <div class="options">
                             <div class="option" data-value="today">Today</div>
@@ -150,18 +141,22 @@
                 <span x-show="due_date_x" class="absolute top-1 end-9 text-surface cursor-pointer focus:text-primary outline-none dark:text-white text-base" tabindex="0" style="display: block;" @click="due_date_x = '';$nextTick(() => $('#due_date_search').trigger('change'))">✕</span>
             </div>
             <div>
-                <x-actions.href href="{{ route('admin.ticket.create') }}" class="flex items-center gap-1">
-                    <span>Create A Request</span>
-                    <svg fill="none" width="24" height="24" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v6m3-3H9m12 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
-                    </svg>
-                </x-actions.href>
+                <x-buttons.secondary id="resetButton">Reset All</x-buttons.secondary>
             </div>
+        </div>
+
+        <div class="flex justify-start items-center sm:mt-3 md:mt-0 lg:mt-0">
+            <x-actions.href href="{{ route('admin.ticket.create') }}" class="flex items-center gap-1">
+                <span>Create A Request</span>
+                <svg fill="none" width="24" height="24" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v6m3-3H9m12 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
+                </svg>
+            </x-actions.href>
         </div>
     </div>
 
     <div class="relative">
-        <form action="{{ route('admin.ticket.bluck.delete') }}" method="POST" onsubmit="return confirm('Are you sure?')">
+        <form action="{{ route('admin.ticket.bulk.delete') }}" method="POST" onsubmit="return confirm('Are you sure?')">
             @csrf
             <table class="display nowrap" id="data-table" style="width: 100%;border:none;">
                 <thead style="background:#F3F4F6; border:none">
@@ -203,30 +198,7 @@
     </div>
 
     @section('script')
-    <script>
-        function initCustomSelect() {
-            const customSelects = document.querySelectorAll('.custom-select');
-            customSelects.forEach(customSelect => {
-                customSelect.addEventListener('click', function(event) {
-                    event.stopPropagation();
-                    customSelect.classList.toggle('active');
-                    const input = customSelect.querySelector('input');
-                    const data = event.target.getAttribute('data-value');
 
-                    if (data) {
-                        input.value = data;
-                        input.dispatchEvent(new Event('change'));
-                        customSelect.querySelector('.selected').textContent = event.target.textContent;
-                        customSelect.classList.remove('active');
-                    }
-                });
-            });
-            document.addEventListener('click', function() {
-                customSelects.forEach(customSelect => customSelect.classList.remove('active'));
-            });
-        }
-        document.addEventListener('DOMContentLoaded', initCustomSelect);
-    </script>
     <script>
         $(function() {
             const hiddenInput = document.getElementById('status_search');
@@ -357,8 +329,63 @@
             due_date_search.addEventListener('change', () => {
                 $('#due_date_search').trigger('change');
             });
+
+
         });
     </script>
+
+    <script>
+        let resetButton = document.querySelector('#resetButton');
+
+        function initCustomSelect() {
+            const customSelects = document.querySelectorAll('.custom-select');
+            customSelects.forEach(customSelect => {
+                customSelect.addEventListener('click', function(event) {
+                    event.stopPropagation();
+                    customSelect.classList.toggle('active');
+                    const input = customSelect.querySelector('input');
+                    const data = event.target.getAttribute('data-value');
+
+                    if (data) {
+                        input.value = data;
+                        input.dispatchEvent(new Event('change'));
+                        customSelect.querySelector('.selected').textContent = event.target.textContent;
+                        customSelect.classList.remove('active');
+                    }
+                });
+            });
+
+            document.addEventListener('click', function() {
+                customSelects.forEach(customSelect => customSelect.classList.remove('active'));
+            });
+        }
+
+        function resetCustomSelects() {
+            const customSelects = document.querySelectorAll('.custom-select');
+            customSelects.forEach(customSelect => {
+                const input = customSelect.querySelector('input');
+                const selected = customSelect.querySelector('.selected');
+                if (input) {
+                    input.value = '';
+                    input.dispatchEvent(new Event('change'));
+                }
+                if (selected) {
+                    let placeholder = selected.getAttribute('data-placeholder');
+                    selected.textContent = placeholder;
+                }
+                customSelect.classList.remove('active');
+            });
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            initCustomSelect();
+            resetButton.addEventListener('click', function() {
+                resetCustomSelects();
+            });
+        });
+    </script>
+
+
     <script>
         const masterCheckbox = document.getElementById('checkbox1');
         masterCheckbox.addEventListener('change', function() {
@@ -367,8 +394,6 @@
                 checkbox.checked = masterCheckbox.checked;
             });
         });
-
-        
     </script>
 
     <script>

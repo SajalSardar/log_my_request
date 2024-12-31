@@ -2,9 +2,6 @@
     @section('title', 'Source List')
     @include('source.breadcrumb.index')
     <div class="flex justify-between items-center !mt-3">
-        <div>
-            <p class="text-detail-heading">Source List</p>
-        </div>
         <div class="flex-1 mt-1">
             <div class="flex justify-end gap-3">
                 @can('source create')
@@ -38,9 +35,9 @@
                         </span>
                     </th>
                     <th class="text-heading-dark w-[50px]">Id</th>
-                    <th class="text-heading-dark">Source Name</th>
+                    <th class="text-heading-dark">Source</th>
                     <th class="text-heading-dark">Status</th>
-                    <th class="text-heading-dark">Created at</th>
+                    <th class="text-heading-dark">Created</th>
                 </tr>
             </thead>
 

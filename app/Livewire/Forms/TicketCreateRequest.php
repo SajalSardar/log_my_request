@@ -112,7 +112,7 @@ class TicketCreateRequest extends Form {
      */
     public function rules(): array {
         $arr['form.request_title']        = ['required'];
-        $arr['form.request_description']  = ['nullable'];
+        $arr['form.request_description']  = ['required'];
         $arr['form.requester_name']       = ['required'];
         $arr['form.requester_email']      = ['required', 'email'];
         $arr['form.requester_phone']      = ['nullable', 'string', 'max:15'];

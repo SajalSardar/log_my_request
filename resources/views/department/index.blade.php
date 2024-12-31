@@ -2,9 +2,6 @@
     @section('title', 'Department List')
     @include('department.breadcrumb.index')
     <div class="flex justify-between items-center !mt-3">
-        <div>
-            <p class="text-detail-heading">Department List</p>
-        </div>
         <div class="flex-1 mt-1">
             <div class="flex justify-end gap-3">
                 @can('department create')
@@ -38,7 +35,7 @@
                         </span>
                     </th>
                     <th class="text-heading-dark w-[50px]">Id</th>
-                    <th class="text-heading-dark">Requester Name</th>
+                    <th class="text-heading-dark">Department</th>
                     <th class="text-heading-dark">Status</th>
                     <th class="text-heading-dark">Created</th>
                 </tr>

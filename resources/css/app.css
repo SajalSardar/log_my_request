@@ -25,3 +25,7 @@
 .text-detail-heading {
     @apply text-base font-medium font-inter text-[#27313b];
 }
+
+.text-active-breadcrumb {
+    @apply text-xl font-medium font-inter text-[#27313b];
+}

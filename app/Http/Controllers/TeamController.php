@@ -82,19 +82,20 @@ class TeamController extends Controller
                 $deleteUrl = route('admin.team.destroy', $team?->id);
 
                 return '
-                <div class="action-container relative pl-10">
-                    <button 
-                        onclick="toggleAction(' . $team->id . ')"
-                        class="p-3 hover:bg-slate-100 rounded-full"
-                        type="button">
-                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M11.9922 12H12.0012" stroke="#5e666e" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" />
-                            <path d="M11.9844 18H11.9934" stroke="#5e666e" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" />
-                            <path d="M12 6H12.009" stroke="#5e666e" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" />
-                        </svg>
+                <div class="relative pl-10">
+                    <button type="button" onclick="toggleAction(' . $team->id . ')" class="p-3 hover:letter-slate-100 rounded-full">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
+                                xmlns="http://www.w3.org/2000/svg">
+                                <path d="M11.9922 12H12.0012" stroke="#5e666e" stroke-width="2.5"
+                                    stroke-linecap="round" stroke-linejoin="round" />
+                                <path d="M11.9844 18H11.9934" stroke="#5e666e" stroke-width="2.5"
+                                    stroke-linecap="round" stroke-linejoin="round" />
+                                <path d="M12 6H12.009" stroke="#5e666e" stroke-width="2.5"
+                                    stroke-linecap="round" stroke-linejoin="round" />
+                            </svg>
                     </button>
                     
-                    <div id="action-' . $team->id . '" class="action-content shadow-lg z-30 absolute top-12 -left-6 bg-white rounded-lg overflow-hidden min-w-[120px]">
+                    <div id="action-' . $team->id . '" class="action-content shadow-lg z-30 absolute top-5 -left-6 bg-white rounded-lg overflow-hidden min-w-[120px]">
                         <ul>
                             <li class="hover:bg-slate-50">
                                 <a href="' . $editUrl . '" class="px-5 py-2 text-gray-700 block w-full text-left">
