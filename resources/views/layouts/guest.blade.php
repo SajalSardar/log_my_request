@@ -14,7 +14,7 @@
 
     <!-- Scripts -->
     <link rel="stylesheet" href="{{asset('assets/css/main.css') }}">
-    <link rel="stylesheet" href="{{ asset('build/assets/app-Df1BPbl3.css') }}">
+    <link rel="stylesheet" href="{{ asset('build/assets/app-BS9c4zAE.css') }}">
     @livewireStyles
 </head>
 
