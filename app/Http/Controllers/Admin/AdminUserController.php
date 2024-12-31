@@ -35,10 +35,8 @@ class AdminUserController extends Controller
         if ($request->all()) {
             $users->where(function ($query) use ($request) {
                 if ($request->user_name_search) {
-                    $query->where('name', 'like', '%' . $request->user_name_search . '%');
-                }
-                if ($request->user_email_search) {
-                    $query->where('email', '=', $request->user_email_search);
+                    $query->where('name', 'like', '%' . $request->user_name_search . '%')
+                        ->orWhere('email', 'like', '%' . $request->user_name_search . '%');
                 }
             });
         }
@@ -130,7 +128,6 @@ class AdminUserController extends Controller
      */
     public function store(Request $request)
     {
-        //
         Gate::authorize('create', User::class);
     }
 
@@ -139,7 +136,6 @@ class AdminUserController extends Controller
      */
     public function show(User $User)
     {
-        //
         Gate::authorize('view', User::class);
         return view('User.show');
     }

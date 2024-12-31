@@ -33,18 +33,21 @@
                 </div>
 
                 <div class="toggle-notification-box absolute w-96 h-96 bg-white border border-slate-300 rounded shadow top-12 right-0 sm:-right-10 overflow-auto" style="display: none">
+
                     @forelse (getTicketNotsNotify()->take(30) as $item)
                     <a href="{{ route('admin.ticket.show', [$item->ticket_id, 'notify_id' => $item->id]) }}">
+
                         <div class="p-4 flex items-center hover:bg-slate-200">
                             @php
-                            echo avatar($item->note_type, 40, 40)
+                            echo avatar($item->note_type, 30, 30)
                             @endphp
                             <div class="ml-4">
                                 @php
                                 $replaceString = str_replace('_', " ", $item->note_type)
                                 @endphp
-                                <p class="text-sm text-gray-500">{{ Str::ucfirst($replaceString) }}</p>
-                                <p class="text-sm text-gray-500">{{ date('l h:i:a d M, Y', strtotime($item->created_at)) }}</p>
+                                <p class="text-heading-dark">{{ Str::ucfirst($replaceString) }}</p>
+                                <p class="text-paragraph">{{ ($item->note_type === 'request_assigned' ? 'REQ' . $item->ticket_id : '') }} {!! $item->note !!}</p>
+                                <p class="text-caption">{{ date('l h:i:a d M, Y', strtotime($item->created_at)) }}</p>
                             </div>
                         </div>
                     </a>

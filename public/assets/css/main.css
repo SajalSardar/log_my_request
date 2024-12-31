@@ -795,6 +795,10 @@ select {
   border-width: 0;
 }
 
+.collapse {
+  visibility: collapse;
+}
+
 .static {
   position: static;
 }
@@ -1442,6 +1446,10 @@ select {
   table-layout: fixed;
 }
 
+.border-collapse {
+  border-collapse: collapse;
+}
+
 .origin-top {
   transform-origin: top;
 }
@@ -2011,6 +2019,10 @@ select {
   padding: 2.5rem;
 }
 
+.p-12 {
+  padding: 3rem;
+}
+
 .p-2 {
   padding: 0.5rem;
 }
@@ -2342,6 +2354,10 @@ select {
 .text-xs {
   font-size: 0.75rem;
   line-height: 1rem;
+}
+
+.\!font-medium {
+  font-weight: 500 !important;
 }
 
 .\!font-semibold {
@@ -2754,11 +2770,6 @@ select {
   position: absolute;
 }
 
-.before\:left-0::before {
-  content: var(--tw-content);
-  left: 0px;
-}
-
 .before\:top-0::before {
   content: var(--tw-content);
   top: 0px;
@@ -2767,11 +2778,6 @@ select {
 .before\:h-\[48px\]::before {
   content: var(--tw-content);
   height: 48px;
-}
-
-.before\:h-full::before {
-  content: var(--tw-content);
-  height: 100%;
 }
 
 .before\:w-\[3px\]::before {

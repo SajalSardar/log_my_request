@@ -34,7 +34,7 @@ class MenuController extends Controller
         if ($request->all()) {
             $menus->where(function ($query) use ($request) {
                 if ($request->unser_name_search) {
-                    $query->where('name', 'like', '%' . $request->unser_name_search . '%');
+                    $query->where(column: 'name', operator: 'like', value: '%' . $request->unser_name_search . '%');
                 }
             });
         }

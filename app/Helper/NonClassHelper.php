@@ -93,7 +93,6 @@ function ticketOpenProgressHoldPermission($ticket_status_id)
 
 function getTicketNotsNotify()
 {
-
     $query = TicketNote::query()->where('view_notification', 0)->whereNotIn('note_type', ['internal_note']);
     if (Auth::user()->hasRole(['requester', 'Requester'])) {
         $ticketId = Ticket::where('user_id', Auth::id())->pluck('id');

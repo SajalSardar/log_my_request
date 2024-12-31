@@ -42,7 +42,6 @@ class TicketService
      */
     public function store(array | object $request): array | object
     {
-
         $checkUser = User::query()->where('email', $request->requester_email)->first();
         if (!empty($checkUser)) {
             $request->credentials = false;
@@ -89,16 +88,13 @@ class TicketService
         );
 
         $ticketStatus = $this->getTicketStatusById($request?->ticket_status_id);
-
-        $this->createTicketNote($response->getKey(), $ticketStatus?->name, $ticketStatus?->name, 'initiated', $request?->request_description);
-
+        $this->createTicketNote($response->getKey(), $ticketStatus?->name, $ticketStatus?->name, 'request_assigned', $request?->request_title);
         $this->createTicketLog($response->getKey(), $ticketStatus->name, 'create', json_encode($response));
-
         if ($request->owner_id) {
             $response->owners()->attach($request->owner_id);
         }
-
-        Mail::to($request->requester_email)->queue(new TicketEmail($request));
+        // dd($response->getKey());
+        Mail::to($request->requester_email)->queue(new TicketEmail(ticket: $request, id: $response->getKey()));
 
         return $response;
     }

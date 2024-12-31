@@ -1,7 +1,7 @@
 <form wire:submit="update">
     <div class="grid lg:grid-cols-3 md:grid-cols-3 sm:grid-cols-1">
-        <div class="flex justify-between mb-[24px]">
-            <h3 class="text-detail-heading">Update Department</h3>
+        <div class="flex justify-end mb-[24px]">
+             
             <a href="{{ route('admin.department.index') }}" class="flex items-center px-0 bg-transparent gap-1 text-heading-light text-paragraph hover:text-primary-400 transition-colors">
                 Department Lists
                 <svg class="w-6 h-6" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
