@@ -2,14 +2,15 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Http\Controllers\Controller;
-use App\Livewire\Forms\TicketCreateRequest;
+use Exception;
+use App\Enums\Bucket;
 use App\Models\Image;
 use App\Models\Ticket;
-use App\Services\Ticket\TicketService;
-use Exception;
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
+use App\Services\Ticket\TicketService;
 use Illuminate\Support\Facades\Storage;
+use App\Livewire\Forms\TicketCreateRequest;
 
 class TicketController extends Controller {
 
@@ -65,7 +66,7 @@ class TicketController extends Controller {
                         'image_id'   => $isCreate->getKey(),
                         'filename'   => $filename,
                         'disk'       => 'local',
-                        'path'       => $bucket->toString(),
+                        'path'       => Bucket::TICKET,
                         'url'        => $url,
                         'size'       => $size,
                     ]);
